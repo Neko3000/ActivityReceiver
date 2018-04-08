@@ -1,0 +1,12 @@
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\bin\Debug\netcoreapp2.0\ActivityReceiver.deps.json
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\bin\Debug\netcoreapp2.0\ActivityReceiver.runtimeconfig.json
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\bin\Debug\netcoreapp2.0\ActivityReceiver.runtimeconfig.dev.json
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\bin\Debug\netcoreapp2.0\ActivityReceiver.dll
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\bin\Debug\netcoreapp2.0\ActivityReceiver.pdb
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\ActivityReceiver.csprojResolveAssemblyReference.cache
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\ActivityReceiver.csproj.CoreCompileInputs.cache
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\ActivityReceiver.AssemblyInfoInputs.cache
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\ActivityReceiver.AssemblyInfo.cs
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\ActivityReceiver.dll
+G:\Projects\Web Application\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\ActivityReceiver.pdb
