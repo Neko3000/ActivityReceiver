@@ -19,6 +19,7 @@ namespace ActivityReceiver
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .UseSetting(WebHostDefaults.DetailedErrorsKey,"true")
                 .UseStartup<Startup>()
                 .Build();
     }
