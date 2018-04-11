@@ -51,22 +51,102 @@ namespace ActivityReceiver.Data
                 return;
             }
 
+            var questions = new List<Question>()
+            {
+                new Question()
+                {
+                    EditorID = 1,
+                    SentenceEN = "There are many ways to solve this problem.",
+                    SentenceJP = "この問題を解決する方法はたくさんあります。",
+                    Level = 2,
+                    Division = "are|many|problem|solve|there|this|to|ways",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = 1,
+                    SentenceEN = "you may have heard this joke before.",
+                    SentenceJP = "その冗談は前に聞いたことがあるかもしれませんね。",
+                    Level = 5,
+                    Division = "before|have|heard|joke|may|this|you",
+                    Remark = "",
+                }
+            };
+            _arDbContext.Questions.AddRange(questions);
+            _arDbContext.SaveChanges();
+
+            var answers = new List<Answer>()
+            {
+                new Answer()
+                {
+                    Content = "are|many|problem|solve|there|this|to|ways",
+                    HesitationDegree = 1
+                },
+                new Answer()
+                {
+                    Content = "you|before|have|heard|joke|may|this",
+                    HesitationDegree = 2
+                }
+            };
+            _arDbContext.Answsers.AddRange(answers);
+            _arDbContext.SaveChanges();
+
+            var answerRecords = new List<AnswerRecord>()
+            {
+                new AnswerRecord()
+                {
+                    QusetionID = 1,
+                    UserID = 2,
+                    AnswserID = 1,
+                    StartDate = new DateTime(2018,1,2,16,0,0),
+                    EndDate = new DateTime(2018,1,2,16,0,20)
+                },
+                new AnswerRecord()
+                {
+                    QusetionID = 2,
+                    UserID = 2,
+                    AnswserID = 2,
+                    StartDate = new DateTime(2018,1,2,16,0,30),
+                    EndDate = new DateTime(2018,1,2,16,0,55)
+                },
+            };
+            _arDbContext.AnswserRecords.AddRange(answerRecords);
+            _arDbContext.SaveChanges();
+
             var movements = new List<Movement>()
             {
                 new Movement()
                 {
-                    UID = 1,
-                    QID = 1,
-                    Time = 4000
+                    AnswerRecordID = 1,
+                    Index = 0,
+                    State = 0,
+                    Time = 1000,
+                    XPosition = 200,
+                    YPostion = 300,
+                    IsFinished = false,
+
                 },
                 new Movement()
                 {
-                    UID = 1,
-                    QID = 2,
-                    Time = 3000
+                    AnswerRecordID = 1,
+                    Index = 1,
+                    State = 1,
+                    Time = 2500,
+                    XPosition = 100,
+                    YPostion = 100,
+                    IsFinished = false,
+                },
+                new Movement()
+                {
+                    AnswerRecordID = 1,
+                    Index = 2,
+                    State = 2,
+                    Time = 5000,
+                    XPosition = 100,
+                    YPostion = 100,
+                    IsFinished = true,
                 }
             };
-
             _arDbContext.Movements.AddRange(movements);
             _arDbContext.SaveChanges();
         }

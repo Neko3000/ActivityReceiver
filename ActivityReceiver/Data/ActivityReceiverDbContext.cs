@@ -15,5 +15,8 @@ namespace ActivityReceiver.Data
         }
 
         public DbSet<Movement> Movements { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<AnswerRecord> AnswserRecords { get; set; }
+        public DbSet<Answer> Answsers { get; set; }
     }
 }
