@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using ActivityReceiver.Data;
 using ActivityReceiver.Models;
 using ActivityReceiver.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ActivityReceiver
 {
@@ -29,12 +32,32 @@ namespace ActivityReceiver
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContextConnection")));
 
-            services.AddDbContext<ActivityReceiverDbContext>(options => 
+            services.AddDbContext<ActivityReceiverDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ActivityReceiverDbContextConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            var test = Configuration["Jwt:SecretKey"];
+            var test2 = Configuration["Jwt:JwtIssuer"];
+            var test3 = Configuration["Jwt:JwtAudience"];
+
+            // jwt
+            services.AddAuthentication().
+                AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:JwtIssuer"],
+                        ValidAudience = Configuration["Jwt:JwtAudience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"]))
+                    };
+                });
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
