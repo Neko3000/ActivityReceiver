@@ -9,6 +9,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            /*
             migrationBuilder.CreateTable(
                 name: "AnswserRecords",
                 columns: table => new
@@ -76,6 +77,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                 {
                     table.PrimaryKey("PK_Questions", x => x.ID);
                 });
+                */
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -56,8 +56,8 @@ namespace ActivityReceiver
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration["Jwt:JwtIssuer"],
-                        ValidAudience = Configuration["Jwt:JwtAudience"],
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"]))
                     };
                 });
@@ -95,8 +95,8 @@ namespace ActivityReceiver
             });
 
             //Initialize Database 
-            dbContextInitializer.MainDbContextInitialize();
             dbContextInitializer.ApplicationDbContextInitialize().Wait();
+            dbContextInitializer.MainDbContextInitialize().Wait();
         }
     }
 }

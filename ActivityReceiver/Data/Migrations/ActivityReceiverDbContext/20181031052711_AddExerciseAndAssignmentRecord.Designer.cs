@@ -11,9 +11,10 @@ using System;
 namespace ActivityReceiver.Migrations.ActivityReceiverDb
 {
     [DbContext(typeof(ActivityReceiverDbContext))]
-    partial class ActivityReceiverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181031052711_AddExerciseAndAssignmentRecord")]
+    partial class AddExerciseAndAssignmentRecord
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

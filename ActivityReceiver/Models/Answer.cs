@@ -10,7 +10,12 @@ namespace ActivityReceiver.Models
     {
         [Key]
         public int ID { get; set; }
+        public int AssignmentRecordID { get; set; }
         public string Content { get; set; }
+
         public int? HesitationDegree { get; set; }
+
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

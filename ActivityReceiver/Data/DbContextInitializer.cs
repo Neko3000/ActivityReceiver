@@ -9,7 +9,7 @@ namespace ActivityReceiver.Data
 {
     public interface IDbContextInitializer
     {
-        void MainDbContextInitialize();
+        Task MainDbContextInitialize();
         Task ApplicationDbContextInitialize();
     }
     public class DbContextInitializer:IDbContextInitializer
@@ -71,20 +71,24 @@ namespace ActivityReceiver.Data
             }
         }
 
-        public void MainDbContextInitialize()
+        public async Task MainDbContextInitialize()
         {
             _arDbContext.Database.EnsureCreated();
             
-            if(_arDbContext.Movements.Any())
+            if(_arDbContext.Questions.Any())
             {
                 return;
             }
+
+            var applicationUser1 = await _userManager.FindByNameAsync("Dolores");
+            var applicationUser2 = await _userManager.FindByNameAsync("alex");
+            var applicationUser3 = await _userManager.FindByNameAsync("jackson");
 
             var questions = new List<Question>()
             {
                 new Question()
                 {
-                    EditorID = 1,
+                    EditorID = applicationUser1.Id,
                     SentenceEN = "There are many ways to solve this problem.",
                     SentenceJP = "この問題を解決する方法はたくさんあります。",
                     Level = 2,
@@ -93,7 +97,7 @@ namespace ActivityReceiver.Data
                 },
                 new Question()
                 {
-                    EditorID = 1,
+                    EditorID = applicationUser1.Id,
                     SentenceEN = "you may have heard this joke before.",
                     SentenceJP = "その冗談は前に聞いたことがあるかもしれませんね。",
                     Level = 5,
@@ -103,6 +107,34 @@ namespace ActivityReceiver.Data
             };
             _arDbContext.Questions.AddRange(questions);
             _arDbContext.SaveChanges();
+
+            var exercise = new Exercise
+            {
+                Name = "For Beginners",
+                Description = "a short exercise for newcomer",
+                Level = 1,
+                CreateDate = new DateTime(2015,7,1,12,30,0),
+                EditorID = applicationUser2.Id
+            };
+            _arDbContext.Exercises.Add(exercise);
+            _arDbContext.SaveChanges();
+
+            var exerciseQuestionCollection = new List<ExerciseQuestion>
+            {
+                new ExerciseQuestion()
+                {
+                    ExerciseID = _arDbContext.Exercises.Where(e=>e.Name == "For Beginners").FirstOrDefault().ID,
+                    QuestionID = _arDbContext.Questions.Where(q=>q.SentenceEN == "There are many ways to solve this problem.").FirstOrDefault().ID
+                },
+                new ExerciseQuestion()
+                {
+                    ExerciseID = _arDbContext.Exercises.Where(e=>e.Name == "For Beginners").FirstOrDefault().ID,
+                    QuestionID = _arDbContext.Questions.Where(q=>q.SentenceEN == "you may have heard this joke before.").FirstOrDefault().ID
+                },
+            };
+            _arDbContext.ExerciseQuestionCollection.AddRange(exerciseQuestionCollection);
+            _arDbContext.SaveChanges();
+
 
             var answers = new List<Answer>()
             {
@@ -120,33 +152,39 @@ namespace ActivityReceiver.Data
             _arDbContext.Answsers.AddRange(answers);
             _arDbContext.SaveChanges();
 
-            var answerRecords = new List<AnswerRecord>()
+            var assignmentRecords = new List<AssignmentRecord>()
             {
-                new AnswerRecord()
+                new AssignmentRecord()
                 {
-                    QusetionID = 1,
-                    UserID = 2,
-                    AnswserID = 1,
+                    UserID = applicationUser3.Id,
+                    ExerciseID = _arDbContext.Exercises.Where(e=>e.Name == "For Beginners").FirstOrDefault().ID,
+                    CurrentQuestionIndex = 0,
                     StartDate = new DateTime(2018,1,2,16,0,0),
-                    EndDate = new DateTime(2018,1,2,16,0,20)
+                    EndDate = null,
+                    IsFinished = false,
+                    Grade = (float)0.0,
+                    Remark = ""
                 },
-                new AnswerRecord()
+                new AssignmentRecord()
                 {
-                    QusetionID = 2,
-                    UserID = 2,
-                    AnswserID = 2,
-                    StartDate = new DateTime(2018,1,2,16,0,30),
-                    EndDate = new DateTime(2018,1,2,16,0,55)
+                    UserID = applicationUser1.Id,
+                    ExerciseID = _arDbContext.Exercises.Where(e=>e.Name == "For Beginners").FirstOrDefault().ID,
+                    CurrentQuestionIndex = 2,
+                    StartDate = new DateTime(2018,1,2,16,0,0),
+                    EndDate = new DateTime(2018,1,2,16,0,20),
+                    IsFinished = true,
+                    Grade = (float)100.0,
+                    Remark = "it was difficult"
                 },
             };
-            _arDbContext.AnswserRecords.AddRange(answerRecords);
+            _arDbContext.AssignmentRecords.AddRange(assignmentRecords);
             _arDbContext.SaveChanges();
 
             var movements = new List<Movement>()
             {
                 new Movement()
                 {
-                    AnswerRecordID = 1,
+                    AnswerID = 1,
                     Index = 0,
                     State = 0,
                     Time = 1000,
@@ -157,7 +195,7 @@ namespace ActivityReceiver.Data
                 },
                 new Movement()
                 {
-                    AnswerRecordID = 1,
+                    AnswerID = 1,
                     Index = 1,
                     State = 1,
                     Time = 2500,
@@ -167,7 +205,7 @@ namespace ActivityReceiver.Data
                 },
                 new Movement()
                 {
-                    AnswerRecordID = 1,
+                    AnswerID = 1,
                     Index = 2,
                     State = 2,
                     Time = 5000,

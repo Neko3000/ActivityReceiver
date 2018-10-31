@@ -6,21 +6,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ActivityReceiver.Models
 {
-    public class Question
+    public class Exercise
     {
         [Key]
         public int ID { get; set; }
 
-        public string SentenceEN { get; set; }
-        public string SentenceJP { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
 
         public int Level { get; set; }
-        public string Grammar { get; set; }
 
-        public string Division { get; set; }
-        public string Remark { get; set; }
-
-        public DateTime CreatDate { get; set; }
+        public DateTime CreateDate { get; set; }
         public string EditorID { get; set; }
     }
 }
