@@ -35,6 +35,7 @@ namespace ActivityReceiver.Controllers
         }
 
         // login - get token
+        [HttpGet]
         public async Task<IActionResult> GetToken(UserTokenLoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -84,6 +85,25 @@ namespace ActivityReceiver.Controllers
     
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Register(UserTokenRegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("the request is forbidden");
+            }
+
+            var user = new ApplicationUser { UserName = model.Username };
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors.FirstOrDefault().Description.ToString());
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Authorize()
         {
