@@ -35,13 +35,16 @@ namespace ActivityReceiver
             services.AddDbContext<ActivityReceiverDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ActivityReceiverDbContextConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            var test = Configuration["Jwt:SecretKey"];
-            var test2 = Configuration["Jwt:JwtIssuer"];
-            var test3 = Configuration["Jwt:JwtAudience"];
+            // change the policy of password
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                options.Password.RequiredLength = 5;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             // jwt
             services.AddAuthentication().
@@ -92,7 +95,8 @@ namespace ActivityReceiver
             });
 
             //Initialize Database 
-            dbContextInitializer.Initialize();
+            dbContextInitializer.MainDbContextInitialize();
+            dbContextInitializer.ApplicationDbContextInitialize().Wait();
         }
     }
 }

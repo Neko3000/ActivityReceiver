@@ -9,14 +9,15 @@ namespace ActivityReceiver.Data
 {
     public interface IDbContextInitializer
     {
-        void Initialize();
+        void MainDbContextInitialize();
+        Task ApplicationDbContextInitialize();
     }
     public class DbContextInitializer:IDbContextInitializer
     {
-        ApplicationDbContext _appDbContext;
-        ActivityReceiverDbContext _arDbContext;
-        UserManager<ApplicationUser> _userManager;
-        RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _appDbContext;
+        private readonly ActivityReceiverDbContext _arDbContext;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public DbContextInitializer(ApplicationDbContext appDbContext, ActivityReceiverDbContext arDbCotnext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -26,23 +27,51 @@ namespace ActivityReceiver.Data
             _roleManager = roleManager;
         }
 
-        public void Initialize()
-        {
-            ApplicationDbContextInitialize();
-            AcitvityReceiverDbCotextInitialize();
-        }
-
-        public void ApplicationDbContextInitialize()
+        public async Task ApplicationDbContextInitialize()
         {
             _appDbContext.Database.EnsureCreated();
 
-            if(_appDbContext.Users.Any())
+            if (!_appDbContext.Roles.Any())
             {
-                return;
+                var identityRole1 = new IdentityRole("SuperAdmin");
+                var identityRole2 = new IdentityRole("Admin");
+                var identityRole3 = new IdentityRole("Student");
+
+                await _roleManager.CreateAsync(identityRole1);
+                await _roleManager.CreateAsync(identityRole2);
+                await _roleManager.CreateAsync(identityRole3);
+            }
+
+            if(!_appDbContext.Users.Any())
+            {
+                var applicationUser1 = new ApplicationUser
+                {
+                    UserName = "Dolores",
+                };
+                var applicationUserPWD1 = "d123456";
+                await _userManager.CreateAsync(applicationUser1, applicationUserPWD1);
+                await _userManager.AddToRoleAsync(applicationUser1, "SuperAdmin");
+
+
+                var applicationUser2 = new ApplicationUser
+                {
+                    UserName = "alex",
+                };
+                var applicationUserPWD2 = "a123456";
+                await _userManager.CreateAsync(applicationUser2, applicationUserPWD2);
+                await _userManager.AddToRoleAsync(applicationUser2, "Admin");
+
+                var applicationUser3 = new ApplicationUser
+                {
+                    UserName = "jackson",
+                };
+                var applicationUserPWD3 = "j123456";
+                await _userManager.CreateAsync(applicationUser3, applicationUserPWD3);
+                await _userManager.AddToRoleAsync(applicationUser3, "Student");
             }
         }
 
-        public void AcitvityReceiverDbCotextInitialize()
+        public void MainDbContextInitialize()
         {
             _arDbContext.Database.EnsureCreated();
             
