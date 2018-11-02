@@ -35,8 +35,8 @@ namespace ActivityReceiver.Controllers
         }
 
         // login - get token
-        [HttpGet]
-        public async Task<IActionResult> GetToken(UserTokenLoginViewModel model)
+        [HttpPost]
+        public async Task<IActionResult> GetToken([FromBody]UserTokenLoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -85,8 +85,9 @@ namespace ActivityReceiver.Controllers
     
         }
 
+        // registers
         [HttpPost]
-        public async Task<IActionResult> Register(UserTokenRegisterViewModel model)
+        public async Task<IActionResult> Register([FromBody]UserTokenRegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {

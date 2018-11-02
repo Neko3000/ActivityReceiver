@@ -13,5 +13,7 @@ namespace ActivityReceiver.Models
 
         public int ExerciseID { get; set; }
         public int QuestionID { get; set; }
+
+        public int SerialNumber { get; set; }
     }
 }
