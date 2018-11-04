@@ -14,7 +14,7 @@ using ActivityReceiver.ViewModels;
 
 namespace ActivityReceiver.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     public class QuestionController : Controller
     {
         private readonly ActivityReceiverDbContext _arDbContext;
@@ -37,6 +37,11 @@ namespace ActivityReceiver.Controllers
 
             var userID = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
             var user = await  _userManager.FindByIdAsync(userID);
+
+            if(user == null)
+            {
+                return BadRequest();
+            }
 
             // Check if this Exercise has AssignmentRecord for the user exists
             var isSpecificAssignmentHasRecord = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ExerciseID == model.ExerciseID).Any();
@@ -69,7 +74,6 @@ namespace ActivityReceiver.Controllers
             }
             else
             {
-
                 // Create a new AssignmentRecord
                 var assignmentNew = new AssignmentRecord
                 {
@@ -91,6 +95,61 @@ namespace ActivityReceiver.Controllers
 
                 return Ok(questions[assignmentNew.CurrentQuestionIndex]);
             }
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> PostQuestionAnswer([FromBody]PostQuestionAnswerViewModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var userID = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            var user = await _userManager.FindByIdAsync(userID);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var specificAssignment = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ExerciseID == model.ExerciseID).ToList().FirstOrDefault();
+
+            if (specificAssignment == null)
+            {
+                return NotFound();
+            }
+
+            var answerNew = new Answer
+            {
+                AssignmentRecordID = specificAssignment.ID,
+                Content = model.Answer,
+
+                StartDate = model.StartDate,
+                EndDate = model.EndDate
+            };
+            _arDbContext.Answsers.Add(answerNew);
+            _arDbContext.SaveChanges();
+
+            foreach (var movementDTO in model.MovementDTOs)
+            {
+                var movementNew = new Movement
+                {
+                    AnswerID = answerNew.ID,
+                    Time = movementDTO.Time,
+                    State = movementDTO.State,
+                    Index = movementDTO.Index,
+                    XPosition = movementDTO.XPosition,
+                    YPosition = movementDTO.YPosition
+                };
+
+                _arDbContext.Movements.Add(movementNew);
+                _arDbContext.SaveChanges();
+            }
+
+            return Ok();
+
         }
 
         [HttpGet]

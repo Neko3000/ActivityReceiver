@@ -11,8 +11,8 @@ using System;
 namespace ActivityReceiver.Migrations.ActivityReceiverDb
 {
     [DbContext(typeof(ActivityReceiverDbContext))]
-    [Migration("20180410124924_init")]
-    partial class init
+    [Migration("20181104042721_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,33 +26,81 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AssignmentRecordID");
+
                     b.Property<string>("Content");
 
+                    b.Property<DateTime>("EndDate");
+
                     b.Property<int?>("HesitationDegree");
+
+                    b.Property<DateTime>("StartDate");
 
                     b.HasKey("ID");
 
                     b.ToTable("Answsers");
                 });
 
-            modelBuilder.Entity("ActivityReceiver.Models.AnswerRecord", b =>
+            modelBuilder.Entity("ActivityReceiver.Models.AssignmentRecord", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AnswserID");
+                    b.Property<int>("CurrentQuestionIndex");
 
                     b.Property<DateTime?>("EndDate");
 
-                    b.Property<int>("QusetionID");
+                    b.Property<int>("ExerciseID");
+
+                    b.Property<float>("Grade");
+
+                    b.Property<bool>("IsFinished");
+
+                    b.Property<string>("Remark");
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<int>("UserID");
+                    b.Property<string>("UserID");
 
                     b.HasKey("ID");
 
-                    b.ToTable("AnswserRecords");
+                    b.ToTable("AssignmentRecords");
+                });
+
+            modelBuilder.Entity("ActivityReceiver.Models.Exercise", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("EditorID");
+
+                    b.Property<int>("Level");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Exercises");
+                });
+
+            modelBuilder.Entity("ActivityReceiver.Models.ExerciseQuestion", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ExerciseID");
+
+                    b.Property<int>("QuestionID");
+
+                    b.Property<int>("SerialNumber");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ExerciseQuestionCollection");
                 });
 
             modelBuilder.Entity("ActivityReceiver.Models.Movement", b =>
@@ -60,11 +108,9 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AnswerRecordID");
+                    b.Property<int>("AnswerID");
 
                     b.Property<int>("Index");
-
-                    b.Property<bool>("IsFinished");
 
                     b.Property<int>("State");
 
@@ -72,7 +118,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
 
                     b.Property<int>("XPosition");
 
-                    b.Property<int>("YPostion");
+                    b.Property<int>("YPosition");
 
                     b.HasKey("ID");
 
@@ -84,9 +130,13 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatDate");
+
                     b.Property<string>("Division");
 
-                    b.Property<int>("EditorID");
+                    b.Property<string>("EditorID");
+
+                    b.Property<string>("Grammar");
 
                     b.Property<int>("Level");
 

@@ -29,7 +29,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
 
                     b.Property<string>("Content");
 
-                    b.Property<DateTime?>("EndDate");
+                    b.Property<DateTime>("EndDate");
 
                     b.Property<int?>("HesitationDegree");
 
@@ -95,6 +95,8 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
 
                     b.Property<int>("QuestionID");
 
+                    b.Property<int>("SerialNumber");
+
                     b.HasKey("ID");
 
                     b.ToTable("ExerciseQuestionCollection");
@@ -109,15 +111,13 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
 
                     b.Property<int>("Index");
 
-                    b.Property<bool>("IsFinished");
-
                     b.Property<int>("State");
 
                     b.Property<int>("Time");
 
                     b.Property<int>("XPosition");
 
-                    b.Property<int>("YPostion");
+                    b.Property<int>("YPosition");
 
                     b.HasKey("ID");
 

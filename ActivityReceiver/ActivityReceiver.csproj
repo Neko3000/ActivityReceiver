@@ -19,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\ActivityReceiverDb\" />
+    <Folder Include="Data\Migrations\ActivityReceiverDbContext\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

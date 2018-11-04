@@ -189,8 +189,7 @@ namespace ActivityReceiver.Data
                     State = 0,
                     Time = 1000,
                     XPosition = 200,
-                    YPostion = 300,
-                    IsFinished = false,
+                    YPosition = 300,
 
                 },
                 new Movement()
@@ -200,8 +199,7 @@ namespace ActivityReceiver.Data
                     State = 1,
                     Time = 2500,
                     XPosition = 100,
-                    YPostion = 100,
-                    IsFinished = false,
+                    YPosition = 100,
                 },
                 new Movement()
                 {
@@ -210,8 +208,7 @@ namespace ActivityReceiver.Data
                     State = 2,
                     Time = 5000,
                     XPosition = 100,
-                    YPostion = 100,
-                    IsFinished = true,
+                    YPosition = 100,
                 }
             };
             _arDbContext.Movements.AddRange(movements);

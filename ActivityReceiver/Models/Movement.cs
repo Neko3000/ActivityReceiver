@@ -11,11 +11,13 @@ namespace ActivityReceiver.Models
         [Key]
         public int ID { get; set; }
         public int AnswerID { get; set; }
-        public int Index { get; set; }
-        public int State { get; set; }
+
         public int Time { get; set; }
+
+        public int State { get; set; }
+        public int Index { get; set; }
+        
         public int XPosition { get; set; }
-        public int YPostion { get; set; }
-        public bool IsFinished { get; set; }
+        public int YPosition { get; set; }
     }
 }
