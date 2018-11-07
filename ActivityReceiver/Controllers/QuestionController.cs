@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using ActivityReceiver.ViewModels;
+using ActivityReceiver.DataTransferObjects;
 
 namespace ActivityReceiver.Controllers
 {
@@ -24,6 +25,51 @@ namespace ActivityReceiver.Controllers
         {
             _arDbContext = arDbContext;
             _userManager = userManager;
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetExerciseList()
+        {
+            var userID = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            var user = await _userManager.FindByIdAsync(userID);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var exercises = _arDbContext.Exercises.ToList();
+            var assignmentForUser = _arDbContext.AssignmentRecords.Where(ar=>ar.UserID == userID).ToList();
+
+            var exerciseDetails = new List<ExerciseDetail>();
+
+            foreach(var exercise in exercises)
+            {
+                var exerciseDetail = new ExerciseDetail
+                {
+                    ID = exercise.ID,
+                    Name = exercise.Name,
+                    Description = exercise.Description
+                };
+
+                var specificAssignmentRecord = assignmentForUser.Where(afu => afu.ExerciseID == exercise.ID).FirstOrDefault();
+                exerciseDetail.CurrentNumber = specificAssignmentRecord == null ? 0 : specificAssignmentRecord.CurrentQuestionIndex;
+
+                var sortedQuestions = (from q in _arDbContext.Questions
+                                       join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                       where eqc.ExerciseID == exercise.ID
+                                       orderby eqc.SerialNumber ascending
+                                       select q).ToList();
+
+                exerciseDetail.TotalNumber = sortedQuestions.Count;
+
+                exerciseDetail.IsFinished = specificAssignmentRecord.IsFinished;
+
+                exerciseDetails.Add(exerciseDetail);
+            }
+
+            return Ok(exerciseDetails);
         }
 
         [HttpGet]
@@ -93,13 +139,13 @@ namespace ActivityReceiver.Controllers
                                  orderby eqc.SerialNumber ascending
                                  select q).ToList();
 
-                return Ok(questions[assignmentNew.CurrentQuestionIndex]);
+                return Created("",questions[assignmentNew.CurrentQuestionIndex]);
             }
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> PostQuestionAnswer([FromBody]PostQuestionAnswerViewModel model)
+        public async Task<IActionResult> SubmitQuestionAnswer([FromBody]SubmitQuestionAnswerViewModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -150,6 +196,64 @@ namespace ActivityReceiver.Controllers
 
             return Ok();
 
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetAssignmentResult([FromBody]GetAssignmentResultViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var userID = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            var user = await _userManager.FindByIdAsync(userID);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var specificAssignment = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ExerciseID == model.ExerciseID).ToList().FirstOrDefault();
+
+            if (specificAssignment == null)
+            {
+                return NotFound();
+            }
+
+            if(specificAssignment.IsFinished == false)
+            {
+                return NotFound();
+            }
+
+            var answers = _arDbContext.Answsers.Where(q => q.AssignmentRecordID == specificAssignment.ID).ToList();
+            float accuracyRate = answers.Where(a => a.IsCorrect == true).Count() / answers.Count;
+
+            var questions = _arDbContext.Questions.ToList();
+            var answerDetails = new List<AnswerDetail>();
+
+            foreach (var answer in answers)
+            {
+                var question = questions.Where(q => q.ID == answer.ID).SingleOrDefault();
+                var answerDetail = new AnswerDetail
+                {
+                    SentenceJP = question.SentenceJP,
+                    SentenceEN = question.SentenceEN,
+                    // not content !
+                    Answer = answer.Content,
+                    IsCorrect = answer.IsCorrect
+                };
+                answerDetails.Add(answerDetail);
+            }
+
+            var result = new AssignmentResult
+            {
+                AccuracyRate = accuracyRate,
+                AnswerDetails = answerDetails
+            };
+
+            return Ok(result);
         }
 
         [HttpGet]

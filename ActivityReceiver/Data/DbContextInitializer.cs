@@ -98,7 +98,7 @@ namespace ActivityReceiver.Data
                 new Question()
                 {
                     EditorID = applicationUser1.Id,
-                    SentenceEN = "you may have heard this joke before.",
+                    SentenceEN = "You may have heard this joke before.",
                     SentenceJP = "その冗談は前に聞いたことがあるかもしれませんね。",
                     Level = 5,
                     Division = "before|have|heard|joke|may|this|you",
@@ -108,48 +108,50 @@ namespace ActivityReceiver.Data
             _arDbContext.Questions.AddRange(questions);
             _arDbContext.SaveChanges();
 
-            var exercise = new Exercise
+            var exercises = new List<Exercise>()
             {
-                Name = "For Beginners",
-                Description = "a short exercise for newcomer",
-                Level = 1,
-                CreateDate = new DateTime(2015,7,1,12,30,0),
-                EditorID = applicationUser2.Id
+                new Exercise
+                {
+                    Name = "For Beginners",
+                    Description = "A short exercise for newcomer.",
+                    Level = 1,
+                    CreateDate = new DateTime(2015,7,1,12,30,0),
+                    EditorID = applicationUser2.Id
+                },
+                new Exercise
+                {
+                    Name = "Verbs",
+                    Description = "This exercise contains so many questions related verb.",
+                    Level = 1,
+                    CreateDate = new DateTime(2015,7,1,12,30,0),
+                    EditorID = applicationUser2.Id
+                },
+                new Exercise
+                {
+                    Name = "For Heros",
+                    Description = "A legendary exercise, only two people passed it.",
+                    Level = 1,
+                    CreateDate = new DateTime(2015,7,1,12,30,0),
+                    EditorID = applicationUser2.Id
+                },
             };
-            _arDbContext.Exercises.Add(exercise);
+            _arDbContext.Exercises.AddRange(exercises);
             _arDbContext.SaveChanges();
 
             var exerciseQuestionCollection = new List<ExerciseQuestion>
             {
                 new ExerciseQuestion()
                 {
-                    ExerciseID = _arDbContext.Exercises.Where(e=>e.Name == "For Beginners").FirstOrDefault().ID,
-                    QuestionID = _arDbContext.Questions.Where(q=>q.SentenceEN == "There are many ways to solve this problem.").FirstOrDefault().ID
+                    ExerciseID = exercises[0].ID,
+                    QuestionID = questions[0].ID
                 },
                 new ExerciseQuestion()
                 {
-                    ExerciseID = _arDbContext.Exercises.Where(e=>e.Name == "For Beginners").FirstOrDefault().ID,
-                    QuestionID = _arDbContext.Questions.Where(q=>q.SentenceEN == "you may have heard this joke before.").FirstOrDefault().ID
+                    ExerciseID = exercises[1].ID,
+                    QuestionID =questions[1].ID
                 },
             };
             _arDbContext.ExerciseQuestionCollection.AddRange(exerciseQuestionCollection);
-            _arDbContext.SaveChanges();
-
-
-            var answers = new List<Answer>()
-            {
-                new Answer()
-                {
-                    Content = "are|many|problem|solve|there|this|to|ways",
-                    HesitationDegree = 1
-                },
-                new Answer()
-                {
-                    Content = "you|before|have|heard|joke|may|this",
-                    HesitationDegree = 2
-                }
-            };
-            _arDbContext.Answsers.AddRange(answers);
             _arDbContext.SaveChanges();
 
             var assignmentRecords = new List<AssignmentRecord>()
@@ -157,7 +159,7 @@ namespace ActivityReceiver.Data
                 new AssignmentRecord()
                 {
                     UserID = applicationUser3.Id,
-                    ExerciseID = _arDbContext.Exercises.Where(e=>e.Name == "For Beginners").FirstOrDefault().ID,
+                    ExerciseID = exercises[0].ID,
                     CurrentQuestionIndex = 0,
                     StartDate = new DateTime(2018,1,2,16,0,0),
                     EndDate = null,
@@ -168,8 +170,8 @@ namespace ActivityReceiver.Data
                 new AssignmentRecord()
                 {
                     UserID = applicationUser1.Id,
-                    ExerciseID = _arDbContext.Exercises.Where(e=>e.Name == "For Beginners").FirstOrDefault().ID,
-                    CurrentQuestionIndex = 2,
+                    ExerciseID = exercises[2].ID,
+                    CurrentQuestionIndex = 1,
                     StartDate = new DateTime(2018,1,2,16,0,0),
                     EndDate = new DateTime(2018,1,2,16,0,20),
                     IsFinished = true,
@@ -180,6 +182,31 @@ namespace ActivityReceiver.Data
             _arDbContext.AssignmentRecords.AddRange(assignmentRecords);
             _arDbContext.SaveChanges();
 
+            var answers = new List<Answer>()
+            {
+                new Answer()
+                {
+                    AssignmentRecordID = assignmentRecords[0].ID,
+                    QuestionID = questions[0].ID,
+                    Content = "there|are|many|ways|to|solve|this|problem",
+                    HesitationDegree = 1,
+                    IsCorrect = true,
+                    StartDate = new DateTime(2015,7,1,13,20,10),
+                    EndDate = new DateTime(2015,7,1,13,21,50),
+                },
+                new Answer()
+                {
+                    AssignmentRecordID = assignmentRecords[1].ID,
+                    QuestionID = questions[1].ID,
+                    Content = "you|before|have|heard|joke|may|this",
+                    HesitationDegree = 2,
+                    IsCorrect = false,
+                    StartDate = new DateTime(2015,7,1,14,15,20),
+                    EndDate = new DateTime(2015,7,1,14,17,30),
+                }
+            };
+            _arDbContext.Answsers.AddRange(answers);
+            _arDbContext.SaveChanges();
             var movements = new List<Movement>()
             {
                 new Movement()

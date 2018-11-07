@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ActivityReceiver.ViewModels
 {
+
     public class GetNextQuestionViewModel
     {
         [Required]
@@ -26,7 +27,7 @@ namespace ActivityReceiver.ViewModels
         public int YPosition { get; set; }
     }
 
-    public class PostQuestionAnswerViewModel
+    public class SubmitQuestionAnswerViewModel
     {
         [Required]
         public int ExerciseID { get; set; }
@@ -40,5 +41,11 @@ namespace ActivityReceiver.ViewModels
         public DateTime EndDate { get; set; }
 
         public IList<MovementDTO> MovementDTOs { get; set; }
+    }
+
+    public class GetAssignmentResultViewModel
+    {
+        [Required]
+        public int ExerciseID { get; set; }
     }
 }
