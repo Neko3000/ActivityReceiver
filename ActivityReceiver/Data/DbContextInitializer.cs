@@ -89,21 +89,138 @@ namespace ActivityReceiver.Data
                 new Question()
                 {
                     EditorID = applicationUser1.Id,
-                    SentenceEN = "There are many ways to solve this problem.",
-                    SentenceJP = "この問題を解決する方法はたくさんあります。",
-                    Level = 2,
-                    Division = "are|many|problem|solve|there|this|to|ways",
+                    SentenceEN = "The spread of personal computers enables us to enjoy global communication.",
+                    SentenceJP = "パソコンが普及したおかげで、地球規模でのコミュニケーションを楽しむことができる。",
+                    Level = 1,
+                    Division = "computers|enables|enjoy|of|personal|spread|the|to|us|global communication",
                     Remark = "",
                 },
                 new Question()
                 {
                     EditorID = applicationUser1.Id,
-                    SentenceEN = "You may have heard this joke before.",
-                    SentenceJP = "その冗談は前に聞いたことがあるかもしれませんね。",
-                    Level = 5,
-                    Division = "before|have|heard|joke|may|this|you",
+                    SentenceEN = "I would have somebody sweep this room clean.",
+                    SentenceJP = "誰かにこの部屋をきれいに掃除してもらいたい。",
+                    Level = 1,
+                    Division = "clean|have|I|room|somebody|sweep|this|would",
                     Remark = "",
-                }
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "I'll have you all speaking fluent English within a year.",
+                    SentenceJP = "1年以内にあなた方がみな、流暢な英語を話しているようにしてあげます。",
+                    Level = 1,
+                    Division = "a|all|English|fluent|have|I'll|speaking|within|year|you",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "This picture reminds me of the good old days.",
+                    SentenceJP = "この写真を見ると楽しかった昔のことを思い出す。",
+                    Level = 1,
+                    Division = "days|good|me|of|old|picture|reminds|the|this",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "Seeing me , they suddently stopped talking.",
+                    SentenceJP = "僕の姿を見ると、彼らは急に話をするのをやめた。",
+                    Level = 1,
+                    Division = ",|me|seeing|stopped|suddently|talking|they",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "A slip of the tongue often brings about unexpected results.",
+                    SentenceJP = "うっかり口をすべらせると思わぬ結果を招くことが多い。",
+                    Level = 2,
+                    Division = "a|about|brings|of|often|results|slip|the|tongue|unexpected",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "Nothing was to be heard except the sound of the waves.",
+                    SentenceJP = "波の音のほかは何一つ聞こえなかった。",
+                    Level = 2,
+                    Division = "be|except|heard|nothing|of|sound|the|the|to|was|waves",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "He behaved himself so as not to give offence to others.",
+                    SentenceJP = "彼は他人の感情を害さないように振舞った。",
+                    Level = 2,
+                    Division = "as|behaved|give|he|himself|not|offence|others|so|to|to",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "Bad books do us as much harm as bad friends.",
+                    SentenceJP = "悪書は悪友と同じように私たちに害を与えるものだ。",
+                    Level = 2,
+                    Division = "a|beauty|by|good|is|means|no|of|personality|sign",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "Beauty is by no means a sign of good personality.",
+                    SentenceJP = "美しいということが善良な人である印になることなどは絶対にない。",
+                    Level = 2,
+                    Division = "as|behaved|give|he|himself|not|offence|others|so|to|to",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "You cannot be too busy to come to see us now and then.",
+                    SentenceJP = "時折会いに来ることができないほど忙しいということはあるまい。",
+                    Level = 3,
+                    Division = "be|busy|cannot|come|see|to|to|too|us|you|now and then",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "A true friend would have done otherwise.",
+                    SentenceJP = "本当の友人であったなら違った行動をとっていただろうに。",
+                    Level = 3,
+                    Division = "a|done|friend|have|otherwise|true|would",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "We felt happy as if we were still dreaming.",
+                    SentenceJP = "私たちはまだ夢をみているような幸せな気分だった。",
+                    Level = 3,
+                    Division = "as|dreaming|felt|happy|if|still|we|we|were",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "Judging from the sky , it looks like snow this afternoon.",
+                    SentenceJP = "空模様から察すると、今日の午後は雪になりそうだ。。",
+                    Level = 3,
+                    Division = ",|afternoon|from|it|judging|like|looks|sky|snow|the|this",
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "There were some stars seen in the sky last night.",
+                    SentenceJP = "昨夜は空に星が出ていた。",
+                    Level = 3,
+                    Division = "in|seen|sky|some|stars|the|there|were|last night",
+                    Remark = "",
+                },
             };
             _arDbContext.Questions.AddRange(questions);
             _arDbContext.SaveChanges();
@@ -112,134 +229,92 @@ namespace ActivityReceiver.Data
             {
                 new Exercise
                 {
-                    Name = "For Beginners",
-                    Description = "A short exercise for newcomer.",
+                    Name = "初心者ための問題集",
+                    Description = "短い5問をやってみよう",
                     Level = 1,
                     CreateDate = new DateTime(2015,7,1,12,30,0),
                     EditorID = applicationUser2.Id
                 },
                 new Exercise
                 {
-                    Name = "Verbs",
-                    Description = "This exercise contains so many questions related verb.",
-                    Level = 1,
-                    CreateDate = new DateTime(2015,7,1,12,30,0),
+                    Name = "入門！英語学習者！",
+                    Description = "「初心者ための問題集」を含めた計10問で自分の英語能力を検定する",
+                    Level = 2,
+                    CreateDate = new DateTime(2015,7,1,12,40,0),
                     EditorID = applicationUser2.Id
                 },
                 new Exercise
                 {
-                    Name = "For Heros",
-                    Description = "A legendary exercise, only two people passed it.",
-                    Level = 1,
-                    CreateDate = new DateTime(2015,7,1,12,30,0),
+                    Name = "伝説的なルート",
+                    Description = "基礎の問題で腕を磨いた君が、伝説なヒーローになれるか",
+                    Level = 3,
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
                     EditorID = applicationUser2.Id
                 },
             };
             _arDbContext.Exercises.AddRange(exercises);
             _arDbContext.SaveChanges();
 
-            var exerciseQuestionCollection = new List<ExerciseQuestion>
+            foreach(var exercise in exercises)
             {
-                new ExerciseQuestion()
+                // Exercise 1
+                if(exercise.Level == 1)
                 {
-                    ExerciseID = exercises[0].ID,
-                    QuestionID = questions[0].ID
-                },
-                new ExerciseQuestion()
-                {
-                    ExerciseID = exercises[1].ID,
-                    QuestionID =questions[1].ID
-                },
-            };
-            _arDbContext.ExerciseQuestionCollection.AddRange(exerciseQuestionCollection);
-            _arDbContext.SaveChanges();
+                    foreach(var question in questions)
+                    {
+                        if(question.Level == 1)
+                        {
+                            var exerciseQuestion = new ExerciseQuestion()
+                            {
+                                ExerciseID = exercise.ID,
+                                QuestionID = question.ID
+                            };
 
-            var assignmentRecords = new List<AssignmentRecord>()
-            {
-                new AssignmentRecord()
-                {
-                    UserID = applicationUser3.Id,
-                    ExerciseID = exercises[0].ID,
-                    CurrentQuestionIndex = 0,
-                    StartDate = new DateTime(2018,1,2,16,0,0),
-                    EndDate = null,
-                    IsFinished = false,
-                    Grade = (float)0.0,
-                    Remark = ""
-                },
-                new AssignmentRecord()
-                {
-                    UserID = applicationUser1.Id,
-                    ExerciseID = exercises[2].ID,
-                    CurrentQuestionIndex = 1,
-                    StartDate = new DateTime(2018,1,2,16,0,0),
-                    EndDate = new DateTime(2018,1,2,16,0,20),
-                    IsFinished = true,
-                    Grade = (float)100.0,
-                    Remark = "it was difficult"
-                },
-            };
-            _arDbContext.AssignmentRecords.AddRange(assignmentRecords);
-            _arDbContext.SaveChanges();
-
-            var answers = new List<Answer>()
-            {
-                new Answer()
-                {
-                    AssignmentRecordID = assignmentRecords[0].ID,
-                    QuestionID = questions[0].ID,
-                    Content = "there|are|many|ways|to|solve|this|problem",
-                    HesitationDegree = 1,
-                    IsCorrect = true,
-                    StartDate = new DateTime(2015,7,1,13,20,10),
-                    EndDate = new DateTime(2015,7,1,13,21,50),
-                },
-                new Answer()
-                {
-                    AssignmentRecordID = assignmentRecords[1].ID,
-                    QuestionID = questions[1].ID,
-                    Content = "you|before|have|heard|joke|may|this",
-                    HesitationDegree = 2,
-                    IsCorrect = false,
-                    StartDate = new DateTime(2015,7,1,14,15,20),
-                    EndDate = new DateTime(2015,7,1,14,17,30),
+                            _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
+                            _arDbContext.SaveChanges();
+                        }
+                    }
                 }
-            };
-            _arDbContext.Answsers.AddRange(answers);
-            _arDbContext.SaveChanges();
-            var movements = new List<Movement>()
-            {
-                new Movement()
-                {
-                    AnswerID = 1,
-                    Index = 0,
-                    State = 0,
-                    Time = 1000,
-                    XPosition = 200,
-                    YPosition = 300,
 
-                },
-                new Movement()
+                // Exercise 2
+                if (exercise.Level == 1)
                 {
-                    AnswerID = 1,
-                    Index = 1,
-                    State = 1,
-                    Time = 2500,
-                    XPosition = 100,
-                    YPosition = 100,
-                },
-                new Movement()
-                {
-                    AnswerID = 1,
-                    Index = 2,
-                    State = 2,
-                    Time = 5000,
-                    XPosition = 100,
-                    YPosition = 100,
+                    foreach (var question in questions)
+                    {
+                        if (question.Level == 1 || question.Level == 2)
+                        {
+                            var exerciseQuestion = new ExerciseQuestion()
+                            {
+                                ExerciseID = exercise.ID,
+                                QuestionID = question.ID
+                            };
+
+                            _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
+                            _arDbContext.SaveChanges();
+                        }
+                    }
                 }
-            };
-            _arDbContext.Movements.AddRange(movements);
-            _arDbContext.SaveChanges();
+
+                // Exercise 3
+                if (exercise.Level == 1)
+                {
+                    foreach (var question in questions)
+                    {
+                        if (question.Level == 1 || question.Level == 2 || question.Level == 3)
+                        {
+                            var exerciseQuestion = new ExerciseQuestion()
+                            {
+                                ExerciseID = exercise.ID,
+                                QuestionID = question.ID
+                            };
+
+                            _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
+                            _arDbContext.SaveChanges();
+                        }
+                    }
+                }
+            }
+
         }
     }
 }
