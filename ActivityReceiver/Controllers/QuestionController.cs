@@ -11,12 +11,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using ActivityReceiver.ViewModels;
-using ActivityReceiver.DataTransferObjects;
 using ActivityReceiver.Functions;
 
 namespace ActivityReceiver.Controllers
 {
-    //[Produces("application/json")]
+    [Produces("application/json")]
     public class QuestionController : Controller
     {
         private readonly ActivityReceiverDbContext _arDbContext;
@@ -40,12 +39,12 @@ namespace ActivityReceiver.Controllers
                 return BadRequest();
             }
 
-            var exercises = _arDbContext.Exercises.ToList();
+            var allExercises = _arDbContext.Exercises.ToList();
             var assignmentForUser = _arDbContext.AssignmentRecords.Where(ar=>ar.UserID == userID).ToList();
 
             var exerciseDetails = new List<ExerciseDetail>();
 
-            foreach(var exercise in exercises)
+            foreach(var exercise in allExercises)
             {
                 var exerciseDetail = new ExerciseDetail
                 {
@@ -69,12 +68,16 @@ namespace ActivityReceiver.Controllers
                 exerciseDetails.Add(exerciseDetail);
             }
 
-            return Ok(exerciseDetails);
+            var vm = new GetExerciseListGetViewModel{
+                ExerciseDetails = exerciseDetails
+            };
+
+            return Ok(vm);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetNextQuestion(GetNextQuestionViewModel model)
+        public async Task<IActionResult> GetNextQuestion(GetNextQuestionPostViewModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -99,54 +102,75 @@ namespace ActivityReceiver.Controllers
                 // Check if this AssignmentRecord has been finished
                 if(!specificAssignment.IsFinished)
                 {
-                    var questions = (from q in _arDbContext.Questions
+                    var allQuestionsInExercise = (from q in _arDbContext.Questions
                                      join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
                                      where eqc.ExerciseID == model.ExerciseID
                                      orderby eqc.SerialNumber ascending
                                      select q).ToList();
 
                     // Check if the CurrentQuestionIndex has exceeded the upperbound of the list
-                    if(specificAssignment.CurrentQuestionIndex > questions.Count - 1)
+                    if (specificAssignment.CurrentQuestionIndex > allQuestionsInExercise.Count - 1)
                     {
                         return NotFound();
                     }
 
-                    return Ok(questions[specificAssignment.CurrentQuestionIndex]);
+                    var question = allQuestionsInExercise[specificAssignment.CurrentQuestionIndex];
+
+                    var vm = new GetNextQuestionGetViewModel{
+                        AssignmentRecordID = specificAssignment.ID,
+                        QuestionID = question.ID,
+
+                        SentenceJP = question.SentenceEN,
+                        Division = question.SentenceJP
+                    };
+                    return Ok(vm);
                 }
                 else
                 {
-                    // When the user finishes the assignment
+                    // When the user finishes the assignment return No-Content(204) to go to the next scrren
                     return NoContent();
                 }
             }
             else
             {
                 // Create a new AssignmentRecord
-                var assignmentNew = new AssignmentRecord
+                var assignmentRecordNew = new AssignmentRecord
                 {
                     UserID = user.Id,
                     ExerciseID = model.ExerciseID,
+
                     CurrentQuestionIndex = 0,
                     StartDate = DateTime.Now,
+
                     IsFinished = false,
                     Grade = (float)0.0,
                 };
-                _arDbContext.Add(assignmentNew);
+                _arDbContext.Add(assignmentRecordNew);
                 _arDbContext.SaveChanges();
 
-                var questions = (from q in _arDbContext.Questions
+                var allQuestionsInExercise = (from q in _arDbContext.Questions
                                  join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
                                  where eqc.ExerciseID == model.ExerciseID
                                  orderby eqc.SerialNumber ascending
                                  select q).ToList();
 
-                return Created("",questions[assignmentNew.CurrentQuestionIndex]);
+                var question = allQuestionsInExercise[assignmentRecordNew.CurrentQuestionIndex];
+
+                var vm = new GetNextQuestionGetViewModel
+                {
+                    AssignmentRecordID = assignmentRecordNew.ID,
+                    QuestionID = question.ID,
+
+                    SentenceJP = question.SentenceEN,
+                    Division = question.SentenceJP
+                };
+                return Ok(vm);
             }
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> SubmitQuestionAnswer([FromBody]SubmitQuestionAnswerViewModel model)
+        public async Task<IActionResult> SubmitQuestionAnswer([FromBody]SubmitQuestionAnswerPostViewModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -161,24 +185,13 @@ namespace ActivityReceiver.Controllers
                 return BadRequest();
             }
 
-            var specificAssignment = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ExerciseID == model.ExerciseID).ToList().FirstOrDefault();
-
-            if (specificAssignment == null)
-            {
-                return NotFound();
-            }
-
             var specificQuestion = _arDbContext.Questions.Where(q => q.ID == model.QuestionID).ToList().SingleOrDefault();
-
-            if (specificQuestion == null)
-            {
-                return NotFound();
-            }
 
             var answerNew = new Answer
             {
                 QuestionID = model.QuestionID,
-                AssignmentRecordID = specificAssignment.ID,
+                AssignmentRecordID = model.AssignmentRecordID,
+
                 Content = model.Answer,
                 IsCorrect = specificQuestion.Division == model.Answer ? true:false,
 
@@ -209,12 +222,11 @@ namespace ActivityReceiver.Controllers
             }
 
             return Ok();
-
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetAssignmentResult([FromBody]GetAssignmentResultViewModel model)
+        public async Task<IActionResult> GetAssignmentResult([FromBody]GetAssignmentResultPostViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -244,30 +256,30 @@ namespace ActivityReceiver.Controllers
             var answers = _arDbContext.Answsers.Where(q => q.AssignmentRecordID == specificAssignment.ID).ToList();
             float accuracyRate = answers.Where(a => a.IsCorrect == true).Count() / answers.Count;
 
-            var questions = _arDbContext.Questions.ToList();
+            var allQuestion = _arDbContext.Questions.ToList();
             var answerDetails = new List<AnswerDetail>();
 
             foreach (var answer in answers)
             {
-                var question = questions.Where(q => q.ID == answer.ID).SingleOrDefault();
+                var specificQuestion = allQuestion.Where(q => q.ID == answer.ID).SingleOrDefault();
                 var answerDetail = new AnswerDetail
                 {
-                    SentenceJP = question.SentenceJP,
-                    SentenceEN = question.SentenceEN,
+                    SentenceJP = specificQuestion.SentenceJP,
+                    SentenceEN = specificQuestion.SentenceEN,
 
-                    Answer = QuestionHandler.ConvertDivisionToSentence(answer.Content),
+                    AnswerSentence = QuestionHandler.ConvertDivisionToSentence(answer.Content),
                     IsCorrect = answer.IsCorrect
                 };
                 answerDetails.Add(answerDetail);
             }
 
-            var result = new AssignmentResult
+            var vm = new GetAssignmentResultGetViewModel
             {
                 AccuracyRate = accuracyRate,
                 AnswerDetails = answerDetails
             };
 
-            return Ok(result);
+            return Ok(vm);
         }
 
         [HttpGet]

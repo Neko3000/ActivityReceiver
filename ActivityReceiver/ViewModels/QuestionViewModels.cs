@@ -6,13 +6,42 @@ using System.Threading.Tasks;
 
 namespace ActivityReceiver.ViewModels
 {
+    // GetExerciseList
+    public class ExerciseDetail
+    {
+        public int ID { get; set; }
 
-    public class GetNextQuestionViewModel
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+        public int CurrentNumber { get; set; }
+        public int TotalNumber { get; set; }
+
+        public bool IsFinished { get; set; }
+    }
+
+    public class GetExerciseListGetViewModel
+    {
+        public IList<ExerciseDetail> ExerciseDetails { get; set; }
+    }
+
+    // GetNextQuestion
+    public class GetNextQuestionPostViewModel
     {
         [Required]
         public int ExerciseID { get; set; }
     }
 
+    public class GetNextQuestionGetViewModel
+    {
+        public int AssignmentRecordID { get; set; }
+        public int QuestionID { get; set; }
+
+        public string SentenceJP { get; set; }
+        public string Division { get; set; }
+    }
+
+    // SubmitQuestionAnswer
     public class MovementDTO
     {
         [Required]
@@ -27,14 +56,16 @@ namespace ActivityReceiver.ViewModels
         public int YPosition { get; set; }
     }
 
-    public class SubmitQuestionAnswerViewModel
+    public class SubmitQuestionAnswerPostViewModel
     {
         [Required]
-        public int ExerciseID { get; set; }
+        public int AssignmentRecordID { get; set; }
         [Required]
         public int QuestionID { get; set; }
+
         [Required]
         public string Answer { get; set; }
+
         [Required]
         public DateTime StartDate { get; set; }
         [Required]
@@ -43,9 +74,25 @@ namespace ActivityReceiver.ViewModels
         public IList<MovementDTO> MovementDTOs { get; set; }
     }
 
-    public class GetAssignmentResultViewModel
+    // GetAssignmentResult
+    public class GetAssignmentResultPostViewModel
     {
         [Required]
         public int ExerciseID { get; set; }
+    }
+    public class AnswerDetail
+    {
+        public string SentenceJP { get; set; }
+        public string SentenceEN { get; set; }
+
+        public string AnswerSentence { get; set; }
+        public bool IsCorrect { get; set; }
+    }
+
+    public class GetAssignmentResultGetViewModel
+    {
+        public float AccuracyRate { get; set; }
+
+        public IList<AnswerDetail> AnswerDetails { get; set; }
     }
 }

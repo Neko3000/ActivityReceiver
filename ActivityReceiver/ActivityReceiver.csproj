@@ -19,9 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DataTransferObjects\" />
     <Folder Include="Data\Migrations\ActivityReceiverDbContext\" />
     <Folder Include="Migrations\" />
     <Folder Include="Migrations\ActivityReceiverDb\" />
+    <Folder Include="Models\DataTransferObject\" />
   </ItemGroup>
 
 </Project>
