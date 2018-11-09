@@ -20,7 +20,7 @@ namespace ActivityReceiver.Models
         public string Division { get; set; }
         public string Remark { get; set; }
 
-        public DateTime CreatDate { get; set; }
+        public DateTime CreateDate { get; set; }
         public string EditorID { get; set; }
     }
 }

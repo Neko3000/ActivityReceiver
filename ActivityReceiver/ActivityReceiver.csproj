@@ -21,6 +21,7 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\ActivityReceiverDbContext\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Migrations\ActivityReceiverDb\" />
   </ItemGroup>
 
 </Project>

@@ -33,6 +33,10 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
 
                     b.Property<int?>("HesitationDegree");
 
+                    b.Property<bool>("IsCorrect");
+
+                    b.Property<int>("QuestionID");
+
                     b.Property<DateTime>("StartDate");
 
                     b.HasKey("ID");
@@ -129,7 +133,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatDate");
+                    b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("Division");
 

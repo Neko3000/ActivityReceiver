@@ -93,6 +93,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "パソコンが普及したおかげで、地球規模でのコミュニケーションを楽しむことができる。",
                     Level = 1,
                     Division = "computers|enables|enjoy|of|personal|spread|the|to|us|global communication",
+                    CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
                 new Question()
@@ -102,6 +103,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "誰かにこの部屋をきれいに掃除してもらいたい。",
                     Level = 1,
                     Division = "clean|have|I|room|somebody|sweep|this|would",
+                    CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
                 new Question()
@@ -111,6 +113,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "1年以内にあなた方がみな、流暢な英語を話しているようにしてあげます。",
                     Level = 1,
                     Division = "a|all|English|fluent|have|I'll|speaking|within|year|you",
+                    CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
                 new Question()
@@ -120,6 +123,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "この写真を見ると楽しかった昔のことを思い出す。",
                     Level = 1,
                     Division = "days|good|me|of|old|picture|reminds|the|this",
+                    CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
                 new Question()
@@ -129,6 +133,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "僕の姿を見ると、彼らは急に話をするのをやめた。",
                     Level = 1,
                     Division = ",|me|seeing|stopped|suddently|talking|they",
+                    CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
                 new Question()
@@ -138,6 +143,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "うっかり口をすべらせると思わぬ結果を招くことが多い。",
                     Level = 2,
                     Division = "a|about|brings|of|often|results|slip|the|tongue|unexpected",
+                    CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
                 new Question()
@@ -147,6 +153,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "波の音のほかは何一つ聞こえなかった。",
                     Level = 2,
                     Division = "be|except|heard|nothing|of|sound|the|the|to|was|waves",
+                    CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
                 new Question()
@@ -156,6 +163,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "彼は他人の感情を害さないように振舞った。",
                     Level = 2,
                     Division = "as|behaved|give|he|himself|not|offence|others|so|to|to",
+                    CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
                 new Question()
@@ -165,6 +173,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "悪書は悪友と同じように私たちに害を与えるものだ。",
                     Level = 2,
                     Division = "a|beauty|by|good|is|means|no|of|personality|sign",
+                    CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
                 new Question()
@@ -174,6 +183,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "美しいということが善良な人である印になることなどは絶対にない。",
                     Level = 2,
                     Division = "as|behaved|give|he|himself|not|offence|others|so|to|to",
+                    CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
                 new Question()
@@ -183,6 +193,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "時折会いに来ることができないほど忙しいということはあるまい。",
                     Level = 3,
                     Division = "be|busy|cannot|come|see|to|to|too|us|you|now and then",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
                 new Question()
@@ -192,6 +203,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "本当の友人であったなら違った行動をとっていただろうに。",
                     Level = 3,
                     Division = "a|done|friend|have|otherwise|true|would",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
                 new Question()
@@ -201,6 +213,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "私たちはまだ夢をみているような幸せな気分だった。",
                     Level = 3,
                     Division = "as|dreaming|felt|happy|if|still|we|we|were",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
                 new Question()
@@ -210,6 +223,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "空模様から察すると、今日の午後は雪になりそうだ。。",
                     Level = 3,
                     Division = ",|afternoon|from|it|judging|like|looks|sky|snow|the|this",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
                 new Question()
@@ -219,6 +233,7 @@ namespace ActivityReceiver.Data
                     SentenceJP = "昨夜は空に星が出ていた。",
                     Level = 3,
                     Division = "in|seen|sky|some|stars|the|there|were|last night",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
             };
@@ -232,42 +247,43 @@ namespace ActivityReceiver.Data
                     Name = "初心者ための問題集",
                     Description = "短い5問をやってみよう",
                     Level = 1,
-                    CreateDate = new DateTime(2015,7,1,12,30,0),
-                    EditorID = applicationUser2.Id
+                    CreateDate = DateTime.Now,
+                    EditorID = applicationUser1.Id
                 },
                 new Exercise
                 {
                     Name = "入門！英語学習者！",
                     Description = "「初心者ための問題集」を含めた計10問で自分の英語能力を検定する",
                     Level = 2,
-                    CreateDate = new DateTime(2015,7,1,12,40,0),
+                    CreateDate = DateTime.Now,
                     EditorID = applicationUser2.Id
                 },
                 new Exercise
                 {
-                    Name = "伝説的なルート",
+                    Name = "伝説の道",
                     Description = "基礎の問題で腕を磨いた君が、伝説なヒーローになれるか",
                     Level = 3,
-                    CreateDate = new DateTime(2015,7,1,12,50,0),
+                    CreateDate = DateTime.Now,
                     EditorID = applicationUser2.Id
                 },
             };
             _arDbContext.Exercises.AddRange(exercises);
             _arDbContext.SaveChanges();
 
-            foreach(var exercise in exercises)
+            for(int i = 0;i<exercises.Count;i++)
             {
                 // Exercise 1
-                if(exercise.Level == 1)
+                if(exercises[i].Level == 1)
                 {
-                    foreach(var question in questions)
+                    for(int j = 0; j< questions.Count; j++)
                     {
-                        if(question.Level == 1)
+                        if(questions[j].Level == 1)
                         {
                             var exerciseQuestion = new ExerciseQuestion()
                             {
-                                ExerciseID = exercise.ID,
-                                QuestionID = question.ID
+                                ExerciseID = exercises[i].ID,
+                                QuestionID = questions[j].ID,
+                                SerialNumber = j
                             };
 
                             _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
@@ -277,16 +293,17 @@ namespace ActivityReceiver.Data
                 }
 
                 // Exercise 2
-                if (exercise.Level == 1)
+                if (exercises[i].Level == 2)
                 {
-                    foreach (var question in questions)
+                    for (int j = 0; j < questions.Count; j++)
                     {
-                        if (question.Level == 1 || question.Level == 2)
+                        if (questions[j].Level == 1 || questions[j].Level == 2)
                         {
                             var exerciseQuestion = new ExerciseQuestion()
                             {
-                                ExerciseID = exercise.ID,
-                                QuestionID = question.ID
+                                ExerciseID = exercises[i].ID,
+                                QuestionID = questions[j].ID,
+                                SerialNumber = j
                             };
 
                             _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
@@ -295,17 +312,18 @@ namespace ActivityReceiver.Data
                     }
                 }
 
-                // Exercise 3
-                if (exercise.Level == 1)
+                // Exercise 1
+                if (exercises[i].Level == 3)
                 {
-                    foreach (var question in questions)
+                    for (int j = 0; j < questions.Count; j++)
                     {
-                        if (question.Level == 1 || question.Level == 2 || question.Level == 3)
+                        if (questions[j].Level == 1 || questions[j].Level == 2 || questions[j].Level == 3)
                         {
                             var exerciseQuestion = new ExerciseQuestion()
                             {
-                                ExerciseID = exercise.ID,
-                                QuestionID = question.ID
+                                ExerciseID = exercises[i].ID,
+                                QuestionID = questions[j].ID,
+                                SerialNumber = j
                             };
 
                             _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
@@ -313,6 +331,7 @@ namespace ActivityReceiver.Data
                         }
                     }
                 }
+
             }
 
         }

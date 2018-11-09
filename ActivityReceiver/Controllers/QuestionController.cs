@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using ActivityReceiver.ViewModels;
 using ActivityReceiver.DataTransferObjects;
+using ActivityReceiver.Functions;
 
 namespace ActivityReceiver.Controllers
 {
@@ -27,7 +28,7 @@ namespace ActivityReceiver.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetExerciseList()
         {
@@ -55,6 +56,7 @@ namespace ActivityReceiver.Controllers
 
                 var specificAssignmentRecord = assignmentForUser.Where(afu => afu.ExerciseID == exercise.ID).FirstOrDefault();
                 exerciseDetail.CurrentNumber = specificAssignmentRecord == null ? 0 : specificAssignmentRecord.CurrentQuestionIndex;
+                exerciseDetail.IsFinished = specificAssignmentRecord == null ? false : specificAssignmentRecord.IsFinished;
 
                 var sortedQuestions = (from q in _arDbContext.Questions
                                        join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
@@ -63,8 +65,6 @@ namespace ActivityReceiver.Controllers
                                        select q).ToList();
 
                 exerciseDetail.TotalNumber = sortedQuestions.Count;
-
-                exerciseDetail.IsFinished = specificAssignmentRecord.IsFinished;
 
                 exerciseDetails.Add(exerciseDetail);
             }
@@ -115,7 +115,8 @@ namespace ActivityReceiver.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    // When the user finishes the assignment
+                    return NoContent();
                 }
             }
             else
@@ -167,10 +168,21 @@ namespace ActivityReceiver.Controllers
                 return NotFound();
             }
 
+            var specificQuestion = _arDbContext.Questions.Where(q => q.ID == model.QuestionID).ToList().SingleOrDefault();
+
+            if (specificQuestion == null)
+            {
+                return NotFound();
+            }
+
             var answerNew = new Answer
             {
+                QuestionID = model.QuestionID,
                 AssignmentRecordID = specificAssignment.ID,
                 Content = model.Answer,
+                IsCorrect = specificQuestion.Division == model.Answer ? true:false,
+
+                HesitationDegree = 0,
 
                 StartDate = model.StartDate,
                 EndDate = model.EndDate
@@ -184,8 +196,10 @@ namespace ActivityReceiver.Controllers
                 {
                     AnswerID = answerNew.ID,
                     Time = movementDTO.Time,
+
                     State = movementDTO.State,
                     Index = movementDTO.Index,
+
                     XPosition = movementDTO.XPosition,
                     YPosition = movementDTO.YPosition
                 };
@@ -198,7 +212,7 @@ namespace ActivityReceiver.Controllers
 
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetAssignmentResult([FromBody]GetAssignmentResultViewModel model)
         {
@@ -240,8 +254,8 @@ namespace ActivityReceiver.Controllers
                 {
                     SentenceJP = question.SentenceJP,
                     SentenceEN = question.SentenceEN,
-                    // not content !
-                    Answer = answer.Content,
+
+                    Answer = QuestionHandler.ConvertDivisionToSentence(answer.Content),
                     IsCorrect = answer.IsCorrect
                 };
                 answerDetails.Add(answerDetail);

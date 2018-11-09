@@ -11,7 +11,7 @@ using System;
 namespace ActivityReceiver.Migrations.ActivityReceiverDb
 {
     [DbContext(typeof(ActivityReceiverDbContext))]
-    [Migration("20181104042721_Init")]
+    [Migration("20181109053927_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,10 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.Property<DateTime>("EndDate");
 
                     b.Property<int?>("HesitationDegree");
+
+                    b.Property<bool>("IsCorrect");
+
+                    b.Property<int>("QuestionID");
 
                     b.Property<DateTime>("StartDate");
 
@@ -130,7 +134,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatDate");
+                    b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("Division");
 
