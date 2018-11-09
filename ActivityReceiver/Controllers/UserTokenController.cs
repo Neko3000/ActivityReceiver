@@ -104,16 +104,11 @@ namespace ActivityReceiver.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> Authorize()
+        public  IActionResult Authorize()
         {
-            var username = User.Identity.Name;
-
-            var role = User.Claims.Where(c=>c.Type== ClaimTypes.Role).FirstOrDefault().Value;
-
-
-            return BadRequest("the request is forbidden");
+            return Ok();
         }
     }
 }
