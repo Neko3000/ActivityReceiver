@@ -197,7 +197,7 @@ namespace ActivityReceiver.Controllers
                 AssignmentRecordID = model.AssignmentRecordID,
 
                 Content = model.Answer,
-                IsCorrect = specificQuestion.Division == model.Answer ? true:false,
+                IsCorrect = QuestionHandler.ConvertSentenceToDivision(specificQuestion.SentenceEN) == model.Answer ? true:false,
 
                 HesitationDegree = 0,
 

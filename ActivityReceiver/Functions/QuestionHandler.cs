@@ -32,7 +32,8 @@ namespace ActivityReceiver.Functions
 
         public static string ConvertSentenceToDivision(string sentence)
         {
-            string[] splittedSentence = sentence.ToLower().Split("|");
+            string[] splittedSentence = sentence.ToLower().Split(" ");
+            splittedSentence = splittedSentence.Where(s => s != ".").ToArray();
 
             string division = "";
             for(int i = 0; i<splittedSentence.Count(); i++)
