@@ -11,7 +11,7 @@ using System;
 namespace ActivityReceiver.Migrations.ActivityReceiverDb
 {
     [DbContext(typeof(ActivityReceiverDbContext))]
-    [Migration("20181109053927_Init")]
+    [Migration("20181110180519_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,6 +133,8 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AnswerDivision");
 
                     b.Property<DateTime>("CreateDate");
 

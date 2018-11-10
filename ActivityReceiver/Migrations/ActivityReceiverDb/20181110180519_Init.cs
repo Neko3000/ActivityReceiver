@@ -9,6 +9,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            /*
             migrationBuilder.CreateTable(
                 name: "Answsers",
                 columns: table => new
@@ -104,6 +105,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AnswerDivision = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     Division = table.Column<string>(nullable: true),
                     EditorID = table.Column<string>(nullable: true),
@@ -117,6 +119,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                 {
                     table.PrimaryKey("PK_Questions", x => x.ID);
                 });
+                */
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

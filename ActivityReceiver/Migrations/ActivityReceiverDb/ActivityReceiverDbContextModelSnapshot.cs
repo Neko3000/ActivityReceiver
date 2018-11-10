@@ -133,6 +133,8 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AnswerDivision");
+
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("Division");
