@@ -227,6 +227,18 @@ namespace ActivityReceiver.Controllers
 
             var specificAssignmentRecord = _arDbContext.AssignmentRecords.Where(ar => ar.ID == model.AssignmentRecordID).ToList().FirstOrDefault();
             specificAssignmentRecord.CurrentQuestionIndex = specificAssignmentRecord.CurrentQuestionIndex + 1;
+
+            var allQuestionsInExercise = (from q in _arDbContext.Questions
+                                          join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                          where eqc.ExerciseID == specificAssignmentRecord.ExerciseID
+                                          orderby eqc.SerialNumber ascending
+                                          select q).ToList();
+
+            if (allQuestionsInExercise.Count <= specificAssignmentRecord.CurrentQuestionIndex)
+            {
+                specificAssignmentRecord.IsFinished = true;
+                specificAssignmentRecord.EndDate = DateTime.Now;
+            }
             _arDbContext.SaveChanges();
 
             return Ok();
