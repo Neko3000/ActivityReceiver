@@ -281,7 +281,8 @@ namespace ActivityReceiver.Controllers
 
             foreach (var answer in answers)
             {
-                var specificQuestion = allQuestion.Where(q => q.ID == answer.ID).SingleOrDefault();
+                var specificQuestion = allQuestion.Where(q => q.ID == answer.QuestionID).SingleOrDefault();
+
                 var answerDetail = new AnswerDetail
                 {
                     SentenceJP = specificQuestion.SentenceJP,
