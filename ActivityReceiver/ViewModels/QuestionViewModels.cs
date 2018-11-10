@@ -39,6 +39,8 @@ namespace ActivityReceiver.ViewModels
 
         public string SentenceJP { get; set; }
         public string Division { get; set; }
+
+        public int CurrentNumber { get; set; }
     }
 
     // SubmitQuestionAnswer

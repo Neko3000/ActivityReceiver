@@ -93,7 +93,7 @@ namespace ActivityReceiver.Controllers
             }
 
             // Check if this Exercise has AssignmentRecord for the user exists
-            var isSpecificAssignmentHasRecord = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ID == model.ExerciseID).Any();
+            var isSpecificAssignmentHasRecord = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ExerciseID == model.ExerciseID).Any();
 
             if (isSpecificAssignmentHasRecord)
             {
@@ -121,7 +121,9 @@ namespace ActivityReceiver.Controllers
                         QuestionID = question.ID,
 
                         SentenceJP = question.SentenceJP,
-                        Division = question.Division
+                        Division = question.Division,
+
+                        CurrentNumber = specificAssignment.CurrentQuestionIndex + 1
                     };
                     return Ok(vm);
                 }
@@ -162,7 +164,9 @@ namespace ActivityReceiver.Controllers
                     QuestionID = question.ID,
 
                     SentenceJP = question.SentenceJP,
-                    Division = question.Division
+                    Division = question.Division,
+
+                    CurrentNumber = assignmentRecordNew.CurrentQuestionIndex + 1
                 };
                 return Ok(vm);
             }
