@@ -80,6 +80,7 @@ namespace ActivityReceiver.Controllers
                 );
 
             return Ok(new {
+                username = user.UserName, 
                 token = new JwtSecurityTokenHandler().WriteToken(token)
             });
     
