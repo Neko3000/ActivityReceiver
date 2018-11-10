@@ -77,7 +77,7 @@ namespace ActivityReceiver.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetNextQuestion(GetNextQuestionPostViewModel model)
+        public async Task<IActionResult> GetNextQuestion([FromBody]GetNextQuestionPostViewModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace ActivityReceiver.Controllers
             }
 
             // Check if this Exercise has AssignmentRecord for the user exists
-            var isSpecificAssignmentHasRecord = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ExerciseID == model.ExerciseID).Any();
+            var isSpecificAssignmentHasRecord = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ID == model.ExerciseID).Any();
 
             if (isSpecificAssignmentHasRecord)
             {
@@ -161,8 +161,8 @@ namespace ActivityReceiver.Controllers
                     AssignmentRecordID = assignmentRecordNew.ID,
                     QuestionID = question.ID,
 
-                    SentenceJP = question.SentenceEN,
-                    Division = question.SentenceJP
+                    SentenceJP = question.SentenceJP,
+                    Division = question.Division
                 };
                 return Ok(vm);
             }
@@ -220,6 +220,10 @@ namespace ActivityReceiver.Controllers
                 _arDbContext.Movements.Add(movementNew);
                 _arDbContext.SaveChanges();
             }
+
+            var specificAssignmentRecord = _arDbContext.AssignmentRecords.Where(ar => ar.ID == model.AssignmentRecordID).ToList().FirstOrDefault();
+            specificAssignmentRecord.CurrentQuestionIndex = specificAssignmentRecord.CurrentQuestionIndex + 1;
+            _arDbContext.SaveChanges();
 
             return Ok();
         }
