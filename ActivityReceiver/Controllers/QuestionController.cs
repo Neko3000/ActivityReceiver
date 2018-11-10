@@ -120,8 +120,8 @@ namespace ActivityReceiver.Controllers
                         AssignmentRecordID = specificAssignment.ID,
                         QuestionID = question.ID,
 
-                        SentenceJP = question.SentenceEN,
-                        Division = question.SentenceJP
+                        SentenceJP = question.SentenceJP,
+                        Division = question.Division
                     };
                     return Ok(vm);
                 }
