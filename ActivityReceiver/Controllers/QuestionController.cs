@@ -36,7 +36,10 @@ namespace ActivityReceiver.Controllers
 
             if (user == null)
             {
-                return BadRequest();
+                return NotFound(new
+                {
+                    message = "user's token is invalid"
+                });
             }
 
             var allExercises = _arDbContext.Exercises.ToList();
@@ -81,7 +84,10 @@ namespace ActivityReceiver.Controllers
         {
             if(!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(new
+                {
+                    message = "request forbidened"
+                });
             }
 
             var userID = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
@@ -89,7 +95,10 @@ namespace ActivityReceiver.Controllers
 
             if(user == null)
             {
-                return BadRequest();
+                return NotFound(new
+                {
+                    message = "user's token is invalid"
+                });
             }
 
             // Check if this Exercise has AssignmentRecord for the user exists
@@ -111,7 +120,10 @@ namespace ActivityReceiver.Controllers
                     // Check if the CurrentQuestionIndex has exceeded the upperbound of the list
                     if (specificAssignment.CurrentQuestionIndex > allQuestionsInExercise.Count - 1)
                     {
-                        return NotFound();
+                        return NotFound(new
+                        {
+                            message = "the exercise has already finished"
+                        });
                     }
 
                     var question = allQuestionsInExercise[specificAssignment.CurrentQuestionIndex];
@@ -178,7 +190,10 @@ namespace ActivityReceiver.Controllers
         {
             if(!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(new
+                {
+                    message = "request forbidened"
+                });
             }
 
             var userID = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
@@ -186,7 +201,10 @@ namespace ActivityReceiver.Controllers
 
             if (user == null)
             {
-                return BadRequest();
+                return NotFound(new
+                {
+                    message = "user's token is invalid"
+                });
             }
 
             var specificQuestion = _arDbContext.Questions.Where(q => q.ID == model.QuestionID).ToList().SingleOrDefault();
@@ -241,7 +259,10 @@ namespace ActivityReceiver.Controllers
             }
             _arDbContext.SaveChanges();
 
-            return Ok();
+            return Ok(new
+            {
+                message = "submit answer successfully"
+            });
         }
 
         [HttpPost]
@@ -250,7 +271,10 @@ namespace ActivityReceiver.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(new
+                    {
+                        message = "request forbidened"
+                    });
             }
 
             var userID = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
@@ -258,19 +282,28 @@ namespace ActivityReceiver.Controllers
 
             if (user == null)
             {
-                return BadRequest();
+                return NotFound(new
+                {
+                    message = "user's token is invalid"
+                });
             }
 
             var specificAssignment = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ExerciseID == model.ExerciseID).ToList().FirstOrDefault();
 
             if (specificAssignment == null)
             {
-                return NotFound();
+                return NotFound(new
+                {
+                    message = "there is no assignment record for this exercise"
+                });
             }
 
             if(specificAssignment.IsFinished == false)
             {
-                return NotFound();
+                return NotFound(new
+                {
+                    message = "you haven't finished this assignment yet"
+                });
             }
 
             var answers = _arDbContext.Answsers.Where(q => q.AssignmentRecordID == specificAssignment.ID).ToList();

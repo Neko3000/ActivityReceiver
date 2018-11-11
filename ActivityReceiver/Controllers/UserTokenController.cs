@@ -19,6 +19,7 @@ using System.Net.Http;
 
 namespace ActivityReceiver.Controllers
 {
+    [Produces("application/json")]
     public class UserTokenController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -40,19 +41,27 @@ namespace ActivityReceiver.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("the request is forbidden");
+                return BadRequest(new
+                {
+                    message = "request forbidened"
+                });
             }
 
             var user = await _userManager.FindByNameAsync(model.Username);
             if(user == null)
             {
-                return NotFound("username / password is invalid");
+                return NotFound(new {
+                    message = "username / password is invalid"
+                });
             }
 
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, model.Password);
             if(!isPasswordValid)
             {
-                return NotFound("username / password is invalid");
+                return NotFound(new
+                {
+                    message = "username / password is invalid"
+                });
             }
 
             // set our tokens claims
@@ -92,24 +101,35 @@ namespace ActivityReceiver.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("the request is forbidden");
+                return BadRequest(new
+                {
+                    message = "request forbidened"
+                });
             }
 
             var user = new ApplicationUser { UserName = model.Username };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                return BadRequest(result.Errors.FirstOrDefault().Description.ToString());
+                return BadRequest(new
+                {
+                    message = result.Errors.FirstOrDefault().Description
+                });
             }
 
-            return Ok();
+            return Ok(new {
+                message = "created account sucessfully"
+            });
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public  IActionResult Authorize()
         {
-            return Ok();
+            return Ok(new
+            {
+                message = "authorized account sucessfully"
+            });
         }
     }
 }
