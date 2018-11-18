@@ -117,6 +117,8 @@ namespace ActivityReceiver.Controllers
                 });
             }
 
+            await _userManager.AddToRoleAsync(user, "Student");
+
             return Ok(new {
                 message = "created account sucessfully"
             });
