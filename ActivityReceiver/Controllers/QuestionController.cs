@@ -273,7 +273,7 @@ namespace ActivityReceiver.Controllers
             {
                 return BadRequest(new
                     {
-                        message = "request forbidened"
+                        message = "request forbidden"
                     });
             }
 

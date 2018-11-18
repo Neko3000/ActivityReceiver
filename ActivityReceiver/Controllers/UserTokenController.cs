@@ -70,7 +70,7 @@ namespace ActivityReceiver.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString("N")),
                 new Claim(ClaimTypes.NameIdentifier,user.Id),
                 new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.Role,(await _userManager.GetRolesAsync(user)).FirstOrDefault()),
+                new Claim(ClaimTypes.Role,((await _userManager.GetRolesAsync(user)).FirstOrDefault()) ?? ""),
             };
 
             // crete credentials used to generate the token
