@@ -2,25 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ActivityReceiver.Models;
+using ActivityReceiver.ViewModels;
+using ActivityReceiver.Data;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
 
 namespace ActivityReceiver.Functions
 {
 
     public class QuestionManageHandler
     {
-        // 
         public static string ConvertGrammarIDStringToGrammarNameString(string grammarIDString,IList<Grammar> grammars)
         {
             var splittedGrammarIDs = grammarIDString.Split("#");
+            splittedGrammarIDs = splittedGrammarIDs.Where(s => s != "").ToArray();
 
             var grammarNameString = "";
-            for(int i = 0;i < splittedGrammarIDs.Count;i++)
+            for(int i = 0;i < splittedGrammarIDs.Count();i++)
             {
-                if(i == 0){
-                    grammarNameString = grammarNameString + grammargrammars.Where(g=>g.ID == Convert.ToInt32(splittedGrammarIDs[i])).SingleOrDefault().Name;
+                var grammar= grammars.Where(g => g.ID == Convert.ToInt32(splittedGrammarIDs[i])).SingleOrDefault();
+
+                var grammarName = "";
+
+                if (grammar != null)
+                {
+                    grammarName = grammar.Name;
+                }
+                    
+                if (i == 0){
+                    grammarNameString = grammarNameString + grammarName;
                 }
                 else{
-                    grammarNameString = grammarNameString + "," + grammargrammars.Where(g=>g.ID == Convert.ToInt32(splittedGrammarIDs[i])).SingleOrDefault().Name;
+                    grammarNameString = grammarNameString + " - " + grammarName;
                 }
             }
 
@@ -39,38 +53,36 @@ namespace ActivityReceiver.Functions
             return grammarIDList;
         }
 
-        public static IList<int> ConvertGrammarIDListToGrammarIDString(IList<int> grammarIDList)
+        public static string ConvertGrammarIDListToGrammarIDString(IList<int> grammarIDList)
         {
-            var grammarIDString = "";
+            var grammarIDString = "#";
             for(int i = 0;i < grammarIDList.Count;i++)
             {
                 if(i == 0){
                     grammarIDString = grammarIDString + grammarIDList[i].ToString();
                 }
                 else{
-                    grammarIDString = grammarIDString + "," + grammarIDList[i].ToString();
+                    grammarIDString = grammarIDString + "#" + grammarIDList[i].ToString();
                 }
             }
+            grammarIDString = grammarIDString + "#";
 
             return grammarIDString;
         }
 
-        /// <summary>
-        /// It injects ItemCategory into each ItemDTO by its ItemCategory's ID which located in Item.
-        /// </summary>
-        /// <param name="items">the list of items need to be converted</param>
-        /// <param name="itemCategories">all ItemCategories got from database</param>
-        /// <returns>A list of ItemDTO, it has one-to-one relationship with items. </returns>
-        public static IList<QuestionDTO>  ConvertToQuestionDTOForEachQuestion(IList<Question> questions,IList<Grammar> grammars,IList<ApplicationUser> applicationUsers)
+        public async static Task<IList<QuestionDTO>>  ConvertToQuestionDTOForEachQuestion(ActivityReceiverDbContext context,UserManager<ApplicationUser> userManager,IList<Question> questions)
         {
+            var grammars = context.Grammars.ToList();
+            var applicationUsers = userManager.Users.ToList();
+
             var questionDTOs = new List<QuestionDTO>();
 
             foreach(var question in questions)
             {
                 var questionDTO = Mapper.Map<Question,QuestionDTO>(question);
-                
-                questionDTO.GrammarNameString =ConvertGrammarIDStringToGrammarNameString(question.Grammar,grammars);
-                questionDTO.EditorName = await applicationUsers.FindByIdAsync(question.EditorID).UserName;
+
+                questionDTO.GrammarNameString = ConvertGrammarIDStringToGrammarNameString(question.GrammarIDString, context.Grammars.ToList());
+                questionDTO.EditorName = (await userManager.FindByIdAsync(question.EditorID)).UserName;
 
                 questionDTOs.Add(questionDTO);
             }

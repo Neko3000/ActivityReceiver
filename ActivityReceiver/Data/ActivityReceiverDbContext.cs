@@ -21,5 +21,7 @@ namespace ActivityReceiver.Data
 
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExerciseQuestion> ExerciseQuestionCollection { get; set; }
+
+        public DbSet<Grammar> Grammars { get; set; }
     }
 }

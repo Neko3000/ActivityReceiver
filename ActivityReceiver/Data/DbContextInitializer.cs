@@ -84,6 +84,99 @@ namespace ActivityReceiver.Data
             var applicationUser2 = await _userManager.FindByNameAsync("alex");
             var applicationUser3 = await _userManager.FindByNameAsync("jackson");
 
+            var grammars = new List<Grammar>()
+            {
+                new Grammar()
+                {
+                    Name = "仮定法，命令法"
+                },
+                new Grammar()
+                {
+                    Name = "It，There"
+                },
+                new Grammar()
+                {
+                    Name = "無生物主語"
+                },
+                new Grammar()
+                {
+                    Name = "接続詞"
+                },
+                new Grammar()
+                {
+                    Name = "接続詞"
+                },
+                new Grammar()
+                {
+                    Name = "関係詞"
+                },
+                new Grammar()
+                {
+                    Name = "間接話法"
+                },
+                new Grammar()
+                {
+                    Name = "前置詞(句)"
+                },
+                new Grammar()
+                {
+                    Name = "分詞"
+                },
+                new Grammar()
+                {
+                    Name = "動名詞"
+                },
+                new Grammar()
+                {
+                    Name = "不定詞"
+                },
+                new Grammar()
+                {
+                    Name = "受動態"
+                },
+                new Grammar()
+                {
+                    Name = "助動詞"
+                },
+                new Grammar()
+                {
+                    Name = "比較"
+                },
+                new Grammar()
+                {
+                    Name = "否定"
+                },
+                new Grammar()
+                {
+                    Name = "後置修飾"
+                },
+                new Grammar()
+                {
+                    Name = "完了形、時制"
+                },
+                new Grammar()
+                {
+                    Name = "句動詞(群動詞)"
+                },
+                new Grammar()
+                {
+                    Name = "挿入"
+                },
+                new Grammar()
+                {
+                    Name = "使役"
+                },
+                new Grammar()
+                {
+                    Name = "補語/二重目的語"
+                },
+            };
+            for(int i = 0; i < grammars.Count; i++)
+            {
+                _arDbContext.Grammars.Add(grammars[i]);
+                _arDbContext.SaveChanges();
+            }
+
             var questions = new List<Question>()
             {
                 new Question()
@@ -94,6 +187,7 @@ namespace ActivityReceiver.Data
                     Level = 1,
                     Division = "computers|enables|enjoy|of|personal|spread|the|to|us|global communication",
                     AnswerDivision = "the|spread|of|personal|computers|enables|us|to|enjoy|global communication",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
@@ -105,6 +199,7 @@ namespace ActivityReceiver.Data
                     Level = 1,
                     Division = "clean|have|I|room|somebody|sweep|this|would",
                     AnswerDivision = "I|would|have|somebody|sweep|this|room|clean",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
@@ -116,6 +211,7 @@ namespace ActivityReceiver.Data
                     Level = 1,
                     Division = "a|all|English|fluent|have|I'll|speaking|within|year|you",
                     AnswerDivision = "I'll|have|you|all|speaking|fluent|English|within|a|year",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
@@ -127,6 +223,7 @@ namespace ActivityReceiver.Data
                     Level = 1,
                     Division = "days|good|me|of|old|picture|reminds|the|this",
                     AnswerDivision = "this|picture|reminds|me|of|the|good|old|days",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
@@ -138,6 +235,7 @@ namespace ActivityReceiver.Data
                     Level = 1,
                     Division = ",|me|seeing|stopped|suddently|talking|they",
                     AnswerDivision = "seeing|me|,|they|suddently|stopped|talking",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,30,0),
                     Remark = "",
                 },
@@ -149,6 +247,7 @@ namespace ActivityReceiver.Data
                     Level = 2,
                     Division = "a|about|brings|of|often|results|slip|the|tongue|unexpected",
                     AnswerDivision = "a|slip|of|the|tongue|often|brings|about|unexpected|results",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
@@ -160,6 +259,7 @@ namespace ActivityReceiver.Data
                     Level = 2,
                     Division = "be|except|heard|nothing|of|sound|the|the|to|was|waves",
                     AnswerDivision = "nothing|was|to|be|heard|except|the|sound|of|the|waves",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
@@ -171,6 +271,7 @@ namespace ActivityReceiver.Data
                     Level = 2,
                     Division = "as|behaved|give|he|himself|not|offence|others|so|to|to",
                     AnswerDivision = "he|behaved|himself|so|as|not|to|give|offence|to|others",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
@@ -182,6 +283,7 @@ namespace ActivityReceiver.Data
                     Level = 2,
                     Division = "a|beauty|by|good|is|means|no|of|personality|sign",
                     AnswerDivision = "bad|books|do|us|as|much|harm|as|bad|friends",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
@@ -193,6 +295,7 @@ namespace ActivityReceiver.Data
                     Level = 2,
                     Division = "as|behaved|give|he|himself|not|offence|others|so|to|to",
                     AnswerDivision = "beauty|is|by|no|means|a|sign|of|good|personality",
+                    GrammarIDString = "#8#15#",
                     CreateDate = new DateTime(2015,7,1,12,40,0),
                     Remark = "",
                 },
@@ -204,6 +307,7 @@ namespace ActivityReceiver.Data
                     Level = 3,
                     Division = "be|busy|cannot|come|see|to|to|too|us|you|now and then",
                     AnswerDivision = "you|cannot|be|too|busy|to|come|to|see|us|now|and|then",
+                    GrammarIDString = "#11#13#15#",
                     CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
@@ -215,6 +319,7 @@ namespace ActivityReceiver.Data
                     Level = 3,
                     Division = "a|done|friend|have|otherwise|true|would",
                     AnswerDivision = "a|true|friend|would|have|done|otherwise",
+                    GrammarIDString = "#8#15#",
                     CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
@@ -226,6 +331,7 @@ namespace ActivityReceiver.Data
                     Level = 3,
                     Division = "as|dreaming|felt|happy|if|still|we|we|were",
                     AnswerDivision = "we|felt|happy|as|if|we|were|still|dreaming",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
@@ -237,6 +343,7 @@ namespace ActivityReceiver.Data
                     Level = 3,
                     Division = ",|afternoon|from|it|judging|like|looks|sky|snow|the|this",
                     AnswerDivision = "judging|from|the|sky|,|it|looks|like|snow|this|afternoon",
+                    GrammarIDString = "-1",
                     CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
@@ -248,6 +355,7 @@ namespace ActivityReceiver.Data
                     Level = 3,
                     Division = "in|seen|sky|some|stars|the|there|were|last night",
                     AnswerDivision = "there|were|some|stars|seen|in|the|sky|last night",
+                    GrammarIDString = "#2#9#",
                     CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },

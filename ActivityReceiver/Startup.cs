@@ -14,6 +14,7 @@ using ActivityReceiver.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ActivityReceiver.ViewModels;
 
 namespace ActivityReceiver
 {
@@ -97,6 +98,49 @@ namespace ActivityReceiver
             //Initialize Database 
             dbContextInitializer.ApplicationDbContextInitialize().Wait();
             dbContextInitializer.MainDbContextInitialize().Wait();
+
+            // Auto Mapper
+
+            AutoMapper.Mapper.Initialize(cfg => {
+                // QuestionManage
+                cfg.CreateMap<Question, QuestionDTO>().
+                    ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
+                    ForMember(dest => dest.EditorName, opt => opt.Ignore());
+
+                // Create
+                cfg.CreateMap<Question, QuestionManageCreateGetViewModel>().
+                    ForMember(dest => dest.GrammarIDs, opt => opt.Ignore()).
+                    ForMember(dest => dest.Grammars, opt => opt.Ignore());
+                cfg.CreateMap<QuestionManageCreatePostViewModel, Question>().
+                    ForMember(dest => dest.GrammarIDString, opt => opt.Ignore()).
+                    ForMember(dest => dest.CreateDate, opt => opt.Ignore()).
+                    ForMember(dest => dest.EditorID, opt => opt.Ignore());
+                cfg.CreateMap<QuestionManageCreatePostViewModel, QuestionManageCreateGetViewModel>().
+                    ForMember(dest => dest.Grammars, opt => opt.Ignore());
+
+                // Edit
+                cfg.CreateMap<Question, QuestionManageEditGetViewModel>().
+                    ForMember(dest => dest.GrammarIDs, opt => opt.Ignore()).
+                    ForMember(dest => dest.Grammars, opt => opt.Ignore()).
+                    ForMember(dest => dest.ApplicationUserDTOs, opt => opt.Ignore());
+                cfg.CreateMap<QuestionManageEditPostViewModel, Question>().
+                    ForMember(dest => dest.GrammarIDString, opt => opt.Ignore());
+                cfg.CreateMap<QuestionManageEditPostViewModel, QuestionManageEditGetViewModel>().
+                    ForMember(dest => dest.GrammarIDs, opt => opt.Ignore()).
+                    ForMember(dest => dest.Grammars, opt => opt.Ignore()).
+                    ForMember(dest => dest.ApplicationUserDTOs, opt => opt.Ignore());
+
+                // Details
+                cfg.CreateMap<Question, QuestionManageDetailsViewModel>().
+                    ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
+                    ForMember(dest => dest.EditorName, opt => opt.Ignore());
+
+                // Delete
+                cfg.CreateMap<Question, QuestionManageDeleteGetViewModel>().
+                    ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
+                    ForMember(dest => dest.EditorName, opt => opt.Ignore());
+            });
+
         }
     }
 }

@@ -106,6 +106,20 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.ToTable("ExerciseQuestionCollection");
                 });
 
+            modelBuilder.Entity("ActivityReceiver.Models.Grammar", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Grammars");
+                });
+
             modelBuilder.Entity("ActivityReceiver.Models.Movement", b =>
                 {
                     b.Property<int>("ID")
@@ -141,7 +155,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
 
                     b.Property<string>("EditorID");
 
-                    b.Property<string>("Grammar");
+                    b.Property<string>("GrammarIDString");
 
                     b.Property<int>("Level");
 

@@ -82,6 +82,20 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "Grammars",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grammars", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Movements",
                 columns: table => new
                 {
@@ -109,7 +123,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     CreateDate = table.Column<DateTime>(nullable: false),
                     Division = table.Column<string>(nullable: true),
                     EditorID = table.Column<string>(nullable: true),
-                    Grammar = table.Column<string>(nullable: true),
+                    GrammarIDString = table.Column<string>(nullable: true),
                     Level = table.Column<int>(nullable: false),
                     Remark = table.Column<string>(nullable: true),
                     SentenceEN = table.Column<string>(nullable: true),
@@ -135,6 +149,9 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
 
             migrationBuilder.DropTable(
                 name: "Exercises");
+
+            migrationBuilder.DropTable(
+                name: "Grammars");
 
             migrationBuilder.DropTable(
                 name: "Movements");

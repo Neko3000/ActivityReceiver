@@ -15,7 +15,7 @@ namespace ActivityReceiver.Models
         public string SentenceJP { get; set; }
 
         public int Level { get; set; }
-        public string Grammar { get; set; }
+        public string GrammarIDString { get; set; }
 
         public string Division { get; set; }
         public string AnswerDivision { get; set; }

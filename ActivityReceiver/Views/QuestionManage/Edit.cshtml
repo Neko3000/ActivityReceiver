@@ -1,0 +1,489 @@
+﻿@model Zizhi.Dashboard.ViewModels.ItemManageEditGetViewModel
+
+@using Zizhi.Dashboard.Enums
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutMetronic.cshtml";
+}
+
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Default Forms
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="#" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Forms
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Form Layouts
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Default Forms
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
+                <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                    <i class="la la-plus m--hide"></i>
+                    <i class="la la-ellipsis-h"></i>
+                </a>
+                <div class="m-dropdown__wrapper">
+                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                    <div class="m-dropdown__inner">
+                        <div class="m-dropdown__body">
+                            <div class="m-dropdown__content">
+                                <ul class="m-nav">
+                                    <li class="m-nav__section m-nav__section--first m--hide">
+                                        <span class="m-nav__section-text">
+                                            Quick Actions
+                                        </span>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-share"></i>
+                                            <span class="m-nav__link-text">
+                                                Activity
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-chat-1"></i>
+                                            <span class="m-nav__link-text">
+                                                Messages
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-info"></i>
+                                            <span class="m-nav__link-text">
+                                                FAQ
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-lifebuoy"></i>
+                                            <span class="m-nav__link-text">
+                                                Support
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__separator m-nav__separator--fit"></li>
+                                    <li class="m-nav__item">
+                                        <a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
+                                            Submit
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
+                <div class="m-alert__icon">
+                    <i class="flaticon-exclamation m--font-brand"></i>
+                </div>
+                <div class="m-alert__text">
+                    The Metronic Datatable component supports initialization from HTML table. It also defines the schema model of the data source. In addition to the visualization, the Datatable provides built-in support for operations over data such as sorting, filtering and paging performed in user browser(frontend).
+                </div>
+            </div>
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                添加一个新的物件
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                @using (Html.BeginForm("Edit", "ItemManage", FormMethod.Post, htmlAttributes: new { @class = "m-form m-form--fit m-form--label-align-right" }))
+                {
+                    @Html.HiddenFor(model => model.ID)
+                    @Html.AntiForgeryToken()
+                    <div class="m-portlet__body">
+                        <div class="m-form__section m-form__section--first">
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-3 col-form-label">
+                                    @Html.ValidationSummary("", new { @class = "m--font-danger" })
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 黑檀玉簪子" } })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此键入一个合适的名称
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.CategoryID)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <select class="custom-select form-control" name="CategoryID">
+                                        <option disabled="">选择一个类别</option>
+                                        @foreach (var itemCategory in Model.ItemCategories)
+                                        {
+                                            <option value="@itemCategory.ID" @(itemCategory.ID == Model.CategoryID ? "selected=\"\"" : "")>
+                                                @itemCategory.Name
+                                            </option>
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此选择她的类别
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.ShortDescription)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 黑檀配玉兰，便观她将这秀发盘。" } })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此键入一个合适的一句话描述，最好以完整的标点符号结尾
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.Price)
+                                </label>
+                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @id = "m_touchspin_2", @class = "form-control bootstrap-touchspin-vertical-btn", @placeholder = "example: 168.80" } })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此键入一个数字，可以包含小数
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.Seller)
+                                </label>
+                                <div class="col-lg-4">
+
+                                    @Html.EditorFor(model => model.Seller, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 玉簪记" } })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.Seller, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此键入卖家的名称，可以是店铺名称或者个人出售者
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.LinkURL)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    @Html.EditorFor(model => model.LinkURL, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: https://item.taobao.com/item.htm?spm=a230r.1.14.45.53562521845TQ8&id=562819983795" } })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.LinkURL, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此键入指向商品的详细链接
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.TagNames)
+                                </label>
+                                <div class="col-lg-6 col-md-9 col-sm-12">
+                                    <select class="form-control m-select2" id="m_select2_11" name="TagNames" multiple="multiple">
+                                        @foreach (var tagName in Model.TagNames)
+                                        {
+                                            <option value="@tagName" selected="">
+                                                @tagName
+                                            </option>
+                                        }
+                                        @foreach (var itemTag in Model.ItemTags)
+                                        {
+                                            if (!Model.TagNames.Contains(itemTag.Name))
+                                            {
+
+                                                <option value="@itemTag.Name">
+                                                    @itemTag.Name
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.TagNames, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此选择或者键入合适标签，标签应当为关键字
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </label>
+                                <div class="col-lg-6">
+                                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control m-input", @rows = "5", @placeholder = "example: 初到手时，最夺人眼的便是那浑黑的簪身了，在阳光下旋转玩弄一番，便让人感受到了做工的细致。然后便是那具有磨砂质感的，翠绿的玉兰花儿了。也丝毫不逊色于作为主色调的黑檀木..." })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此键入你的理由，经历，感想...，请发挥您具现万象的文笔，将她所有的美妙都呈现给大家吧
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.Remark) (选填)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 似乎在这周有折扣优惠？" } })
+                                    <span class="m-form__help">
+                                        在此键入备注，如没有可留为空
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-form__seperator m-form__seperator--dashed"></div>
+                        <div class="m-form__section m-form__section--last">
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    创建时间
+                                </label>
+                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control m-input c-datatimepicker" name="CreateTime" readonly value="@Model.CreateTime.ToString(("yyyy/MM/dd HH:mm"))" id="m_datetimepicker_3" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="la la-calendar glyphicon-th"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此键入创建的时间
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    修改时间
+                                </label>
+                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control m-input c-datatimepicker" name="ModifyTime" readonly value="@(Model.ModifyTime.HasValue?Model.ModifyTime.Value.ToString("yyyy/MM/dd HH:mm"):"")" id="m_datetimepicker_3" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="la la-calendar glyphicon-th"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="m-form__help">
+                                        在此键入作出修改的时间
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2">
+                                    @Html.DisplayNameFor(model => model.Status)
+                                </label>
+                                <div class="col-lg-2 col-md-9 col-sm-12">
+                                    <select class="form-control m-bootstrap-select m_selectpicker" name="Status">
+                                        <option value="@((int)ItemStatus.Waiting)" @(Model.Status == (int)ItemStatus.Waiting ? "selected":"") data-content="<span class='m-badge m-badge--warning m-badge--wide m-badge--rounded'>待确认</span>">
+                                            待确认
+                                        </option>
+                                        <option value="@((int)ItemStatus.Confirmed)" @(Model.Status == (int)ItemStatus.Confirmed ? "selected":"") data-content="<span class='m-badge m-badge--success m-badge--wide m-badge--rounded'>确认通过</span>">
+                                            确认通过
+                                        </option>
+                                        <option value="@((int)ItemStatus.Failed)" @(Model.Status == (int)ItemStatus.Failed ? "selected":"") data-content="<span class='m-badge m-badge--danger m-badge--wide m-badge--rounded'>确认失败</span>">
+                                            确认失败
+                                        </option>
+                                    </select>
+                                    <span class="m-form__help">
+                                        为其选择当前的状态
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2">
+                                    @Html.DisplayNameFor(model => model.AuthorID)
+                                </label>
+                                <div class="col-lg-6 col-md-9 col-sm-12">
+                                    <select class="form-control m-select2" id="m_select2_2" name="AuthorID">
+
+                                        <optgroup label="高级管理员">
+                                            @foreach(var applicationUserDTO in Model.ApplicationUserDTOs)
+                                            {
+                                                @if(applicationUserDTO.Roles.Any(a=>a.Name == "SuperAdmin"))
+                                                {
+                                                    <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.AuthorID? "selected":"")>
+                                                        @applicationUserDTO.Email / @applicationUserDTO.NickName
+                                                    </option>
+                                                }
+                                            }
+                                        </optgroup>
+
+                                        <optgroup label="审核者">
+                                            @foreach(var applicationUserDTO in Model.ApplicationUserDTOs)
+                                            {
+                                                @if(applicationUserDTO.Roles.Any(a=>a.Name == "Inspector"))
+                                                {
+                                                    <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.AuthorID? "selected":"")>
+                                                        @applicationUserDTO.Email / @applicationUserDTO.NickName
+                                                    </option>
+                                                }
+                                            }
+                                        </optgroup>
+
+                                        <optgroup label="编者">
+                                            @foreach(var applicationUserDTO in Model.ApplicationUserDTOs)
+                                            {
+                                                @if(applicationUserDTO.Roles.Any(a=>a.Name == "Editor"))
+                                                {
+                                                    <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.AuthorID? "selected":"")>
+                                                        @applicationUserDTO.Email / @applicationUserDTO.NickName
+                                                    </option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    </select>
+                                    <span class="m-form__help">
+                                        为其选择一个作者
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions--solid">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn btn-success">
+                                        提交
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary" data-toggle="modal" data-target="#modal-confirm">
+                                        返回
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+    <!--begin::Modal-->
+    <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                        再确认一下
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        即将放弃您的此次编辑，返回列表菜单…<br />
+                    </p>
+                    <em>
+                        所有输入的数据将<span class="m--font-boldest">不会</span>得到保存
+                    </em>
+                </div>
+                <div class="modal-footer clearfix">
+                    <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">
+                        我再想想
+                    </button>
+                    <a href="@Url.Action("Index","ItemManage")" class="btn btn-danger pull-right">
+                        放弃本次编辑
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
+</div>
+
+
+@section Scripts {
+
+    @*@{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }*@
+
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-touchspin.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/select2.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-select.js" type="text/javascript"></script>
+}

@@ -11,7 +11,7 @@ using System;
 namespace ActivityReceiver.Migrations.ActivityReceiverDb
 {
     [DbContext(typeof(ActivityReceiverDbContext))]
-    [Migration("20181110180519_Init")]
+    [Migration("20181125045045_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,6 +107,20 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.ToTable("ExerciseQuestionCollection");
                 });
 
+            modelBuilder.Entity("ActivityReceiver.Models.Grammar", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Grammars");
+                });
+
             modelBuilder.Entity("ActivityReceiver.Models.Movement", b =>
                 {
                     b.Property<int>("ID")
@@ -142,7 +156,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
 
                     b.Property<string>("EditorID");
 
-                    b.Property<string>("Grammar");
+                    b.Property<string>("GrammarIDString");
 
                     b.Property<int>("Level");
 

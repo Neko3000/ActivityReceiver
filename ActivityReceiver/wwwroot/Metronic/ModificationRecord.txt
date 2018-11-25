@@ -1,0 +1,23 @@
+﻿2018.5.3
+1. /Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-touchspin.js 
+change $ to ￥
+
+2./Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-datetimepicker.js
+change m_datetimepicker_3 to .c-datatimepicker, cause id is unique
+
+3./Metronic/assets/demo/demo3/base/style.bundle.css
+delete .m-form .m-form__section{font-size:1.2rem;}
+change .m-form .m-form__group {
+	margin-bottom: 0;
+	padding-top: 15px;
+	padding-bottom: 15px;
+
+}
+to .m-form .m-form__group {
+	margin-bottom: 0;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+4./Metronic/assets/demo/demo3/base/style.bundle.css
+change "browse" to "浏览"

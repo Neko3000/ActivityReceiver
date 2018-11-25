@@ -12,16 +12,18 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using ActivityReceiver.ViewModels;
 using ActivityReceiver.Functions;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace ActivityReceiver.Controllers
 {
-    public class QuestionController : Controller
+    public class QuestionManageController : Controller
     {
         private readonly ActivityReceiverDbContext _arDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public QuestionController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
+        public QuestionManageController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
         {
             _arDbContext = arDbContext;
             _userManager = userManager;
@@ -33,11 +35,10 @@ namespace ActivityReceiver.Controllers
         public async Task<IActionResult> Index()
         {    
             var questions = await  _arDbContext.Questions.ToListAsync();
-            var grammars = await  _arDbContext.Grammars.ToListAsync();
-            var applicationUsers = await _userManager.Users.ToListAsync();
 
-            var vm = new QuestionManageIndexViewModel {
-                QuestionDTOs = ConvertToQuestionDTOForEachQuestion(questions,grammars,applicationUsers)
+            var vm = new QuestionManageIndexViewModel
+            {
+                QuestionDTOs = await QuestionManageHandler.ConvertToQuestionDTOForEachQuestion(_arDbContext, _userManager, _arDbContext.Questions.ToList())
             };
 
 
@@ -61,17 +62,18 @@ namespace ActivityReceiver.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(QuestionmanageCreatePostViewModel model)
+        public async Task<IActionResult> Create(QuestionManageCreatePostViewModel model)
         { 
             if (ModelState.IsValid)
             {
-                var question = Mapper.Map<QuestionmanageCreatePostViewModel,Question>(model);
+                var question = Mapper.Map<QuestionManageCreatePostViewModel,Question>(model);
 
                 // I think grammar should be a multiple select and handled here.
+                question.GrammarIDString = QuestionManageHandler.ConvertGrammarIDListToGrammarIDString(model.GrammarIDs);
                 question.CreateDate = DateTime.Now;
 
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                question.EditorID = user.ID;
+                question.EditorID = user.Id;
 
                 _arDbContext.Questions.Add(question);
                 await _arDbContext.SaveChangesAsync();
@@ -80,9 +82,8 @@ namespace ActivityReceiver.Controllers
             }
 
             //if isValid is false
-            var vm = Mapper.Map<QuestionmanageCreatePostViewModel,QuestionmanageCreateGetViewModel>(model);
+            var vm = Mapper.Map<QuestionManageCreatePostViewModel,QuestionManageCreateGetViewModel>(model);
 
-            var grammars =  await  _arDbContext.Grammars.ToListAsync();
             vm.Grammars = _arDbContext.Grammars.ToList();
 
             return View(vm);
@@ -99,14 +100,14 @@ namespace ActivityReceiver.Controllers
 
             var question = await _arDbContext.Questions.SingleOrDefaultAsync(m => m.ID == id);
 
-            if (item == null)
+            if (question == null)
             {
                 return NotFound();
             }
 
             var vm = Mapper.Map<Question,QuestionManageEditGetViewModel>(question);
 
-            vm.GrammarIDs = QuestionManageHandler.ConvertGrammarIDStringToGrammarIDList(question.Grammar);
+            vm.GrammarIDs = QuestionManageHandler.ConvertGrammarIDStringToGrammarIDList(question.GrammarIDString);
             vm.Grammars = await  _arDbContext.Grammars.ToListAsync();
 
             var applicationUsers = await _userManager.Users.ToListAsync();
@@ -120,7 +121,7 @@ namespace ActivityReceiver.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ItemManageEditPostViewModel model)
+        public async Task<IActionResult> Edit(QuestionManageEditPostViewModel model)
         {
 
             var question = _arDbContext.Questions.Find(model.ID);
@@ -132,13 +133,13 @@ namespace ActivityReceiver.Controllers
 
             if (ModelState.IsValid)
             {
-                question.Grammar = QuestionManageHandler.ConvertGrammarIDListToGrammarIDString(model.GrammarIDs);
+                question.GrammarIDString = QuestionManageHandler.ConvertGrammarIDListToGrammarIDString(model.GrammarIDs);
 
-                Mapper.Map<ItemManageEditPostViewModel,Item>(model,item);
+                Mapper.Map<QuestionManageEditPostViewModel,Question>(model, question);
 
                 try
                 {
-                    _arDbContext.Update(item);
+                    _arDbContext.Update(question);
                     await _arDbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -156,8 +157,8 @@ namespace ActivityReceiver.Controllers
             }
 
             var vm = Mapper.Map<QuestionManageEditPostViewModel,QuestionManageEditGetViewModel>(model); 
-            vm.grammars = _arDbContext.Grammars.ToList();
-            vm.applicationUsers = await _userManager.Users.ToListAsync();
+            vm.Grammars = _arDbContext.Grammars.ToList();
+            vm.ApplicationUserDTOs = await ApplicationUserHandler.ConvertApplicationUsersToDTOs(_userManager, _roleManager, _userManager.Users.ToList());
 
             return View(vm);
         }
@@ -179,7 +180,7 @@ namespace ActivityReceiver.Controllers
             }
 
             var vm = Mapper.Map<Question, QuestionManageDetailsViewModel>(question);
-            vm.GrammarNameString = QuestionManageHandler.ConvertGrammarIDStringToGrammarNameString(question.grammar);
+            vm.GrammarNameString = QuestionManageHandler.ConvertGrammarIDStringToGrammarNameString(question.GrammarIDString,_arDbContext.Grammars.ToList());
             vm.EditorName = (await _userManager.FindByIdAsync(question.EditorID)).UserName;
 
             return View(vm);
@@ -201,7 +202,7 @@ namespace ActivityReceiver.Controllers
             }
 
             var vm = Mapper.Map<Question, QuestionManageDeleteGetViewModel>(question);
-            vm.GrammarNameString = QuestionManageHandler.ConvertGrammarIDStringToGrammarNameString(question.grammar);
+            vm.GrammarNameString = QuestionManageHandler.ConvertGrammarIDStringToGrammarNameString(question.GrammarIDString,_arDbContext.Grammars.ToList());
             vm.EditorName = (await _userManager.FindByIdAsync(question.EditorID)).UserName;
 
             return View(vm);
@@ -210,7 +211,7 @@ namespace ActivityReceiver.Controllers
         // POST: ItemManage/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(QuestionManageDeletePost model)
+        public async Task<IActionResult> Delete(QuestionManageDeletePostViewModel model)
         {  
             if(!ModelState.IsValid)
             {
@@ -224,8 +225,8 @@ namespace ActivityReceiver.Controllers
                 return NotFound();
             }
 
-            _arDbContext.Questions.Remove(item);
-            await _context.SaveChangesAsync();
+            _arDbContext.Questions.Remove(question);
+            await _arDbContext.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }

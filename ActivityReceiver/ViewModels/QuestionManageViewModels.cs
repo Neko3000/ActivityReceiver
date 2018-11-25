@@ -248,8 +248,6 @@ namespace ActivityReceiver.ViewModels
 
         [Display(Name = "著者")]
         public string EditorName { get; set; }
-
-        public IList<GrammarDTO> GrammarDTOs{ get; set; }        
     }
     public class QuestionManageDeletePostViewModel
     {

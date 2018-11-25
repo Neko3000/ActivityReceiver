@@ -1,0 +1,367 @@
+﻿@model Zizhi.Dashboard.ViewModels.ItemManageDeleteGetViewModel
+
+@using Zizhi.Dashboard.Enums
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_LayoutMetronic.cshtml";
+}
+
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Default Forms
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="#" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Forms
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Form Layouts
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            Default Forms
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
+                <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                    <i class="la la-plus m--hide"></i>
+                    <i class="la la-ellipsis-h"></i>
+                </a>
+                <div class="m-dropdown__wrapper">
+                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                    <div class="m-dropdown__inner">
+                        <div class="m-dropdown__body">
+                            <div class="m-dropdown__content">
+                                <ul class="m-nav">
+                                    <li class="m-nav__section m-nav__section--first m--hide">
+                                        <span class="m-nav__section-text">
+                                            Quick Actions
+                                        </span>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-share"></i>
+                                            <span class="m-nav__link-text">
+                                                Activity
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-chat-1"></i>
+                                            <span class="m-nav__link-text">
+                                                Messages
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-info"></i>
+                                            <span class="m-nav__link-text">
+                                                FAQ
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-lifebuoy"></i>
+                                            <span class="m-nav__link-text">
+                                                Support
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__separator m-nav__separator--fit"></li>
+                                    <li class="m-nav__item">
+                                        <a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
+                                            Submit
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
+                <div class="m-alert__icon">
+                    <i class="flaticon-exclamation m--font-brand"></i>
+                </div>
+                <div class="m-alert__text">
+                    The Metronic Datatable component supports initialization from HTML table. It also defines the schema model of the data source. In addition to the visualization, the Datatable provides built-in support for operations over data such as sorting, filtering and paging performed in user browser(frontend).
+                </div>
+            </div>
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                删除一个物件
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                @using (Html.BeginForm("Delete", "ItemManage", FormMethod.Post, htmlAttributes: new { @class = "m-form m-form--fit m-form--label-align-right",@id="form-delete" }))
+                {
+                    @Html.HiddenFor(model => model.ID)
+                    @Html.AntiForgeryToken()
+                    <div class="m-portlet__body">
+                        <div class="m-form__section m-form__section--first">
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-3 col-form-label">
+                                    @Html.ValidationSummary("", new { @class = "m--font-danger" })
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.Name</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.CategoryName)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.CategoryName</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.ShortDescription)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.ShortDescription</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.Price)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>￥ @Model.Price</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.Seller)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.Seller</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.LinkURL)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.LinkURL</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.TagNames)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@(string.Join('，', Model.TagNames))</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.Description</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.Remark)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.Remark</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-form__seperator m-form__seperator--dashed"></div>
+                        <div class="m-form__section m-form__section--last">
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.CreateTime)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.CreateTime</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.ModifyTime)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.ModifyTime</p>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.Status)
+                                </label>
+                                <div class="col-lg-6">
+                                    @{
+                                        if (Model.Status == (int)ItemStatus.Waiting)
+                                        {
+                                            <span class='m-badge m-badge--warning m-badge--wide m-badge--rounded'>待确认</span>
+                                        }
+                                        else if (Model.Status == (int)ItemStatus.Confirmed)
+                                        {
+                                            <span class='m-badge m-badge--success m-badge--wide m-badge--rounded'>确认通过</span>
+                                        }
+                                        else if (Model.Status == (int)ItemStatus.Failed)
+                                        {
+                                            <span class='m-badge m-badge--danger m-badge--wide m-badge--rounded'>确认失败</span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2">
+                                    @Html.DisplayNameFor(model => model.EditorName)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <p>@Model.Description</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions--solid">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-6">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-confirm">
+                                        删除
+                                    </button>
+                                    <button type="button" class="btn btn-secondary">
+                                        返回
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+
+    <!--begin::Modal-->
+    <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                        再确认一下
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        该篇数据将会被删除<br />
+                    </p>
+                </div>
+                <div class="modal-footer clearfix">
+                    <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">
+                        我再想想
+                    </button>
+                    <button type="submit" class="btn btn-danger pull-right" data-action="form-submit" data-target="#form-delete">
+                        删除
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
+</div>
+
+
+@section Scripts {
+
+    @*@{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }*@
+
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-touchspin.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/select2.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-select.js" type="text/javascript"></script>
+
+    <script>
+
+        $(function () {
+
+            //Delete function for buttons with data-action and data-target
+            $('button').filter('[data-action="form-submit"]').click(function () {
+                $($(this).data('target')).submit();
+            });
+        });
+
+    </script>
+}
