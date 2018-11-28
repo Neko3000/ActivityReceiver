@@ -8,9 +8,9 @@ namespace ActivityReceiver.Models.AccountViewModels
 {
     public class LoginViewModel
     {
+        // Property Email had been modifies to Username
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

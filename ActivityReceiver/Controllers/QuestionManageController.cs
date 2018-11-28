@@ -17,6 +17,7 @@ using AutoMapper;
 
 namespace ActivityReceiver.Controllers
 {
+    [Authorize]
     public class QuestionManageController : Controller
     {
         private readonly ActivityReceiverDbContext _arDbContext;
@@ -63,7 +64,7 @@ namespace ActivityReceiver.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(QuestionManageCreatePostViewModel model)
-        { 
+        {
             if (ModelState.IsValid)
             {
                 var question = Mapper.Map<QuestionManageCreatePostViewModel,Question>(model);

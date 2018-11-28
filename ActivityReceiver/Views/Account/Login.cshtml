@@ -1,87 +1,154 @@
-﻿@using System.Collections.Generic
-@using System.Linq
-@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Http.Authentication
-@model LoginViewModel
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@model LoginViewModel
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="RememberMe">
-                            <input asp-for="RememberMe" />
-                            @Html.DisplayNameFor(m => m.RememberMe)
-                        </label>
+
+<div class="m-login m-login--signin  m-login--5" id="m_login" style="background-image: url('@Url.Content("~/Metronic/assets/app/media/img//bg/bg-3.jpg")');">
+    <div class="m-login__wrapper-1 m-portlet-full-height">
+        <div class="m-login__wrapper-1-1">
+            <div class="m-login__contanier">
+                <div class="m-login__content">
+                    <div class="m-login__logo">
+                        <a href="#">
+                            <img src="~/Metronic/assets/app/media/img//logos/logo-2.png">
+                        </a>
+                    </div>
+                    <div class="m-login__title">
+                        <h3>
+                            JOIN OUR GREAT METRO COMMUNITY GET FREE ACCOUNT
+                        </h3>
+                    </div>
+                    <div class="m-login__desc">
+                        Amazing Stuff is Lorem Here.Grownng Team
+                    </div>
+                    <div class="m-login__form-action">
+                        <button type="button" id="m_login_signup" class="btn btn-outline-focus m-btn--pill">
+                            Get An Account
+                        </button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">Log in</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a asp-action="ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
-                    </p>
-                </div>
-            </form>
-        </section>
+            </div>
+            <div class="m-login__border">
+                <div></div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
-            @{
-                var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-                if (loginProviders.Count == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in loginProviders)
-                                {
-                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
-                                }
-                            </p>
+    <div class="m-login__wrapper-2 m-portlet-full-height">
+        <div class="m-login__contanier">
+            <div class="m-login__signin">
+                <div class="m-login__head">
+                    <h3 class="m-login__title">
+                        Login To Your Account
+                    </h3>
+                </div>
+  
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, htmlAttributes: new { @class = "m-login__form m-form" }))
+                    { 
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input" type="text" placeholder="Username" name="Username" autocomplete="off">
                         </div>
-                    </form>
-                }
-            }
-        </section>
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input m-login__form-input--last" type="Password" placeholder="Password" name="Password">
+                        </div>
+                        <div class="row m-login__form-sub">
+                            <div class="col m--align-left">
+                                <label class="m-checkbox m-checkbox--focus">
+                                    <input type="checkbox" name="RememberMe">
+                                    Remember me
+                                    <span></span>
+                                </label>
+                            </div>
+                            <div class="col m--align-right">
+                                <a href="javascript:;" id="m_login_forget_password" class="m-link">
+                                    Forget Password ?
+                                </a>
+                            </div>
+                        </div>
+                        <div class="m-login__form-action">
+                            <button id="m_login_signin_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
+                                Sign In
+                            </button>
+                        </div>
+                    }
+
+            </div>
+            <div class="m-login__signup">
+                <div class="m-login__head">
+                    <h3 class="m-login__title">
+                        Sign Up
+                    </h3>
+                    <div class="m-login__desc">
+                        Enter your details to create your account:
+                    </div>
+                </div>
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, htmlAttributes: new { @class = "m-login__form m-form" }))
+                    {
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input" type="text" placeholder="Fullname" name="fullname">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input" type="text" placeholder="Email" name="email" autocomplete="off">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input" type="password" placeholder="Password" name="password">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input m-login__form-input--last" type="password" placeholder="Confirm Password" name="rpassword">
+                        </div>
+                        <div class="m-login__form-sub">
+                            <label class="m-checkbox m-checkbox--focus">
+                                <input type="checkbox" name="agree">
+                                I Agree the
+                                <a href="#" class="m-link m-link--focus">
+                                    terms and conditions
+                                </a>
+                                .
+                                <span></span>
+                            </label>
+                            <span class="m-form__help"></span>
+                        </div>
+                        <div class="m-login__form-action">
+                            <button id="m_login_signup_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
+                                Sign Up
+                            </button>
+                            <button id="m_login_signup_cancel" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom">
+                                Cancel
+                            </button>
+                        </div>
+                    }
+            </div>
+            <div class="m-login__forget-password">
+                <div class="m-login__head">
+                    <h3 class="m-login__title">
+                        Forgotten Password ?
+                    </h3>
+                    <div class="m-login__desc">
+                        Enter your email to reset your password:
+                    </div>
+                </div>
+                <form class="m-login__form m-form" action="">
+                    <div class="form-group m-form__group">
+                        <input class="form-control m-input" type="text" placeholder="Email" name="email" id="m_email" autocomplete="off">
+                    </div>
+                    <div class="m-login__form-action">
+                        <button id="m_login_forget_password_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
+                            Request
+                        </button>
+                        <button id="m_login_forget_password_cancel" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom ">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
+
 @section Scripts {
+
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

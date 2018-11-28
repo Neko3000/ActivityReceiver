@@ -68,6 +68,9 @@ namespace ActivityReceiver
             services.AddScoped<IDbContextInitializer, DbContextInitializer>();
 
             services.AddMvc();
+
+            // Authorize service
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

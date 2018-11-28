@@ -125,7 +125,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                添加一个新的物件
+                                新しい問題を作成する
                             </h3>
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                                 </label>
                                 <div class="col-lg-6">
 
-                                    <select class="custom-select form-control" name="CategoryID">
+                                    <select class="custom-select form-control" name="Level">
                                         <option value="" disabled selected>難易度、レベル</option>
 
                                         <option value="0">
@@ -207,7 +207,7 @@
                                     文法項目
                                 </label>
                                 <div class="col-lg-6">
-                                    <select class="form-control m-select2" id="select2-multiple" name="param" multiple="multiple">
+                                    <select class="form-control m-select2" id="select2-multiple" name="GrammarIDs" multiple="multiple">
 
                                         @foreach (var grammar in Model.Grammars)
                                         {
@@ -226,7 +226,7 @@
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.Division, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: - -。" } })
+                                    @Html.EditorFor(model => model.Division, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: the|can|change|sails|,|the|direction|of|the wind|we|but|can't|we|adjust| " } })
                                     <div class="form-control-feedback">
                                         @Html.ValidationMessageFor(model => model.Division, "", new { @class = "m--font-danger" })
                                     </div>
@@ -242,7 +242,7 @@
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.AnswerDivision, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: - -。" } })
+                                    @Html.EditorFor(model => model.AnswerDivision, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: we|can't|change|the|direction|of|the wind|,|but|we|can|adjust|the|sails|" } })
                                     <div class="form-control-feedback">
                                         @Html.ValidationMessageFor(model => model.AnswerDivision, "", new { @class = "m--font-danger" })
                                     </div>
@@ -258,7 +258,7 @@
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: - -。" } })
+                                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 青山文庫の「TOEFL、900目指し」ページ136の英文" } })
                                     <div class="form-control-feedback">
                                         @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "m--font-danger" })
                                     </div>
@@ -268,30 +268,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="m-form__seperator m-form__seperator--dashed"></div>
-
-                        <div class="m-form__section m-form__section--last">
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    创建时间
-                                </label>
-                                <div class="col-lg-4 col-md-9 col-sm-12">
-                                    <div class="input-group date">
-                                        <input type="text" class="form-control m-input c-datatimepicker" name="CreateDate" readonly value="@DateTime.Now.ToString(("yyyy/MM/dd HH:mm"))" id="m_datetimepicker_3" />
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i class="la la-calendar glyphicon-th"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <span class="m-form__help">
-                                        在此键入创建的时间
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions m-form__actions--solid">
@@ -299,10 +275,10 @@
                                 <div class="col-lg-2"></div>
                                 <div class="col-lg-6">
                                     <button type="submit" class="btn btn-success">
-                                        提交
+                                        保存
                                     </button>
                                     <button type="reset" class="btn btn-secondary" data-toggle="modal" data-target="#modal-confirm">
-                                        返回
+                                        戻る
                                     </button>
                                 </div>
                             </div>
@@ -320,7 +296,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">
-                        再确认一下
+                        確認してください
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">
@@ -330,47 +306,19 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        即将放弃您的此次编辑，返回列表菜单…<br />
+                        今はメニューリストへ戻ります…<br />
                     </p>
                     <em>
-                        所有输入的数据将<span class="m--font-boldest">不会</span>得到保存
+                        あなた入力したデータは<span class="m--font-boldest">保存しない</span>とします
                     </em>
                 </div>
                 <div class="modal-footer clearfix">
                     <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">
-                        我再想想
+                        もう一度考えさせて...
                     </button>
                     <a href="@Url.Action("Index","ItemManage")" class="btn btn-danger pull-right">
-                        放弃本次编辑
+                        今度の編集をやめる
                     </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="img-crop-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">
-                        Modal title
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">
-                            &times;
-                        </span>
-                    </button>
-                </div>
-                <div>
-                    <img class="img-fluid img-cropper" id="" src="">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Close
-                    </button>
-                    <button id="img-upload-btn" type="button" class="btn btn-primary">
-                        Save changes
-                    </button>
                 </div>
             </div>
         </div>
@@ -386,43 +334,17 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }*@
 
-    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-touchspin.js" type="text/javascript"></script>
     <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-datetimepicker.js" type="text/javascript"></script>
     <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-select.js" type="text/javascript"></script>
 
-    <script src="~/lib/cropper/cropper.min.js" type="text/javascript"></script>
-    <script src="~/js/item-image-upload-behaviors.js" type="text/javascript"></script>
-
     <script>
-        var FormRepeater = {
-            init: function () {
-                $("#repeater-file-input").repeater({
-                    initEmpty: !1,
-                    defaultValues: { "text-input": "foo" },
-                    show: function () {
-                        $(this).slideDown()
-                    },
-                    hide: function (e) {
-                        $(this).slideUp(e)
-                    }
-                });
-            }
-        };
-        jQuery(document).ready(function () {
-            FormRepeater.init()
-        });
-
         var Select2 = {
             init: function () {
-                $("#select2-tag").select2({
-                    placeholder: "example: 黑檀，玉簪，珍珠，贝壳",
-                    tags: !0
+                $("#select2-multiple").select2({
+                    placeholder: "example: 受動態，助動詞"
                 });
                 $("#select2-editor").select2({
                     placeholder: "example: hanfuer@163.com / 晚风儿"
-                });
-                $("#select2-multiple").select2({
-                    placeholder: "example: 受動態，助動詞"
                 });
             }
         };
@@ -433,5 +355,5 @@
 }
 
 @section styles{
-    <link href="~/lib/cropper/cropper.min.css" rel="stylesheet" type="text/css" />
+   
 }

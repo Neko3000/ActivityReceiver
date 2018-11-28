@@ -1,0 +1,16 @@
+﻿body,
+html {
+  font-family: 'Microsoft YaHei', Poppins, Montserrat;
+  letter-spacing: 1px;
+}
+.m-datatable__table .m-datatable__body tr td span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.modal-footer {
+  display: block;
+}
+.flag-completed i {
+  opacity: 0;
+}

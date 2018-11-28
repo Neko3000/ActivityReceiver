@@ -1,6 +1,4 @@
-﻿@model Zizhi.Dashboard.ViewModels.ItemManageEditGetViewModel
-
-@using Zizhi.Dashboard.Enums
+﻿@model ActivityReceiver.ViewModels.QuestionManageEditGetViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -25,7 +23,7 @@
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Forms
+                            問題管理
                         </span>
                     </a>
                 </li>
@@ -35,17 +33,7 @@
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Form Layouts
-                        </span>
-                    </a>
-                </li>
-                <li class="m-nav__separator">
-                    -
-                </li>
-                <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
-                        <span class="m-nav__link-text">
-                            Default Forms
+                            問題を編集する
                         </span>
                     </a>
                 </li>
@@ -134,13 +122,13 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                添加一个新的物件
+                                問題を編集する
                             </h3>
                         </div>
                     </div>
                 </div>
                 <!--begin::Form-->
-                @using (Html.BeginForm("Edit", "ItemManage", FormMethod.Post, htmlAttributes: new { @class = "m-form m-form--fit m-form--label-align-right" }))
+                @using (Html.BeginForm("Edit", "QuestionManage", FormMethod.Post, htmlAttributes: new { @class = "m-form m-form--fit m-form--label-align-right" }))
                 {
                     @Html.HiddenFor(model => model.ID)
                     @Html.AntiForgeryToken()
@@ -153,270 +141,192 @@
                             </div>
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Name)
+                                    @Html.DisplayNameFor(model => model.SentenceEN)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 黑檀玉簪子" } })
+                                    @Html.EditorFor(model => model.SentenceEN, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: We can't change the direction of the wind, but we can adjust the sails." } })
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.SentenceEN, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        在此键入一个合适的名称
+                                        英文を入力してください
                                     </span>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.CategoryID)
+                                    @Html.DisplayNameFor(model => model.SentenceJP)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    <select class="custom-select form-control" name="CategoryID">
-                                        <option disabled="">选择一个类别</option>
-                                        @foreach (var itemCategory in Model.ItemCategories)
+                                    @Html.EditorFor(model => model.SentenceJP, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: わたしたちは風向が変えられないが、船の帆が調整できる。" } })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.SentenceJP, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        日本文を入力してください
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.Level)
+                                </label>
+                                <div class="col-lg-6">
+
+                                    <select class="custom-select form-control" name="Level">
+                                        <option value="" disabled selected>難易度、レベル</option>
+
+                                        <option value="0">
+                                            初級
+                                        </option>
+
+                                        <option value="1">
+                                            中級
+                                        </option>
+
+                                        <option value="2">
+                                            上級
+                                        </option>
+
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.Level, "", new { @class = "text-danger" })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.Level, "", new { @class = "m--font-danger" })
+                                    </div>
+                                    <span class="m-form__help">
+                                        レベルを選んでください
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    文法項目
+                                </label>
+                                <div class="col-lg-6">
+                                    <select class="form-control m-select2" id="select2-multiple" name="GrammarIDs" multiple="multiple">
+
+                                        @foreach (var grammar in Model.Grammars)
                                         {
-                                            <option value="@itemCategory.ID" @(itemCategory.ID == Model.CategoryID ? "selected=\"\"" : "")>
-                                                @itemCategory.Name
+                                            <option value="@grammar.ID">
+                                                @grammar.Name
                                             </option>
                                         }
+
                                     </select>
-                                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "m--font-danger" })
-                                    </div>
-                                    <span class="m-form__help">
-                                        在此选择她的类别
-                                    </span>
                                 </div>
                             </div>
+
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.ShortDescription)
+                                    @Html.DisplayNameFor(model => model.Division)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 黑檀配玉兰，便观她将这秀发盘。" } })
+                                    @Html.EditorFor(model => model.Division, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: the|can|change|sails|,|the|direction|of|the wind|we|but|can't|we|adjust| " } })
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.Division, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        在此键入一个合适的一句话描述，最好以完整的标点符号结尾
+                                        問題の区切りを入力してください
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Price)
-                                </label>
-                                <div class="col-lg-4 col-md-9 col-sm-12">
-                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @id = "m_touchspin_2", @class = "form-control bootstrap-touchspin-vertical-btn", @placeholder = "example: 168.80" } })
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "m--font-danger" })
-                                    </div>
-                                    <span class="m-form__help">
-                                        在此键入一个数字，可以包含小数
-                                    </span>
-                                </div>
 
-                            </div>
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Seller)
-                                </label>
-                                <div class="col-lg-4">
-
-                                    @Html.EditorFor(model => model.Seller, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 玉簪记" } })
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.Seller, "", new { @class = "m--font-danger" })
-                                    </div>
-                                    <span class="m-form__help">
-                                        在此键入卖家的名称，可以是店铺名称或者个人出售者
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.LinkURL)
+                                    @Html.DisplayNameFor(model => model.AnswerDivision)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.LinkURL, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: https://item.taobao.com/item.htm?spm=a230r.1.14.45.53562521845TQ8&id=562819983795" } })
+                                    @Html.EditorFor(model => model.AnswerDivision, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: we|can't|change|the|direction|of|the wind|,|but|we|can|adjust|the|sails|" } })
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.LinkURL, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.AnswerDivision, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        在此键入指向商品的详细链接
+                                        正解の区切りを入力してください
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.TagNames)
-                                </label>
-                                <div class="col-lg-6 col-md-9 col-sm-12">
-                                    <select class="form-control m-select2" id="m_select2_11" name="TagNames" multiple="multiple">
-                                        @foreach (var tagName in Model.TagNames)
-                                        {
-                                            <option value="@tagName" selected="">
-                                                @tagName
-                                            </option>
-                                        }
-                                        @foreach (var itemTag in Model.ItemTags)
-                                        {
-                                            if (!Model.TagNames.Contains(itemTag.Name))
-                                            {
 
-                                                <option value="@itemTag.Name">
-                                                    @itemTag.Name
-                                                </option>
-                                            }
-                                        }
-                                    </select>
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.TagNames, "", new { @class = "m--font-danger" })
-                                    </div>
-                                    <span class="m-form__help">
-                                        在此选择或者键入合适标签，标签应当为关键字
-                                    </span>
-                                </div>
-                            </div>
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Description)
-                                </label>
-                                <div class="col-lg-6">
-                                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control m-input", @rows = "5", @placeholder = "example: 初到手时，最夺人眼的便是那浑黑的簪身了，在阳光下旋转玩弄一番，便让人感受到了做工的细致。然后便是那具有磨砂质感的，翠绿的玉兰花儿了。也丝毫不逊色于作为主色调的黑檀木..." })
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "m--font-danger" })
-                                    </div>
-                                    <span class="m-form__help">
-                                        在此键入你的理由，经历，感想...，请发挥您具现万象的文笔，将她所有的美妙都呈现给大家吧
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Remark) (选填)
+                                    @Html.DisplayNameFor(model => model.Remark)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 似乎在这周有折扣优惠？" } })
+                                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 青山文庫の「TOEFL、900目指し」ページ136の英文" } })
+                                    <div class="form-control-feedback">
+                                        @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "m--font-danger" })
+                                    </div>
                                     <span class="m-form__help">
-                                        在此键入备注，如没有可留为空
+                                        コメントを入力してください
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="m-form__seperator m-form__seperator--dashed"></div>
-                        <div class="m-form__section m-form__section--last">
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    创建时间
-                                </label>
-                                <div class="col-lg-4 col-md-9 col-sm-12">
-                                    <div class="input-group date">
-                                        <input type="text" class="form-control m-input c-datatimepicker" name="CreateTime" readonly value="@Model.CreateTime.ToString(("yyyy/MM/dd HH:mm"))" id="m_datetimepicker_3" />
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i class="la la-calendar glyphicon-th"></i>
+                            <div class="m-form__seperator m-form__seperator--dashed"></div>
+                            <div class="m-form__section m-form__section--last">
+                                <div class="m-form__section m-form__section--last">
+                                    <div class="form-group m-form__group row">
+                                        <label class="col-lg-2 col-form-label">
+                                            作成時間
+                                        </label>
+                                        <div class="col-lg-4 col-md-9 col-sm-12">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control m-input c-datatimepicker" name="CreateDate" readonly value="@DateTime.Now.ToString(("yyyy/MM/dd HH:mm"))" id="m_datetimepicker_3" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <i class="la la-calendar glyphicon-th"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <span class="m-form__help">
+                                                作成時間を入力してください
                                             </span>
                                         </div>
                                     </div>
-                                    <span class="m-form__help">
-                                        在此键入创建的时间
-                                    </span>
                                 </div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    修改时间
-                                </label>
-                                <div class="col-lg-4 col-md-9 col-sm-12">
-                                    <div class="input-group date">
-                                        <input type="text" class="form-control m-input c-datatimepicker" name="ModifyTime" readonly value="@(Model.ModifyTime.HasValue?Model.ModifyTime.Value.ToString("yyyy/MM/dd HH:mm"):"")" id="m_datetimepicker_3" />
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i class="la la-calendar glyphicon-th"></i>
-                                            </span>
-                                        </div>
+                                <div class="form-group m-form__group row">
+                                    <label class="col-form-label col-lg-2">
+                                        @Html.DisplayNameFor(model => model.EditorID)
+                                    </label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <select class="form-control m-select2" id="select2-editor" name="EditorID">
+
+                                            <optgroup label="スーパー管理者">
+                                                @foreach (var applicationUserDTO in Model.ApplicationUserDTOs)
+                                                {
+                                                    @if (applicationUserDTO.Roles.Any(a => a.Name == "SuperAdmin"))
+                                                    {
+                                                        <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.EditorID ? "selected" : "")>
+                                                            @applicationUserDTO.ID / @applicationUserDTO.UserName
+                                                        </option>
+                                                    }
+                                                }
+                                            </optgroup>
+
+                                            <optgroup label="管理者">
+                                                @foreach (var applicationUserDTO in Model.ApplicationUserDTOs)
+                                                {
+                                                    @if (applicationUserDTO.Roles.Any(a => a.Name == "Admin"))
+                                                    {
+                                                        <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.EditorID ? "selected" : "")>
+                                                            @applicationUserDTO.ID / @applicationUserDTO.UserName
+                                                        </option>
+                                                    }
+                                                }
+                                            </optgroup>
+
+                                        </select>
+                                        <span class="m-form__help">
+                                            著者を選んでください
+                                        </span>
                                     </div>
-                                    <span class="m-form__help">
-                                        在此键入作出修改的时间
-                                    </span>
                                 </div>
                             </div>
-                            <div class="form-group m-form__group row">
-                                <label class="col-form-label col-lg-2">
-                                    @Html.DisplayNameFor(model => model.Status)
-                                </label>
-                                <div class="col-lg-2 col-md-9 col-sm-12">
-                                    <select class="form-control m-bootstrap-select m_selectpicker" name="Status">
-                                        <option value="@((int)ItemStatus.Waiting)" @(Model.Status == (int)ItemStatus.Waiting ? "selected":"") data-content="<span class='m-badge m-badge--warning m-badge--wide m-badge--rounded'>待确认</span>">
-                                            待确认
-                                        </option>
-                                        <option value="@((int)ItemStatus.Confirmed)" @(Model.Status == (int)ItemStatus.Confirmed ? "selected":"") data-content="<span class='m-badge m-badge--success m-badge--wide m-badge--rounded'>确认通过</span>">
-                                            确认通过
-                                        </option>
-                                        <option value="@((int)ItemStatus.Failed)" @(Model.Status == (int)ItemStatus.Failed ? "selected":"") data-content="<span class='m-badge m-badge--danger m-badge--wide m-badge--rounded'>确认失败</span>">
-                                            确认失败
-                                        </option>
-                                    </select>
-                                    <span class="m-form__help">
-                                        为其选择当前的状态
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <label class="col-form-label col-lg-2">
-                                    @Html.DisplayNameFor(model => model.AuthorID)
-                                </label>
-                                <div class="col-lg-6 col-md-9 col-sm-12">
-                                    <select class="form-control m-select2" id="m_select2_2" name="AuthorID">
 
-                                        <optgroup label="高级管理员">
-                                            @foreach(var applicationUserDTO in Model.ApplicationUserDTOs)
-                                            {
-                                                @if(applicationUserDTO.Roles.Any(a=>a.Name == "SuperAdmin"))
-                                                {
-                                                    <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.AuthorID? "selected":"")>
-                                                        @applicationUserDTO.Email / @applicationUserDTO.NickName
-                                                    </option>
-                                                }
-                                            }
-                                        </optgroup>
-
-                                        <optgroup label="审核者">
-                                            @foreach(var applicationUserDTO in Model.ApplicationUserDTOs)
-                                            {
-                                                @if(applicationUserDTO.Roles.Any(a=>a.Name == "Inspector"))
-                                                {
-                                                    <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.AuthorID? "selected":"")>
-                                                        @applicationUserDTO.Email / @applicationUserDTO.NickName
-                                                    </option>
-                                                }
-                                            }
-                                        </optgroup>
-
-                                        <optgroup label="编者">
-                                            @foreach(var applicationUserDTO in Model.ApplicationUserDTOs)
-                                            {
-                                                @if(applicationUserDTO.Roles.Any(a=>a.Name == "Editor"))
-                                                {
-                                                    <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.AuthorID? "selected":"")>
-                                                        @applicationUserDTO.Email / @applicationUserDTO.NickName
-                                                    </option>
-                                                }
-                                            }
-                                        </optgroup>
-                                    </select>
-                                    <span class="m-form__help">
-                                        为其选择一个作者
-                                    </span>
-                                </div>
-                            </div>
                         </div>
-
                     </div>
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions m-form__actions--solid">
@@ -424,10 +334,10 @@
                                 <div class="col-lg-2"></div>
                                 <div class="col-lg-6">
                                     <button type="submit" class="btn btn-success">
-                                        提交
+                                        保存
                                     </button>
                                     <button type="reset" class="btn btn-secondary" data-toggle="modal" data-target="#modal-confirm">
-                                        返回
+                                        戻る
                                     </button>
                                 </div>
                             </div>
@@ -445,7 +355,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">
-                        再确认一下
+                        確認してください
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">
@@ -455,18 +365,18 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        即将放弃您的此次编辑，返回列表菜单…<br />
+                        今はメニューリストへ戻ります…<br />
                     </p>
                     <em>
-                        所有输入的数据将<span class="m--font-boldest">不会</span>得到保存
+                        あなた入力したデータは<span class="m--font-boldest">保存しない</span>とします
                     </em>
                 </div>
                 <div class="modal-footer clearfix">
                     <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">
-                        我再想想
+                        もう一度考えさせて...
                     </button>
                     <a href="@Url.Action("Index","ItemManage")" class="btn btn-danger pull-right">
-                        放弃本次编辑
+                        今度の編集をやめる
                     </a>
                 </div>
             </div>
@@ -483,7 +393,48 @@
         }*@
 
     <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-touchspin.js" type="text/javascript"></script>
-    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/select2.js" type="text/javascript"></script>
     <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-datetimepicker.js" type="text/javascript"></script>
     <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-select.js" type="text/javascript"></script>
+
+    <script src="~/lib/cropper/cropper.min.js" type="text/javascript"></script>
+    <script src="~/js/item-image-upload-behaviors.js" type="text/javascript"></script>
+
+    <script>
+        var FormRepeater = {
+            init: function () {
+                $("#repeater-file-input").repeater({
+                    initEmpty: !1,
+                    defaultValues: { "text-input": "foo" },
+                    show: function () {
+                        $(this).slideDown()
+                    },
+                    hide: function (e) {
+                        $(this).slideUp(e)
+                    }
+                });
+            }
+        };
+        jQuery(document).ready(function () {
+            FormRepeater.init()
+        });
+
+        var Select2 = {
+            init: function () {
+                $("#select2-tag").select2({
+                    placeholder: "example: 黑檀，玉簪，珍珠，贝壳",
+                    containerCssClass : "form-control",
+                    tags: !0
+                });
+                $("#select2-editor").select2({
+                    placeholder: "example: hanfuer@163.com / 晚风儿"
+                });
+                $("#select2-multiple").select2({
+                    placeholder: "example: 受動態，助動詞"
+                });
+            }
+        };
+        jQuery(document).ready(function () {
+            Select2.init()
+        });
+    </script>
 }

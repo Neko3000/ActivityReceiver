@@ -27,4 +27,13 @@
     <Folder Include="Models\DataTransferObject\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Account\Login - Copy.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_LayoutAccount.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
