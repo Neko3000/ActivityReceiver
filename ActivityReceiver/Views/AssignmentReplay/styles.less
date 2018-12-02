@@ -1,0 +1,80 @@
+// Fonts
+//font-family, color, font-weight
+h1,h2,h3,h4,big,span,p,small,li,a,pre,div{
+    font-family: Helvetica, Arial, serif,sans-serif;
+}
+
+
+
+// Colors
+@Normal-Grey:#565656;
+@Heavy-Turquoise:#222a41;
+
+// Common
+
+.center-container{
+    position: relative;
+    text-align: center;
+
+    >.center-object{
+        margin-left:auto;
+        margin-right: auto;
+    }
+}
+
+// replayer
+.replayer{
+    .main-view{
+        position: relative;
+
+        width: 736px;
+        height: 414px;
+
+        border: black solid 1px;
+
+        .sentence-jp{
+            padding-top: 28px;
+
+            color: @Normal-Grey;
+            font-size: 16px;
+
+        }
+
+        .sentence-en{
+            margin-top: 15px;
+
+            color: @Normal-Grey;
+            font-size: 16px;
+
+
+        }
+
+
+        .word-item{    
+            display: inline-block;      
+            position: absolute;
+
+            color: white;
+            font-size: 14px;
+
+            left: 150px;
+            top: 150px;         
+            padding: 4px 20px 5px 20px;
+
+            border-radius: 5px;
+            background-color: @Heavy-Turquoise;
+        }
+
+        .point{
+            display: inline-block;
+            position: absolute;
+
+            background-color: black;
+
+            width: 5px;
+            height: 5px;
+            
+            border-radius: 3px;
+        }
+    }
+}

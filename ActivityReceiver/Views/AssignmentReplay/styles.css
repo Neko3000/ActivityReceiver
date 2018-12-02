@@ -1,0 +1,57 @@
+h1,
+h2,
+h3,
+h4,
+big,
+span,
+p,
+small,
+li,
+a,
+pre,
+div {
+  font-family: Helvetica, Arial, serif, sans-serif;
+}
+.center-container {
+  position: relative;
+  text-align: center;
+}
+.center-container > .center-object {
+  margin-left: auto;
+  margin-right: auto;
+}
+.replayer .main-view {
+  position: relative;
+  width: 736px;
+  height: 414px;
+  border: black solid 1px;
+}
+.replayer .main-view .sentence-jp {
+  padding-top: 28px;
+  color: #565656;
+  font-size: 16px;
+}
+.replayer .main-view .sentence-en {
+  margin-top: 15px;
+  color: #565656;
+  font-size: 16px;
+}
+.replayer .main-view .word-item {
+  display: inline-block;
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  left: 150px;
+  top: 150px;
+  padding: 4px 20px 5px 20px;
+  border-radius: 5px;
+  background-color: #222a41;
+}
+.replayer .main-view .point {
+  display: inline-block;
+  position: absolute;
+  background-color: black;
+  width: 5px;
+  height: 5px;
+  border-radius: 3px;
+}
