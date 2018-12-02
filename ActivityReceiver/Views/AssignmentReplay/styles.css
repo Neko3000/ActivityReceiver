@@ -22,8 +22,8 @@ div {
 }
 .replayer .main-view {
   position: relative;
-  width: 736px;
-  height: 414px;
+  width: 667px;
+  height: 375px;
   border: black solid 1px;
 }
 .replayer .main-view .sentence-jp {

@@ -4,36 +4,45 @@
         var $this = $(this);
         var mainView = $this.find('.main-view');
 
+        var division;
+        var movementDTOs;
         var wordItems = new Array();
-        var movements = [
-            {x:100,y:200},
-            {x:100,y:210},
-            {x:100,y:220},
-            {x:100,y:230},
-            {x:100,y:240},
-        ];
 
-        var counter = 0;
+        var currentActiveWordItem;
+        var pointerBeganPositionXInWordItem;
+        var pointerBeganPositionYInWordItem;
+
+        var currentMovementDTOIndex = 0;
+        var currentMillisecondTime = 0;
 
         var setLayout = function(){
-            $this.find('.get-data').click(function(){
 
+            // get-data btn
+            $this.find('.get-data').click(function(){
                 getAnswer();
             });
+
+            $this.find('.start-play').click(function(){
+                play();
+            });
+
         }
 
         var getAnswer = function(){
-            var id = 1;
+            var id = 6;
             $.ajax(
             {
                 url: "http://118.25.44.137/AnswerReplay/GetAnswer?id=" +id.toString(),
                 type: "get",
                 dataType: "json",
                 async: false,
-                success: function (data) {
+                success: function (answer) {
 
-                    alert(data.sentenceEN);
+                    division = answer.division;
+                    movementDTOs = answer.movementDTOs;
 
+                    generateWordItems();
+                    arrangeWordItems();
                 }
             }
         );
@@ -41,7 +50,7 @@
 
         var generateWordItems = function(){
             var wordItemTemplate = $('<div class="word-item"><div class="word-item-background">here we are</div></div>');
-            var division = "here|is|my|greate|wallpaper|or|you|will|be|punished";
+
             var splittedDivision = division.split('|');
 
             $.each(splittedDivision,function(index,word){
@@ -108,31 +117,72 @@
         };
 
         var playAnimation = function(){
-            var point = $('<div class="point"></div>');
 
-            point.css({
-                left:movements[counter].x,
-                top:movements[counter].y
-            });
+            currentMillisecondTime += 100;
 
-            mainView.append(point);
+            if(currentMovementDTOIndex >= movementDTOs.length){
 
-            counter ++;
+                clearInterval();
+                return;
+            }
+
+            while(movementDTOs[currentMovementDTOIndex].time<=currentMillisecondTime)
+            {
+                var currentMovementDTO = movementDTOs[currentMovementDTOIndex];
+
+                
+                if(currentMovementDTO.state == 0){
+                    // tap
+
+                    currentActiveWordItem = wordItems[currentMovementDTO.targetElement];
+                    
+                    pointerBeganPositionXInWordItem = currentMovementDTO.xPosition - parseInt(currentActiveWordItem.css('left'));
+                    pointerBeganPositionYInWordItem = currentMovementDTO.yPosition - parseInt(currentActiveWordItem.css('top'));        
+                
+                }
+                else if(currentMovementDTO.state == 1){
+                    // move
+
+                    currentActiveWordItem.css({
+                        left:currentMovementDTO.xPosition - pointerBeganPositionXInWordItem,
+                        top:currentMovementDTO.yPosition - pointerBeganPositionYInWordItem
+                    });
+
+                }
+                else if(currentMovementDTO.state == 2){
+                    // end
+
+                    currentActiveWordItem = null;
+                }
+
+                var point = $('<div class="point"></div>');
+
+
+
+                point.css({
+                    left:currentMovementDTO.xPosition,
+                    top:currentMovementDTO.yPosition
+                });
+    
+                mainView.append(point);
+    
+                currentMovementDTOIndex ++;
+            }
+
         };
 
         var play = function(){
-            setInterval(playAnimation,1000);
+
+            setInterval(playAnimation,100);
         };
 
         $(function () {
             //alert("init");
 
-            generateWordItems();
-            arrangeWordItems();
+            //generateWordItems();
+            //arrangeWordItems();
 
             setLayout();
-            
-            play();
         });
 
     }
