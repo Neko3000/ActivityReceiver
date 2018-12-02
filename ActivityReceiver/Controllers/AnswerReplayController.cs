@@ -27,7 +27,7 @@ namespace ActivityReceiver.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAnswer(int id)
+        public IActionResult GetAnswer(int id)
         {
             var answer = _arDbContext.Answsers.Where(a => a.ID == id).SingleOrDefault();
             if(answer == null)
@@ -40,9 +40,12 @@ namespace ActivityReceiver.Controllers
             var vm = new GetAnswerGetViewModel
             {
                 ID = answer.ID,
-
-                QuestionID = answer.QuestionID,
                 AssignmentRecordID = answer.AssignmentRecordID,
+
+                SentenceEN = answer.SentenceEN,
+                SentenceJP = answer.SentenceJP,
+                Division = answer.Division,
+                AnswerDivision = answer.AnswerDivision,
 
                 Content = answer.Content,
                 IsCorrect = answer.IsCorrect,
