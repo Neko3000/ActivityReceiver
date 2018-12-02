@@ -58,16 +58,17 @@ namespace ActivityReceiver.Controllers
                 MovementDTOs = AnswerReplayHandler.ConvertToMovementDTOForEachMovement(movements)
             };
 
+            Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
             return Ok(vm);
         }
 
 
         [HttpGet]
         public IActionResult Index()
-        {
-            var questions = _arDbContext.Questions.ToList();
-
-            return Ok(questions);
+        {   
+            return View();
         }
 
     }

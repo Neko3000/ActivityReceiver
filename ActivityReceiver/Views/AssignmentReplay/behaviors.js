@@ -15,6 +15,30 @@
 
         var counter = 0;
 
+        var setLayout = function(){
+            $this.find('.get-data').click(function(){
+
+                getAnswer();
+            });
+        }
+
+        var getAnswer = function(){
+            var id = 1;
+            $.ajax(
+            {
+                url: "http://118.25.44.137/AnswerReplay/GetAnswer?id=" +id.toString(),
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+
+                    alert(data.sentenceEN);
+
+                }
+            }
+        );
+        }
+
         var generateWordItems = function(){
             var wordItemTemplate = $('<div class="word-item"><div class="word-item-background">here we are</div></div>');
             var division = "here|is|my|greate|wallpaper|or|you|will|be|punished";
@@ -106,6 +130,8 @@
             generateWordItems();
             arrangeWordItems();
 
+            setLayout();
+            
             play();
         });
 
