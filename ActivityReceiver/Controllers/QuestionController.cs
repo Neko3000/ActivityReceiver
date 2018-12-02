@@ -177,8 +177,10 @@ namespace ActivityReceiver.Controllers
                     AssignmentRecordID = assignmentRecordNew.ID,
                     QuestionID = question.ID,
 
+                    SentenceEN = question.SentenceEN,
                     SentenceJP = question.SentenceJP,
                     Division = question.Division,
+                    AnswerDivision = question.AnswerDivision,
 
                     CurrentNumber = assignmentRecordNew.CurrentQuestionIndex + 1
                 };
