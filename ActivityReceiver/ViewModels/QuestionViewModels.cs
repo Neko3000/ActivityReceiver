@@ -37,8 +37,10 @@ namespace ActivityReceiver.ViewModels
         public int AssignmentRecordID { get; set; }
         public int QuestionID { get; set; }
 
+        public string SentenceEN { get; set; }
         public string SentenceJP { get; set; }
         public string Division { get; set; }
+        public string AnswerDivision { get; set; }
 
         public int CurrentNumber { get; set; }
     }
@@ -51,6 +53,8 @@ namespace ActivityReceiver.ViewModels
         [Required]
         public int State { get; set; }
         [Required]
+        public int TargetElement { get; set; }
+        [Required]
         public int Time { get; set; }
         [Required]
         public int XPosition { get; set; }
@@ -62,8 +66,15 @@ namespace ActivityReceiver.ViewModels
     {
         [Required]
         public int AssignmentRecordID { get; set; }
+
         [Required]
-        public int QuestionID { get; set; }
+        public string SentenceEN { get; set; }
+        [Required]
+        public string SentenceJP { get; set; }
+        [Required]
+        public string Division { get; set; }
+        [Required]
+        public string AnswerDivision { get; set; }
 
         [Required]
         public string Answer { get; set; }

@@ -105,7 +105,8 @@ namespace ActivityReceiver
             // Auto Mapper
 
             AutoMapper.Mapper.Initialize(cfg => {
-                // QuestionManage
+
+                /* QuestionManage */
                 cfg.CreateMap<Question, QuestionDTO>().
                     ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
                     ForMember(dest => dest.EditorName, opt => opt.Ignore());
@@ -142,6 +143,9 @@ namespace ActivityReceiver
                 cfg.CreateMap<Question, QuestionManageDeleteGetViewModel>().
                     ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
                     ForMember(dest => dest.EditorName, opt => opt.Ignore());
+
+                /* AnswerRepaly */
+                cfg.CreateMap<Movement, MovementDTO>();
             });
 
         }

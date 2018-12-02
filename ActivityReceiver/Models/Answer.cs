@@ -10,8 +10,12 @@ namespace ActivityReceiver.Models
     {
         [Key]
         public int ID { get; set; }
-        public int QuestionID { get; set; }
         public int AssignmentRecordID { get; set; }
+
+        public string SentenceEN { get; set; }
+        public string SentenceJP { get; set; }
+        public string Division { get; set; }
+        public string AnswerDivision { get; set; }
 
         public string Content { get; set; }
         public bool IsCorrect { get; set; }

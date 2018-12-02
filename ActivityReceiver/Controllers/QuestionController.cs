@@ -132,8 +132,10 @@ namespace ActivityReceiver.Controllers
                         AssignmentRecordID = specificAssignment.ID,
                         QuestionID = question.ID,
 
+                        SentenceEN = question.SentenceEN,
                         SentenceJP = question.SentenceJP,
                         Division = question.Division,
+                        AnswerDivision = question.AnswerDivision,
 
                         CurrentNumber = specificAssignment.CurrentQuestionIndex + 1
                     };
@@ -207,15 +209,17 @@ namespace ActivityReceiver.Controllers
                 });
             }
 
-            var specificQuestion = _arDbContext.Questions.Where(q => q.ID == model.QuestionID).ToList().SingleOrDefault();
-
             var answerNew = new Answer
             {
-                QuestionID = model.QuestionID,
                 AssignmentRecordID = model.AssignmentRecordID,
 
+                SentenceEN = model.SentenceEN,
+                SentenceJP = model.SentenceJP,
+                Division = model.Division,
+                AnswerDivision = model.AnswerDivision,
+
                 Content = model.Answer,
-                IsCorrect = specificQuestion.AnswerDivision == model.Answer ? true:false,
+                IsCorrect = model.AnswerDivision == model.Answer ? true:false,
 
                 HesitationDegree = 0,
 
@@ -233,6 +237,7 @@ namespace ActivityReceiver.Controllers
                     Time = movementDTO.Time,
 
                     State = movementDTO.State,
+                    TargetElement = movementDTO.TargetElement,
                     Index = movementDTO.Index,
 
                     XPosition = movementDTO.XPosition,
@@ -314,12 +319,10 @@ namespace ActivityReceiver.Controllers
 
             foreach (var answer in answers)
             {
-                var specificQuestion = allQuestion.Where(q => q.ID == answer.QuestionID).SingleOrDefault();
-
                 var answerDetail = new AnswerDetail
                 {
-                    SentenceJP = specificQuestion.SentenceJP,
-                    SentenceEN = specificQuestion.SentenceEN,
+                    SentenceJP = answer.SentenceJP,
+                    SentenceEN = answer.SentenceEN,
 
                     AnswerSentence = QuestionHandler.ConvertDivisionToSentence(answer.Content),
                     IsCorrect = answer.IsCorrect

@@ -13,7 +13,7 @@ namespace ActivityReceiver.Functions
 
     public class AnswerReplayHandler
     {
-        public static IList<MovementDTO>  ConvertToMovementDTOForMovement(IList<Movement> movements)
+        public static IList<MovementDTO> ConvertToMovementDTOForEachMovement(IList<Movement> movements)
         {
             var movementDTOs = new List<MovementDTO>();
 

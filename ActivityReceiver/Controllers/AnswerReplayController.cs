@@ -55,7 +55,7 @@ namespace ActivityReceiver.Controllers
                 MovementDTOs = AnswerReplayHandler.ConvertToMovementDTOForEachMovement(movements)
             };
 
-            return Json(vm);
+            return Ok(vm);
         }
 
 

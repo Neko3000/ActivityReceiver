@@ -16,13 +16,13 @@
         var counter = 0;
 
         var generateWordItems = function(){
-            var wordItemTemplate = $('<div class="word-item">here we are</div>');
-            var division = "here|is|my|greate|wallpaper";
+            var wordItemTemplate = $('<div class="word-item"><div class="word-item-background">here we are</div></div>');
+            var division = "here|is|my|greate|wallpaper|or|you|will|be|punished";
             var splittedDivision = division.split('|');
 
             $.each(splittedDivision,function(index,word){
                 var wordItem = wordItemTemplate.clone();
-                wordItem.text(word);
+                wordItem.find('.word-item-background').first().text(word);
 
                 wordItems.push(wordItem);
                 wordItem.appendTo(mainView);
