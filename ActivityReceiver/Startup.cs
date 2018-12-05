@@ -147,7 +147,12 @@ namespace ActivityReceiver
                 /* AnswerRepaly */
                 cfg.CreateMap<Movement, MovementDTO>();
                 cfg.CreateMap<DeviceAcceleration, DeviceAccelerationDTO>();
+
+
+                /* QuestionAnswerManage*/
+                cfg.CreateMap<Answer, AnswerDTO>();
             });
+
 
         }
     }

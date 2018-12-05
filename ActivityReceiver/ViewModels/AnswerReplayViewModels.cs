@@ -7,9 +7,15 @@ using ActivityReceiver.Models;
 
 namespace ActivityReceiver.ViewModels
 {
+    #region Replayer
+    public class AnswerReplayerReplayerGetViewModel
+    {
+        public int AnswerID { get; set; }
+    }
+    #endregion
 
     #region GetAnswer
-    public class GetAnswerGetViewModel
+    public class AnswerReplayGetAnswerGetViewModel
     {
         public int ID { get; set; }
 
@@ -33,4 +39,6 @@ namespace ActivityReceiver.ViewModels
         public IList<DeviceAccelerationDTO> DeviceAccelerationDTOs { get; set; }
     }
     #endregion
+
+
 }

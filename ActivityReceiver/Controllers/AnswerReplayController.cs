@@ -38,7 +38,7 @@ namespace ActivityReceiver.Controllers
             var movements = _arDbContext.Movements.Where(m => m.AnswerID == id).ToList();
             var deviceAccelerations = _arDbContext.DeviceAccelerations.Where(d => d.AnswerID == id).ToList();
 
-            var vm = new GetAnswerGetViewModel
+            var vm = new AnswerReplayGetAnswerGetViewModel
             {
                 ID = answer.ID,
                 AssignmentRecordID = answer.AssignmentRecordID,
@@ -60,10 +60,19 @@ namespace ActivityReceiver.Controllers
                 DeviceAccelerationDTOs = AnswerReplayHandler.ConvertToDTOCollection<DeviceAcceleration, DeviceAccelerationDTO>(deviceAccelerations),
             };
 
-            Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            //Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            //Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
             return Ok(vm);
+        }
+
+        [HttpGet]
+        public IActionResult Replayer(int id)
+        {
+            var vm = new AnswerReplayerReplayerGetViewModel {
+                AnswerID = id
+            };
+            return View(vm);
         }
 
 
