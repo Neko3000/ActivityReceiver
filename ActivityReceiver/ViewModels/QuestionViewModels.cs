@@ -62,6 +62,20 @@ namespace ActivityReceiver.ViewModels
         public int YPosition { get; set; }
     }
 
+    public class DeviceAccelerationDTO
+    {
+        [Required]
+        public int Index { get; set; }
+        [Required]
+        public int Time { get; set; }
+        [Required]
+        public float X { get; set; }
+        [Required]
+        public float Y { get; set; }
+        [Required]
+        public float Z { get; set; }
+    }
+
     public class SubmitQuestionAnswerPostViewModel
     {
         [Required]
@@ -85,6 +99,7 @@ namespace ActivityReceiver.ViewModels
         public DateTime EndDate { get; set; }
 
         public IList<MovementDTO> MovementDTOs { get; set; }
+        public IList<DeviceAccelerationDTO> DeviceAccelerationDTOs { get; set; }
     }
 
     // GetAssignmentResult

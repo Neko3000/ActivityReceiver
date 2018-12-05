@@ -250,6 +250,24 @@ namespace ActivityReceiver.Controllers
                 _arDbContext.SaveChanges();
             }
 
+            foreach (var deviceAccelerationDTO in model.DeviceAccelerationDTOs)
+            {
+                var deviceAccelerationNew = new DeviceAcceleration
+                {
+                    AnswerID = answerNew.ID,
+
+                    Index = deviceAccelerationDTO.Index,
+                    Time = deviceAccelerationDTO.Time,
+
+                    X = deviceAccelerationDTO.X,
+                    Y = deviceAccelerationDTO.Y,
+                    Z = deviceAccelerationDTO.Z,
+                };
+
+                _arDbContext.DeviceAccelerations.Add(deviceAccelerationNew);
+                _arDbContext.SaveChanges();
+            }
+
             var specificAssignmentRecord = _arDbContext.AssignmentRecords.Where(ar => ar.ID == model.AssignmentRecordID).ToList().FirstOrDefault();
             specificAssignmentRecord.CurrentQuestionIndex = specificAssignmentRecord.CurrentQuestionIndex + 1;
 

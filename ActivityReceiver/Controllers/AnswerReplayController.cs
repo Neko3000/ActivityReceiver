@@ -36,6 +36,7 @@ namespace ActivityReceiver.Controllers
             }
 
             var movements = _arDbContext.Movements.Where(m => m.AnswerID == id).ToList();
+            var deviceAccelerations = _arDbContext.DeviceAccelerations.Where(d => d.AnswerID == id).ToList();
 
             var vm = new GetAnswerGetViewModel
             {
@@ -55,7 +56,8 @@ namespace ActivityReceiver.Controllers
                 StartDate = answer.StartDate,
                 EndDate = answer.EndDate,
 
-                MovementDTOs = AnswerReplayHandler.ConvertToMovementDTOForEachMovement(movements)
+                MovementDTOs = AnswerReplayHandler.ConvertToDTOCollection<Movement,MovementDTO>(movements),
+                DeviceAccelerationDTOs = AnswerReplayHandler.ConvertToDTOCollection<DeviceAcceleration, DeviceAccelerationDTO>(deviceAccelerations),
             };
 
             Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");

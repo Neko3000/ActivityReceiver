@@ -30,6 +30,7 @@ namespace ActivityReceiver.ViewModels
         public DateTime EndDate { get; set; }
 
         public IList<MovementDTO> MovementDTOs { get; set; }
+        public IList<DeviceAccelerationDTO> DeviceAccelerationDTOs { get; set; }
     }
     #endregion
 }

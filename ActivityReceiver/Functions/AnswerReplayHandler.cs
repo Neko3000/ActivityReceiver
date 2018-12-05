@@ -13,6 +13,20 @@ namespace ActivityReceiver.Functions
 
     public class AnswerReplayHandler
     {
+        public static IList<S> ConvertToDTOCollection<T,S>(IList<T> objs)
+        {
+            var objectDTOCollection = new List<S>();
+
+            foreach(var obj in objs)
+            {
+                var objectDTO = Mapper.Map<T, S>(obj);
+
+                objectDTOCollection.Add(objectDTO);
+            }
+
+            return objectDTOCollection;
+        }
+
         public static IList<MovementDTO> ConvertToMovementDTOForEachMovement(IList<Movement> movements)
         {
             var movementDTOs = new List<MovementDTO>();
