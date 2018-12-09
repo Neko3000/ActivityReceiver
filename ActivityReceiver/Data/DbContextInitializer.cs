@@ -359,6 +359,66 @@ namespace ActivityReceiver.Data
                     CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "You cannot be too busy to come to see us now and then.",
+                    SentenceJP = "時折会いに来ることができないほど忙しいということはあるまい。",
+                    Level = 4,
+                    Division = "be|busy|cannot|come|see|to|to|too|us|you|now and then",
+                    AnswerDivision = "you|cannot|be|too|busy|to|come|to|see|us|now and then",
+                    GrammarIDString = "#11#13#15#",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "We cannot be too careful in the choice of our friends.",
+                    SentenceJP = "友人を選ぶ際にはいくら気を付けてもしすぎることはない。",
+                    Level = 4,
+                    Division = "be|cannot|careful|in|of|our friends|the choice|too|we",
+                    AnswerDivision = "we|cannot|be|too|careful|in|the choice|of|our friends",
+                    GrammarIDString = "#13#18#15#",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "I love him all the more for his faults.",
+                    SentenceJP = "私は彼に短所があるから、一層彼のことが好きなのです。",
+                    Level = 4,
+                    Division = "all|faults|for|him|his|I|love|more|the",
+                    AnswerDivision = "I|love|him|all|the|more|for|his|faults",
+                    GrammarIDString = "#8#14#",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "I have no more than ten dollars.",
+                    SentenceJP = "私はわずか10ドルしか持っていない。",
+                    Level = 4,
+                    Division = "dollars|have|I|more|no|ten|than",
+                    AnswerDivision = "I|have|no|more|than|ten|dollars",
+                    GrammarIDString = "#14#15#",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser2.Id,
+                    SentenceEN = "Beauty is by no means a sign of good personality.",
+                    SentenceJP = "美しいということが善良な人である印になることなどは絶対にない。",
+                    Level = 4,
+                    Division = "a|beauty|by|good|is|means|no|of|personality|sign",
+                    AnswerDivision = "beauty|is|by|no|means|a|sign|of|good|personality",
+                    GrammarIDString = "#8#15#",
+                    CreateDate = new DateTime(2015,7,1,12,50,0),
+                    Remark = "",
+                }
             };
             _arDbContext.Questions.AddRange(questions);
             _arDbContext.SaveChanges();
@@ -386,6 +446,14 @@ namespace ActivityReceiver.Data
                     Name = "伝説の道",
                     Description = "基礎の問題で腕を磨いた君が、伝説なヒーローになれるか",
                     Level = 3,
+                    CreateDate = DateTime.Now,
+                    EditorID = applicationUser2.Id
+                },
+                new Exercise
+                {
+                    Name = "同期された問題集",
+                    Description = " 11-15",
+                    Level = 4,
                     CreateDate = DateTime.Now,
                     EditorID = applicationUser2.Id
                 },
@@ -435,12 +503,32 @@ namespace ActivityReceiver.Data
                     }
                 }
 
-                // Exercise 1
+                // Exercise 4
                 if (exercises[i].Level == 3)
                 {
                     for (int j = 0; j < questions.Count; j++)
                     {
                         if (questions[j].Level == 1 || questions[j].Level == 2 || questions[j].Level == 3)
+                        {
+                            var exerciseQuestion = new ExerciseQuestion()
+                            {
+                                ExerciseID = exercises[i].ID,
+                                QuestionID = questions[j].ID,
+                                SerialNumber = j
+                            };
+
+                            _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
+                            _arDbContext.SaveChanges();
+                        }
+                    }
+                }
+
+                // Exercise 4
+                if (exercises[i].Level == 4)
+                {
+                    for (int j = 0; j < questions.Count; j++)
+                    {
+                        if (questions[j].Level == 4)
                         {
                             var exerciseQuestion = new ExerciseQuestion()
                             {
