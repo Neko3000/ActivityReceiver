@@ -5,6 +5,13 @@ class Point{
     }
 }
 
+class WordItem{
+    constructor(index,html) {
+        this.index = index
+        this.html = html
+      }
+}
+
 (function ($) {
 
     $.fn.replayer = function (id) {
@@ -61,10 +68,10 @@ class Point{
 
             //var wordItemsClone = wordItems.clone();
 
-            wordItems.sort(sortByLeft);
+            wordItemsClone = wordItems.slice().sort(sortByLeft);
 
             var answerString = "";
-            $.each(wordItems, function (index, wordItem) {
+            $.each(wordItemsClone, function (index, wordItem) {
                 if(index == 0){
                     answerString = answerString + wordItem.text();
                 }
