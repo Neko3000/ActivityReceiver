@@ -21,14 +21,21 @@ div {
   margin-right: auto;
 }
 .replayer {
-
+  display: inline-block;
   width: 667px;
+  background-color: white;
 }
 .replayer .main-view {
   position: relative;
   width: 667px;
   height: 375px;
   border: black solid 1px;
+}
+.replayer .main-view .presentor {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 .replayer .main-view .sentence-jp {
   padding-top: 28px;

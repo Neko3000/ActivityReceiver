@@ -1,9 +1,21 @@
+class Point{
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+    }
+}
+
 (function ($) {
 
     $.fn.replayer = function (id) {
         var $this = $(this);
-        var sentenceJPLabel = $this.find('.sentence-jp');
+
+        // Get the dom object instead of warpped jQuery object
+        var presentor = $this.find('.presentor');
+        var presentorCtx = presentor[0].getContext("2d");
+
         var mainView = $this.find('.main-view');
+        var sentenceJPLabel = $this.find('.sentence-jp');
 
         var accelerationX = $this.find('.acceleration-x');
         var accelerationY = $this.find('.acceleration-y');
@@ -25,9 +37,42 @@
         var pointerBeganPositionXInWordItem;
         var pointerBeganPositionYInWordItem;
 
+        var currentDrawPoint;
+        var lastDrawPoint;
+
         var currentMillisecondTime = 0;
 
+        var fitToContainer = function(obj){
+            var width = obj.parent().width();
+            var height = obj.parent().height();
+
+            obj.attr('width',width);
+            obj.attr('height',height);
+        }
+
+        var drawRect= function(context,point) {
+
+            // Calculate the center position
+            context.fillRect(point.x - 2,point.y - 2,4,4);
+        }
+
+        var drawLineBetweenTwoPoints = function(context,pointA,pointB){
+
+            if(pointA == null || pointB == null)
+            {
+                return;
+            }
+
+            context.beginPath();
+            context.moveTo(pointA.x,pointA.y);
+            context.lineTo(pointB.x,pointB.y);
+            context.stroke();
+        }
+
         var setLayout = function () {
+
+            // Set the size of Canvas, which should be equal to its parent
+            fitToContainer(presentor);
 
             // get-data btn
             $this.find('.get-data').click(function () {
@@ -38,11 +83,13 @@
                 play();
             });
 
+
         };
 
         var showQuestion = function () {
 
             sentenceJPLabel.text(sentenceJP);
+
         };
 
         var getAnswer = function () {
@@ -161,6 +208,8 @@
                     pointerBeganPositionXInWordItem = currentMovementDTO.xPosition - parseInt(currentActiveWordItem.css('left'));
                     pointerBeganPositionYInWordItem = currentMovementDTO.yPosition - parseInt(currentActiveWordItem.css('top'));
 
+                    lastDrawPoint = null;
+
                 }
                 else if (currentMovementDTO.state == 1) {
                     // move
@@ -177,14 +226,24 @@
                     currentActiveWordItem = null;
                 }
 
-                var point = $('<div class="point"></div>');
+                currentDrawPoint = new Point(currentMovementDTO.xPosition,currentMovementDTO.yPosition);
+                drawRect(presentorCtx,currentDrawPoint);
+                drawLineBetweenTwoPoints(presentorCtx,lastDrawPoint,currentDrawPoint);
+
+                // When finish drawing
+                lastDrawPoint = currentDrawPoint;
+
+
+                //presentorCtx.fillRect(currentMovementDTO.xPosition,currentMovementDTO.yPosition,1,1);
+
+/*                 var point = $('<div class="point"></div>');
 
                 point.css({
                     left: currentMovementDTO.xPosition,
                     top: currentMovementDTO.yPosition
                 });
 
-                mainView.append(point);
+                mainView.append(point); */
 
                 movementDTOCurrentIndex++;
             }
@@ -198,7 +257,7 @@
                 });
 
                 accelerationY.css({
-                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].y * 500)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].y * 500 )).toString() + "%"
                 });
 
                 accelerationZ.css({
