@@ -354,7 +354,8 @@
                                 </td>
                                 <td class="m-datatable__cell">
                                     <span style="overflow: visible; width: 110px;">
-                                        <a onclick="return openSmallWindow(this)" href="@Url.Action("Replayer","AnswerReplay",new { id = answerDTO.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">
+                                        <!-- onclick="return openSmallWindow(this)" -->
+                                        <a href="@Url.Action("Replayer","AnswerReplay",new { id = answerDTO.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">
                                             <i class="la la-file-text"></i>
                                         </a>
                                         <div class="dropdown ">

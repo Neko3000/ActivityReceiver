@@ -16,14 +16,23 @@ class Point{
 
         var mainView = $this.find('.main-view');
         var sentenceJPLabel = $this.find('.sentence-jp');
+        var answerLabel = $this.find('.answer');
+
+        var textAnswer = $this.find('.text-answer .info-value');
+        var textJP = $this.find('.text-jp .info-value');
+        var textEN = $this.find('.text-en .info-value');
+
+        var movementDistance = $this.find('.movement-distance .info-value');
 
         var accelerationX = $this.find('.acceleration-x');
         var accelerationY = $this.find('.acceleration-y');
         var accelerationZ = $this.find('.acceleration-z');
 
         var sentenceJP;
+        var sentenceEN;
         var division;
         var answerDivision;
+        var content;
 
         var wordItems = new Array();
         var currentActiveWordItem;
@@ -42,12 +51,48 @@ class Point{
 
         var currentMillisecondTime = 0;
 
+        var currentDistance = 0;
+
+        var sortByLeft = function(a,b){
+            return parseInt(a.css('left'))> parseInt(b.css('left'));
+        }
+
+        var generateAnswer = function(){
+
+            //var wordItemsClone = wordItems.clone();
+
+            wordItems.sort(sortByLeft);
+
+            var answerString = "";
+            $.each(wordItems, function (index, wordItem) {
+                if(index == 0){
+                    answerString = answerString + wordItem.text();
+                }
+                else{
+                    answerString = answerString + " " + wordItem.text();
+                }
+            });
+            answerString = answerString + ".";
+
+            answerLabel.text(answerString);
+        }
+
         var fitToContainer = function(obj){
             var width = obj.parent().width();
             var height = obj.parent().height();
 
             obj.attr('width',width);
             obj.attr('height',height);
+        }
+
+        var calculateDistance = function(pointA,pointB){
+
+            if(pointA == null || pointB == null)
+            {
+                return;
+            }
+
+            return Math.sqrt(Math.pow(pointA.x-pointB.x,2)+Math.pow(pointA.y-pointB.y,2));
         }
 
         var drawRect= function(context,point) {
@@ -83,12 +128,15 @@ class Point{
                 play();
             });
 
-
         };
 
         var showQuestion = function () {
 
             sentenceJPLabel.text(sentenceJP);
+
+            textAnswer.text(content);
+            textJP.text(sentenceJP);
+            textEN.text(sentenceEN);
 
         };
 
@@ -103,7 +151,11 @@ class Point{
                     success: function (answer) {
 
                         sentenceJP = answer.sentenceJP;
+                        sentenceEN = answer.sentenceEN;
                         division = answer.division;
+                        answerDivision = answer.answerDivision;
+                        content = answer.content;
+
                         movementDTOs = answer.movementDTOs;
                         deviceAccelerationDTOs = answer.deviceAccelerationDTOs;
 
@@ -227,6 +279,14 @@ class Point{
                 }
 
                 currentDrawPoint = new Point(currentMovementDTO.xPosition,currentMovementDTO.yPosition);
+
+                if(lastDrawPoint == null){
+                    lastDrawPoint = currentDrawPoint;
+                }
+
+                currentDistance += calculateDistance(currentDrawPoint,lastDrawPoint);
+
+                movementDistance.text(currentDistance.toFixed(2));
                 drawRect(presentorCtx,currentDrawPoint);
                 drawLineBetweenTwoPoints(presentorCtx,lastDrawPoint,currentDrawPoint);
 
@@ -253,19 +313,21 @@ class Point{
                 //alert(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].x);
 
                 accelerationX.css({
-                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].x * 500)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].x / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationY.css({
-                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].y * 500 )).toString() + "%"
+                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].y / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationZ.css({
-                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].z * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].z / 3.0 * 100)).toString() + "%"
                 });
 
                 deviceAccelerationDTOCurrentIndex++;
             }
+
+            generateAnswer();
 
         };
 

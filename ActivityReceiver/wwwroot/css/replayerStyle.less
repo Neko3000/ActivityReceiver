@@ -1,14 +1,16 @@
 // Fonts
 //font-family, color, font-weight
 h1,h2,h3,h4,big,span,p,small,li,a,pre,div{
-    font-family: Helvetica, Arial, serif,sans-serif;
+    font-family: Helvetica,"Yu Gothic",Arial, serif,sans-serif;
 }
 
-
-
 // Colors
+@Light-Grey:#7b7e8a;
 @Normal-Grey:#565656;
+
 @Heavy-Turquoise:#222a41;
+
+@Normal-Violet:#716aca;
 
 // Common
 
@@ -22,10 +24,14 @@ h1,h2,h3,h4,big,span,p,small,li,a,pre,div{
     }
 }
 
+.bg-white{
+    background-color: white;
+}
+
 // replayer
 .replayer {
-    display:inline-block;
-    width: 667px;
+    //display:inline-block;
+    //width: 667px;
 
     background-color: white;
 
@@ -49,7 +55,7 @@ h1,h2,h3,h4,big,span,p,small,li,a,pre,div{
             font-size: 16px;
         }
 
-        .sentence-en {
+        .sentence-en,.answer {
             margin-top: 15px;
             color: @Normal-Grey;
             font-size: 16px;
@@ -78,5 +84,49 @@ h1,h2,h3,h4,big,span,p,small,li,a,pre,div{
             height: 5px;
             border-radius: 3px;
         }
+    }
+
+    .info-block{
+
+        .title{
+            color: @Normal-Violet;
+
+            margin-bottom: 20px;
+
+            font-weight: 600;
+            font-size: 16px;
+
+        }
+
+        .info-group{
+
+            .info-category{
+                color: @Light-Grey;
+
+                margin-bottom: 10px;
+
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            
+            .single-info{
+                i{
+                    position: relative;
+
+                    top: 2px;
+                    margin-right: 6px;
+                }
+
+                color: @Light-Grey;
+
+                margin-bottom: 5px;
+
+                font-weight: 400;
+                font-size:14px;
+            }
+
+        }
+
     }
 }

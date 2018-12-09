@@ -1,7 +1,7 @@
 ﻿body,
 html {
-  font-family: 'Microsoft YaHei', Poppins, Montserrat;
-  letter-spacing: 1px;
+  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
+  font-size: 13px;
 }
 .m-datatable__table .m-datatable__body tr td span {
   white-space: nowrap;

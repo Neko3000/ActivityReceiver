@@ -4,12 +4,125 @@
     Layout = "~/Views/Shared/_LayoutReplayer.cshtml";
 }
 
-<section class="container">
-    
+<section class="bg-white">
+    <div class="m--space-40"></div>
+    <div class="replayer">
+        <div class="container">
+            <!-- MAIN-VIEW -->
+            <div class="row center-container">
 
+                <div class="main-view center-object">
+
+                    <canvas class="presentor"></canvas>
+
+                    <div class="sentence-jp">
+                        賢い人は探すより機会を作るのだ。
+                    </div>
+
+                    <div class="answer">
+                        A wise man will make more opportunities than he finds.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="m--space-10"></div>
+
+            <!-- TOOL-BAR -->
+            <div class="row">
+                
+                <div class="col-md-1 offset-md-5 center-container">
+                    <div class="get-data btn btn-brand m-btn--pill center-object" >
+                        <span>
+                            <i class="la la-download"></i>
+                            <span>Down</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-1 center-container">
+                    <div class="start-play btn btn-accent m-btn--pill center-object">
+                        <span>
+                            <i class="la la-play"></i>
+                            <span>Play</span>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="m--space-40"></div>
+
+            <!-- INFORMATION -->
+            <div class="row">
+
+                <div class="col-md-8 info-block">
+                    <div class="title">基本情報</div>
+
+                    <div class="info-group">
+                        <div class="single-info text-answer"><i class="la la-align-left m--font-warning"></i>最終解答文: <span class="info-value"></span></div>
+                        <div class="single-info text-jp"><i class="la la-align-left m--font-danger"></i>日本文: <span class="info-value"></span></div>
+                        <div class="single-info text-en"><i class="la la-align-left m--font-info"></i>英文: <span class="info-value"></span></div>
+                    </div>
+               
+                </div>                
+
+                <div class="col-md-4 info-block">
+                    <div class="title">履歴情報</div>
+
+                    <div class="info-group">
+
+                        <div class="single-info movement-distance"><i class="flaticon-paper-plane m--font-warning"></i>移動距離:<span class="info-value"></span></div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="m--space-30"></div>
+
+            <div class="row">
+
+                <div class="col-md-8 info-block">
+                    <div class="title">センサー情報</div>
+
+                    <div class="info-group">
+                        <div class="info-category">
+                            加速度センサー
+                        </div>
+                        <div class="single-info text-answer m--margin-bottom-10"><i class="la la-line-chart m--font-warning"></i>加速度X:
+                            <div class="progress m-progress--sm">
+                                <div class="progress-bar m--bg-warning acceleration-x" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                        </div>
+                        <div class="single-info text-jp m--margin-bottom-10"><i class="la la-line-chart m--font-danger"></i>加速度Y:
+                            <div class="progress m-progress--sm">
+                                <div class="progress-bar m--bg-danger acceleration-y" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                        </div>
+                        <div class="single-info text-en m--margin-bottom-10"><i class="la la-line-chart m--font-info"></i>加速度Z:
+                            <div class="progress m-progress--sm">
+                                <div class="progress-bar m--bg-info acceleration-z" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+               
+                </div>    
+
+            </div>
+        </div>
+    </div>
+    <div class="m--space-40"></div>
 </section>
 
-<section class="center-container">
+<!-- <section class="center-container">
     <div class="replayer center-object">
 
 
@@ -61,14 +174,16 @@
         </div>
 
     </div>
-</section>
+</section> -->
 
 @section Scripts {
 
     <script>
+
         $(function () {
             $('.replayer').replayer(@(Model.AnswerID));
         });
+
     </script>
 
 }
