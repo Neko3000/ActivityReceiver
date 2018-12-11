@@ -5,11 +5,43 @@ class Point{
     }
 }
 
-class WordItem{
-    constructor(index,html) {
-        this.index = index
-        this.html = html
+class ElementPosition{
+    constructor(time,left,top) {
+        this.time = time;
+        this.left = left;
+        this.top = top;
       }
+}
+class WordItem{
+    constructor(index,obj,elementPositionCollection) {
+        this.index = index
+        this.obj = obj
+        this.elementPositionCollection = elementPositionCollection
+      }
+}
+class PresentorProxy{
+    constructor(context){
+        this.context = context
+    }
+
+    drawRect(point) {
+
+        // Calculate the center position
+        this.context.fillRect(point.x - 2,point.y - 2,4,4);
+    }
+
+    drawLineBetweenTwoPoints(pointA,pointB){
+
+        if(pointA == null || pointB == null)
+        {
+            return;
+        }
+
+        this.context.beginPath();
+        this.context.moveTo(pointA.x,pointA.y);
+        this.context.lineTo(pointB.x,pointB.y);
+        this.context.stroke();
+    }
 }
 
 (function ($) {
@@ -18,8 +50,9 @@ class WordItem{
         var $this = $(this);
 
         // Get the dom object instead of warpped jQuery object
+
         var presentor = $this.find('.presentor');
-        var presentorCtx = presentor[0].getContext("2d");
+        var presentorProxy = new PresentorProxy(presentor[0].getContext("2d"));
 
         var mainView = $this.find('.main-view');
         var sentenceJPLabel = $this.find('.sentence-jp');
@@ -57,41 +90,15 @@ class WordItem{
         var lastDrawPoint;
 
         var currentMillisecondTime = 0;
+        var totalMillisecondTime = 0;
 
         var currentDistance = 0;
 
+        // Common
         var sortByLeft = function(a,b){
-            return parseInt(a.css('left'))> parseInt(b.css('left'));
+            return parseInt(a.obj.css('left'))> parseInt(b.obj.css('left'));
         }
-
-        var generateAnswer = function(){
-
-            //var wordItemsClone = wordItems.clone();
-
-            wordItemsClone = wordItems.slice().sort(sortByLeft);
-
-            var answerString = "";
-            $.each(wordItemsClone, function (index, wordItem) {
-                if(index == 0){
-                    answerString = answerString + wordItem.text();
-                }
-                else{
-                    answerString = answerString + " " + wordItem.text();
-                }
-            });
-            answerString = answerString + ".";
-
-            answerLabel.text(answerString);
-        }
-
-        var fitToContainer = function(obj){
-            var width = obj.parent().width();
-            var height = obj.parent().height();
-
-            obj.attr('width',width);
-            obj.attr('height',height);
-        }
-
+    
         var calculateDistance = function(pointA,pointB){
 
             if(pointA == null || pointB == null)
@@ -102,31 +109,22 @@ class WordItem{
             return Math.sqrt(Math.pow(pointA.x-pointB.x,2)+Math.pow(pointA.y-pointB.y,2));
         }
 
-        var drawRect= function(context,point) {
+        var fitToContainer = function(obj){
+            var width = obj.parent().width();
+            var height = obj.parent().height();
 
-            // Calculate the center position
-            context.fillRect(point.x - 2,point.y - 2,4,4);
+            obj.attr('width',width);
+            obj.attr('height',height);
         }
 
-        var drawLineBetweenTwoPoints = function(context,pointA,pointB){
-
-            if(pointA == null || pointB == null)
-            {
-                return;
-            }
-
-            context.beginPath();
-            context.moveTo(pointA.x,pointA.y);
-            context.lineTo(pointB.x,pointB.y);
-            context.stroke();
-        }
+        // Layout
 
         var setLayout = function () {
 
             // Set the size of Canvas, which should be equal to its parent
             fitToContainer(presentor);
 
-            // get-data btn
+            // btn
             $this.find('.get-data').click(function () {
                 getAnswer();
             });
@@ -136,6 +134,25 @@ class WordItem{
             });
 
         };
+
+        var generateAnswer = function(){
+
+            wordItemsClone = wordItems.slice().sort(sortByLeft);
+
+            var answerString = "";
+            $.each(wordItemsClone, function (index, wordItem) {
+                if(index == 0){
+                    answerString = answerString + wordItem.obj.text();
+                }
+                else{
+                    answerString = answerString + " " + wordItem.obj.text();
+                }
+            });
+            answerString = answerString + ".";
+
+            answerLabel.text(answerString);
+        }
+
 
         var showQuestion = function () {
 
@@ -170,10 +187,71 @@ class WordItem{
 
                         generateWordItems();
                         arrangeWordItems();
+                        calculateWordItemPositions();
                     }
                 }
             );
         };
+
+        var getWordItemByTargetElementIndex = function(targetElementIndex){
+
+            var selectedWordItem;
+            $.each(wordItems,function(index,wordItem){
+                if(wordItem.index == targetElementIndex){
+                    selectedWordItem = wordItem;
+                    return;
+                }
+            });
+            return selectedWordItem;
+        }
+
+        var calculateWordItemPositions = function(){
+
+            var currentMillisecondTimeSIM = 0;
+
+            var currentActiveWordItemSIM;
+            var tapBeganRelativePositionSIM;  
+            
+            var movementDTOCurrentIndexSIM = 0;
+
+            currentMillisecondTimeSIM = 0;
+            while(movementDTOCurrentIndexSIM <= movementDTOs.length - 1){
+
+                while (movementDTOs[movementDTOCurrentIndexSIM].time <= currentMillisecondTimeSIM) {
+
+                    var currentMovementDTO = movementDTOs[movementDTOCurrentIndexSIM];
+    
+                    if (currentMovementDTO.state == 0) {
+                        // tap
+                        currentActiveWordItemSIM = getWordItemByTargetElementIndex(currentMovementDTO.targetElement);
+    
+                        tapBeganRelativePositionSIM = new Point(currentMovementDTO.xPosition - parseInt(currentActiveWordItemSIM.obj.css('left')),currentMovementDTO.yPosition - parseInt(currentActiveWordItemSIM.obj.css('top')));
+                    }
+                    else if (currentMovementDTO.state == 1) {
+                        // move
+
+                        
+                        var wordItemLeft = currentMovementDTO.xPosition - tapBeganRelativePositionSIM.x;
+                        var wordItemTop = currentMovementDTO.yPosition - tapBeganRelativePositionSIM.y;
+                    
+                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovementDTO.time,wordItemLeft,wordItemTop));
+    
+                    }
+                    else if (currentMovementDTO.state == 2) {
+                        // end
+                        currentActiveWordItemSIM = null;
+                    }
+    
+                    movementDTOCurrentIndexSIM ++;
+                    if(movementDTOCurrentIndexSIM > movementDTOs.length - 1){
+                        break;
+                    }            
+                }
+
+                currentMillisecondTimeSIM += 100;
+            }
+
+        }
 
         var generateWordItems = function () {
             var wordItemTemplate = $('<div class="word-item"><div class="word-item-background">here we are</div></div>');
@@ -181,11 +259,11 @@ class WordItem{
             var splittedDivision = division.split('|');
 
             $.each(splittedDivision, function (index, word) {
-                var wordItem = wordItemTemplate.clone();
-                wordItem.find('.word-item-background').first().text(word);
+                var wordItemObj = wordItemTemplate.clone();
+                wordItemObj.find('.word-item-background').first().text(word);
+                wordItemObj.appendTo(mainView);
 
-                wordItems.push(wordItem);
-                wordItem.appendTo(mainView);
+                wordItems.push(new WordItem(index,wordItemObj,new Array()));
             });
 
         };
@@ -195,7 +273,7 @@ class WordItem{
             var verticalPadding = 10.0;
 
             // 26
-            var wordItemHeight = wordItems[0].innerHeight();
+            var wordItemHeight = wordItems[0].obj.innerHeight();
 
             var containerLength = mainView.width();
             var containerHeight = mainView.height();
@@ -205,7 +283,7 @@ class WordItem{
 
             $.each(wordItems, function (index, wordItem) {
 
-                var wordItemWidth = wordItem.innerWidth();
+                var wordItemWidth = wordItem.obj.innerWidth();
 
                 if (currentLineLength + wordItemWidth + horizontalPadding > containerLength) {
 
@@ -232,12 +310,12 @@ class WordItem{
 
                 for (j = 0; j <= lines[i].length - 1; j++) {
 
-                    lines[i][j].css({
+                    lines[i][j].obj.css({
                         left: currentXPosition + horizontalPadding,
                         top: containerHeight - (lines.length - i) * (wordItemHeight + verticalPadding)
                     });
 
-                    currentXPosition = currentXPosition + horizontalPadding + lines[i][j].innerWidth();
+                    currentXPosition = currentXPosition + horizontalPadding + lines[i][j].obj.innerWidth();
                 }
             }
 
@@ -264,8 +342,8 @@ class WordItem{
 
                     currentActiveWordItem = wordItems[currentMovementDTO.targetElement];
 
-                    pointerBeganPositionXInWordItem = currentMovementDTO.xPosition - parseInt(currentActiveWordItem.css('left'));
-                    pointerBeganPositionYInWordItem = currentMovementDTO.yPosition - parseInt(currentActiveWordItem.css('top'));
+                    pointerBeganPositionXInWordItem = currentMovementDTO.xPosition - parseInt(currentActiveWordItem.obj.css('left'));
+                    pointerBeganPositionYInWordItem = currentMovementDTO.yPosition - parseInt(currentActiveWordItem.obj.css('top'));
 
                     lastDrawPoint = null;
 
@@ -273,7 +351,7 @@ class WordItem{
                 else if (currentMovementDTO.state == 1) {
                     // move
 
-                    currentActiveWordItem.css({
+                    currentActiveWordItem.obj.css({
                         left: currentMovementDTO.xPosition - pointerBeganPositionXInWordItem,
                         top: currentMovementDTO.yPosition - pointerBeganPositionYInWordItem
                     });
@@ -294,8 +372,8 @@ class WordItem{
                 currentDistance += calculateDistance(currentDrawPoint,lastDrawPoint);
 
                 movementDistance.text(currentDistance.toFixed(2));
-                drawRect(presentorCtx,currentDrawPoint);
-                drawLineBetweenTwoPoints(presentorCtx,lastDrawPoint,currentDrawPoint);
+                presentorProxy.drawRect(presentorCtx,currentDrawPoint);
+                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint);
 
                 // When finish drawing
                 lastDrawPoint = currentDrawPoint;
@@ -338,9 +416,64 @@ class WordItem{
 
         };
 
+        var getClosestElementPosition = function(wordItem,time){
+
+            var selectedElementPosition;
+            $.each(wordItem.elementPositionCollection,function(index,elementPosition){
+                if(time>=elementPosition.time){
+                    selectedElementPosition = elementPosition;
+                }
+            });
+
+            return selectedElementPosition;
+        }
+
+        var playMovementAnimation = function(){
+
+            currentMillisecondTime += 100;
+
+            while (movementDTOs[movementDTOCurrentIndex].time <= currentMillisecondTime) {
+                var currentMovementDTO = movementDTOs[movementDTOCurrentIndex];
+
+                $.each(wordItems,function(index,wordItem){
+                    var elementPosition = getClosestElementPosition(wordItem,currentMillisecondTime);
+
+                    if(elementPosition != null)
+                    {
+                        wordItem.obj.css({
+                            left: elementPosition.left,
+                            top: elementPosition.top
+                        });
+                    }
+                });
+
+                currentDrawPoint = new Point(currentMovementDTO.xPosition,currentMovementDTO.yPosition);
+
+                if(currentMovementDTO.state == 0)
+                {
+                    lastDrawPoint = null;
+                }
+
+                if(lastDrawPoint == null){
+                    lastDrawPoint = currentDrawPoint;
+                }
+
+                currentDistance += calculateDistance(currentDrawPoint,lastDrawPoint);
+
+                movementDistance.text(currentDistance.toFixed(2));
+                presentorProxy.drawRect(currentDrawPoint);
+                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint);
+
+                // When finish drawing
+                lastDrawPoint = currentDrawPoint;
+
+                movementDTOCurrentIndex++;
+            }
+        }
+
         var play = function () {
 
-            setInterval(playAnimation, 100);
+            setInterval(playMovementAnimation, 100);
         };
 
         $(function () {

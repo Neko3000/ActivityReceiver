@@ -31,6 +31,10 @@
 
             <!-- TOOL-BAR -->
             <div class="row">
+
+                <div class="col-md-6 offset-md-3 m--margin-top-10 m--margin-bottom-30">
+                    <div id="progress-slider" class="m-nouislider--drag-danger"></div>
+                </div>
                 
                 <div class="col-md-1 offset-md-5 center-container">
                     <div class="get-data btn btn-brand m-btn--pill center-object" >
@@ -182,6 +186,16 @@
 
         $(function () {
             $('.replayer').replayer(@(Model.AnswerID));
+
+            noUiSlider.create(document.getElementById('progress-slider'), {
+                start: 40,
+                connect: [true, false],
+                range: {
+                    'min': 0,
+                    'max': 100
+                }
+            });
+
         });
 
     </script>
