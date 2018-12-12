@@ -23,6 +23,11 @@ div {
 .bg-white {
   background-color: white;
 }
+.noUi-connect,
+.noUi-origin {
+  -webkit-transition: none;
+  transition: none;
+}
 .replayer {
   background-color: white;
 }
