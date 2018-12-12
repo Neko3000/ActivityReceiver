@@ -68,6 +68,22 @@ namespace ActivityReceiver.Data
                 var applicationUserPWD3 = "j123456";
                 await _userManager.CreateAsync(applicationUser3, applicationUserPWD3);
                 await _userManager.AddToRoleAsync(applicationUser3, "Student");
+
+                var applicationUser4 = new ApplicationUser
+                {
+                    UserName = "yonetsu",
+                };
+                var applicationUserPWD4 = "y123456";
+                await _userManager.CreateAsync(applicationUser4, applicationUserPWD4);
+                await _userManager.AddToRoleAsync(applicationUser3, "Student");
+
+                var applicationUser5 = new ApplicationUser
+                {
+                    UserName = "banno",
+                };
+                var applicationUserPWD5 = "b123456";
+                await _userManager.CreateAsync(applicationUser5, applicationUserPWD5);
+                await _userManager.AddToRoleAsync(applicationUser3, "Student");
             }
         }
 

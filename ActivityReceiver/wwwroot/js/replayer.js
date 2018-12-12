@@ -65,7 +65,7 @@ class PresentorProxy{
         var sentenceJPLabel = $this.find('.sentence-jp');
         var answerLabel = $this.find('.answer');
 
-        var progressSlider = document.getElementById('progress-slider');
+        var progressSlider = $this.find('.progress-slider');
 
         var textAnswer = $this.find('.text-answer .info-value');
         var textJP = $this.find('.text-jp .info-value');
@@ -174,18 +174,18 @@ class PresentorProxy{
             // Set the size of Canvas, which should be equal to its parent
             fitToContainer(presentor);
 
-            $(".progress-slider-sub").ionRangeSlider({
+            // Slider
+            progressSlider.ionRangeSlider({
                 min: 0,
                 max: 100,
                 from: 10,
+
                 onStart: function () {
                     // Called right after range slider instance initialised
                     stopAnimation();
-                    console.log('slide-start');
                 },
                 onChange: function (data) {
-                    // Called every time handle position is changed
-            
+                    // Called every time handle position is changed           
                     presentorProxy.clearAll();
 
                     currentMillisecondTime = data.from / 100 * totalMillisecondTime;
@@ -195,46 +195,12 @@ class PresentorProxy{
                 },
             });
 
-            $(".irs").mousedown(function(){
-
-                stopAnimation();
-                console.log('stop');
-            });
-            
-
-            // Slider
-            noUiSlider.create(progressSlider, {
-                start: 40,
-                connect: [true, false],
-                range: {
-                    'min': 0,
-                    'max': 100
-                }
-            });
-
-            progressSlider.noUiSlider.on('start',function(){
-                stopAnimation();
- 
-            });
-
-            progressSlider.noUiSlider.on('slide',function(){
-                stopAnimation();
-
-                presentorProxy.clearAll();
-
-                currentMillisecondTime = progressSlider.noUiSlider.get() / 100 * totalMillisecondTime;
-
-                adjustCanvasToTime(currentMillisecondTime);
-                adjustWordItemsToTime(currentMillisecondTime);
-            });
-
-
             // btn
-            $this.find('.get-data').click(function () {
-                getAnswer();
+            $this.find('.pause-btn').click(function () {
+                stopAnimation();
             });
 
-            $this.find('.start-play').click(function () {
+            $this.find('.start-play-btn').click(function () {
                 play();
             });
 
@@ -561,7 +527,7 @@ class PresentorProxy{
         var triggerPrograssSlider = function(){
             //movePrograssSlider = progressSlider.noUiSlider.set(100 * currentMillisecondTime/totalMillisecondTime);
 
-            $(".progress-slider-sub").data("ionRangeSlider").update({
+            progressSlider.data("ionRangeSlider").update({
                 from: 100 * currentMillisecondTime/totalMillisecondTime,
             });
         }
@@ -574,6 +540,7 @@ class PresentorProxy{
         $(function () {
 
             setLayout();
+            getAnswer();
         });
 
     };

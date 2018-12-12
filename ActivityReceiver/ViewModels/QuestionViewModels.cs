@@ -89,6 +89,8 @@ namespace ActivityReceiver.ViewModels
         public string Division { get; set; }
         [Required]
         public string AnswerDivision { get; set; }
+        [Required]
+        public string Resolution { get; set; }
 
         [Required]
         public string Answer { get; set; }

@@ -17,6 +17,8 @@ namespace ActivityReceiver.Models
         public string Division { get; set; }
         public string AnswerDivision { get; set; }
 
+        public string Resolution { get; set; }
+
         public string Content { get; set; }
         public bool IsCorrect { get; set; }
 

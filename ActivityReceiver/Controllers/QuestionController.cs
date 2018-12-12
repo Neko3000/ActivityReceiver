@@ -219,6 +219,7 @@ namespace ActivityReceiver.Controllers
                 SentenceJP = model.SentenceJP,
                 Division = model.Division,
                 AnswerDivision = model.AnswerDivision,
+                Resolution = model.Resolution,
 
                 Content = model.Answer,
                 IsCorrect = model.AnswerDivision == model.Answer ? true:false,
