@@ -25,15 +25,18 @@ class PresentorProxy{
     constructor(canvas){
         this.canvas = canvas;
         this.context = this.canvas.getContext("2d");
+
+        
     }
 
-    drawRect(point) {
+    drawRect(point,color) {
 
         // Calculate the center position
+        this.context.fillStyle = color;
         this.context.fillRect(point.x - 2,point.y - 2,4,4);
     }
 
-    drawLineBetweenTwoPoints(pointA,pointB){
+    drawLineBetweenTwoPoints(pointA,pointB,color){
 
         if(pointA == null || pointB == null)
         {
@@ -43,6 +46,7 @@ class PresentorProxy{
         this.context.beginPath();
         this.context.moveTo(pointA.x,pointA.y);
         this.context.lineTo(pointB.x,pointB.y);
+        this.context.strokeStyle = color;
         this.context.stroke();
     }
 
@@ -60,6 +64,8 @@ class PresentorProxy{
 
         var presentor = $this.find('.presentor');
         var presentorProxy = new PresentorProxy(presentor[0]);
+        var colorList = ['#34bfa3','#ffb822','#f4516c','#36a3f7','#5867dd'];
+        var currentColorIndex = 0;
 
         var mainView = $this.find('.main-view');
         var sentenceJPLabel = $this.find('.sentence-jp');
@@ -144,10 +150,11 @@ class PresentorProxy{
                 if(currentMovementDTO.state == 0)
                 {
                     lastDrawPointTemp = currrnetDrawPointTemp;
+                    currentColorIndex = (currentColorIndex + 1) % colorList.length;
                 }
 
-                presentorProxy.drawRect(currrnetDrawPointTemp);
-                presentorProxy.drawLineBetweenTwoPoints(lastDrawPointTemp,currrnetDrawPointTemp);
+                presentorProxy.drawRect(currrnetDrawPointTemp,colorList[currentColorIndex]);
+                presentorProxy.drawLineBetweenTwoPoints(lastDrawPointTemp,currrnetDrawPointTemp,colorList[currentColorIndex]);
 
                 lastDrawPointTemp = currrnetDrawPointTemp;
             });
@@ -446,13 +453,14 @@ class PresentorProxy{
                 if(currentMovementDTO.state == 0)
                 {
                     lastDrawPoint = currentDrawPoint;
+                    currentColorIndex = (currentColorIndex + 1) % colorList.length;
                 }
 
                 currentDistance += calculateDistance(currentDrawPoint,lastDrawPoint);
 
                 movementDistance.text(currentDistance.toFixed(2));
-                presentorProxy.drawRect(currentDrawPoint);
-                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint);
+                presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndex]);
+                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
 
                 // When finish drawing
                 lastDrawPoint = currentDrawPoint;
