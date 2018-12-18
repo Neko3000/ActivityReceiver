@@ -78,6 +78,9 @@ class PresentorProxy{
         var textEN = $this.find('.text-en .info-value');
 
         var movementDistance = $this.find('.movement-distance .info-value');
+        var movementTotalDistance = $this.find('.movement-total-distance .info-value');
+        var movementTime = $this.find('.movement-time .info-value');
+        var movementDD = $this.find('.movement-dd .info-value');
 
         var accelerationX = $this.find('.acceleration-x');
         var accelerationY = $this.find('.acceleration-y');
@@ -88,6 +91,9 @@ class PresentorProxy{
         var division;
         var answerDivision;
         var content;
+
+        var startDate;
+        var endDate;
 
         var wordItems = new Array();
     
@@ -107,6 +113,60 @@ class PresentorProxy{
 
         var TimerID;
         var animationFrequency = 20;
+
+        // Calculation
+
+        var getMaxDD = function(){
+            var maxDD = 0;
+            var lastMovementDTOEnd;
+
+            $.each(movementDTOs,function(index,movementDTO){
+                if(movementDTO.state == 1){
+                    if(lastMovementDTOEnd != null){
+                        var diffence =  movementDTO.time - lastMovementDTOEnd.time
+                        maxDD = maxDD < diffence ? diffence:maxDD;
+                    }
+                }
+                else if(movementDTO.state == 2){
+                    lastMovementDTOEnd = movementDTO
+                }
+            });
+            return maxDD;
+        }
+
+        var getTotalDistance = function(){
+            var totalDistance = 0;
+            var currentPoint,lastPoint;
+
+            $.each(movementDTOs,function(index,movementDTO){
+                if(movementDTO.state == 0){
+                    lastPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
+                }
+                else if(movementDTO.state == 1){
+                    currentPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
+                    totalDistance += calculateDistance(lastPoint,currentPoint);
+
+                    lastPoint = currentPoint;
+                }
+                else if(movementDTO.state == 2){
+                    currentPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
+                    totalDistance += calculateDistance(lastPoint,currentPoint);
+
+                    lastPoint = null;
+                }
+
+            });
+
+            return totalDistance;
+        }
+
+        var getTimeDifference = function(time1,time2){
+
+            var millionSecondTime1 = new Date(time1).getTime();
+            var millionSecondTime2 = new Date(time2).getTime();          
+
+            return millionSecondTime2 - millionSecondTime1;
+        }
 
         // Common
         var sortByLeft = function(a,b){
@@ -185,7 +245,7 @@ class PresentorProxy{
             progressSlider.ionRangeSlider({
                 min: 0,
                 max: 100,
-                from: 10,
+                from: 0,
 
                 onStart: function () {
                     // Called right after range slider instance initialised
@@ -258,6 +318,9 @@ class PresentorProxy{
                         answerDivision = answer.answerDivision;
                         content = answer.content;
 
+                        startDate = answer.startDate;
+                        endDate = answer.endDate;
+
                         movementDTOs = answer.movementDTOs;
                         deviceAccelerationDTOs = answer.deviceAccelerationDTOs;
 
@@ -269,6 +332,9 @@ class PresentorProxy{
                         totalMillisecondTime = getMaxMillisecondTime();
                         calculateWordItemPositions();
 
+                        movementTotalDistance.text(getTotalDistance().toFixed(2));
+                        movementTime.text(getTimeDifference(startDate,endDate));
+                        movementDD.text(getMaxDD());
                     }
                 }
             );
@@ -466,6 +532,10 @@ class PresentorProxy{
                 lastDrawPoint = currentDrawPoint;
 
                 movementDTOCurrentIndex++;
+
+                if(movementDTOCurrentIndex>=movementDTOs.length){
+                    break;
+                }
             }
         }
 
@@ -490,6 +560,10 @@ class PresentorProxy{
                 });
 
                 deviceAccelerationDTOCurrentIndex++;
+
+                if(deviceAccelerationDTOCurrentIndex>=deviceAccelerationDTOs.length){
+                    break;
+                }
             }
         }
 
@@ -498,7 +572,7 @@ class PresentorProxy{
             currentMillisecondTime += 1000/animationFrequency;
 
             if(currentMillisecondTime > totalMillisecondTime){
-                clearInterval();
+                stopAnimation();
 
                 return;
             }
