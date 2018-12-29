@@ -107,40 +107,38 @@ namespace ActivityReceiver
             AutoMapper.Mapper.Initialize(cfg => {
 
                 /* QuestionManage */
-                cfg.CreateMap<Question, QuestionDTO>().
-                    ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
-                    ForMember(dest => dest.EditorName, opt => opt.Ignore());
+                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionPresenter>();
 
                 // Create
-                cfg.CreateMap<Question, QuestionManageCreateGetViewModel>().
+                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreateGetViewModel>().
                     ForMember(dest => dest.GrammarIDs, opt => opt.Ignore()).
                     ForMember(dest => dest.Grammars, opt => opt.Ignore());
-                cfg.CreateMap<QuestionManageCreatePostViewModel, Question>().
+                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreatePostViewModel, Question>().
                     ForMember(dest => dest.GrammarIDString, opt => opt.Ignore()).
                     ForMember(dest => dest.CreateDate, opt => opt.Ignore()).
                     ForMember(dest => dest.EditorID, opt => opt.Ignore());
-                cfg.CreateMap<QuestionManageCreatePostViewModel, QuestionManageCreateGetViewModel>().
+                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreatePostViewModel, ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreateGetViewModel>().
                     ForMember(dest => dest.Grammars, opt => opt.Ignore());
 
                 // Edit
-                cfg.CreateMap<Question, QuestionManageEditGetViewModel>().
+                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel>().
                     ForMember(dest => dest.GrammarIDs, opt => opt.Ignore()).
                     ForMember(dest => dest.Grammars, opt => opt.Ignore()).
                     ForMember(dest => dest.ApplicationUserDTOs, opt => opt.Ignore());
-                cfg.CreateMap<QuestionManageEditPostViewModel, Question>().
+                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditPostViewModel, Question>().
                     ForMember(dest => dest.GrammarIDString, opt => opt.Ignore());
-                cfg.CreateMap<QuestionManageEditPostViewModel, QuestionManageEditGetViewModel>().
+                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditPostViewModel, ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel>().
                     ForMember(dest => dest.GrammarIDs, opt => opt.Ignore()).
                     ForMember(dest => dest.Grammars, opt => opt.Ignore()).
                     ForMember(dest => dest.ApplicationUserDTOs, opt => opt.Ignore());
 
                 // Details
-                cfg.CreateMap<Question, QuestionManageDetailsViewModel>().
+                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDetailsViewModel>().
                     ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
                     ForMember(dest => dest.EditorName, opt => opt.Ignore());
 
                 // Delete
-                cfg.CreateMap<Question, QuestionManageDeleteGetViewModel>().
+                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDeleteGetViewModel>().
                     ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
                     ForMember(dest => dest.EditorName, opt => opt.Ignore());
 
@@ -150,7 +148,17 @@ namespace ActivityReceiver
 
 
                 /* QuestionAnswerManage*/
-                cfg.CreateMap<Answer, AnswerDTO>();
+                cfg.CreateMap<Answer, ActivityReceiver.ViewModels.AnswerManage.AnswerPresenter>();
+                // Details
+                cfg.CreateMap<Answer, ActivityReceiver.ViewModels.AnswerManage.AnswerManageDetailsViewModel>();
+
+
+                /* AssignmentMange */
+                cfg.CreateMap<Answer, ActivityReceiver.ViewModels.AssignmentRecordManage.AnswerPresenter>();
+                // Index
+                cfg.CreateMap<AssignmentRecord, ActivityReceiver.ViewModels.AssignmentRecordManage.AssignmentRecordPresenter>();
+                // Details
+                cfg.CreateMap<AssignmentRecord, ActivityReceiver.ViewModels.AssignmentRecordManage.AssignmentRecordManageDetailsViewModel>();
             });
 
 

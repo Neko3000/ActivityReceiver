@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ActivityReceiver.Models;
 
-namespace ActivityReceiver.ViewModels
+namespace ActivityReceiver.ViewModels.QuestionManage
 {
-    public class QuestionDTO
+    public class QuestionPresenter
     {
         [Display(Name = "ID")]
         public int ID { get; set; }
@@ -44,7 +44,7 @@ namespace ActivityReceiver.ViewModels
     #region Index
     public class QuestionManageIndexViewModel
     {
-        public IList<QuestionDTO> QuestionDTOs { get;set; }
+        public IList<QuestionPresenter> QuestionPresenterCollection { get;set; }
     }
     #endregion
 

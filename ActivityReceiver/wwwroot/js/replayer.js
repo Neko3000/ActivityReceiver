@@ -97,10 +97,10 @@ class PresentorProxy{
 
         var wordItems = new Array();
     
-        var movementDTOs;
+        var movementCollection;
         var movementDTOCurrentIndex = 0;
 
-        var deviceAccelerationDTOs;
+        var deviceAccelerationCollection;
         var deviceAccelerationDTOCurrentIndex = 0;
 
         var currentDrawPoint;
@@ -120,7 +120,7 @@ class PresentorProxy{
             var maxDD = 0;
             var lastMovementDTOEnd;
 
-            $.each(movementDTOs,function(index,movementDTO){
+            $.each(movementCollection,function(index,movementDTO){
                 if(movementDTO.state == 1){
                     if(lastMovementDTOEnd != null){
                         var diffence =  movementDTO.time - lastMovementDTOEnd.time
@@ -138,7 +138,7 @@ class PresentorProxy{
             var totalDistance = 0;
             var currentPoint,lastPoint;
 
-            $.each(movementDTOs,function(index,movementDTO){
+            $.each(movementCollection,function(index,movementDTO){
                 if(movementDTO.state == 0){
                     lastPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
                 }
@@ -200,7 +200,7 @@ class PresentorProxy{
             var currrnetDrawPointTemp;
             var lastDrawPointTemp;
 
-            $.each(movementDTOs,function(index,currentMovementDTO){
+            $.each(movementCollection,function(index,currentMovementDTO){
                 if(currentMovementDTO.time > time){
                     return;
                 }
@@ -308,7 +308,7 @@ class PresentorProxy{
                 {
                     url: "/AnswerReplay/GetAnswer?id=" + id.toString(),
                     type: "get",
-                    dataType: "json",
+                    dataType: "json", deviceAccelerationCollection
                     async: false,
                     success: function (answer) {
 
@@ -321,8 +321,8 @@ class PresentorProxy{
                         startDate = answer.startDate;
                         endDate = answer.endDate;
 
-                        movementDTOs = answer.movementDTOs;
-                        deviceAccelerationDTOs = answer.deviceAccelerationDTOs;
+                        movementCollection = answer.movementCollection;
+                        deviceAccelerationCollection = answer.deviceAccelerationCollection;
 
                         showQuestion();
 
@@ -360,11 +360,11 @@ class PresentorProxy{
             var tapBeganRelativePositionSIM;  
 
             var currentMillisecondTimeSIM = 0;
-            while(movementDTOCurrentIndexSIM <= movementDTOs.length - 1){
+            while(movementDTOCurrentIndexSIM <= movementCollection.length - 1){
 
-                while (movementDTOs[movementDTOCurrentIndexSIM].time <= currentMillisecondTimeSIM){
+                while (movementCollection[movementDTOCurrentIndexSIM].time <= currentMillisecondTimeSIM){
 
-                    var currentMovementDTO = movementDTOs[movementDTOCurrentIndexSIM];
+                    var currentMovementDTO = movementCollection[movementDTOCurrentIndexSIM];
     
                     if (currentMovementDTO.state == 0) {
                         // tap
@@ -400,7 +400,7 @@ class PresentorProxy{
     
                     movementDTOCurrentIndexSIM ++;
 
-                    if(movementDTOCurrentIndexSIM > movementDTOs.length - 1){
+                    if(movementDTOCurrentIndexSIM > movementCollection.length - 1){
                         break;
                     }            
                 }
@@ -482,25 +482,25 @@ class PresentorProxy{
         };
 
         var getMaxMillisecondTime = function(){
-            var sortedMovementDTOs = movementDTOs.slice().sort(sortByTime);
-            sortedMovementDTOs.reverse();
-            var sortedDeviceAccelerationDTOs = deviceAccelerationDTOs.slice().sort(sortByTime);
-            sortedDeviceAccelerationDTOs.reverse();
+            var sortedmovementCollection = movementCollection.slice().sort(sortByTime);
+            sortedmovementCollection.reverse();
+            var sorteddeviceAccelerationCollection = deviceAccelerationCollection.slice().sort(sortByTime);
+            sorteddeviceAccelerationCollection.reverse();
 
-            maxTime = sortedDeviceAccelerationDTOs[0].time > sortedMovementDTOs[0].time ? sortedDeviceAccelerationDTOs[0].time:sortedMovementDTOs[0].time;
+            maxTime = sorteddeviceAccelerationCollection[0].time > sortedmovementCollection[0].time ? sorteddeviceAccelerationCollection[0].time:sortedmovementCollection[0].time;
 
             return maxTime;
         }
 
         var playMovementAnimation = function(){
 
-            if(movementDTOCurrentIndex > movementDTOs.length - 1){
+            if(movementDTOCurrentIndex > movementCollection.length - 1){
 
                 return;
             }
 
-            while (movementDTOs[movementDTOCurrentIndex].time <= currentMillisecondTime) {
-                var currentMovementDTO = movementDTOs[movementDTOCurrentIndex];
+            while (movementCollection[movementDTOCurrentIndex].time <= currentMillisecondTime) {
+                var currentMovementDTO = movementCollection[movementDTOCurrentIndex];
 
                 $.each(wordItems,function(index,wordItem){
                     var elementPosition = getClosestElementPosition(wordItem,currentMillisecondTime);
@@ -533,7 +533,7 @@ class PresentorProxy{
 
                 movementDTOCurrentIndex++;
 
-                if(movementDTOCurrentIndex>=movementDTOs.length){
+                if(movementDTOCurrentIndex>=movementCollection.length){
                     break;
                 }
             }
@@ -541,27 +541,27 @@ class PresentorProxy{
 
         var playAcceralationAnimation = function(){
 
-            if(deviceAccelerationDTOCurrentIndex > deviceAccelerationDTOs.length - 1){
+            if(deviceAccelerationDTOCurrentIndex > deviceAccelerationCollection.length - 1){
                 return;
             }
 
-            while (deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].time <= currentMillisecondTime) {
+            while (deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].time <= currentMillisecondTime) {
 
                 accelerationX.css({
-                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].x / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].x / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationY.css({
-                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].y / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].y / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationZ.css({
-                    width: (Math.abs(deviceAccelerationDTOs[deviceAccelerationDTOCurrentIndex].z / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].z / 3.0 * 100)).toString() + "%"
                 });
 
                 deviceAccelerationDTOCurrentIndex++;
 
-                if(deviceAccelerationDTOCurrentIndex>=deviceAccelerationDTOs.length){
+                if(deviceAccelerationDTOCurrentIndex>=deviceAccelerationCollection.length){
                     break;
                 }
             }

@@ -69,24 +69,5 @@ namespace ActivityReceiver.Functions
 
             return grammarIDString;
         }
-
-        public async static Task<IList<QuestionDTO>>  ConvertToQuestionDTOForEachQuestion(ActivityReceiverDbContext context,UserManager<ApplicationUser> userManager,IList<Question> questions)
-        {
-            var grammars = context.Grammars.ToList();
-            var applicationUsers = userManager.Users.ToList();
-
-            var questionDTOs = new List<QuestionDTO>();
-
-            foreach(var question in questions)
-            {
-                var questionDTO = Mapper.Map<Question,QuestionDTO>(question);
-
-                questionDTO.GrammarNameString = ConvertGrammarIDStringToGrammarNameString(question.GrammarIDString, context.Grammars.ToList());
-                questionDTO.EditorName = (await userManager.FindByIdAsync(question.EditorID)).UserName;
-
-                questionDTOs.Add(questionDTO);
-            }
-            return questionDTOs;
-        }
     }
 }

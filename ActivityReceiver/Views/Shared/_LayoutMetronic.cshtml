@@ -1,4 +1,4 @@
-﻿
+﻿@using ActivityReceiver.Functions;
 @{
     ViewData["Title"] = "_LayoutMetronic";
 }
@@ -1132,25 +1132,67 @@ License: You must have a valid license purchased only from themeforest(the above
                             </h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
-                        <li class="m-menu__item  m-menu__item--submenu m-menu__item--open m-menu__item--expanded" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                            <a href="@Url.Action("Index","QuestionManage")" class="m-menu__link m-menu__toggle">
+                        <li class="m-menu__item  m-menu__item--submenu  @(Html.IsInControllers("QuestionManage") ? "m-menu__item--open m-menu__item--expanded":"")" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                            <a href="#" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-layers"></i>
                                 <span class="m-menu__link-text">
                                     問題管理
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
-
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+                                <ul class="m-menu__subnav">
+                                    <li class="m-menu__item  m-menu__item--parent " aria-haspopup="true">
+                                        <span class="m-menu__link">
+                                            <span class="m-menu__link-text">
+                                                記録管理
+                                            </span>
+                                        </span>
+                                    </li>
+                                    <li class="m-menu__item @(Html.IsInControllers("QuestionManage") ? " m-menu__item--active":"")" aria-haspopup="true">
+                                        <a href="@Url.Action("Index","QuestionManage")" class="m-menu__link ">
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="m-menu__link-text">
+                                                クエスション
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
-                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                            <a href="@Url.Action("Index","AnswerManage")" class="m-menu__link m-menu__toggle">
+                        <li class="m-menu__item  m-menu__item--submenu  @(Html.IsInControllers("AssignmentRecordManage") ? "m-menu__item--open m-menu__item--expanded":"")" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                            <a href="#" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-share"></i>
                                 <span class="m-menu__link-text">
-                                    解答記録管理
+                                    記録管理
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
-
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+                                <ul class="m-menu__subnav">
+                                    <li class="m-menu__item  m-menu__item--parent " aria-haspopup="true">
+                                        <span class="m-menu__link">
+                                            <span class="m-menu__link-text">
+                                                記録管理
+                                            </span>
+                                        </span>
+                                    </li>
+                                    <li class="m-menu__item @(Html.IsInControllers("AssignmentRecordManage") ? " m-menu__item--active":"")" aria-haspopup="true">
+                                        <a href="@Url.Action("Index","AssignmentRecordManage")" class="m-menu__link ">
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="m-menu__link-text">
+                                                アサイメントリコード
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="m-menu__section">
                             <h4 class="m-menu__section-text">

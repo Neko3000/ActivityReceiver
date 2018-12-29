@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using ActivityReceiver.ViewModels;
+using ActivityReceiver.ViewModels.AnswerReplay;
 using ActivityReceiver.Functions;
 
 namespace ActivityReceiver.Controllers
@@ -30,6 +30,7 @@ namespace ActivityReceiver.Controllers
         public IActionResult GetAnswer(int id)
         {
             var answer = _arDbContext.Answsers.Where(a => a.ID == id).SingleOrDefault();
+
             if(answer == null)
             {
                 return NotFound();
@@ -38,7 +39,7 @@ namespace ActivityReceiver.Controllers
             var movements = _arDbContext.Movements.Where(m => m.AnswerID == id).ToList();
             var deviceAccelerations = _arDbContext.DeviceAccelerations.Where(d => d.AnswerID == id).ToList();
 
-            var vm = new AnswerReplayGetAnswerGetViewModel
+            var vm = new AnswerReplayGetAnswerViewModel
             {
                 ID = answer.ID,
                 AssignmentRecordID = answer.AssignmentRecordID,
@@ -56,8 +57,8 @@ namespace ActivityReceiver.Controllers
                 StartDate = answer.StartDate,
                 EndDate = answer.EndDate,
 
-                MovementDTOs = AnswerReplayHandler.ConvertToDTOCollection<Movement,MovementDTO>(movements),
-                DeviceAccelerationDTOs = AnswerReplayHandler.ConvertToDTOCollection<DeviceAcceleration, DeviceAccelerationDTO>(deviceAccelerations),
+                MovementCollection = movements,
+                DeviceAccelerationCollection = deviceAccelerations,
             };
 
             //Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
@@ -69,7 +70,7 @@ namespace ActivityReceiver.Controllers
         [HttpGet]
         public IActionResult Replayer(int id)
         {
-            var vm = new AnswerReplayerReplayerGetViewModel {
+            var vm = new AnswerReplayReplayerViewModel {
                 AnswerID = id
             };
             return View(vm);

@@ -5,17 +5,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using ActivityReceiver.Models;
 
-namespace ActivityReceiver.ViewModels
+namespace ActivityReceiver.ViewModels.AnswerReplay
 {
     #region Replayer
-    public class AnswerReplayerReplayerGetViewModel
+    public class AnswerReplayReplayerViewModel
     {
         public int AnswerID { get; set; }
     }
     #endregion
 
     #region GetAnswer
-    public class AnswerReplayGetAnswerGetViewModel
+    public class AnswerReplayGetAnswerViewModel
     {
         public int ID { get; set; }
 
@@ -35,8 +35,8 @@ namespace ActivityReceiver.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public IList<MovementDTO> MovementDTOs { get; set; }
-        public IList<DeviceAccelerationDTO> DeviceAccelerationDTOs { get; set; }
+        public IList<Movement> MovementCollection { get; set; }
+        public IList<DeviceAcceleration> DeviceAccelerationCollection { get; set; }
     }
     #endregion
 

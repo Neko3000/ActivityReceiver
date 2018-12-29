@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ActivityReceiver.Models;
 
-namespace ActivityReceiver.ViewModels
+namespace ActivityReceiver.ViewModels.AnswerManage
 {
-    public class AnswerDTO
+    public class AnswerPresenter
     {
         [Display(Name = "ID")]
         public int ID { get; set; }
@@ -48,7 +48,7 @@ namespace ActivityReceiver.ViewModels
     #region Index
     public class AnswerManageIndexViewModel
     {
-        public IList<AnswerDTO> AnswerDTOs { get;set; }
+        public IList<AnswerPresenter> AnswerPresenterCollection { get;set; }
     }
     #endregion
 
@@ -89,6 +89,9 @@ namespace ActivityReceiver.ViewModels
         [DataType(DataType.DateTime)]
         [Display(Name = "開始時間")]
         public DateTime EndDate { get; set; }
+
+        public IList<Movement> MovementCollection { get; set; }
+        public IList<DeviceAcceleration> DeviceAccelerationCollection { get; set; }
     }
     #endregion
 }

@@ -1,7 +1,28 @@
-﻿body, html {
+﻿body, html, span{
     font-family: 'Microsoft YaHei',Poppins,Montserrat,Helvetica,"Yu Gothic",Arial, serif,sans-serif;
     font-size: 13px;
     //letter-spacing: 1px;
+}
+
+// PlaceHolder
+::-webkit-input-placeholder {
+    font-family: 'Microsoft YaHei',Poppins,Montserrat,Helvetica,"Yu Gothic",Arial, serif,sans-serif;
+    font-size: 13px;
+}
+
+::-moz-placeholder {
+    font-family: 'Microsoft YaHei',Poppins,Montserrat,Helvetica,"Yu Gothic",Arial, serif,sans-serif;
+    font-size: 13px;
+}
+
+:-ms-input-placeholder {
+    font-family: 'Microsoft YaHei',Poppins,Montserrat,Helvetica,"Yu Gothic",Arial, serif,sans-serif;
+    font-size: 13px;
+}
+
+::placeholder {
+    font-family: 'Microsoft YaHei',Poppins,Montserrat,Helvetica,"Yu Gothic",Arial, serif,sans-serif;
+    font-size: 13px;
 }
 
 //Table
@@ -10,10 +31,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+.m-form .m-form__section.m-form__section--label-align-right .m-form__group > label, .m-form.m-form--label-align-right .m-form__group > label.m--align-left {
+    text-align: left;
+}
 //Modal
 .modal-footer {
-    display:block;
+    display: block;
 }
 
 //File upload

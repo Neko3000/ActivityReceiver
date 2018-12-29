@@ -9,6 +9,10 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ViewModels\AnswerManageViewModels.cs~RF2872f5ef.TMP" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
@@ -37,6 +41,12 @@
 
   <ItemGroup>
     <Content Update="Views\Account\Login - Copy.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\AssignmentRecordManage\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\AssignmentRecordManage\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\AnswerManage\Details.cshtml">

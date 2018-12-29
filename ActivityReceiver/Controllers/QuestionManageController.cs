@@ -10,10 +10,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using ActivityReceiver.ViewModels;
+using ActivityReceiver.ViewModels.QuestionManage;
 using ActivityReceiver.Functions;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using ActivityReceiver.DataBuilder;
 
 namespace ActivityReceiver.Controllers
 {
@@ -24,11 +25,15 @@ namespace ActivityReceiver.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        private readonly QuestionManageDataBuilder _dataBuilder;
+
         public QuestionManageController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
         {
             _arDbContext = arDbContext;
             _userManager = userManager;
             _roleManager = roleManager;
+
+            _dataBuilder = new QuestionManageDataBuilder(_arDbContext, _userManager, _roleManager);
         }
 
         // GET: QuestionManage
@@ -39,7 +44,7 @@ namespace ActivityReceiver.Controllers
 
             var vm = new QuestionManageIndexViewModel
             {
-                QuestionDTOs = await QuestionManageHandler.ConvertToQuestionDTOForEachQuestion(_arDbContext, _userManager, _arDbContext.Questions.ToList())
+                QuestionPresenterCollection = await _dataBuilder.BuildQuestionPresenterList()
             };
 
 
