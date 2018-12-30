@@ -14,7 +14,7 @@ using ActivityReceiver.ViewModels.AnswerManage;
 using ActivityReceiver.Functions;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using ActivityReceiver.DataBuilder;
+using ActivityReceiver.DataBuilders;
 
 namespace ActivityReceiver.Controllers
 {

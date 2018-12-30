@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace ActivityReceiver.ViewModels
+namespace ActivityReceiver.ViewModels.UserManage
 {
-    public class ApplicationUserDTO
+    public class ApplicationUserPresenter
     {
         [Display(Name ="ID")]
         public string ID { get; set; }
@@ -25,7 +25,7 @@ namespace ActivityReceiver.ViewModels
     #region Index
     public class UserManageIndexViewModel
     {
-        public IList<ApplicationUserDTO> ApplicationUserDTOs { get; set; }
+        public IList<ApplicationUserPresenter> ApplicationUserPresenterCollection { get; set; }
     }
     #endregion
 

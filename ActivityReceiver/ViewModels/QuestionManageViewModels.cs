@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ActivityReceiver.Models;
+using ActivityReceiver.ViewModels.UserManage;
 
 namespace ActivityReceiver.ViewModels.QuestionManage
 {
@@ -138,7 +139,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public string EditorID { get; set; }
 
         public IList<Grammar> Grammars{ get; set; }
-        public IList<ApplicationUserDTO>  ApplicationUserDTOs { get;set; }
+        public IList<ApplicationUserPresenter> ApplicationUserPresenterCollection { get;set; }
         
     }
     public class QuestionManageEditPostViewModel

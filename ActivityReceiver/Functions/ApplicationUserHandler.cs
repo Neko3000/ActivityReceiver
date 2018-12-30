@@ -7,19 +7,21 @@ using ActivityReceiver.ViewModels;
 using ActivityReceiver.Models;
 using ActivityReceiver.Data;
 using Microsoft.AspNetCore.Identity;
+using ActivityReceiver.ViewModels.UserManage;
 
 namespace ActivityReceiver.Functions
 {
 
     public class ApplicationUserHandler
     {
-        public static async Task<IList<ApplicationUserDTO>> ConvertApplicationUsersToDTOs(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,IList<ApplicationUser> applicationUsers)
+        public static async Task<IList<ApplicationUserPresenter>> ConvertApplicationUsersToPresenterCollection(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,IList<ApplicationUser> applicationUsers)
         {
-            var applicationUserDTOs = new List<ApplicationUserDTO>();
+            var applicationUserDTOs = new List<ApplicationUserPresenter>();
             foreach(var applicationUser in applicationUsers)
             {
 
-                var applicationUserDTO = new ApplicationUserDTO{
+                var applicationUserDTO = new ApplicationUserPresenter
+                {
                     ID = applicationUser.Id,
                     UserName = applicationUser.UserName,
                     Email = applicationUser.Email
@@ -39,9 +41,10 @@ namespace ActivityReceiver.Functions
 
             return applicationUserDTOs;
         }
-        public static async Task<ApplicationUserDTO> ConvertApplicationUserToDTO(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,ApplicationUser applicationUser)
+        public static async Task<ApplicationUserPresenter> ConvertApplicationUserToPresenter(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,ApplicationUser applicationUser)
         {
-            var applicationUserDTO = new ApplicationUserDTO{
+            var applicationUserDTO = new ApplicationUserPresenter
+            {
                 ID = applicationUser.Id,
                 UserName = applicationUser.UserName,
                 Email = applicationUser.Email

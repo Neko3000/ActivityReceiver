@@ -1,4 +1,4 @@
-﻿@model ActivityReceiver.ViewModels.AnswerManageIndexViewModel
+﻿@model ActivityReceiver.ViewModels.AnswerManage.AnswerManageIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -327,35 +327,35 @@
                 </thead>
                 <tbody>
                     @{
-                        for (int i = 0; i < Model.AnswerDTOs.Count; i++)
+                        for (int i = 0; i < Model.AnswerPresenterCollection.Count; i++)
                         {
-                            var answerDTO = Model.AnswerDTOs[i];
+                            var answerPresenter = Model.AnswerPresenterCollection[i];
                             <tr>
                                 <td>
-                                    @answerDTO.ID
+                                    @answerPresenter.ID
                                 </td>
                                 <td>
-                                    @answerDTO.SentenceEN
+                                    @answerPresenter.SentenceEN
                                 </td>
                                 <td>
-                                    @answerDTO.SentenceJP
+                                    @answerPresenter.SentenceJP
                                 </td>
                                 <td>
-                                    @answerDTO.Content
+                                    @answerPresenter.Content
                                 </td>
                                 <td>
-                                    @answerDTO.IsCorrect
+                                    @answerPresenter.IsCorrect
                                 </td>
                                 <td>
-                                    @answerDTO.StartDate
+                                    @answerPresenter.StartDate
                                 </td>
                                 <td>
-                                    @answerDTO.EndDate
+                                    @answerPresenter.EndDate
                                 </td>
                                 <td class="m-datatable__cell">
                                     <span style="overflow: visible; width: 110px;">
                                         <!-- onclick="return openSmallWindow(this)" -->
-                                        <a href="@Url.Action("Replayer","AnswerReplay",new { id = answerDTO.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">
+                                        <a href="@Url.Action("Replayer","AnswerReplay",new { id = answerPresenter.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">
                                             <i class="la la-file-text"></i>
                                         </a>
                                         <div class="dropdown ">

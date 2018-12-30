@@ -1,4 +1,4 @@
-﻿@model ActivityReceiver.ViewModels.QuestionManageEditGetViewModel
+﻿@model ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -295,24 +295,24 @@
                                         <select class="form-control m-select2" id="select2-editor" name="EditorID">
 
                                             <optgroup label="スーパー管理者">
-                                                @foreach (var applicationUserDTO in Model.ApplicationUserDTOs)
+                                                @foreach (var applicationUserPresenter in Model.ApplicationUserPresenterCollection)
                                                 {
-                                                    @if (applicationUserDTO.Roles.Any(a => a.Name == "SuperAdmin"))
+                                                    @if (applicationUserPresenter.Roles.Any(a => a.Name == "SuperAdmin"))
                                                     {
-                                                        <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.EditorID ? "selected" : "")>
-                                                            @applicationUserDTO.ID / @applicationUserDTO.UserName
+                                                        <option value="@applicationUserPresenter.ID" @(applicationUserPresenter.ID == Model.EditorID ? "selected" : "")>
+                                                            @applicationUserPresenter.ID / @applicationUserPresenter.UserName
                                                         </option>
                                                     }
                                                 }
                                             </optgroup>
 
                                             <optgroup label="管理者">
-                                                @foreach (var applicationUserDTO in Model.ApplicationUserDTOs)
+                                                @foreach (var applicationUserPresenter in Model.ApplicationUserPresenterCollection)
                                                 {
-                                                    @if (applicationUserDTO.Roles.Any(a => a.Name == "Admin"))
+                                                    @if (applicationUserPresenter.Roles.Any(a => a.Name == "Admin"))
                                                     {
-                                                        <option value="@applicationUserDTO.ID" @(applicationUserDTO.ID == Model.EditorID ? "selected" : "")>
-                                                            @applicationUserDTO.ID / @applicationUserDTO.UserName
+                                                        <option value="@applicationUserPresenter.ID" @(applicationUserPresenter.ID == Model.EditorID ? "selected" : "")>
+                                                            @applicationUserPresenter.ID / @applicationUserPresenter.UserName
                                                         </option>
                                                     }
                                                 }

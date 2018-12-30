@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using ActivityReceiver.Functions;
 
-namespace ActivityReceiver.DataBuilder
+namespace ActivityReceiver.DataBuilders
 {
     public class AssignmentRecordManageDataBulider
     {

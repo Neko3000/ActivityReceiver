@@ -14,7 +14,7 @@ using ActivityReceiver.Functions;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using ActivityReceiver.ViewModels.AssignmentRecordManage;
-using ActivityReceiver.DataBuilder;
+using ActivityReceiver.DataBuilders;
 
 
 namespace ActivityReceiver.Controllers

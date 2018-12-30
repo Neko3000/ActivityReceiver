@@ -14,7 +14,7 @@ using ActivityReceiver.ViewModels.QuestionManage;
 using ActivityReceiver.Functions;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using ActivityReceiver.DataBuilder;
+using ActivityReceiver.DataBuilders;
 
 namespace ActivityReceiver.Controllers
 {
@@ -117,7 +117,7 @@ namespace ActivityReceiver.Controllers
             vm.Grammars = await  _arDbContext.Grammars.ToListAsync();
 
             var applicationUsers = await _userManager.Users.ToListAsync();
-            vm.ApplicationUserDTOs = await ApplicationUserHandler.ConvertApplicationUsersToDTOs(_userManager, _roleManager, applicationUsers);
+            vm.ApplicationUserPresenterCollection = await ApplicationUserHandler.ConvertApplicationUsersToPresenterCollection(_userManager, _roleManager, applicationUsers);
 
             return View(vm);
         }
@@ -164,7 +164,7 @@ namespace ActivityReceiver.Controllers
 
             var vm = Mapper.Map<QuestionManageEditPostViewModel,QuestionManageEditGetViewModel>(model); 
             vm.Grammars = _arDbContext.Grammars.ToList();
-            vm.ApplicationUserDTOs = await ApplicationUserHandler.ConvertApplicationUsersToDTOs(_userManager, _roleManager, _userManager.Users.ToList());
+            vm.ApplicationUserPresenterCollection = await ApplicationUserHandler.ConvertApplicationUsersToPresenterCollection(_userManager, _roleManager, _userManager.Users.ToList());
 
             return View(vm);
         }

@@ -1,4 +1,4 @@
-﻿@model ActivityReceiver.ViewModels.QuestionManageIndexViewModel
+﻿@model ActivityReceiver.ViewModels.QuestionManage.QuestionManageIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -324,31 +324,31 @@
                 </thead>
                 <tbody>
                     @{ 
-                        for(int i=0;i<Model.QuestionDTOs.Count;i++)
+                        for(int i=0;i<Model.QuestionPresenterCollection.Count;i++)
                         {
-                            var questionDTO = Model.QuestionDTOs[i];
+                            var questionPresenter = Model.QuestionPresenterCollection[i];
                             <tr>
                             <td>
-                                @questionDTO.ID
+                                @questionPresenter.ID
                             </td>
                             <td>
-                                @questionDTO.SentenceEN
+                                @questionPresenter.SentenceEN
                             </td>
                             <td>
-                                @questionDTO.SentenceJP
+                                @questionPresenter.SentenceJP
                             </td>
                             <td>
-                                @questionDTO.GrammarNameString
+                                @questionPresenter.GrammarNameString
                             </td>
                             <td>
-                                @questionDTO.CreateDate
+                                @questionPresenter.CreateDate
                             </td>
                             <td>
-                                @questionDTO.EditorName
+                                @questionPresenter.EditorName
                             </td>
                             <td class="m-datatable__cell">
                                 <span style="overflow: visible; width: 110px;">
-                                    <a href="@Url.Action("Edit","QuestionManage",new { id = questionDTO.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">
+                                    <a href="@Url.Action("Edit","QuestionManage",new { id = questionPresenter.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">
                                         <i class="la la-search"></i>
                                     </a>
                                     <div class="dropdown ">
@@ -356,7 +356,7 @@
                                             <i class="la la-ellipsis-h"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="@Url.Action("Delete","QuestionManage",new { id = questionDTO.ID })"><i class="la la-close"></i> 删除</a>
+                                            <a class="dropdown-item" href="@Url.Action("Delete","QuestionManage",new { id = questionPresenter.ID })"><i class="la la-close"></i> 删除</a>
                                         </div>
                                     </div>
                                 </span>

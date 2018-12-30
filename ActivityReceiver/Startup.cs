@@ -108,43 +108,23 @@ namespace ActivityReceiver
 
                 /* QuestionManage */
                 cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionPresenter>();
-
                 // Create
-                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreateGetViewModel>().
-                    ForMember(dest => dest.GrammarIDs, opt => opt.Ignore()).
-                    ForMember(dest => dest.Grammars, opt => opt.Ignore());
-                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreatePostViewModel, Question>().
-                    ForMember(dest => dest.GrammarIDString, opt => opt.Ignore()).
-                    ForMember(dest => dest.CreateDate, opt => opt.Ignore()).
-                    ForMember(dest => dest.EditorID, opt => opt.Ignore());
+                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreatePostViewModel, Question>();
                 cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreatePostViewModel, ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreateGetViewModel>().
                     ForMember(dest => dest.Grammars, opt => opt.Ignore());
-
                 // Edit
-                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel>().
-                    ForMember(dest => dest.GrammarIDs, opt => opt.Ignore()).
-                    ForMember(dest => dest.Grammars, opt => opt.Ignore()).
-                    ForMember(dest => dest.ApplicationUserDTOs, opt => opt.Ignore());
+                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel>();
                 cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditPostViewModel, Question>().
                     ForMember(dest => dest.GrammarIDString, opt => opt.Ignore());
-                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditPostViewModel, ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel>().
-                    ForMember(dest => dest.GrammarIDs, opt => opt.Ignore()).
-                    ForMember(dest => dest.Grammars, opt => opt.Ignore()).
-                    ForMember(dest => dest.ApplicationUserDTOs, opt => opt.Ignore());
-
+                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditPostViewModel, ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel>();
                 // Details
-                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDetailsViewModel>().
-                    ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
-                    ForMember(dest => dest.EditorName, opt => opt.Ignore());
-
+                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDetailsViewModel>();
                 // Delete
-                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDeleteGetViewModel>().
-                    ForMember(dest => dest.GrammarNameString, opt => opt.Ignore()).
-                    ForMember(dest => dest.EditorName, opt => opt.Ignore());
+                cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDeleteGetViewModel>();
 
                 /* AnswerRepaly */
-                cfg.CreateMap<Movement, MovementDTO>();
-                cfg.CreateMap<DeviceAcceleration, DeviceAccelerationDTO>();
+                //cfg.CreateMap<Movement,ActivityReceiver.ViewModels.AnswerReplay.>();
+                //cfg.CreateMap<DeviceAcceleration, DeviceAccelerationDTO>();
 
 
                 /* QuestionAnswerManage*/
