@@ -392,13 +392,6 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }*@
 
-    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-touchspin.js" type="text/javascript"></script>
-    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-datetimepicker.js" type="text/javascript"></script>
-    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-select.js" type="text/javascript"></script>
-
-    <script src="~/lib/cropper/cropper.min.js" type="text/javascript"></script>
-    <script src="~/js/item-image-upload-behaviors.js" type="text/javascript"></script>
-
     <script>
         var FormRepeater = {
             init: function () {
@@ -434,7 +427,15 @@
             }
         };
         jQuery(document).ready(function () {
-            Select2.init()
+            Select2.init();
+
+            $('#m_datetimepicker_3').datetimepicker({
+                todayHighlight: true,
+                autoclose: true,
+                pickerPosition: 'bottom-left',
+                todayBtn: true,
+                format: 'yyyy/mm/dd hh:ii'
+            });
         });
     </script>
 }

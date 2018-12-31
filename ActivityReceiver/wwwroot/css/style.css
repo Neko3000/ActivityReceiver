@@ -1,24 +1,6 @@
 ﻿body,
-html,
-span {
+html {
   font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
-  font-size: 13px;
-}
-::-webkit-input-placeholder {
-  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
-  font-size: 13px;
-}
-::-moz-placeholder {
-  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
-  font-size: 13px;
-}
-:-ms-input-placeholder {
-  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
-  font-size: 13px;
-}
-::placeholder {
-  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
-  font-size: 13px;
 }
 .m-datatable__table .m-datatable__body tr td span {
   white-space: nowrap;

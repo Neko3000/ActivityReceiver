@@ -172,7 +172,6 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         [Display(Name = "作成日付")]
         public DateTime CreateDate { get; set; }
 
-
         [Display(Name = "著者")]
         public string EditorID { get; set; }   
     }
