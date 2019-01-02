@@ -1,17 +1,3 @@
-h1,
-h2,
-h3,
-h4,
-big,
-span,
-p,
-small,
-li,
-a,
-pre,
-div {
-  font-family: Helvetica, "Yu Gothic", Arial, serif, sans-serif;
-}
 .center-container {
   position: relative;
   text-align: center;
@@ -29,13 +15,14 @@ div {
   transition: none;
 }
 .replayer {
-  background-color: white;
+  font-family: Helvetica, "Yu Gothic", Arial, serif, sans-serif !important;
 }
 .replayer .main-view {
   position: relative;
   width: 667px;
   height: 375px;
   border: black solid 1px;
+  background-color: white;
 }
 .replayer .main-view .presentor {
   display: block;

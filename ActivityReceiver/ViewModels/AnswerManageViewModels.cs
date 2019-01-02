@@ -30,7 +30,7 @@ namespace ActivityReceiver.ViewModels.AnswerManage
         [Display(Name = "解答")]
         public string Content { get; set; }
 
-        [Display(Name = "正確性")]
+        [Display(Name = "評定")]
         public bool IsCorrect { get; set; }
 
         [Display(Name = "迷い度")]
@@ -76,7 +76,7 @@ namespace ActivityReceiver.ViewModels.AnswerManage
         [Display(Name = "解答")]
         public string Content { get; set; }
 
-        [Display(Name = "正確性")]
+        [Display(Name = "評定")]
         public bool IsCorrect { get; set; }
 
         [Display(Name = "迷い度")]
@@ -87,7 +87,7 @@ namespace ActivityReceiver.ViewModels.AnswerManage
         public DateTime StartDate { get; set; }
 
         [DataType(DataType.DateTime)]
-        [Display(Name = "開始時間")]
+        [Display(Name = "完成時間")]
         public DateTime EndDate { get; set; }
 
         public IList<Movement> MovementCollection { get; set; }

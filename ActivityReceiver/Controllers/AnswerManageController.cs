@@ -67,7 +67,7 @@ namespace ActivityReceiver.Controllers
                 return NotFound();
             }
 
-            var vm = _dataBuilder.BuildAnswerManageDetailsViewModel(id);
+            var vm = await _dataBuilder.BuildAnswerManageDetailsViewModel(id);
 
             return View(vm);
         }

@@ -222,7 +222,7 @@
                                 <div class="col-lg-12">
                                     <div class="row">
                                         <div class="col-lg-1 offset-lg-1">
-                                            <h5 class="m--font-boldest">距離</h5>                               
+                                            <h5 class="m--font-boldest">距離</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -261,7 +261,7 @@
                             <div class="row  m--padding-top-20 m--padding-bottom-20">
                                 <div class="col-lg-12">
                                     <div class="row">
-                                        <div class="col-lg-1 offset-lg-1">                  
+                                        <div class="col-lg-1 offset-lg-1">
                                             <h5 class="m--font-boldest">D&D間時間</h5>
                                         </div>
                                     </div>
@@ -299,63 +299,70 @@
                             </div>
                         </div>
                     </div>
-                    </div>
-                        <!--end::Form-->
-                    </div>
-                    <div class="m-portlet">
-                        <div class="m-portlet__head">
-                            <div class="m-portlet__head-caption">
-                                <div class="m-portlet__head-title">
-                                    <span class="m-portlet__head-icon m--hide">
-                                        <i class="la la-gear"></i>
-                                    </span>
-                                    <h3 class="m-portlet__head-text">
-                                        問題リスト
-                                    </h3>
-                                </div>
-                            </div>
+                </div>
+                <!--end::Form-->
+            </div>
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                解答記録
+                            </h3>
                         </div>
-                        <!--begin::Form-->
-                        <div class="m-portlet__body m--padding-top-50">
-
-                            <div class="m-section">
-                                <div class="m-section__content">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Jhon</td>
-                                                <td>Stone</td>
-                                                <td>jhon</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Lisa</td>
-                                                <td>Nilson</td>
-                                                <td>lisa</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Form-->
                     </div>
                 </div>
+                <!--begin::Form-->
+                <div class="m-portlet__body">
+                    <div class="m-section">
+                        <div class="m-section__content">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>日本文</th>
+                                        <th>英文</th>
+                                        <th>解答</th>
+                                        <th>評定</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var answerPresenter in Model.AnswerPresenterCollection)
+                                    {
+                                        <tr>
+                                            <td>@answerPresenter.ID</td>
+                                            <td>@answerPresenter.SentenceJP</td>
+                                            <td>@answerPresenter.SentenceEN</td>
+                                            <td>@answerPresenter.Content</td>
+                                            <td>
+                                                @if (answerPresenter.IsCorrect)
+                                                {
+                                                    <i class="la la-check"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="la la-close"></i>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Details","AnswerManage",new { id = answerPresenter.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
+                                                    <i class="la la-search"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Form-->
+            </div>
+        </div>
     </div>
     <!--begin::Modal-->
     <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -402,6 +409,7 @@
         }*@
 
     <script>
+
         var Select2 = {
             init: function () {
                 $("#select2-multiple").select2({
@@ -419,5 +427,5 @@
 }
 
 @section styles{
-   
+
 }
