@@ -10,7 +10,6 @@ using AutoMapper;
 
 namespace ActivityReceiver.Functions
 {
-
     public class QuestionManageHandler
     {
         public static string ConvertGrammarIDStringToGrammarNameString(string grammarIDString,IList<Grammar> grammars)
@@ -44,6 +43,8 @@ namespace ActivityReceiver.Functions
         public static IList<int> ConvertGrammarIDStringToGrammarIDList(string grammarIDString)
         {
             var splittedGrammarIDs = grammarIDString.Split("#");
+            splittedGrammarIDs = splittedGrammarIDs.Where(s => s != "").ToArray();
+
             var grammarIDList = new List<int>();
             foreach(var grammarID in splittedGrammarIDs)
             {

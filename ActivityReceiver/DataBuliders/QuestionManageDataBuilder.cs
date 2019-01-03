@@ -60,6 +60,8 @@ namespace ActivityReceiver.DataBuilders
         public static IList<int> ConvertGrammarIDStringToGrammarIDList(string grammarIDString)
         {
             var splittedGrammarIDs = grammarIDString.Split("#");
+            splittedGrammarIDs = splittedGrammarIDs.Where(s => s != "").ToArray();
+
             var grammarIDList = new List<int>();
             foreach (var grammarID in splittedGrammarIDs)
             {
@@ -88,6 +90,7 @@ namespace ActivityReceiver.DataBuilders
             return grammarIDString;
         }
 
+        // Builds
         public async Task<IList<QuestionPresenter>> BuildQuestionPresenterList()
         {
             var questionList = await _arDbContext.Questions.ToListAsync();

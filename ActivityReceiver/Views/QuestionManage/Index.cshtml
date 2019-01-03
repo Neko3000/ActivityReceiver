@@ -30,7 +30,7 @@
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Datatables
+                            問題管理
                         </span>
                     </a>
                 </li>
@@ -40,17 +40,7 @@
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Base
-                        </span>
-                    </a>
-                </li>
-                <li class="m-nav__separator">
-                    -
-                </li>
-                <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
-                        <span class="m-nav__link-text">
-                            Local Data
+                            クエスションリスト
                         </span>
                     </a>
                 </li>
@@ -127,7 +117,7 @@
             <i class="flaticon-exclamation m--font-brand"></i>
         </div>
         <div class="m-alert__text">
-            The Metronic Datatable component supports initialization from HTML table. It also defines the schema model of the data source. In addition to the visualization, the Datatable provides built-in support for operations over data such as sorting, filtering and paging performed in user browser(frontend).
+            モバイルAPPの問題を表示します。管理員アカウントは問題の編集ができます。
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile">
@@ -135,17 +125,17 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        Basic Example
+                        クエスションリスト
                     </h3>
                 </div>
             </div>
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
                     <li class="m-portlet__nav-item">
-                        <a href="#" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+                        <a href="@Url.Action("Create","QuestionManage")" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
                             <span>
                                 <i class="la la-plus"></i>
-                                <span>New record</span>
+                                <span>クエスションを作成する</span>
                             </span>
                         </a>
                     </li>
@@ -273,7 +263,7 @@
                                             <i class="la la-ellipsis-h"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>
+                                            <a class="dropdown-item" href="@Url.Action("Edit","QuestionManage",new { id = questionPresenter.ID })"><i class="la la-edit"></i> 編集</a>
                                             <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>
                                             <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>
                                         </div>
@@ -336,22 +326,22 @@
                     ],
 
                     language: {
-                        "sProcessing": "处理中...",
-                        "sLengthMenu": "显示 _MENU_ 项结果",
-                        "sZeroRecords": "没有匹配结果",
-                        "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                        "sProcessing": "処理中...",
+                        "sLengthMenu": " _MENU_ 個項目を表示するしている",
+                        "sZeroRecords": "条件に一致した項目は存在しない",
+                        "sInfo": " _START_ から _END_ までの項目を表示している，総計 _TOTAL_ 個",
+                        "sInfoEmpty": " 0 から 0 までの項目を表示している，総計 0 個",
+                        "sInfoFiltered": "( _MAX_ から絞った項目)",
                         "sInfoPostFix": "",
-                        "sSearch": "搜索:",
+                        "sSearch": "検索:",
                         "sUrl": "",
-                        "sEmptyTable": "表中数据为空",
-                        "sLoadingRecords": "载入中...",
+                        "sEmptyTable": "項目は存在しない",
+                        "sLoadingRecords": "読み込み中...",
                         "sInfoThousands": ",",
 
                         "oAria": {
-                            "sSortAscending": ": 以升序排列此列",
-                            "sSortDescending": ": 以降序排列此列"
+                            "sSortAscending": ": 昇順で並び替える",
+                            "sSortDescending": ": 降順で並び替える"
                         }
                     }
                 });

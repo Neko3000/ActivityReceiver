@@ -6,9 +6,8 @@
 }
 
 @section Styles{
-    <!--begin::Page Vendors Styles -->
-    <link href="~/Metronic/demos/default/assets/vendors/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 
+    <link href="~/Metronic/demos/default/assets/vendors/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
     <!--RTL version:<link href="../../../assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
 }
 
@@ -16,7 +15,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                Local Data
+                アサイメントリコードリスト
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -30,7 +29,7 @@
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Datatables
+                            記録管理
                         </span>
                     </a>
                 </li>
@@ -40,17 +39,7 @@
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Base
-                        </span>
-                    </a>
-                </li>
-                <li class="m-nav__separator">
-                    -
-                </li>
-                <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
-                        <span class="m-nav__link-text">
-                            Local Data
+                            アサイメントリコードリスト
                         </span>
                     </a>
                 </li>
@@ -127,7 +116,7 @@
             <i class="flaticon-exclamation m--font-brand"></i>
         </div>
         <div class="m-alert__text">
-            The Metronic Datatable component supports initialization from HTML table. It also defines the schema model of the data source. In addition to the visualization, the Datatable provides built-in support for operations over data such as sorting, filtering and paging performed in user browser(frontend).
+            ここはモバイル端末APPに記録されたアサイメントリコードのリストです。アサイメントの詳細情報については右側の詳細ボタンをクリックしてください。
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile">
@@ -135,21 +124,12 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        Basic Example
+                        アサイメントリコードリスト
                     </h3>
                 </div>
             </div>
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
-                    <li class="m-portlet__nav-item">
-                        <a href="#" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
-                            <span>
-                                <i class="la la-plus"></i>
-                                <span>New record</span>
-                            </span>
-                        </a>
-                    </li>
-                    <li class="m-portlet__nav-item"></li>
                     <li class="m-portlet__nav-item">
                         <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
                             <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
@@ -347,22 +327,22 @@
                     ],
 
                     language: {
-                        "sProcessing": "处理中...",
-                        "sLengthMenu": "显示 _MENU_ 项结果",
-                        "sZeroRecords": "没有匹配结果",
-                        "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                        "sProcessing": "処理中...",
+                        "sLengthMenu": " _MENU_ 個項目を表示するしている",
+                        "sZeroRecords": "条件に一致した項目は存在しない",
+                        "sInfo": " _START_ から _END_ までの項目を表示している，総計 _TOTAL_ 個",
+                        "sInfoEmpty": " 0 から 0 までの項目を表示している，総計 0 個",
+                        "sInfoFiltered": "( _MAX_ から絞った項目)",
                         "sInfoPostFix": "",
-                        "sSearch": "搜索:",
+                        "sSearch": "検索:",
                         "sUrl": "",
-                        "sEmptyTable": "表中数据为空",
-                        "sLoadingRecords": "载入中...",
+                        "sEmptyTable": "項目は存在しない",
+                        "sLoadingRecords": "読み込み中...",
                         "sInfoThousands": ",",
 
                         "oAria": {
-                            "sSortAscending": ": 以升序排列此列",
-                            "sSortDescending": ": 以降序排列此列"
+                            "sSortAscending": ": 昇順で並び替える",
+                            "sSortDescending": ": 降順で並び替える"
                         }
                     }
                 });
