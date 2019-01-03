@@ -40,13 +40,10 @@ namespace ActivityReceiver.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {    
-            var questions = await  _arDbContext.Questions.ToListAsync();
-
             var vm = new QuestionManageIndexViewModel
             {
                 QuestionPresenterCollection = await _dataBuilder.BuildQuestionPresenterList()
             };
-
 
             return View(vm);
         }
@@ -75,7 +72,7 @@ namespace ActivityReceiver.Controllers
                 var question = Mapper.Map<QuestionManageCreatePostViewModel,Question>(model);
 
                 // I think grammar should be a multiple select and handled here.
-                question.GrammarIDString = QuestionManageHandler.ConvertGrammarIDListToGrammarIDString(model.GrammarIDs);
+                question.GrammarIDString = QuestionManageDataBuilder.ConvertGrammarIDListToGrammarIDString(model.GrammarIDs);
                 question.CreateDate = DateTime.Now;
 
                 var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -89,7 +86,6 @@ namespace ActivityReceiver.Controllers
 
             //if isValid is false
             var vm = Mapper.Map<QuestionManageCreatePostViewModel,QuestionManageCreateGetViewModel>(model);
-
             vm.Grammars = _arDbContext.Grammars.ToList();
 
             return View(vm);
@@ -113,7 +109,7 @@ namespace ActivityReceiver.Controllers
 
             var vm = Mapper.Map<Question,QuestionManageEditGetViewModel>(question);
 
-            vm.GrammarIDs = QuestionManageHandler.ConvertGrammarIDStringToGrammarIDList(question.GrammarIDString);
+            vm.GrammarIDs = QuestionManageDataBuilder.ConvertGrammarIDStringToGrammarIDList(question.GrammarIDString);
             vm.Grammars = await  _arDbContext.Grammars.ToListAsync();
 
             var applicationUsers = await _userManager.Users.ToListAsync();
@@ -139,7 +135,7 @@ namespace ActivityReceiver.Controllers
 
             if (ModelState.IsValid)
             {
-                question.GrammarIDString = QuestionManageHandler.ConvertGrammarIDListToGrammarIDString(model.GrammarIDs);
+                question.GrammarIDString = QuestionManageDataBuilder.ConvertGrammarIDListToGrammarIDString(model.GrammarIDs);
 
                 Mapper.Map<QuestionManageEditPostViewModel,Question>(model, question);
 
@@ -186,7 +182,7 @@ namespace ActivityReceiver.Controllers
             }
 
             var vm = Mapper.Map<Question, QuestionManageDetailsViewModel>(question);
-            vm.GrammarNameString = QuestionManageHandler.ConvertGrammarIDStringToGrammarNameString(question.GrammarIDString,_arDbContext.Grammars.ToList());
+            vm.GrammarNameString = QuestionManageDataBuilder.ConvertGrammarIDStringToGrammarNameString(question.GrammarIDString,_arDbContext.Grammars.ToList());
             vm.EditorName = (await _userManager.FindByIdAsync(question.EditorID)).UserName;
 
             return View(vm);
@@ -208,7 +204,7 @@ namespace ActivityReceiver.Controllers
             }
 
             var vm = Mapper.Map<Question, QuestionManageDeleteGetViewModel>(question);
-            vm.GrammarNameString = QuestionManageHandler.ConvertGrammarIDStringToGrammarNameString(question.GrammarIDString,_arDbContext.Grammars.ToList());
+            vm.GrammarNameString = QuestionManageDataBuilder.ConvertGrammarIDStringToGrammarNameString(question.GrammarIDString,_arDbContext.Grammars.ToList());
             vm.EditorName = (await _userManager.FindByIdAsync(question.EditorID)).UserName;
 
             return View(vm);

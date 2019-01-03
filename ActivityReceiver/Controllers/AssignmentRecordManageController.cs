@@ -59,14 +59,28 @@ namespace ActivityReceiver.Controllers
                 return NotFound();
             }
 
-            var assignmentRecord = _arDbContext.AssignmentRecords.Find(id);
+            var assignmentRecord = await _arDbContext.AssignmentRecords.SingleOrDefaultAsync(ar=>ar.ID == id);
 
             if (assignmentRecord == null)
             {
                 return NotFound();
             }
 
-            var vm = await _dataBuilder.BuildAssignmentRecordManageDetailsViewModel(id);
+            var vm = Mapper.Map<AssignmentRecord, AssignmentRecordManageDetailsViewModel>(assignmentRecord);
+
+            vm.Username = (await _userManager.FindByIdAsync(assignmentRecord.UserID)).UserName;
+            vm.ExerciseName = (await _arDbContext.Exercises.FindAsync(assignmentRecord.ExerciseID)).Name;
+
+            var sortedQuestions = (from q in _arDbContext.Questions
+                                   join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                   where eqc.ExerciseID == assignmentRecord.ExerciseID
+                                   orderby eqc.SerialNumber ascending
+                                   select q).ToList();
+            vm.CurrentProgress = String.Format("{0}/{1}", assignmentRecord.CurrentQuestionIndex, sortedQuestions.Count);
+
+            var answers = await _arDbContext.Answsers.Where(a => a.AssignmentRecordID == assignmentRecord.ID).ToListAsync();
+            var answerPresenterCollection = AutoMapperHandler.ListMapper<Answer, AnswerPresenter>(answers);
+            vm.AnswerPresenterCollection = answerPresenterCollection;
 
             return View(vm);
         }

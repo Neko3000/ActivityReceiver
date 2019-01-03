@@ -50,7 +50,6 @@ namespace ActivityReceiver.Controllers
             return View(vm);
         }
 
-
         // GET: ItemManage/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
@@ -67,7 +66,13 @@ namespace ActivityReceiver.Controllers
                 return NotFound();
             }
 
-            var vm = await _dataBuilder.BuildAnswerManageDetailsViewModel(id);
+            var vm = Mapper.Map<Answer, AnswerManageDetailsViewModel>(answer);
+
+            var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerID == answer.ID).ToListAsync();
+            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerID == answer.ID).ToListAsync();
+
+            vm.MovementCollection = movementCollection;
+            vm.DeviceAccelerationCollection = deviceAccelerationCollection;
 
             return View(vm);
         }

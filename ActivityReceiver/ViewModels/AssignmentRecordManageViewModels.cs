@@ -72,7 +72,7 @@ namespace ActivityReceiver.ViewModels.AssignmentRecordManage
         [Display(Name = "完成時間")]
         public DateTime? EndDate { get; set; }
 
-        [Display(Name = "完成マーク")]
+        [Display(Name = "完成度")]
         public bool IsFinished { get; set; }
         [Display(Name = "得点")]
         public float Grade { get; set; }

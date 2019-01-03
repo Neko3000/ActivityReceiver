@@ -33,20 +33,5 @@ namespace ActivityReceiver.DataBuilders
 
             return answerPresenterCollection;
         }
-
-        public async Task<AnswerManageDetailsViewModel> BuildAnswerManageDetailsViewModel(int? id)
-        {
-            var answer = await _arDbContext.Answsers.FindAsync(id);
-
-            var vm = Mapper.Map<Answer, AnswerManageDetailsViewModel>(answer);
-
-            var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerID == answer.ID).ToListAsync();
-            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerID == answer.ID).ToListAsync();
-
-            vm.MovementCollection = movementCollection;
-            vm.DeviceAccelerationCollection = deviceAccelerationCollection;
-
-            return vm;
-        }
     }
 }
