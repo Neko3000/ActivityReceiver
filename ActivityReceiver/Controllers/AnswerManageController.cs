@@ -15,6 +15,7 @@ using ActivityReceiver.Functions;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using ActivityReceiver.DataBuilders;
+using ActivityReceiver.Functions;
 
 namespace ActivityReceiver.Controllers
 {
@@ -26,14 +27,16 @@ namespace ActivityReceiver.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
 
         private readonly AnswerManageDataBuilder _dataBuilder;
+        private readonly ParameterAnalyzer _parameterAnalyzer;
 
-        public AnswerManageController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
+        public AnswerManageController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,AnswerManageDataBuilder dataBuilder,ParameterAnalyzer parameterAnalyzer)
         {
             _arDbContext = arDbContext;
             _userManager = userManager;
             _roleManager = roleManager;
 
-            _dataBuilder = new AnswerManageDataBuilder(_arDbContext, _userManager, _roleManager);
+            _dataBuilder = dataBuilder;
+            _parameterAnalyzer = parameterAnalyzer;
         }
 
         // GET: QuestionManage
@@ -73,6 +76,20 @@ namespace ActivityReceiver.Controllers
 
             vm.MovementCollection = movementCollection;
             vm.DeviceAccelerationCollection = deviceAccelerationCollection;
+
+            // Parameter Analyze
+            vm.DDIntervalAVG = ParameterAnalyzer.CalculateDDIntervalAVG(movementCollection);
+            vm.DDIntervalMAX = ParameterAnalyzer.CalculateDDIntervalMAX(movementCollection);
+            vm.DDIntervalMIN = ParameterAnalyzer.CalculateDDIntervalMIN(movementCollection);
+            vm.DDProcessAVG = ParameterAnalyzer.CalculateDDProcessAVG(movementCollection);
+            vm.DDProcessMAX = ParameterAnalyzer.CalculateDDProcessMAX(movementCollection);
+            vm.DDProcessMIN = ParameterAnalyzer.CalculateDDProcessMIN(movementCollection);
+            vm.TotalDistance = ParameterAnalyzer.CalculateTotalDistance(movementCollection);
+            vm.DDSpeedAVG = ParameterAnalyzer.CalculateDDSpeedAVG(movementCollection);
+            vm.DDSpeedMAX = ParameterAnalyzer.CalculateDDSpeedMAX(movementCollection);
+            vm.DDSpeedMIN = ParameterAnalyzer.CalculateDDSpeedMIN(movementCollection);
+            vm.DDFirstTime = ParameterAnalyzer.CalculateDDFirstTime(movementCollection);
+            vm.DDCount = ParameterAnalyzer.CalculateDDCount(movementCollection);
 
             return View(vm);
         }

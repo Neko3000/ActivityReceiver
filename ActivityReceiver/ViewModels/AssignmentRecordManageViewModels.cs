@@ -77,7 +77,7 @@ namespace ActivityReceiver.ViewModels.AssignmentRecordManage
         [Display(Name = "得点")]
         public float Grade { get; set; }
 
-        [Display(Name = "リマーク")]
+        [Display(Name = "備考")]
         public string Remark { get; set; }
 
         public IList<AnswerPresenter> AnswerPresenterCollection { get; set; }

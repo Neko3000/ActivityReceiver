@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ActivityReceiver.ViewModels;
+using ActivityReceiver.Functions;
+using ActivityReceiver.DataBuilders;
 
 namespace ActivityReceiver
 {
@@ -66,6 +68,11 @@ namespace ActivityReceiver
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IDbContextInitializer, DbContextInitializer>();
+
+            services.AddScoped<AnswerManageDataBuilder>();
+
+
+            services.AddScoped<ParameterAnalyzer>();
 
             services.AddMvc();
 

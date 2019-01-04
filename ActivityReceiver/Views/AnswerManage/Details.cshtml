@@ -341,40 +341,26 @@
                     <div class="m-section">
                         <div class="m-section__content">
                             <div class="row  m--padding-top-20 m--padding-bottom-20">
-                                <div class="col-lg-12">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1">
-                                            <h5 class="m--font-boldest">距離</h5>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-lg-12 m--margin-top-20">
                                     <div class="row">
                                         <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            移動距離：
+                                            総移動距離：
                                         </div>
                                         <div class="col-lg-6">
-                                            60.5
+                                            @Model.DDIntervalAVG
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 m--margin-top-20">
+                            </div>
+                            <div class="m-separator m-separator--dashed"></div>
+                            <div class="row  m--padding-top-20 m--padding-bottom-20">
+                                <div class="col-lg-12 m--margin-top-15">
                                     <div class="row">
                                         <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            平均速度：
+                                            初動時間：
                                         </div>
                                         <div class="col-lg-6">
-                                            60.5
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-20">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            最大：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            60.5
+                                            @Model.DDFirstTime
                                         </div>
                                     </div>
                                 </div>
@@ -383,8 +369,8 @@
                             <div class="row  m--padding-top-20 m--padding-bottom-20">
                                 <div class="col-lg-12">
                                     <div class="row">
-                                        <div class="col-lg-1 offset-lg-1">
-                                            <h5 class="m--font-boldest">D&D間時間</h5>
+                                        <div class="col-lg-12 offset-lg-1">
+                                            <h5 class="m--font-boldest">Drag->Drop 速度</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -394,17 +380,7 @@
                                             平均：
                                         </div>
                                         <div class="col-lg-6">
-                                            60.5
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-15">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            最小：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            60.5
+                                            @Model.DDSpeedAVG
                                         </div>
                                     </div>
                                 </div>
@@ -414,7 +390,110 @@
                                             最大：
                                         </div>
                                         <div class="col-lg-6">
-                                            60.5
+                                            @Model.DDSpeedMAX
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 m--margin-top-15">
+                                    <div class="row">
+                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
+                                            最小：
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDSpeedMIN
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-separator m-separator--dashed"></div>
+                            <div class="row  m--padding-top-20 m--padding-bottom-20">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 offset-lg-1">
+                                            <h5 class="m--font-boldest">Drop->Drag 時間</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 m--margin-top-20">
+                                    <div class="row">
+                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
+                                            平均：
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDIntervalAVG
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 m--margin-top-20">
+                                    <div class="row">
+                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
+                                            最大：
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDIntervalMAX
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 m--margin-top-20">
+                                    <div class="row">
+                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
+                                            最小：
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDIntervalMIN
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-separator m-separator--dashed"></div>
+                            <div class="row  m--padding-top-20 m--padding-bottom-20">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 offset-lg-1">
+                                            <h5 class="m--font-boldest">Drag->Drop 時間</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 m--margin-top-15">
+                                    <div class="row">
+                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
+                                            平均：
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDProcessAVG
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 m--margin-top-15">
+                                    <div class="row">
+                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
+                                            最大：
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDProcessMAX
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 m--margin-top-15">
+                                    <div class="row">
+                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
+                                            最小：
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDProcessMIN
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-separator m-separator--dashed"></div>
+                            <div class="row  m--padding-top-20 m--padding-bottom-20">
+                                <div class="col-lg-12 m--margin-top-15">
+                                    <div class="row">
+                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
+                                            D＆D回数：
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDCount
                                         </div>
                                     </div>
                                 </div>

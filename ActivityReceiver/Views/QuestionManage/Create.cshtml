@@ -34,7 +34,17 @@
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            新しい問題を作成する
+                            クエスション
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            クエスションを作成
                         </span>
                     </a>
                 </li>
@@ -125,7 +135,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                新しい問題を作成する
+                                クエスションを作成する
                             </h3>
                         </div>
                     </div>
@@ -241,7 +251,8 @@
                                         @Html.ValidationMessageFor(model => model.Division, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        問題の区切りを入力してください
+                                        問題の区切りを入力してください<br />
+                                        ( ！) 自由入力、また、右側の生成ボタンを使用（英文が入力された場合）
                                     </span>
                                 </div>
                             </div>
@@ -266,7 +277,8 @@
                                         @Html.ValidationMessageFor(model => model.AnswerDivision, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        正解の区切りを入力してください
+                                        正解の区切りを入力してください<br />
+                                        ( ！) 自由入力、また、右側の生成ボタンを使用（英文が入力された場合）
                                     </span>
                                 </div>
                             </div>
