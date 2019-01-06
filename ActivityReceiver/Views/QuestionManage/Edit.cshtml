@@ -33,7 +33,17 @@
                 <li class="m-nav__item">
                     <a href="" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            問題を編集する
+                            クエスションリスト
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            クエスションを編集
                         </span>
                     </a>
                 </li>
@@ -209,7 +219,7 @@
 
                                         @foreach (var grammar in Model.Grammars)
                                         {
-                                            <option value="@grammar.ID">
+                                            <option value="@grammar.ID" @(Model.GrammarIDs.Contains(grammar.ID) ? "selected":"")>
                                                 @grammar.Name
                                             </option>
                                         }

@@ -15,7 +15,6 @@ using ActivityReceiver.Functions;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using ActivityReceiver.DataBuilders;
-using ActivityReceiver.Functions;
 
 namespace ActivityReceiver.Controllers
 {
@@ -51,6 +50,19 @@ namespace ActivityReceiver.Controllers
             };
 
             return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDeviceAccelerationCollection(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerID == id).ToListAsync();
+
+            return Ok(deviceAccelerationCollection);
         }
 
         // GET: ItemManage/Details/5
@@ -90,6 +102,8 @@ namespace ActivityReceiver.Controllers
             vm.DDSpeedMIN = ParameterAnalyzer.CalculateDDSpeedMIN(movementCollection);
             vm.DDFirstTime = ParameterAnalyzer.CalculateDDFirstTime(movementCollection);
             vm.DDCount = ParameterAnalyzer.CalculateDDCount(movementCollection);
+            vm.UTurnHorizontalCount = ParameterAnalyzer.CalculateUTurnHorizontalCount(movementCollection);
+            vm.UTurnVerticalCount = ParameterAnalyzer.CalculateUTurnVerticalCount(movementCollection);
 
             return View(vm);
         }

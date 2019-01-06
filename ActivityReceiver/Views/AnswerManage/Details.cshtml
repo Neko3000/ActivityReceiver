@@ -140,8 +140,8 @@
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
-                            <span class="m-portlet__head-icon m--hide">
-                                <i class="la la-gear"></i>
+                            <span class="m-portlet__head-icon">
+                                <i class="la la-file-movie-o"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
                                 リプレイ
@@ -219,8 +219,8 @@
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
-                            <span class="m-portlet__head-icon m--hide">
-                                <i class="la la-gear"></i>
+                            <span class="m-portlet__head-icon">
+                                <i class="la la-file-text"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
                                 基本情報
@@ -327,8 +327,8 @@
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
-                            <span class="m-portlet__head-icon m--hide">
-                                <i class="la la-gear"></i>
+                            <span class="m-portlet__head-icon">
+                                <i class="la la-cubes"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
                                 パラメータ
@@ -341,159 +341,158 @@
                     <div class="m-section">
                         <div class="m-section__content">
                             <div class="row  m--padding-top-20 m--padding-bottom-20">
-                                <div class="col-lg-12 m--margin-top-20">
+                                <div class="col-lg-4 m--margin-top-20">
                                     <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            総移動距離：
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            総移動距離
                                         </div>
                                         <div class="col-lg-6">
-                                            @Model.DDIntervalAVG
+                                            @Model.TotalDistance px
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="m-separator m-separator--dashed"></div>
-                            <div class="row  m--padding-top-20 m--padding-bottom-20">
-                                <div class="col-lg-12 m--margin-top-15">
+                                <div class="col-lg-4 m--margin-top-15">
                                     <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            初動時間：
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            初動時間
                                         </div>
                                         <div class="col-lg-6">
-                                            @Model.DDFirstTime
+                                            @Model.DDFirstTime ms
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="m-separator m-separator--dashed"></div>
-                            <div class="row  m--padding-top-20 m--padding-bottom-20">
-                                <div class="col-lg-12">
+                                <div class="col-lg-4 m--margin-top-15">
                                     <div class="row">
-                                        <div class="col-lg-12 offset-lg-1">
-                                            <h5 class="m--font-boldest">Drag->Drop 速度</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-15">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            平均：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @Model.DDSpeedAVG
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-15">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            最大：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @Model.DDSpeedMAX
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-15">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            最小：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @Model.DDSpeedMIN
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="m-separator m-separator--dashed"></div>
-                            <div class="row  m--padding-top-20 m--padding-bottom-20">
-                                <div class="col-lg-12">
-                                    <div class="row">
-                                        <div class="col-lg-12 offset-lg-1">
-                                            <h5 class="m--font-boldest">Drop->Drag 時間</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-20">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            平均：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @Model.DDIntervalAVG
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-20">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            最大：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @Model.DDIntervalMAX
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-20">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            最小：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @Model.DDIntervalMIN
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="m-separator m-separator--dashed"></div>
-                            <div class="row  m--padding-top-20 m--padding-bottom-20">
-                                <div class="col-lg-12">
-                                    <div class="row">
-                                        <div class="col-lg-12 offset-lg-1">
-                                            <h5 class="m--font-boldest">Drag->Drop 時間</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-15">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            平均：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @Model.DDProcessAVG
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-15">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            最大：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @Model.DDProcessMAX
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 m--margin-top-15">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            最小：
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @Model.DDProcessMIN
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="m-separator m-separator--dashed"></div>
-                            <div class="row  m--padding-top-20 m--padding-bottom-20">
-                                <div class="col-lg-12 m--margin-top-15">
-                                    <div class="row">
-                                        <div class="col-lg-1 offset-lg-1 m--font-bold">
-                                            D＆D回数：
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            D&D回数
                                         </div>
                                         <div class="col-lg-6">
                                             @Model.DDCount
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-separator m-separator--dashed"></div>
+                            <div class="row  m--padding-top-20 m--padding-bottom-20">
+                                <div class="col-lg-4 m--margin-top-20">
+                                    <div class="row">
+                                        <div class="col-lg-12 offset-lg-1 m--font-bold">
+                                            <h6 class="m--font-boldest">D&D速度</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            平均
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDSpeedAVG px/s
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            最大
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDSpeedMAX px/s
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            最小
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDSpeedMIN px/s
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 m--margin-top-20">
+                                    <div class="row">
+                                        <div class="col-lg-12 offset-lg-1 m--font-bold">
+                                            <h6 class="m--font-boldest">D&D時間</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            平均
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDProcessAVG ms
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            最大
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDProcessMAX ms
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            最小
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDProcessMIN ms
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-separator m-separator--dashed"></div>
+                            <div class="row  m--padding-top-20 m--padding-bottom-20">
+                                <div class="col-lg-4 m--margin-top-20">
+                                    <div class="row">
+                                        <div class="col-lg-12 offset-lg-1 m--font-bold">
+                                            <h6 class="m--font-boldest">D&D間時間</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            平均
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDIntervalAVG ms
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            最大
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDIntervalMAX ms
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            最小
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.DDIntervalMIN ms
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-separator m-separator--dashed"></div>
+                            <div class="row  m--padding-top-20 m--padding-bottom-20">
+                                <div class="col-lg-4 m--margin-top-20">
+                                    <div class="row">
+                                        <div class="col-lg-12 offset-lg-1 m--font-bold">
+                                            <h6 class="m--font-boldest">U-ターン</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            横方向
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.UTurnHorizontalCount
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            縦方向
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.UTurnVerticalCount
                                         </div>
                                     </div>
                                 </div>
@@ -507,8 +506,8 @@
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
-                            <span class="m-portlet__head-icon m--hide">
-                                <i class="la la-gear"></i>
+                            <span class="m-portlet__head-icon">
+                                <i class="la la-tasks"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
                                 チャート
@@ -517,11 +516,12 @@
                     </div>
                 </div>
                 <div class="m-portlet__body">
-                    <div id="m_amcharts_7" style="height: 500px;"></div>
+                    <div id="chart-device-acceleration" style="height: 500px;"></div>
                 </div>
             </div>
         </div>
     </div>
+
     <!--begin::Modal-->
     <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -579,14 +579,126 @@
 
     <!--end::Page Vendors -->
     <!--begin::Page Scripts -->
-    <script src="~/Metronic/demos/default/assets/demo/custom/components/charts/amcharts/charts.js" type="text/javascript"></script>
+
 
     <script>
+
+        var chartDeviceAcceleration;
 
         $(function () {
 
             $('.replayer').replayer(@(Model.ID));
 
+            chartDeviceAcceleration = AmCharts.makeChart("chart-device-acceleration", {
+                "type": "serial",
+                "theme": "light",
+                //"autoMarginOffset": 30,
+                "autoMargins": false,
+                "marginLeft": 80,
+                "marginRight": 50,
+                "marginTop": 20,
+                "marginBottom": 60,
+
+                "legend": {
+                    "equalWidths": false,
+                    "useGraphSettings": true,
+                    "valueAlign": "left",
+                    "valueWidth": 120
+                },
+
+                //"dataProvider": chartData,
+                "valueAxes": [{
+                    "axisAlpha": 0.5,
+                    //"dashLength": 1,
+                    "position": "left",
+                    "inside": false,
+                    "title":"三次元空間加速度"
+                }],
+                "mouseWheelZoomEnabled": true,
+                "graphs": [{
+                    "id": "g1",
+                    "balloonText": "x: [[value]] g",
+                    "bullet": "round",
+                    "bulletBorderAlpha": 1,
+                    "bulletColor": "#FFFFFF",
+                    "hideBulletsCount": 50,
+
+                    "title": "DeviceAcceleration.X",
+                    "legendValueText": "[[value]] g",
+
+                    "valueField": "x",
+                    "useLineColorForBulletBorder": true,
+                    "balloon": {
+
+                    }
+                },
+                    {
+                        "id": "g2",
+                        "balloonText": "y: [[value]] g",
+                        "bullet": "round",
+                        "bulletBorderAlpha": 1,
+                        "bulletColor": "#FFFFFF",
+                        "hideBulletsCount": 50,
+
+                        "title": "DeviceAcceleration.Y",
+                        "legendValueText": "[[value]] g",
+
+                        "valueField": "y",
+                        "useLineColorForBulletBorder": true,
+                        "balloon": {
+
+                        }
+                    },
+                    {
+                        "id": "g3",
+                        "balloonText": "z: [[value]] g",
+                        "bullet": "round",
+                        "bulletBorderAlpha": 1,
+                        "bulletColor": "#FFFFFF",
+                        "hideBulletsCount": 50,
+
+                        "title": "DeviceAcceleration.Z",
+                        "legendValueText": "[[value]] g",
+
+                        "valueField": "z",
+                        "useLineColorForBulletBorder": true,
+                        "balloon": {
+
+                        }
+                    }
+                ],
+                "chartScrollbar": {
+                    "autoGridCount": false,
+                    //"graph": "g1",
+                    "scrollbarHeight": 40
+                },
+                "chartCursor": {
+                    //"limitToGraph": "g1"
+                },
+                "categoryField": "time",
+                "categoryAxis": {
+                    "autoGridCount": false,
+                    //"axisColor": "#DADADA",
+                    "dashLength": 1,
+                    "minorGridEnabled": true,
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: "/AnswerManage/GetDeviceAccelerationCollection/" + "@Model.ID",
+                dataType: 'json',
+                context: document.body,
+                async: true,
+                success: function (data) {
+
+                    chartDeviceAcceleration.dataProvider = data;
+                    chartDeviceAcceleration.validateNow();
+                }
+            });
         });
 
     </script>

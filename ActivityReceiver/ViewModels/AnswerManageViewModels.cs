@@ -128,6 +128,12 @@ namespace ActivityReceiver.ViewModels.AnswerManage
 
         [Display(Name = "D＆D回数")]
         public int DDCount { get; set; }
+
+        [Display(Name = "U-ターン横方向")]
+        public int UTurnHorizontalCount { get; set; }
+
+        [Display(Name = "U-ターン縦方向")]
+        public int UTurnVerticalCount { get; set; }
     }
     #endregion
 }

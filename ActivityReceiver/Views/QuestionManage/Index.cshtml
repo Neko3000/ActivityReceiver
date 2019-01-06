@@ -204,7 +204,7 @@
         </div>
         <div class="m-portlet__body">
             <!--begin: Datatable -->
-            <table class="table table-striped- table-bordered table-hover table-checkable" id="m_table_1">
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="question-list-table">
                 <thead>
                     <tr>
                         <th>
@@ -220,7 +220,7 @@
                             文法項目
                         </th>
                         <th>
-                            作成時間
+                            作成日付
                         </th>
                         <th>
                             著者
@@ -264,8 +264,7 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="@Url.Action("Edit","QuestionManage",new { id = questionPresenter.ID })"><i class="la la-edit"></i> 編集</a>
-                                            <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>
-                                            <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>
+                                            <a class="dropdown-item" href="@Url.Action("Delete","QuestionManage",new { id = questionPresenter.ID })"><i class="la la-trash"></i> 削除</a>
                                         </div>
                                     </span>
                                 </td>
@@ -286,10 +285,10 @@
     <!--end::Page Vendors -->
 
     <script>
-        var DatatablesBasicBasic = function () {
+        var dataTables = function () {
 
-            var initTable1 = function () {
-                var table = $('#m_table_1');
+            var initQuestionListTable = function () {
+                var table = $('#question-list-table');
 
                 // begin first table
                 table.DataTable({
@@ -345,33 +344,13 @@
                         }
                     }
                 });
-
-                table.on('change', '.m-group-checkable', function () {
-                    var set = $(this).closest('table').find('td:first-child .m-checkable');
-                    var checked = $(this).is(':checked');
-
-                    $(set).each(function () {
-                        if (checked) {
-                            $(this).prop('checked', true);
-                            $(this).closest('tr').addClass('active');
-                        }
-                        else {
-                            $(this).prop('checked', false);
-                            $(this).closest('tr').removeClass('active');
-                        }
-                    });
-                });
-
-                table.on('change', 'tbody tr .m-checkbox', function () {
-                    $(this).parents('tr').toggleClass('active');
-                });
             };
 
             return {
 
                 //main function to initiate the module
                 init: function () {
-                    initTable1();
+                    initQuestionListTable();
                 },
 
             };
@@ -379,7 +358,8 @@
         }();
 
         jQuery(document).ready(function () {
-            DatatablesBasicBasic.init();
+            dataTables.init();
         });
+
     </script>
 }
