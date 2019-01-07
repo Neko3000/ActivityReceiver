@@ -452,7 +452,8 @@ namespace ActivityReceiver.Functions
                 {
                     if(lastMovement.State == 0)
                     {
-                        isToPositiveDirection = movement.XPosition - movement.XPosition > 0 ? true : false;
+                        isToPositiveDirection = movement.XPosition - lastMovement.XPosition > 0 ? true : false;
+                        lastMovement = movement;
                         continue;
                     }
 
@@ -460,11 +461,13 @@ namespace ActivityReceiver.Functions
                     {
                         count++;
                         isToPositiveDirection = false;
+                        lastMovement = movement;
                     }
                     else if(movement.XPosition - lastMovement.XPosition < 0 && isToPositiveDirection)
                     {
                         count++;
                         isToPositiveDirection = true;
+                        lastMovement = movement;
                     }
                 }
             }
@@ -492,7 +495,8 @@ namespace ActivityReceiver.Functions
                 {
                     if (lastMovement.State == 0)
                     {
-                        isToPositiveDirection = movement.YPosition - movement.YPosition > 0 ? true : false;
+                        isToPositiveDirection = movement.YPosition - lastMovement.YPosition > 0 ? true : false;
+                        lastMovement = movement;
                         continue;
                     }
 
@@ -500,11 +504,13 @@ namespace ActivityReceiver.Functions
                     {
                         count++;
                         isToPositiveDirection = false;
+                        lastMovement = movement;
                     }
                     else if (movement.YPosition - lastMovement.YPosition < 0 && isToPositiveDirection)
                     {
                         count++;
                         isToPositiveDirection = true;
+                        lastMovement = movement;
                     }
                 }
             }
