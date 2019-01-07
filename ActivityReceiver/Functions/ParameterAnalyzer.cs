@@ -444,9 +444,9 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if(lastMovement.State == 0 && movement.State != 0)
+                if(movement.State == 0)
                 {
-                    
+                    lastMovement = movement;
                 }
                 else if (movement.State == 1 || movement.State == 2)
                 {
@@ -484,9 +484,9 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if (lastMovement.State == 0 && movement.State != 0)
+                if(movement.State == 0)
                 {
-
+                    lastMovement = movement;
                 }
                 else if (movement.State == 1 || movement.State == 2)
                 {
