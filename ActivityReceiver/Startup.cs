@@ -146,6 +146,12 @@ namespace ActivityReceiver
                 cfg.CreateMap<AssignmentRecord, ActivityReceiver.ViewModels.AssignmentRecordManage.AssignmentRecordPresenter>();
                 // Details
                 cfg.CreateMap<AssignmentRecord, ActivityReceiver.ViewModels.AssignmentRecordManage.AssignmentRecordManageDetailsViewModel>();
+
+                /* ExerciseManage */
+                // Index
+                cfg.CreateMap<Exercise, ActivityReceiver.ViewModels.ExerciseManage.ExercisePresenter>();
+                // Edit
+                cfg.CreateMap<Exercise, ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageEditGetViewModel>();
             });
 
 
