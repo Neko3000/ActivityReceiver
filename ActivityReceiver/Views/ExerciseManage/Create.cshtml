@@ -1,9 +1,14 @@
-﻿@model ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreateGetViewModel
+﻿@model ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageCreateGetViewModel
 
 @{
 
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_LayoutMetronic.cshtml";
+}
+
+@section Styles{
+
+    <link href="~/js/listSwap/listswap.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="m-subheader ">
@@ -141,7 +146,7 @@
                     </div>
                 </div>
                 <!--begin::Form-->
-                @using (Html.BeginForm("Create", "QuestionManage", FormMethod.Post, htmlAttributes: new { @class = "m-form m-form--fit m-form--label-align-right" }))
+                @using (Html.BeginForm("Create", "ExerciseManage", FormMethod.Post, htmlAttributes: new { @class = "m-form m-form--fit m-form--label-align-right" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="m-portlet__body">
@@ -153,151 +158,79 @@
                             </div>
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.SentenceEN)
+                                    @Html.DisplayNameFor(model => model.Name)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.SentenceEN, new { htmlAttributes = new { @id = "sentence-en-input", @class = "form-control m-input", @placeholder = "example: We can't change the direction of the wind, but we can adjust the sails." } })
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @id = "sentence-en-input", @class = "form-control m-input", @placeholder = "example: We can't change the direction of the wind, but we can adjust the sails." } })
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.SentenceEN, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        英文を入力してください
+                                        名前を入力してください
                                     </span>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.SentenceJP)
+                                    @Html.DisplayNameFor(model => model.Description)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.SentenceJP, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: わたしたちは風向が変えられないが、船の帆が調整できる。" } })
+                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: わたしたちは風向が変えられないが、船の帆が調整できる。" } })
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.SentenceJP, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        日本文を入力してください
+                                        説明を入力してください
                                     </span>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Level)
+                                    作成時間
                                 </label>
-                                <div class="col-lg-6">
-
-                                    <select class="custom-select form-control" name="Level">
-                                        <option value="" disabled selected>難易度、レベル</option>
-
-                                        <option value="0">
-                                            初級
-                                        </option>
-
-                                        <option value="1">
-                                            中級
-                                        </option>
-
-                                        <option value="2">
-                                            上級
-                                        </option>
-
-                                    </select>
-                                    @Html.ValidationMessageFor(model => model.Level, "", new { @class = "text-danger" })
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.Level, "", new { @class = "m--font-danger" })
-                                    </div>
-                                    <span class="m-form__help">
-                                        レベルを選んでください
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    文法項目
-                                </label>
-                                <div class="col-lg-6">
-                                    <select class="form-control m-select2" id="select2-multiple" name="GrammarIDs" multiple="multiple">
-
-                                        @foreach (var grammar in Model.Grammars)
-                                        {
-                                            <option value="@grammar.ID">
-                                                @grammar.Name
-                                            </option>
-                                        }
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Division)
-                                </label>
-                                <div class="col-lg-6">
-                                    <div class="input-group">
-                                        @Html.EditorFor(model => model.Division, new { htmlAttributes = new { @id = "division-input", @class = "form-control m-input", @placeholder = "example: the|can|change|sails|,|the|direction|of|the wind|we|but|can't|we|adjust| " } })
+                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control m-input c-datatimepicker" name="CreateDate" readonly value="@DateTime.Now.ToString(("yyyy/MM/dd HH:mm"))" id="m_datetimepicker_3" />
                                         <div class="input-group-append">
-                                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                生成
-                                            </button>
-                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(625px, 40px, 0px);">
-                                                <div class="dropdown-item cursor-pointer" href="#" id="generateDivsionByRandomBtn">ランダム生成</div>
-                                            </div>
+                                            <span class="input-group-text">
+                                                <i class="la la-calendar glyphicon-th"></i>
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.Division, "", new { @class = "m--font-danger" })
-                                    </div>
                                     <span class="m-form__help">
-                                        問題の区切りを入力してください<br />
-                                        ( ！) 自由入力、また、右側の生成ボタンを使用（英文が入力された場合）
+                                        作成時間を入力してください
                                     </span>
                                 </div>
                             </div>
 
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.AnswerDivision)
+                                    問題選択
                                 </label>
-                                <div class="col-lg-6">
-                                    <div class="input-group">
-                                        @Html.EditorFor(model => model.AnswerDivision, new { htmlAttributes = new { @id = "answer-divsion-input", @class = "form-control m-input", @placeholder = "example: we|can't|change|the|direction|of|the wind|,|but|we|can|adjust|the|sails|" } })
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                生成
-                                            </button>
-                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(625px, 40px, 0px);">
-                                                <div class="dropdown-item cursor-pointer" href="#" id="generateDivisionBtn">英文により生成</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                 <div class="col-lg-6">
+                              
+                                    <select id="source_4" data-search="Search for options">
+                                        <option value="option_1">Option 1</option>
+                                        <option value="option_2">Why not option 2</option>
+                                        <option value="option_3">Here's another option 3</option>
+                                        <option value="option_4">What about option 4</option>
+                                        <option value="option_5">I'll go with option 5</option>
+                                        <option value="option_6">Let's stick to option 6</option>
+                                    </select>
+                                    <select id="destination_4"  data-search="Search for options">
+                                    </select>
+
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.AnswerDivision, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        正解の区切りを入力してください<br />
-                                        ( ！) 自由入力、また、右側の生成ボタンを使用（英文が入力された場合）
+                                        問題を選択してください
                                     </span>
                                 </div>
                             </div>
-
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Remark)
-                                </label>
-                                <div class="col-lg-6">
-
-                                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 青山文庫の「TOEFL、900目指し」ページ136の英文" } })
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "m--font-danger" })
-                                    </div>
-                                    <span class="m-form__help">
-                                        コメントを入力してください
-                                    </span>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
@@ -368,73 +301,20 @@
     <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-datetimepicker.js" type="text/javascript"></script>
     <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-select.js" type="text/javascript"></script>
 
+    <script src="~/js/listSwap/jquery.listswap.js" type="text/javascript"></script>
+
+
     <script>
-        var shuffle = function(array) {
-            var currentIndex = array.length, temporaryValue, randomIndex;
 
-            // While there remain elements to shuffle...
-            while (0 !== currentIndex) {
-
-                // Pick a remaining element...
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
-
-                // And swap it with the current element.
-                temporaryValue = array[currentIndex];
-                array[currentIndex] = array[randomIndex];
-                array[randomIndex] = temporaryValue;
-            }
-
-            return array;
-        }
-
-        var generateFromSentenceEN = function (isRandom) {
-            var sentenceEN = $("#sentence-en-input").val();
-            var splittedSentenceENArray = sentenceEN.split(/[\s,]+/);
-
-            if (isRandom) {
-                splittedSentenceENArray = shuffle(splittedSentenceENArray);
-            }
-
-            var division = "";
-            $.each(splittedSentenceENArray, function (index, word) {
-
-                if (index == 0) {
-                    division = division + word;
-                }
-                else {
-                    division = division + '|' + word;
-                }
-            });
-
-            return division;
-        };
 
         $(function () {
-            $('#generateDivsionByRandomBtn').click(function () {
-                $("#division-input").val(generateFromSentenceEN(true));
+
+            $('#source_4, #destination_4').listswap({
+                truncate:true, 
+                height:162,
             });
-            $('#generateDivisionBtn').click(function () {
-                $("#answer-divsion-input").val(generateFromSentenceEN(false));
-            });
+            
         });
 
-        var Select2 = {
-            init: function () {
-                $("#select2-multiple").select2({
-                    placeholder: "example: 受動態，助動詞"
-                });
-                $("#select2-editor").select2({
-                    placeholder: "example: hanfuer@163.com / 晚风儿"
-                });
-            }
-        };
-        jQuery(document).ready(function () {
-            Select2.init()
-        });
     </script>
-}
-
-@section styles{
-   
 }
