@@ -1,9 +1,15 @@
-﻿@model ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel
+﻿@model ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageEditGetViewModel
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_LayoutMetronic.cshtml";
 }
+
+@section Styles{
+
+    <link href="~/js/listSwap/listswap.css" rel="stylesheet" type="text/css" />
+}
+
 
 <div class="m-subheader ">
     <div class="d-flex align-items-center">
@@ -138,7 +144,7 @@
                     </div>
                 </div>
                 <!--begin::Form-->
-                @using (Html.BeginForm("Edit", "QuestionManage", FormMethod.Post, htmlAttributes: new { @class = "m-form m-form--fit m-form--label-align-right" }))
+                @using (Html.BeginForm("Edit", "ExerciseManage", FormMethod.Post, htmlAttributes: new { @class = "m-form m-form--fit m-form--label-align-right" }))
                 {
                     @Html.HiddenFor(model => model.ID)
                     @Html.AntiForgeryToken()
@@ -149,36 +155,38 @@
                                     @Html.ValidationSummary("", new { @class = "m--font-danger" })
                                 </label>
                             </div>
+
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.SentenceEN)
+                                    @Html.DisplayNameFor(model => model.Name)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.SentenceEN, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: We can't change the direction of the wind, but we can adjust the sails." } })
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @id = "sentence-en-input", @class = "form-control m-input", @placeholder = "example: We can't change the direction of the wind, but we can adjust the sails." } })
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.SentenceEN, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        英文を入力してください
+                                        名前を入力してください
                                     </span>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.SentenceJP)
+                                    @Html.DisplayNameFor(model => model.Description)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.SentenceJP, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: わたしたちは風向が変えられないが、船の帆が調整できる。" } })
+                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: わたしたちは風向が変えられないが、船の帆が調整できる。" } })
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.SentenceJP, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        日本文を入力してください
+                                        説明を入力してください
                                     </span>
                                 </div>
                             </div>
+
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
                                     @Html.DisplayNameFor(model => model.Level)
@@ -210,72 +218,49 @@
                                     </span>
                                 </div>
                             </div>
+
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    文法項目
+                                    問題選択
                                 </label>
                                 <div class="col-lg-6">
-                                    <select class="form-control m-select2" id="select2-multiple" name="GrammarIDs" multiple="multiple">
 
-                                        @foreach (var grammar in Model.Grammars)
-                                        {
-                                            <option value="@grammar.ID" @(Model.GrammarIDs.Contains(grammar.ID) ? "selected":"")>
-                                                @grammar.Name
-                                            </option>
+                                    <select id="entire-question-list" data-search="検索...">
+                                        @{
+                                            foreach (var question in Model.EntireQuestionCollection)
+                                            {
+                                                if (!Model.SelectedQuestionIDCollection.Contains(question.ID))
+                                                {
+                                                    <option value="@question.ID">#@question.ID - @question.SentenceEN</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                    <select id="selected-question-list" data-search="検索...">
+
+                                        @{
+                                            foreach (var question in Model.EntireQuestionCollection)
+                                            {
+                                                if (Model.SelectedQuestionIDCollection.Contains(question.ID))
+                                                {
+                                                    <option value="@question.ID">#@question.ID - @question.SentenceEN</option>
+                                                }
+                                            }
                                         }
 
                                     </select>
-                                </div>
-                            </div>
 
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Division)
-                                </label>
-                                <div class="col-lg-6">
-
-                                    @Html.EditorFor(model => model.Division, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: the|can|change|sails|,|the|direction|of|the wind|we|but|can't|we|adjust| " } })
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.Division, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        問題の区切りを入力してください
+                                        問題を選択してください
                                     </span>
                                 </div>
                             </div>
 
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.AnswerDivision)
-                                </label>
-                                <div class="col-lg-6">
-
-                                    @Html.EditorFor(model => model.AnswerDivision, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: we|can't|change|the|direction|of|the wind|,|but|we|can|adjust|the|sails|" } })
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.AnswerDivision, "", new { @class = "m--font-danger" })
-                                    </div>
-                                    <span class="m-form__help">
-                                        正解の区切りを入力してください
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group m-form__group row">
-                                <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.Remark)
-                                </label>
-                                <div class="col-lg-6">
-
-                                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: 青山文庫の「TOEFL、900目指し」ページ136の英文" } })
-                                    <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "m--font-danger" })
-                                    </div>
-                                    <span class="m-form__help">
-                                        コメントを入力してください
-                                    </span>
-                                </div>
-                            </div>
                             <div class="m-form__seperator m-form__seperator--dashed"></div>
+
                             <div class="m-form__section m-form__section--last">
                                 <div class="m-form__section m-form__section--last">
                                     <div class="form-group m-form__group row">
@@ -401,43 +386,23 @@
     @*@{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }*@
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <script src="~/Metronic/assets/demo/default/custom/components/forms/widgets/bootstrap-select.js" type="text/javascript"></script>
+
+    <script src="~/js/listSwap/jquery.listswap.js" type="text/javascript"></script>
 
     <script>
-        var FormRepeater = {
-            init: function () {
-                $("#repeater-file-input").repeater({
-                    initEmpty: !1,
-                    defaultValues: { "text-input": "foo" },
-                    show: function () {
-                        $(this).slideDown()
-                    },
-                    hide: function (e) {
-                        $(this).slideUp(e)
-                    }
-                });
-            }
-        };
-        jQuery(document).ready(function () {
-            FormRepeater.init()
-        });
 
-        var Select2 = {
-            init: function () {
-                $("#select2-tag").select2({
-                    placeholder: "example: 黑檀，玉簪，珍珠，贝壳",
-                    containerCssClass : "form-control",
-                    tags: !0
-                });
-                $("#select2-editor").select2({
-                    placeholder: "example: hanfuer@163.com / 晚风儿"
-                });
-                $("#select2-multiple").select2({
-                    placeholder: "example: 受動態，助動詞"
-                });
-            }
-        };
-        jQuery(document).ready(function () {
-            Select2.init();
+        $(function () {
+
+            $('#entire-question-list, #selected-question-list').listswap({
+                truncate: true,
+                height: 500,
+                is_scroll: true,
+
+                label_add: '追加',
+                label_remove: '削除',
+            });
 
             $('#m_datetimepicker_3').datetimepicker({
                 todayHighlight: true,
@@ -446,6 +411,8 @@
                 todayBtn: true,
                 format: 'yyyy/mm/dd hh:ii'
             });
+
         });
+
     </script>
 }

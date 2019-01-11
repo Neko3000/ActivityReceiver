@@ -69,10 +69,8 @@ namespace ActivityReceiver
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IDbContextInitializer, DbContextInitializer>();
 
-            services.AddScoped<AnswerManageDataBuilder>();
+            //services.AddScoped<AnswerManageDataBuilder>();
 
-
-            services.AddScoped<ParameterAnalyzer>();
 
             services.AddMvc();
 

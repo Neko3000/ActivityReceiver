@@ -133,7 +133,9 @@ namespace ActivityReceiver.Controllers
             }
             vm.SelectedQuestionIDCollection = selectedQuestionIDCollection;
             vm.EntireQuestionCollection = await _arDbContext.Questions.ToListAsync();
-            vm.ApplicationUserCollection = await _userManager.Users.ToListAsync();
+
+            var applicationUsers = await _userManager.Users.ToListAsync();
+            vm.ApplicationUserPresenterCollection = await ApplicationUserHandler.ConvertApplicationUsersToPresenterCollection(_userManager, _roleManager, applicationUsers);
 
             return View(vm);
         }
@@ -196,8 +198,11 @@ namespace ActivityReceiver.Controllers
             }
 
             var vm = Mapper.Map<ExerciseManageEditPostViewModel,ExerciseManageEditGetViewModel>(model);
+
             vm.EntireQuestionCollection = await _arDbContext.Questions.ToListAsync();
-            vm.ApplicationUserCollection = await _userManager.Users.ToListAsync();
+
+            var applicationUsers = await _userManager.Users.ToListAsync();
+            vm.ApplicationUserPresenterCollection = await ApplicationUserHandler.ConvertApplicationUsersToPresenterCollection(_userManager, _roleManager, applicationUsers);
 
             return View(vm);
         }

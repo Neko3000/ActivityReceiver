@@ -24,7 +24,7 @@
 		$(this).wrapAll("<div id='" + div_id_ + "' class='listboxswap" + rtl_class_ + div_class_ + "'></div>");
 		wrapper = $(div_id + '.listboxswap');
 		
-		if(this.size() != 2) {
+		if(this.length != 2) {
 			var warning = '<p>You must choose a <strong>source select list</strong> and a <strong>destination select list</strong> only.</p>';
 			$(this.parent()).append(warning);
 			return;

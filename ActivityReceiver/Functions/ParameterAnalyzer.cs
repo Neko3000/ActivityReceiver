@@ -7,14 +7,8 @@ using ActivityReceiver.Models;
 
 namespace ActivityReceiver.Functions
 {
-    public class ParameterAnalyzer
+    public static class ParameterAnalyzer
     {
-        private readonly ActivityReceiverDbContext _arDbContext;
-
-        public ParameterAnalyzer(ActivityReceiverDbContext arDbContext)
-        {
-            _arDbContext = arDbContext;
-        }
         
         // D&D Interval Average
         public static float CalculateDDIntervalAVG(IList<Movement> movementCollection)

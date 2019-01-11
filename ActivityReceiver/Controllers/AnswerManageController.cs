@@ -26,16 +26,14 @@ namespace ActivityReceiver.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
 
         private readonly AnswerManageDataBuilder _dataBuilder;
-        private readonly ParameterAnalyzer _parameterAnalyzer;
 
-        public AnswerManageController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,AnswerManageDataBuilder dataBuilder,ParameterAnalyzer parameterAnalyzer)
+        public AnswerManageController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
         {
             _arDbContext = arDbContext;
             _userManager = userManager;
             _roleManager = roleManager;
 
-            _dataBuilder = dataBuilder;
-            _parameterAnalyzer = parameterAnalyzer;
+            _dataBuilder = new AnswerManageDataBuilder(_arDbContext,_userManager,_roleManager);
         }
 
         // GET: QuestionManage

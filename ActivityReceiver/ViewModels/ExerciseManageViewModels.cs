@@ -108,7 +108,7 @@ namespace ActivityReceiver.ViewModels.ExerciseManage
         [Display(Name = "問題")]
         public IList<int> SelectedQuestionIDCollection { get; set; }
 
-        public IList<ApplicationUser> ApplicationUserCollection { get; set; }
+        public IList<ApplicationUserPresenter> ApplicationUserPresenterCollection { get; set; }
         public IList<Question> EntireQuestionCollection { get; set; }
     }
     public class ExerciseManageEditPostViewModel
