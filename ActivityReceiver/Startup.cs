@@ -103,15 +103,15 @@ namespace ActivityReceiver
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //Initialize Database 
+            // Initialize Database 
             dbContextInitializer.ApplicationDbContextInitialize().Wait();
             dbContextInitializer.MainDbContextInitialize().Wait();
 
             // Auto Mapper
-
             AutoMapper.Mapper.Initialize(cfg => {
 
                 /* QuestionManage */
+                // Index
                 cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionPresenter>();
                 // Create
                 cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreatePostViewModel, Question>();
@@ -124,6 +124,7 @@ namespace ActivityReceiver
                 cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDetailsViewModel>();
                 // Delete
                 cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDeleteGetViewModel>();
+                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageDeletePostViewModel, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDeleteGetViewModel>();
 
                 /* AnswerRepaly */
                 //cfg.CreateMap<Movement,ActivityReceiver.ViewModels.AnswerReplay.>();
@@ -154,6 +155,9 @@ namespace ActivityReceiver
                 cfg.CreateMap<ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageEditPostViewModel, ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageEditGetViewModel>();
                 // Details
                 cfg.CreateMap<Exercise, ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageDetailsViewModel>();
+                // Delete
+                cfg.CreateMap<Exercise, ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageDeleteGetViewModel>();
+                cfg.CreateMap<ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageDeletePostViewModel, ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageDeleteGetViewModel>();
             });
 
 

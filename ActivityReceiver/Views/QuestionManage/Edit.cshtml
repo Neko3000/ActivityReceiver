@@ -298,6 +298,7 @@
                                 </div>
                             </div>
                             <div class="m-form__seperator m-form__seperator--dashed"></div>
+
                             <div class="m-form__section m-form__section--last">
                                 <div class="m-form__section m-form__section--last">
                                     <div class="form-group m-form__group row">
@@ -319,6 +320,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group m-form__group row">
                                     <label class="col-form-label col-lg-2">
                                         @Html.DisplayNameFor(model => model.EditorID)
@@ -361,6 +363,7 @@
 
                         </div>
                     </div>
+
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions m-form__actions--solid">
                             <div class="row">
@@ -369,7 +372,7 @@
                                     <button type="submit" class="btn btn-success">
                                         保存
                                     </button>
-                                    <button type="reset" class="btn btn-secondary" data-toggle="modal" data-target="#modal-confirm">
+                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal-confirm">
                                         戻る
                                     </button>
                                 </div>
@@ -377,45 +380,46 @@
                         </div>
                     </div>
 
+                    <!--begin::Modal-->
+                    <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        確認してください
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">
+                                            &times;
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        今はメニューリストへ戻ります…<br />
+                                    </p>
+                                    <em>
+                                        あなた入力したデータは<span class="m--font-boldest">保存しない</span>とします
+                                    </em>
+                                </div>
+                                <div class="modal-footer clearfix">
+                                    <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">
+                                        もう一度考えさせて...
+                                    </button>
+                                    <a href="@Url.Action("Index","ExerciseManage")" class="btn btn-danger pull-right">
+                                        今度の編集をやめる
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Modal-->
                 }
                 <!--end::Form-->
             </div>
         </div>
     </div>
-    <!--begin::Modal-->
-    <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">
-                        確認してください
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">
-                            &times;
-                        </span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        今はメニューリストへ戻ります…<br />
-                    </p>
-                    <em>
-                        あなた入力したデータは<span class="m--font-boldest">保存しない</span>とします
-                    </em>
-                </div>
-                <div class="modal-footer clearfix">
-                    <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">
-                        もう一度考えさせて...
-                    </button>
-                    <a href="@Url.Action("Index","ItemManage")" class="btn btn-danger pull-right">
-                        今度の編集をやめる
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--end::Modal-->
+
 </div>
 
 
@@ -443,6 +447,14 @@
             });
             $('#generateDivisionBtn').click(function () {
                 $("#answer-divsion-input").val(generateFromSentenceEN(false));
+            });
+
+            $('#create-date-time-picker').datetimepicker({
+                todayHighlight: true,
+                autoclose: true,
+                pickerPosition: 'bottom-left',
+                todayBtn: true,
+                format: 'yyyy/mm/dd hh:ii'
             });
 
             Select2.init();

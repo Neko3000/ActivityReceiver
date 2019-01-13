@@ -262,6 +262,14 @@ namespace ActivityReceiver.Controllers
             }
 
             var vm = Mapper.Map<Exercise, ExerciseManageDeleteGetViewModel>(exercise);
+
+            var allQuestionsInExercise = (from q in _arDbContext.Questions
+                                          join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                          where eqc.ExerciseID == exercise.ID
+                                          orderby eqc.SerialNumber ascending
+                                          select q).ToList();
+            vm.QuestionCollection = allQuestionsInExercise;
+
             vm.EditorName = (await _userManager.FindByIdAsync(exercise.EditorID)).UserName;
 
             return View(vm);
