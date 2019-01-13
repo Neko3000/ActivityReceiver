@@ -9,7 +9,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                Default Forms
+                編集
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -21,7 +21,7 @@
                     -
                 </li>
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
+                    <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
                             問題管理
                         </span>
@@ -31,7 +31,7 @@
                     -
                 </li>
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
+                    <a href="@Url.Action("Index","QuestionManage")" class="m-nav__link">
                         <span class="m-nav__link-text">
                             クエスションリスト
                         </span>
@@ -41,7 +41,7 @@
                     -
                 </li>
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
+                    <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
                             クエスションを編集
                         </span>
@@ -149,13 +149,14 @@
                                     @Html.ValidationSummary("", new { @class = "m--font-danger" })
                                 </label>
                             </div>
+
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
                                     @Html.DisplayNameFor(model => model.SentenceEN)
                                 </label>
                                 <div class="col-lg-6">
 
-                                    @Html.EditorFor(model => model.SentenceEN, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: We can't change the direction of the wind, but we can adjust the sails." } })
+                                    @Html.EditorFor(model => model.SentenceEN, new { htmlAttributes = new { @id = "sentence-en-input", @class = "form-control m-input", @placeholder = "example: We can't change the direction of the wind, but we can adjust the sails." } })
                                     <div class="form-control-feedback">
                                         @Html.ValidationMessageFor(model => model.SentenceEN, "", new { @class = "m--font-danger" })
                                     </div>
@@ -164,6 +165,7 @@
                                     </span>
                                 </div>
                             </div>
+
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
                                     @Html.DisplayNameFor(model => model.SentenceJP)
@@ -188,15 +190,15 @@
                                     <select class="custom-select form-control" name="Level">
                                         <option value="" disabled selected>難易度、レベル</option>
 
-                                        <option value="0">
+                                        <option value="0" @(Model.Level == 0 ? "selected" : "")>
                                             初級
                                         </option>
 
-                                        <option value="1">
+                                        <option value="1" @(Model.Level == 1 ? "selected" : "")>
                                             中級
                                         </option>
 
-                                        <option value="2">
+                                        <option value="2" @(Model.Level == 2 ? "selected" : "")>
                                             上級
                                         </option>
 
@@ -215,11 +217,11 @@
                                     文法項目
                                 </label>
                                 <div class="col-lg-6">
-                                    <select class="form-control m-select2" id="select2-multiple" name="GrammarIDs" multiple="multiple">
+                                    <select class="form-control m-select2" id="select2-multiple" name="SelectedGrammarIDCollection" multiple="multiple">
 
-                                        @foreach (var grammar in Model.Grammars)
+                                        @foreach (var grammar in Model.EntireGrammarCollection)
                                         {
-                                            <option value="@grammar.ID" @(Model.GrammarIDs.Contains(grammar.ID) ? "selected":"")>
+                                            <option value="@grammar.ID" @(Model.SelectedGrammarIDCollection.Contains(grammar.ID) ? "selected" : "")>
                                                 @grammar.Name
                                             </option>
                                         }
@@ -233,13 +235,23 @@
                                     @Html.DisplayNameFor(model => model.Division)
                                 </label>
                                 <div class="col-lg-6">
-
-                                    @Html.EditorFor(model => model.Division, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: the|can|change|sails|,|the|direction|of|the wind|we|but|can't|we|adjust| " } })
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.Division, new { htmlAttributes = new { @id = "division-input", @class = "form-control m-input", @placeholder = "example: the|can|change|sails|,|the|direction|of|the wind|we|but|can't|we|adjust| " } })
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                生成
+                                            </button>
+                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(625px, 40px, 0px);">
+                                                <div class="dropdown-item cursor-pointer" href="#" id="generateDivsionByRandomBtn">ランダム生成</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-control-feedback">
                                         @Html.ValidationMessageFor(model => model.Division, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        問題の区切りを入力してください
+                                        問題の区切りを入力してください<br />
+                                        ( ！) 自由入力、また、右側の生成ボタンを使用（英文が入力された場合）
                                     </span>
                                 </div>
                             </div>
@@ -249,13 +261,23 @@
                                     @Html.DisplayNameFor(model => model.AnswerDivision)
                                 </label>
                                 <div class="col-lg-6">
-
-                                    @Html.EditorFor(model => model.AnswerDivision, new { htmlAttributes = new { @class = "form-control m-input", @placeholder = "example: we|can't|change|the|direction|of|the wind|,|but|we|can|adjust|the|sails|" } })
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.AnswerDivision, new { htmlAttributes = new { @id = "answer-divsion-input", @class = "form-control m-input", @placeholder = "example: we|can't|change|the|direction|of|the wind|,|but|we|can|adjust|the|sails|" } })
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                生成
+                                            </button>
+                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(625px, 40px, 0px);">
+                                                <div class="dropdown-item cursor-pointer" href="#" id="generateDivisionBtn">英文により生成</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-control-feedback">
                                         @Html.ValidationMessageFor(model => model.AnswerDivision, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
-                                        正解の区切りを入力してください
+                                        正解の区切りを入力してください<br />
+                                        ( ！) 自由入力、また、右側の生成ボタンを使用（英文が入力された場合）
                                     </span>
                                 </div>
                             </div>
@@ -284,7 +306,7 @@
                                         </label>
                                         <div class="col-lg-4 col-md-9 col-sm-12">
                                             <div class="input-group date">
-                                                <input type="text" class="form-control m-input c-datatimepicker" name="CreateDate" readonly value="@DateTime.Now.ToString(("yyyy/MM/dd HH:mm"))" id="m_datetimepicker_3" />
+                                                <input type="text" class="form-control m-input c-datatimepicker" name="CreateDate" readonly value="@DateTime.Now.ToString(("yyyy/MM/dd HH:mm"))" id="create-date-time-picker" />
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">
                                                         <i class="la la-calendar glyphicon-th"></i>
@@ -404,49 +426,27 @@
         }*@
 
     <script>
-        var FormRepeater = {
-            init: function () {
-                $("#repeater-file-input").repeater({
-                    initEmpty: !1,
-                    defaultValues: { "text-input": "foo" },
-                    show: function () {
-                        $(this).slideDown()
-                    },
-                    hide: function (e) {
-                        $(this).slideUp(e)
-                    }
-                });
-            }
-        };
-        jQuery(document).ready(function () {
-            FormRepeater.init()
-        });
-
         var Select2 = {
             init: function () {
-                $("#select2-tag").select2({
-                    placeholder: "example: 黑檀，玉簪，珍珠，贝壳",
-                    containerCssClass : "form-control",
-                    tags: !0
+                $("#select2-multiple").select2({
+                    placeholder: "example: 受動態，助動詞"
                 });
                 $("#select2-editor").select2({
                     placeholder: "example: hanfuer@163.com / 晚风儿"
                 });
-                $("#select2-multiple").select2({
-                    placeholder: "example: 受動態，助動詞"
-                });
             }
         };
-        jQuery(document).ready(function () {
-            Select2.init();
 
-            $('#m_datetimepicker_3').datetimepicker({
-                todayHighlight: true,
-                autoclose: true,
-                pickerPosition: 'bottom-left',
-                todayBtn: true,
-                format: 'yyyy/mm/dd hh:ii'
+        $(function () {
+            $('#generateDivsionByRandomBtn').click(function () {
+                $("#division-input").val(generateFromSentenceEN(true));
             });
+            $('#generateDivisionBtn').click(function () {
+                $("#answer-divsion-input").val(generateFromSentenceEN(false));
+            });
+
+            Select2.init();
         });
     </script>
-}
+
+    }

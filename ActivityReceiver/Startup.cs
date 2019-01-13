@@ -115,12 +115,10 @@ namespace ActivityReceiver
                 cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionPresenter>();
                 // Create
                 cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreatePostViewModel, Question>();
-                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreatePostViewModel, ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreateGetViewModel>().
-                    ForMember(dest => dest.Grammars, opt => opt.Ignore());
+                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreatePostViewModel, ActivityReceiver.ViewModels.QuestionManage.QuestionManageCreateGetViewModel>();
                 // Edit
                 cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel>();
-                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditPostViewModel, Question>().
-                    ForMember(dest => dest.GrammarIDString, opt => opt.Ignore());
+                cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditPostViewModel, Question>();
                 cfg.CreateMap<ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditPostViewModel, ActivityReceiver.ViewModels.QuestionManage.QuestionManageEditGetViewModel>();
                 // Details
                 cfg.CreateMap<Question, ActivityReceiver.ViewModels.QuestionManage.QuestionManageDetailsViewModel>();
@@ -148,8 +146,14 @@ namespace ActivityReceiver
                 /* ExerciseManage */
                 // Index
                 cfg.CreateMap<Exercise, ActivityReceiver.ViewModels.ExerciseManage.ExercisePresenter>();
+                // Create
+                cfg.CreateMap<ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageCreatePostViewModel, Exercise>();
+                cfg.CreateMap<ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageCreatePostViewModel, ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageCreateGetViewModel>();
                 // Edit
                 cfg.CreateMap<Exercise, ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageEditGetViewModel>();
+                cfg.CreateMap<ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageEditPostViewModel, ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageEditGetViewModel>();
+                // Details
+                cfg.CreateMap<Exercise, ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageDetailsViewModel>();
             });
 
 

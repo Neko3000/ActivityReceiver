@@ -120,7 +120,7 @@ namespace ActivityReceiver.Data
                 },
                 new Grammar()
                 {
-                    Name = "接続詞"
+                    Name = "倒置"
                 },
                 new Grammar()
                 {

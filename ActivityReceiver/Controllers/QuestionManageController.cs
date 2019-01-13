@@ -55,7 +55,7 @@ namespace ActivityReceiver.Controllers
             var grammars =  await  _arDbContext.Grammars.ToListAsync();
 
             var vm = new QuestionManageCreateGetViewModel{
-               Grammars = _arDbContext.Grammars.ToList()
+                EntireGrammarCollection = _arDbContext.Grammars.ToList()
             };
             return View(vm);
         }
@@ -72,11 +72,9 @@ namespace ActivityReceiver.Controllers
                 var question = Mapper.Map<QuestionManageCreatePostViewModel,Question>(model);
 
                 // I think grammar should be a multiple select and handled here.
-                question.GrammarIDString = QuestionManageDataBuilder.ConvertGrammarIDListToGrammarIDString(model.GrammarIDs);
+                question.GrammarIDString = QuestionManageDataBuilder.ConvertGrammarIDListToGrammarIDString(model.SelectedGrammarIDCollection);
                 question.CreateDate = DateTime.Now;
-
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                question.EditorID = user.Id;
+                question.EditorID = (await _userManager.GetUserAsync(HttpContext.User)).Id;
 
                 _arDbContext.Questions.Add(question);
                 await _arDbContext.SaveChangesAsync();
@@ -86,7 +84,7 @@ namespace ActivityReceiver.Controllers
 
             //if isValid is false
             var vm = Mapper.Map<QuestionManageCreatePostViewModel,QuestionManageCreateGetViewModel>(model);
-            vm.Grammars = _arDbContext.Grammars.ToList();
+            vm.EntireGrammarCollection = _arDbContext.Grammars.ToList();
 
             return View(vm);
         }
@@ -109,8 +107,8 @@ namespace ActivityReceiver.Controllers
 
             var vm = Mapper.Map<Question,QuestionManageEditGetViewModel>(question);
 
-            vm.GrammarIDs = QuestionManageDataBuilder.ConvertGrammarIDStringToGrammarIDList(question.GrammarIDString);
-            vm.Grammars = await  _arDbContext.Grammars.ToListAsync();
+            vm.SelectedGrammarIDCollection = QuestionManageDataBuilder.ConvertGrammarIDStringToGrammarIDList(question.GrammarIDString);
+            vm.EntireGrammarCollection = await  _arDbContext.Grammars.ToListAsync();
 
             var applicationUsers = await _userManager.Users.ToListAsync();
             vm.ApplicationUserPresenterCollection = await ApplicationUserHandler.ConvertApplicationUsersToPresenterCollection(_userManager, _roleManager, applicationUsers);
@@ -118,7 +116,7 @@ namespace ActivityReceiver.Controllers
             return View(vm);
         }
 
-        // POST: ItemManage/Edit/5
+        // POST: QuestionManage/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -126,7 +124,7 @@ namespace ActivityReceiver.Controllers
         public async Task<IActionResult> Edit(QuestionManageEditPostViewModel model)
         {
 
-            var question = _arDbContext.Questions.Find(model.ID);
+            var question = await _arDbContext.Questions.SingleOrDefaultAsync(q=>q.ID == model.ID);
 
             if (question == null)
             {
@@ -135,7 +133,7 @@ namespace ActivityReceiver.Controllers
 
             if (ModelState.IsValid)
             {
-                question.GrammarIDString = QuestionManageDataBuilder.ConvertGrammarIDListToGrammarIDString(model.GrammarIDs);
+                question.GrammarIDString = QuestionManageDataBuilder.ConvertGrammarIDListToGrammarIDString(model.SelectedGrammarIDCollection);
 
                 Mapper.Map<QuestionManageEditPostViewModel,Question>(model, question);
 
@@ -159,13 +157,13 @@ namespace ActivityReceiver.Controllers
             }
 
             var vm = Mapper.Map<QuestionManageEditPostViewModel,QuestionManageEditGetViewModel>(model); 
-            vm.Grammars = _arDbContext.Grammars.ToList();
+            vm.EntireGrammarCollection = await _arDbContext.Grammars.ToListAsync();
             vm.ApplicationUserPresenterCollection = await ApplicationUserHandler.ConvertApplicationUsersToPresenterCollection(_userManager, _roleManager, _userManager.Users.ToList());
 
             return View(vm);
         }
 
-        // GET: ItemManage/Delete/5
+        // GET: QuestionManage/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
@@ -210,7 +208,7 @@ namespace ActivityReceiver.Controllers
             return View(vm);
         }
 
-        // POST: ItemManage/Delete/5
+        // POST: QuestionManage/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(QuestionManageDeletePostViewModel model)

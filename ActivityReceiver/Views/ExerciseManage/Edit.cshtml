@@ -10,12 +10,11 @@
     <link href="~/js/listSwap/listswap.css" rel="stylesheet" type="text/css" />
 }
 
-
 <div class="m-subheader ">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                Default Forms
+                編集
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -27,7 +26,7 @@
                     -
                 </li>
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
+                    <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
                             問題管理
                         </span>
@@ -37,9 +36,9 @@
                     -
                 </li>
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
+                    <a href="@Url.Action("Index","QuestionManage")" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            クエスションリスト
+                            エクササイズリスト
                         </span>
                     </a>
                 </li>
@@ -47,9 +46,9 @@
                     -
                 </li>
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
+                    <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            クエスションを編集
+                            エクササイズを編集
                         </span>
                     </a>
                 </li>
@@ -196,15 +195,15 @@
                                     <select class="custom-select form-control" name="Level">
                                         <option value="" disabled selected>難易度、レベル</option>
 
-                                        <option value="0">
+                                        <option value="0" @(Model.Level == 0 ? "selected" : "")>
                                             初級
                                         </option>
 
-                                        <option value="1">
+                                        <option value="1" @(Model.Level == 1 ? "selected" : "")>
                                             中級
                                         </option>
 
-                                        <option value="2">
+                                        <option value="2" @(Model.Level == 2 ? "selected" : "")>
                                             上級
                                         </option>
 
@@ -236,7 +235,7 @@
                                             }
                                         }
                                     </select>
-                                    <select id="selected-question-list" data-search="検索...">
+                                    <select  id="selected-question-list" data-search="検索...">
 
                                         @{
                                             foreach (var question in Model.EntireQuestionCollection)
@@ -248,6 +247,16 @@
                                             }
                                         }
 
+                                    </select>
+
+                                    <!-- Add custom select to submit SelectedQuestionIDCollection -->
+                                    <select multiple="" name="SelectedQuestionIDCollection" id="list-swap-result-select" hidden="">
+                                        @{
+                                            foreach (var question in Model.EntireQuestionCollection)
+                                            {
+                                                <option value="@question.ID">#@question.ID - @question.SentenceEN</option>
+                                            }
+                                        }
                                     </select>
 
                                     <div class="form-control-feedback">
@@ -393,6 +402,16 @@
 
     <script>
 
+        var Select2 = {
+            init: function () {
+
+                $("#select2-editor").select2({
+                    placeholder: "example: hanfuer@163.com / 晚风儿"
+                });
+
+            }
+        };
+
         $(function () {
 
             $('#entire-question-list, #selected-question-list').listswap({
@@ -411,6 +430,8 @@
                 todayBtn: true,
                 format: 'yyyy/mm/dd hh:ii'
             });
+
+            Select2.init();
 
         });
 

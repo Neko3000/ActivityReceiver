@@ -70,10 +70,14 @@ namespace ActivityReceiver.Controllers
             if (ModelState.IsValid)
             {
                 var exercise = Mapper.Map<ExerciseManageCreatePostViewModel,Exercise>(model);
+
+                exercise.CreateDate = DateTime.Now;
+                exercise.EditorID = (await _userManager.GetUserAsync(HttpContext.User)).Id;
+
                 _arDbContext.Exercises.Add(exercise);
                 await _arDbContext.SaveChangesAsync();
 
-                foreach (var questionID in model.QuestionIDCollection)
+                foreach (var questionID in model.SelectedQuestionIDCollection)
                 {
                     var question = _arDbContext.Questions.SingleOrDefault(q=>q.ID == questionID);
 
@@ -82,13 +86,13 @@ namespace ActivityReceiver.Controllers
                         return NotFound();
                     }
 
-                    var exerciseQuestionRelationship = new ExerciseQuestion
+                    var exerciseQuestionRelation = new ExerciseQuestion
                     {
                         ExerciseID = exercise.ID,
                         QuestionID = question.ID
                     };
 
-                    _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestionRelationship);
+                    _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestionRelation);
                     await _arDbContext.SaveChangesAsync();
                 }
 
@@ -140,7 +144,7 @@ namespace ActivityReceiver.Controllers
             return View(vm);
         }
 
-        // POST: ItemManage/Edit/5
+        // POST: ExerciseManage/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -148,7 +152,7 @@ namespace ActivityReceiver.Controllers
         public async Task<IActionResult> Edit(ExerciseManageEditPostViewModel model)
         {
 
-            var exercise = _arDbContext.Exercises.Find(model.ID);
+            var exercise = await _arDbContext.Exercises.SingleOrDefaultAsync(e=>e.ID == model.ID);
 
             if (exercise == null)
             {
@@ -164,6 +168,12 @@ namespace ActivityReceiver.Controllers
                     _arDbContext.Update(exercise);
                     await _arDbContext.SaveChangesAsync();
 
+                    // Delete current relations
+                    var currentExerciseQuestionRelationCollection = await _arDbContext.ExerciseQuestionCollection.Where(eqc => eqc.ExerciseID == exercise.ID).ToListAsync();
+                    _arDbContext.RemoveRange(currentExerciseQuestionRelationCollection);
+                    await _arDbContext.SaveChangesAsync();
+
+                    // Add new relations
                     foreach (var questionID in model.SelectedQuestionIDCollection)
                     {
                         var question = _arDbContext.Questions.SingleOrDefault(q => q.ID == questionID);
@@ -173,13 +183,13 @@ namespace ActivityReceiver.Controllers
                             return NotFound();
                         }
 
-                        var exerciseQuestionRelationship = new ExerciseQuestion
+                        var exerciseQuestionRelation = new ExerciseQuestion
                         {
                             ExerciseID = exercise.ID,
                             QuestionID = question.ID
                         };
 
-                        _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestionRelationship);
+                        _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestionRelation);
                         await _arDbContext.SaveChangesAsync();
                     }
                 }
@@ -207,7 +217,7 @@ namespace ActivityReceiver.Controllers
             return View(vm);
         }
 
-        // GET: ItemManage/Delete/5
+        // GET: ExerciseManage/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
@@ -225,6 +235,13 @@ namespace ActivityReceiver.Controllers
 
             var vm = Mapper.Map<Exercise, ExerciseManageDetailsViewModel>(exercise);
             vm.EditorName = (await _userManager.FindByIdAsync(exercise.EditorID)).UserName;
+
+            var allQuestionsInExercise = (from q in _arDbContext.Questions
+                                          join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                          where eqc.ExerciseID == exercise.ID
+                                          orderby eqc.SerialNumber ascending
+                                          select q).ToList();
+            vm.QuestionCollection = allQuestionsInExercise;
 
             return View(vm);
         }
@@ -250,7 +267,7 @@ namespace ActivityReceiver.Controllers
             return View(vm);
         }
 
-        // POST: ItemManage/Delete/5
+        // POST: ExerciseManage/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(ExerciseManageDeletePostViewModel model)
@@ -269,8 +286,8 @@ namespace ActivityReceiver.Controllers
 
             _arDbContext.Exercises.Remove(exercise);
 
-            var deletedExerciseQuestionRelationships =_arDbContext.ExerciseQuestionCollection.Where(eqc => eqc.ExerciseID == exercise.ID).ToList();
-            _arDbContext.ExerciseQuestionCollection.RemoveRange(deletedExerciseQuestionRelationships);
+            var deletedExerciseQuestionRelations=_arDbContext.ExerciseQuestionCollection.Where(eqc => eqc.ExerciseID == exercise.ID).ToList();
+            _arDbContext.ExerciseQuestionCollection.RemoveRange(deletedExerciseQuestionRelations);
 
             await _arDbContext.SaveChangesAsync();
 

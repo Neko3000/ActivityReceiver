@@ -78,7 +78,7 @@ namespace ActivityReceiver.ViewModels.ExerciseManage
         public DateTime CreateDate { get; set; }
 
         [Display(Name = "問題")]
-        public IList<int> QuestionIDCollection { get; set; }
+        public IList<int> SelectedQuestionIDCollection { get; set; }
 
     }
     #endregion
@@ -143,34 +143,24 @@ namespace ActivityReceiver.ViewModels.ExerciseManage
         [Display(Name = "ID")]
         public int ID { get; set; }
 
-        [Display(Name = "英文")]
-        public string SentenceEN { get; set; }
+        [Display(Name = "名前")]
+        public string Name { get; set; }
 
-        [Display(Name = "日本文")]
-        public string SentenceJP { get; set; }
+        [Display(Name = "説明")]
+        public string Description { get; set; }
 
         [Display(Name = "レベル")]
         public int Level { get; set; }
-
-        [Display(Name = "文法")]
-        public string GrammarNameString { get; set; }
-
-        [Display(Name = "問題の区切り")]
-        public string Division { get; set; }
-
-        [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
-
-        [Display(Name = "コメント")]
-        public string Remark { get; set; }
 
         [DataType(DataType.DateTime)]
         [Display(Name = "作成日付")]
         public DateTime CreateDate { get; set; }
 
-
         [Display(Name = "著者")]
-        public string EditorName { get; set; }      
+        public string EditorName { get; set; }
+
+        [Display(Name = "問題")]
+        public IList<Question> QuestionCollection { get; set; }
     }
     #endregion
 
@@ -180,34 +170,24 @@ namespace ActivityReceiver.ViewModels.ExerciseManage
         [Display(Name = "ID")]
         public int ID { get; set; }
 
-        [Display(Name = "英文")]
-        public string SentenceEN { get; set; }
+        [Display(Name = "名前")]
+        public string Name { get; set; }
 
-        [Display(Name = "日本文")]
-        public string SentenceJP { get; set; }
+        [Display(Name = "説明")]
+        public string Description { get; set; }
 
         [Display(Name = "レベル")]
         public int Level { get; set; }
-
-        [Display(Name = "文法")]
-        public string GrammarNameString { get; set; }
-
-        [Display(Name = "問題の区切り")]
-        public string Division { get; set; }
-
-        [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
-
-        [Display(Name = "コメント")]
-        public string Remark { get; set; }
 
         [DataType(DataType.DateTime)]
         [Display(Name = "作成日付")]
         public DateTime CreateDate { get; set; }
 
-
         [Display(Name = "著者")]
         public string EditorName { get; set; }
+
+        [Display(Name = "問題")]
+        public IList<Question> QuestionCollection { get; set; }
     }
     public class ExerciseManageDeletePostViewModel
     {

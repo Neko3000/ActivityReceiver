@@ -15,7 +15,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                問題
+                作成
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -27,7 +27,7 @@
                     -
                 </li>
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
+                    <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
                             問題管理
                         </span>
@@ -37,7 +37,7 @@
                     -
                 </li>
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
+                    <a href="@Url.Action("Index","QuestionManage")" class="m-nav__link">
                         <span class="m-nav__link-text">
                             クエスションリスト
                         </span>
@@ -235,6 +235,16 @@
                                     </select>
                                     <select id="selected-question-list" data-search="検索..."></select>
 
+                                    <!-- Add custom select to submit SelectedQuestionIDCollection -->
+                                    <select multiple="" name="SelectedQuestionIDCollection" id="list-swap-result-select" hidden="">
+                                        @{
+                                            foreach (var question in Model.EntireQuestionCollection)
+                                            {
+                                                <option value="@question.ID">#@question.ID - @question.SentenceEN</option>
+                                            }
+                                        }
+                                    </select>
+
                                     <div class="form-control-feedback">
                                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "m--font-danger" })
                                     </div>
@@ -303,8 +313,6 @@
     <!--end::Modal-->
 </div>
 
-
-
 @section Scripts {
 
     @*@{
@@ -318,7 +326,6 @@
 
 
     <script>
-
 
         $(function () {
 

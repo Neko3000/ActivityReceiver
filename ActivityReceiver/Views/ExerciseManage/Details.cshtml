@@ -1,0 +1,230 @@
+﻿@model ActivityReceiver.ViewModels.ExerciseManage.ExerciseManageDetailsViewModel
+
+@{
+
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_LayoutMetronic.cshtml";
+}
+
+@section Styles{
+
+}
+
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                詳細
+            </h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <a href="#" class="m-nav__link m-nav__link--icon">
+                        <i class="m-nav__link-icon la la-home"></i>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="#" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            問題管理
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="@Url.Action("Index","ExerciseManage")" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            エクササイズリスト
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__separator">
+                    -
+                </li>
+                <li class="m-nav__item">
+                    <a href="#" class="m-nav__link">
+                        <span class="m-nav__link-text">
+                            エクササイズの詳細
+                        </span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <div>
+            <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
+                <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                    <i class="la la-plus m--hide"></i>
+                    <i class="la la-ellipsis-h"></i>
+                </a>
+                <div class="m-dropdown__wrapper">
+                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                    <div class="m-dropdown__inner">
+                        <div class="m-dropdown__body">
+                            <div class="m-dropdown__content">
+                                <ul class="m-nav">
+                                    <li class="m-nav__section m-nav__section--first m--hide">
+                                        <span class="m-nav__section-text">
+                                            Quick Actions
+                                        </span>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-share"></i>
+                                            <span class="m-nav__link-text">
+                                                Activity
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-chat-1"></i>
+                                            <span class="m-nav__link-text">
+                                                Messages
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-info"></i>
+                                            <span class="m-nav__link-text">
+                                                FAQ
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-lifebuoy"></i>
+                                            <span class="m-nav__link-text">
+                                                Support
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-nav__separator m-nav__separator--fit"></li>
+                                    <li class="m-nav__item">
+                                        <a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
+                                            Submit
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                エクササイズの詳細
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <div class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="m-form__section m-form__section--first">
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.ID)
+                                </label>
+                                <label class="col-lg-6 col-form-label m--align-left">
+                                    @Model.ID
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </label>
+                                <label class="col-lg-6 col-form-label m--align-left">
+                                    @Model.Name
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </label>
+                                <label class="col-lg-6 col-form-label m--align-left">
+                                    @Model.Description
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.Level)
+                                </label>
+                                <label class="col-lg-6 col-form-label m--align-left">
+                                    @Model.Level
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.CreateDate)
+                                </label>
+                                <label class="col-lg-6 col-form-label m--align-left">
+                                    @Model.CreateDate
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.EditorName)
+                                </label>
+                                <label class="col-lg-6 col-form-label m--align-left">
+                                    @Model.EditorName
+                                </label>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-lg-2 col-form-label">
+                                    @Html.DisplayNameFor(model => model.QuestionCollection)
+                                </label>
+                                <label class="col-lg-8 col-form-label m--align-left">
+                                    @{
+                                        foreach (var question in Model.QuestionCollection)
+                                        {
+                                            <div># @question.ID - @question.SentenceEN / @question.SentenceJP</div> <br />
+                                        }
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+
+    @*@{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }*@
+
+    <script>
+
+        $(function () {
+
+            
+        });
+
+    </script>
+}

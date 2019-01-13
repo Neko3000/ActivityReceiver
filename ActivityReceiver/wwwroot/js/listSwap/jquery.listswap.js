@@ -117,6 +117,16 @@
 				add_remove_handler($(this), div_id + ' .destination_wrapper ul', source_select_id, destination_select_id);
 			});
 			refresh_list();
+			
+			// NOTE - Fixed select
+			var selectedItems = [];
+			$("#"+destination_select_id+" option").each(function()
+			{
+				selectedItems.push($(this).val());
+			});
+
+			$('#list-swap-result-select').val(selectedItems);
+			//alert($('#list-swap-result-select').val());
 		});
 		
 		$(div_id + ' .listbox_controls .remove').click(function() {
@@ -124,6 +134,16 @@
 				add_remove_handler($(this), div_id + ' .source_wrapper ul', destination_select_id, source_select_id);
 			});
 			refresh_list();
+
+			// NOTE - Fixed select
+			var selectedItems = [];
+			$("#"+destination_select_id+" option").each(function()
+			{
+				selectedItems.push($(this).val());
+			});
+
+			$('#list-swap-result-select').val(selectedItems);
+			//alert($('#list-swap-result-select').val());
 		});
 				
 		if (source_search) {

@@ -3195,6 +3195,12 @@
     <Content Update="Views\AnswerManage\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\QuestionManage\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\ExerciseManage\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\_LayoutAccount.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

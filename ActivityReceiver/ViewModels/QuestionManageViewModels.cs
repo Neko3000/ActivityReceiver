@@ -62,7 +62,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public int Level { get; set; }
 
         [Display(Name = "文法")]
-        public IList<int> GrammarIDs { get; set; }
+        public IList<int> SelectedGrammarIDCollection { get; set; }
 
         [Display(Name = "問題の区切り")]
         public string Division { get; set; }
@@ -73,7 +73,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         [Display(Name = "コメント")]
         public string Remark { get; set; }
 
-        public IList<Grammar> Grammars{ get; set; }    
+        public IList<Grammar> EntireGrammarCollection{ get; set; }    
         
     }
 
@@ -89,7 +89,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public int Level { get; set; }
 
         [Display(Name = "文法")]
-        public IList<int> GrammarIDs { get; set; }
+        public IList<int> SelectedGrammarIDCollection { get; set; }
 
         [Display(Name = "問題の区切り")]
         public string Division { get; set; }
@@ -119,7 +119,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public int Level { get; set; }
 
         [Display(Name = "文法")]
-        public IList<int> GrammarIDs { get; set; }
+        public IList<int> SelectedGrammarIDCollection { get; set; }
 
         [Display(Name = "問題の区切り")]
         public string Division { get; set; }
@@ -138,7 +138,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         [Display(Name = "著者")]
         public string EditorID { get; set; }
 
-        public IList<Grammar> Grammars{ get; set; }
+        public IList<Grammar> EntireGrammarCollection { get; set; }
         public IList<ApplicationUserPresenter> ApplicationUserPresenterCollection { get;set; }
         
     }
@@ -157,7 +157,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public int Level { get; set; }
 
         [Display(Name = "文法")]
-        public IList<int> GrammarIDs { get; set; }
+        public IList<int> SelectedGrammarIDCollection { get; set; }
 
         [Display(Name = "問題の区切り")]
         public string Division { get; set; }

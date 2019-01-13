@@ -68,8 +68,11 @@ License: You must have a valid license purchased only from themeforest(the above
     @*<link href="~/Metronic/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />*@
 
     <!--end::Page Vendors -->
+
+    <!--begin::Base Styles -->
     <link href="~/Metronic/demos/default/assets/demo/base/style.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Base Styles -->
+
     <link rel="shortcut icon" href="~/Metronic/demo/demo3/media/img/logo/favicon.ico" />
     <!--NOTE: customzied stylesheet-->
     <link href="~/css/style.css" rel="stylesheet" type="text/css" />
@@ -1161,7 +1164,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             </h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
-                        <li class="m-menu__item  m-menu__item--submenu  @(Html.IsInControllers("QuestionManage") ? "m-menu__item--open m-menu__item--expanded":"")" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                        <li class="m-menu__item  m-menu__item--submenu  @(Html.IsInControllers("QuestionManage","ExerciseManage") ? "m-menu__item--open m-menu__item--expanded":"")" aria-haspopup="true" m-menu-submenu-toggle="hover">
                             <a href="#" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-layers"></i>
                                 <span class="m-menu__link-text">
@@ -1175,17 +1178,27 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <li class="m-menu__item  m-menu__item--parent " aria-haspopup="true">
                                         <span class="m-menu__link">
                                             <span class="m-menu__link-text">
-                                                記録管理
+                                                問題管理
                                             </span>
                                         </span>
                                     </li>
-                                    <li class="m-menu__item @(Html.IsInControllers("QuestionManage") ? " m-menu__item--active":"")" aria-haspopup="true">
+                                    <li class="m-menu__item @(Html.IsInControllers("QuestionManage") ? "m-menu__item--active":"")" aria-haspopup="true">
                                         <a href="@Url.Action("Index","QuestionManage")" class="m-menu__link ">
                                             <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                 <span></span>
                                             </i>
                                             <span class="m-menu__link-text">
                                                 クエスション
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item @(Html.IsInControllers("ExerciseManage") ? "m-menu__item--active":"")" aria-haspopup="true">
+                                        <a href="@Url.Action("Index","ExerciseManage")" class="m-menu__link ">
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="m-menu__link-text">
+                                                エクササイズ
                                             </span>
                                         </a>
                                     </li>
@@ -1210,7 +1223,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             </span>
                                         </span>
                                     </li>
-                                    <li class="m-menu__item @(Html.IsInControllers("AssignmentRecordManage") ? " m-menu__item--active":"")" aria-haspopup="true">
+                                    <li class="m-menu__item @(Html.IsInControllers("AssignmentRecordManage") ? "m-menu__item--active":"")" aria-haspopup="true">
                                         <a href="@Url.Action("Index","AssignmentRecordManage")" class="m-menu__link ">
                                             <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                 <span></span>
@@ -2006,7 +2019,6 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="~/Metronic/vendors/tooltip.js/dist/umd/tooltip.min.js" type="text/javascript"></script>
     <script src="~/Metronic/vendors/perfect-scrollbar/dist/perfect-scrollbar.js" type="text/javascript"></script>
     <script src="~/Metronic/vendors/wnumb/wNumb.js" type="text/javascript"></script>
-
     <!--end:: Global Mandatory Vendors -->
     <!--begin:: Global Optional Vendors -->
     <script src="~/Metronic/vendors/jquery.repeater/src/lib.js" type="text/javascript"></script>
@@ -2069,7 +2081,9 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="~/Metronic/demos/default/assets/demo/base/scripts.bundle.js" type="text/javascript"></script>
     <!--end::Global Theme Bundle -->
 
-
+    <!--begin::Custom Script-->
+    <script src="~/js/metronic-script.js" type="text/javascript"></script>
+    <!--end::Custom Script -->
 
     @RenderSection("Scripts", false)
 </body>
