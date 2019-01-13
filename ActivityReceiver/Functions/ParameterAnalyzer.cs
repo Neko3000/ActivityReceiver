@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ActivityReceiver.Data;
 using ActivityReceiver.Models;
+using ActivityReceiver.Enums;
 
 namespace ActivityReceiver.Functions
 {
@@ -26,16 +27,16 @@ namespace ActivityReceiver.Functions
                 }
 
                 var movement = movementCollection[i];
-                if(movement.State == 0)
+                if(movement.State == (int)MovementState.TapSingleBegin)
                 {
                     totalTime += (movement.Time - previousTapEndTime);
                     count++;
                 }
-                else if(movement.State == 1)
+                else if(movement.State == (int)MovementState.TapSingleMove)
                 {
                     continue;
                 }
-                else if(movement.State == 2)
+                else if(movement.State == (int)MovementState.TapSingleEnd)
                 {
                     previousTapEndTime = movement.Time;
                 }
@@ -60,7 +61,7 @@ namespace ActivityReceiver.Functions
                 }
 
                 var movement = movementCollection[i];
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     differTime = movement.Time - previousTapEndTime;
                     if (differTime > differTimeMAX)
@@ -68,11 +69,11 @@ namespace ActivityReceiver.Functions
                         differTimeMAX = differTime;
                     }
                 }
-                else if (movement.State == 1)
+                else if (movement.State == (int)MovementState.TapSingleMove)
                 {
                     continue;
                 }
-                else if (movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleEnd)
                 {
                     previousTapEndTime = movement.Time;
                 }
@@ -98,7 +99,7 @@ namespace ActivityReceiver.Functions
                 }
 
                 var movement = movementCollection[i];
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     differTime = movement.Time - previousTapEndTime;
                     if(isFirstCalculatedDDInterval)
@@ -115,11 +116,11 @@ namespace ActivityReceiver.Functions
                     }
 
                 }
-                else if (movement.State == 1)
+                else if (movement.State == (int)MovementState.TapSingleMove)
                 {
                     continue;
                 }
-                else if (movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleEnd)
                 {
                     previousTapEndTime = movement.Time;
                 }
@@ -139,16 +140,16 @@ namespace ActivityReceiver.Functions
             for (int i = 0; i < movementCollection.Count; i++)
             {
                 var movement = movementCollection[i];
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     previousTapBeginTime = movement.Time;
                     
                 }
-                else if (movement.State == 1)
+                else if (movement.State == (int)MovementState.TapSingleMove)
                 {
                     continue;
                 }
-                else if (movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleEnd)
                 {
                     totalTime += (movement.Time - previousTapBeginTime);
                     count++;
@@ -169,15 +170,15 @@ namespace ActivityReceiver.Functions
             for (int i = 0; i < movementCollection.Count; i++)
             {
                 var movement = movementCollection[i];
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     previousTapBeginTime = movement.Time;
                 }
-                else if (movement.State == 1)
+                else if (movement.State == (int)MovementState.TapSingleMove)
                 {
                     continue;
                 }
-                else if (movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleEnd)
                 {
                     differTime = movement.Time - previousTapBeginTime;
                     if (differTime > differTimeMAX)
@@ -202,15 +203,15 @@ namespace ActivityReceiver.Functions
             for (int i = 0; i < movementCollection.Count; i++)
             {
                 var movement = movementCollection[i];
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     previousTapBeginTime = movement.Time;
                 }
-                else if (movement.State == 1)
+                else if (movement.State == (int)MovementState.TapSingleMove)
                 {
                     continue;
                 }
-                else if (movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleEnd)
                 {
                     differTime = movement.Time - previousTapBeginTime;
                     if (isFirstCalculatedDDInterval)
@@ -243,11 +244,11 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     lastMovement = movementCollection[i];
                 }
-                else if (movement.State == 1 || movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleMove || movement.State == (int)MovementState.TapSingleEnd)
                 {
                     distance = (float)(Math.Sqrt(Math.Pow(lastMovement.XPosition - movement.XPosition, 2) + Math.Pow(lastMovement.YPosition - movement.YPosition, 2)));
                     totalDistance += distance;
@@ -272,11 +273,11 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == 1 || movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleMove || movement.State == (int)MovementState.TapSingleEnd)
                 {
                     if(movement.Time == lastMovement.Time)
                     {
@@ -308,11 +309,11 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == 1 || movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleMove || movement.State == (int)MovementState.TapSingleEnd)
                 {
                     if (movement.Time == lastMovement.Time)
                     {
@@ -348,11 +349,11 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == 1 || movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleMove || movement.State == (int)MovementState.TapSingleEnd)
                 {
                     if (movement.Time == lastMovement.Time)
                     {
@@ -405,15 +406,15 @@ namespace ActivityReceiver.Functions
             {
                 movement = movementCollection[i];
 
-                if (movement.State == 0)
+                if (movement.State == (int)MovementState.TapSingleBegin)
                 {
                     isOperating = true;
                 }
-                else if(movement.State == 1)
+                else if(movement.State == (int)MovementState.TapSingleMove)
                 {
                     continue;
                 }
-                else if(movement.State == 2)
+                else if(movement.State == (int)MovementState.TapSingleEnd)
                 {
                     if(isOperating)
                     {
@@ -438,13 +439,13 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if(movement.State == 0)
+                if(movement.State == (int)MovementState.TapSingleBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == 1 || movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleMove || movement.State == (int)MovementState.TapSingleEnd)
                 {
-                    if(lastMovement.State == 0)
+                    if(lastmovement.State == (int)MovementState.TapSingleBegin)
                     {
                         isToPositiveDirection = movement.XPosition - lastMovement.XPosition > 0 ? true : false;
                         lastMovement = movement;
@@ -481,13 +482,13 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if(movement.State == 0)
+                if(movement.State == (int)MovementState.TapSingleBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == 1 || movement.State == 2)
+                else if (movement.State == (int)MovementState.TapSingleMove || movement.State == (int)MovementState.TapSingleEnd)
                 {
-                    if (lastMovement.State == 0)
+                    if (lastmovement.State == (int)MovementState.TapSingleBegin)
                     {
                         isToPositiveDirection = movement.YPosition - lastMovement.YPosition > 0 ? true : false;
                         lastMovement = movement;
