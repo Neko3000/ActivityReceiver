@@ -3186,13 +3186,13 @@
     <Content Update="Views\AssignmentRecordManage\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\AnswerManage\Details.cshtml">
+    <Content Update="Views\AnswerRecordManage\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\AnswerReplay\Replayer.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\AnswerManage\Index.cshtml">
+    <Content Update="Views\AnswerRecordManage\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\ExerciseManage\Delete.cshtml">

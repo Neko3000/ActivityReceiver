@@ -1,4 +1,4 @@
-﻿@model ActivityReceiver.ViewModels.AnswerManage.AnswerManageIndexViewModel
+﻿@model ActivityReceiver.ViewModels.AnswerManage.AnswerRecordManageIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -334,9 +334,9 @@
                 </thead>
                 <tbody>
                     @{
-                        for (int i = 0; i < Model.AnswerPresenterCollection.Count; i++)
+                        for (int i = 0; i < Model.AnswerRecordPresenterCollection.Count; i++)
                         {
-                            var answerPresenter = Model.AnswerPresenterCollection[i];
+                            var answerPresenter = Model.AnswerRecordPresenterCollection[i];
                             <tr>
                                 <td>
                                     @answerPresenter.ID
@@ -348,7 +348,7 @@
                                     @answerPresenter.SentenceJP
                                 </td>
                                 <td>
-                                    @answerPresenter.Content
+                                    @answerPresenter.AnswerDivision
                                 </td>
                                 <td>
                                     @answerPresenter.IsCorrect

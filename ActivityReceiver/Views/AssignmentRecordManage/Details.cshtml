@@ -232,15 +232,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var answerPresenter in Model.AnswerPresenterCollection)
+                                    @foreach (var answerRecordPresenter in Model.AnswerPresenterCollection)
                                     {
                                         <tr>
-                                            <td>@answerPresenter.ID</td>
-                                            <td>@answerPresenter.SentenceJP</td>
-                                            <td>@answerPresenter.SentenceEN</td>
-                                            <td>@answerPresenter.Content</td>
+                                            <td>@answerRecordPresenter.ID</td>
+                                            <td>@answerRecordPresenter.SentenceJP</td>
+                                            <td>@answerRecordPresenter.SentenceEN</td>
+                                            <td>@answerRecordPresenter.AnswerDivision</td>
                                             <td>
-                                                @if (answerPresenter.IsCorrect)
+                                                @if (answerRecordPresenter.IsCorrect)
                                                 {
                                                     <i class="la la-check"></i>
                                                 }
@@ -250,7 +250,7 @@
                                                 }
                                             </td>
                                             <td>
-                                                <a href="@Url.Action("Details","AnswerManage",new { id = answerPresenter.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
+                                                <a href="@Url.Action("Details","AnswerRecordManage",new { id = answerRecordPresenter.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
                                                     <i class="la la-search"></i>
                                                 </a>
                                             </td>
