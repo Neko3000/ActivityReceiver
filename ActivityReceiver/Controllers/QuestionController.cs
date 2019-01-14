@@ -135,7 +135,7 @@ namespace ActivityReceiver.Controllers
                         SentenceEN = question.SentenceEN,
                         SentenceJP = question.SentenceJP,
                         Division = question.Division,
-                        AnswerDivision = question.AnswerDivision,
+                        AnswerDivision = question.StandardAnswerDivision,
 
                         CurrentNumber = specificAssignment.CurrentQuestionIndex + 1
                     };
@@ -180,7 +180,7 @@ namespace ActivityReceiver.Controllers
                     SentenceEN = question.SentenceEN,
                     SentenceJP = question.SentenceJP,
                     Division = question.Division,
-                    AnswerDivision = question.AnswerDivision,
+                    AnswerDivision = question.StandardAnswerDivision,
 
                     CurrentNumber = assignmentRecordNew.CurrentQuestionIndex + 1
                 };

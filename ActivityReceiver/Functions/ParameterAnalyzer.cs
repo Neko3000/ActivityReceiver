@@ -445,7 +445,7 @@ namespace ActivityReceiver.Functions
                 }
                 else if (movement.State == (int)MovementState.TapSingleMove || movement.State == (int)MovementState.TapSingleEnd)
                 {
-                    if(lastmovement.State == (int)MovementState.TapSingleBegin)
+                    if(lastMovement.State == (int)MovementState.TapSingleBegin)
                     {
                         isToPositiveDirection = movement.XPosition - lastMovement.XPosition > 0 ? true : false;
                         lastMovement = movement;
@@ -488,7 +488,7 @@ namespace ActivityReceiver.Functions
                 }
                 else if (movement.State == (int)MovementState.TapSingleMove || movement.State == (int)MovementState.TapSingleEnd)
                 {
-                    if (lastmovement.State == (int)MovementState.TapSingleBegin)
+                    if (lastMovement.State == (int)MovementState.TapSingleBegin)
                     {
                         isToPositiveDirection = movement.YPosition - lastMovement.YPosition > 0 ? true : false;
                         lastMovement = movement;

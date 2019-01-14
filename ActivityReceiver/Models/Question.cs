@@ -18,7 +18,7 @@ namespace ActivityReceiver.Models
         public string GrammarIDString { get; set; }
 
         public string Division { get; set; }
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
         public string Remark { get; set; }
 
         public DateTime CreateDate { get; set; }

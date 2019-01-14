@@ -29,7 +29,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public string Division { get; set; }
 
         [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         [Display(Name = "コメント")]
         public string Remark { get; set; }
@@ -68,7 +68,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public string Division { get; set; }
 
         [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         [Display(Name = "コメント")]
         public string Remark { get; set; }
@@ -95,7 +95,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public string Division { get; set; }
 
         [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         [Display(Name = "コメント")]
         public string Remark { get; set; }  
@@ -125,7 +125,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public string Division { get; set; }
 
         [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         [Display(Name = "コメント")]
         public string Remark { get; set; }
@@ -163,7 +163,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public string Division { get; set; }
 
         [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         [Display(Name = "コメント")]
         public string Remark { get; set; }
@@ -199,7 +199,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public string Division { get; set; }
 
         [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         [Display(Name = "コメント")]
         public string Remark { get; set; }
@@ -236,7 +236,7 @@ namespace ActivityReceiver.ViewModels.QuestionManage
         public string Division { get; set; }
 
         [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         [Display(Name = "コメント")]
         public string Remark { get; set; }
