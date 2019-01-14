@@ -14,11 +14,11 @@ class ElementPosition{
 }
 class WordItem{
     constructor(index,obj,orgElementPosition,elementPositionCollection) {
-        this.index = index
-        this.obj = obj
+        this.index = index;
+        this.obj = obj;
 
         this.orgElementPosition = orgElementPosition;
-        this.elementPositionCollection = elementPositionCollection
+        this.elementPositionCollection = elementPositionCollection;
       }
 }
 class PresentorProxy{
@@ -123,12 +123,12 @@ class PresentorProxy{
             $.each(movementCollection, function (index, movement) {
                 if (movement.state == 1) {
                     if (lastMovementEnd != null) {
-                        var diffence = movement.time - lastMovementEnd.time
+                        var diffence = movement.time - lastMovementEnd.time;
                         maxDD = maxDD < diffence ? diffence : maxDD;
                     }
                 }
                 else if (movement.state == 2) {
-                    lastMovementEnd = movement
+                    lastMovementEnd = movement;
                 }
             });
             return maxDD;

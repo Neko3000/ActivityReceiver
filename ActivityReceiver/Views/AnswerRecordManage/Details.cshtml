@@ -559,6 +559,10 @@
 
         var chartDeviceAcceleration;
 
+        var sortByTime = function (a, b) {
+            return parseInt(a.time) > parseInt(b.time);
+        };
+
         $(function () {
 
             $('.replayer').replayer(@(Model.ID));
@@ -669,7 +673,7 @@
                 async: true,
                 success: function (data) {
 
-                    chartDeviceAcceleration.dataProvider = data;
+                    chartDeviceAcceleration.dataProvider = data.sort(sortByTime);
                     chartDeviceAcceleration.validateNow();
                 }
             });
