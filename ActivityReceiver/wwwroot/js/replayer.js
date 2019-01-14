@@ -98,10 +98,10 @@ class PresentorProxy{
         var wordItems = new Array();
     
         var movementCollection;
-        var movementDTOCurrentIndex = 0;
+        var movementCurrentIndex = 0;
 
         var deviceAccelerationCollection;
-        var deviceAccelerationDTOCurrentIndex = 0;
+        var deviceAccelerationCurrentIndex = 0;
 
         var currentDrawPoint;
         var lastDrawPoint;
@@ -118,17 +118,17 @@ class PresentorProxy{
 
         var getMaxDD = function(){
             var maxDD = 0;
-            var lastMovementDTOEnd;
+            var lastMovementEnd;
 
-            $.each(movementCollection,function(index,movementDTO){
-                if(movementDTO.state == 1){
-                    if(lastMovementDTOEnd != null){
-                        var diffence =  movementDTO.time - lastMovementDTOEnd.time
+            $.each(movementCollection,function(index,movement){
+                if(movement.state == 1){
+                    if(lastMovementEnd != null){
+                        var diffence =  movement.time - lastMovementEnd.time
                         maxDD = maxDD < diffence ? diffence:maxDD;
                     }
                 }
-                else if(movementDTO.state == 2){
-                    lastMovementDTOEnd = movementDTO
+                else if(movement.state == 2){
+                    lastMovementEnd = movement
                 }
             });
             return maxDD;
@@ -138,18 +138,18 @@ class PresentorProxy{
             var totalDistance = 0;
             var currentPoint,lastPoint;
 
-            $.each(movementCollection,function(index,movementDTO){
-                if(movementDTO.state == 0){
-                    lastPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
+            $.each(movementCollection,function(index,movement){
+                if(movement.state == 0){
+                    lastPoint = new Point(movement.xPosition,movement.yPosition);
                 }
-                else if(movementDTO.state == 1){
-                    currentPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
+                else if(movement.state == 1){
+                    currentPoint = new Point(movement.xPosition,movement.yPosition);
                     totalDistance += calculateDistance(lastPoint,currentPoint);
 
                     lastPoint = currentPoint;
                 }
-                else if(movementDTO.state == 2){
-                    currentPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
+                else if(movement.state == 2){
+                    currentPoint = new Point(movement.xPosition,movement.yPosition);
                     totalDistance += calculateDistance(lastPoint,currentPoint);
 
                     lastPoint = null;
@@ -200,14 +200,14 @@ class PresentorProxy{
             var currrnetDrawPointTemp;
             var lastDrawPointTemp;
 
-            $.each(movementCollection,function(index,currentMovementDTO){
-                if(currentMovementDTO.time > time){
+            $.each(movementCollection,function(index,currentMovement){
+                if(currentMovement.time > time){
                     return;
                 }
 
-                currrnetDrawPointTemp = new Point(currentMovementDTO.xPosition,currentMovementDTO.yPosition);
+                currrnetDrawPointTemp = new Point(currentMovement.xPosition,currentMovement.yPosition);
 
-                if(currentMovementDTO.state == 0)
+                if(currentMovement.state == 0)
                 {
                     lastDrawPointTemp = currrnetDrawPointTemp;
                     currentColorIndex = (currentColorIndex + 1) % colorList.length;
@@ -356,51 +356,51 @@ class PresentorProxy{
 
             var currentActiveWordItemSIM;
           
-            var movementDTOCurrentIndexSIM = 0;
+            var movementCurrentIndexSIM = 0;
             var tapBeganRelativePositionSIM;  
 
             var currentMillisecondTimeSIM = 0;
-            while(movementDTOCurrentIndexSIM <= movementCollection.length - 1){
+            while(movementCurrentIndexSIM <= movementCollection.length - 1){
 
-                while (movementCollection[movementDTOCurrentIndexSIM].time <= currentMillisecondTimeSIM){
+                while (movementCollection[movementCurrentIndexSIM].time <= currentMillisecondTimeSIM){
 
-                    var currentMovementDTO = movementCollection[movementDTOCurrentIndexSIM];
+                    var currentMovement = movementCollection[movementCurrentIndexSIM];
     
-                    if (currentMovementDTO.state == 0) {
+                    if (currentMovement.state == 0) {
                         // tap
-                        currentActiveWordItemSIM = getWordItemByTargetElementIndex(currentMovementDTO.targetElement);
+                        currentActiveWordItemSIM = getWordItemByTargetElementIndex(currentMovement.targetElement);
 
                         if(currentActiveWordItemSIM.elementPositionCollection == null){
 
-                            currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovementDTO.time,currentActiveWordItemSIM.orgElementPosition.left,currentActiveWordItemSIM.orgElementPosition.top));
+                            currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time,currentActiveWordItemSIM.orgElementPosition.left,currentActiveWordItemSIM.orgElementPosition.top));
                         }
 
-                        currentElementPositionSIM = getClosestElementPosition(currentActiveWordItemSIM,currentMovementDTO.time);
+                        currentElementPositionSIM = getClosestElementPosition(currentActiveWordItemSIM,currentMovement.time);
 
-                        tapBeganRelativePositionSIM = new Point(currentMovementDTO.xPosition - currentElementPositionSIM.left,currentMovementDTO.yPosition - currentElementPositionSIM.top); 
+                        tapBeganRelativePositionSIM = new Point(currentMovement.xPosition - currentElementPositionSIM.left,currentMovement.yPosition - currentElementPositionSIM.top); 
 
                     }
-                    else if (currentMovementDTO.state == 1) {
+                    else if (currentMovement.state == 1) {
                         // move   
-                        var wordItemLeft = currentMovementDTO.xPosition - tapBeganRelativePositionSIM.x;
-                        var wordItemTop = currentMovementDTO.yPosition - tapBeganRelativePositionSIM.y;
+                        var wordItemLeft = currentMovement.xPosition - tapBeganRelativePositionSIM.x;
+                        var wordItemTop = currentMovement.yPosition - tapBeganRelativePositionSIM.y;
                     
-                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovementDTO.time,wordItemLeft,wordItemTop));
+                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time,wordItemLeft,wordItemTop));
     
                     }
-                    else if (currentMovementDTO.state == 2) {
+                    else if (currentMovement.state == 2) {
                         // end
-                        var wordItemLeft = currentMovementDTO.xPosition - tapBeganRelativePositionSIM.x;
-                        var wordItemTop = currentMovementDTO.yPosition - tapBeganRelativePositionSIM.y;
+                        var wordItemLeft = currentMovement.xPosition - tapBeganRelativePositionSIM.x;
+                        var wordItemTop = currentMovement.yPosition - tapBeganRelativePositionSIM.y;
                     
-                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovementDTO.time,wordItemLeft,wordItemTop));
+                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time,wordItemLeft,wordItemTop));
 
                         currentActiveWordItemSIM = null;             
                     }
     
-                    movementDTOCurrentIndexSIM ++;
+                    movementCurrentIndexSIM ++;
 
-                    if(movementDTOCurrentIndexSIM > movementCollection.length - 1){
+                    if(movementCurrentIndexSIM > movementCollection.length - 1){
                         break;
                     }            
                 }
@@ -494,13 +494,13 @@ class PresentorProxy{
 
         var playMovementAnimation = function(){
 
-            if(movementDTOCurrentIndex > movementCollection.length - 1){
+            if(movementCurrentIndex > movementCollection.length - 1){
 
                 return;
             }
 
-            while (movementCollection[movementDTOCurrentIndex].time <= currentMillisecondTime) {
-                var currentMovementDTO = movementCollection[movementDTOCurrentIndex];
+            while (movementCollection[movementCurrentIndex].time <= currentMillisecondTime) {
+                var currentMovement = movementCollection[movementCurrentIndex];
 
                 $.each(wordItems,function(index,wordItem){
                     var elementPosition = getClosestElementPosition(wordItem,currentMillisecondTime);
@@ -514,9 +514,9 @@ class PresentorProxy{
                     }
                 });
 
-                currentDrawPoint = new Point(currentMovementDTO.xPosition,currentMovementDTO.yPosition);
+                currentDrawPoint = new Point(currentMovement.xPosition,currentMovement.yPosition);
 
-                if(currentMovementDTO.state == 0)
+                if(currentMovement.state == 0)
                 {
                     lastDrawPoint = currentDrawPoint;
                     currentColorIndex = (currentColorIndex + 1) % colorList.length;
@@ -531,9 +531,9 @@ class PresentorProxy{
                 // When finish drawing
                 lastDrawPoint = currentDrawPoint;
 
-                movementDTOCurrentIndex++;
+                movementCurrentIndex++;
 
-                if(movementDTOCurrentIndex>=movementCollection.length){
+                if(movementCurrentIndex>=movementCollection.length){
                     break;
                 }
             }
@@ -541,27 +541,27 @@ class PresentorProxy{
 
         var playAcceralationAnimation = function(){
 
-            if(deviceAccelerationDTOCurrentIndex > deviceAccelerationCollection.length - 1){
+            if(deviceAccelerationCurrentIndex > deviceAccelerationCollection.length - 1){
                 return;
             }
 
-            while (deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].time <= currentMillisecondTime) {
+            while (deviceAccelerationCollection[deviceAccelerationCurrentIndex].time <= currentMillisecondTime) {
 
                 accelerationX.css({
-                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].x / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationCurrentIndex].x / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationY.css({
-                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].y / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationCurrentIndex].y / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationZ.css({
-                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].z / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationCurrentIndex].z / 3.0 * 100)).toString() + "%"
                 });
 
-                deviceAccelerationDTOCurrentIndex++;
+                deviceAccelerationCurrentIndex++;
 
-                if(deviceAccelerationDTOCurrentIndex>=deviceAccelerationCollection.length){
+                if(deviceAccelerationCurrentIndex>=deviceAccelerationCollection.length){
                     break;
                 }
             }
