@@ -27,17 +27,17 @@ namespace ActivityReceiver.Functions
             return objectDTOCollection;
         }
 
-        public static IList<MovementDTO> ConvertToMovementDTOForEachMovement(IList<Movement> movements)
-        {
-            var movementDTOs = new List<MovementDTO>();
+        //public static IList<MovementDTO> ConvertToMovementDTOForEachMovement(IList<Movement> movements)
+        //{
+        //    var movementDTOs = new List<MovementDTO>();
 
-            foreach(var movement in movements)
-            {
-                var movementDTO = Mapper.Map<Movement,MovementDTO>(movement);
+        //    foreach(var movement in movements)
+        //    {
+        //        var movementDTO = Mapper.Map<Movement,MovementDTO>(movement);
 
-                movementDTOs.Add(movementDTO);
-            }
-            return movementDTOs;
-        }
+        //        movementDTOs.Add(movementDTO);
+        //    }
+        //    return movementDTOs;
+        //}
     }
 }
