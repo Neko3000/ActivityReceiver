@@ -232,9 +232,17 @@ namespace ActivityReceiver.Controllers
             _arDbContext.AnswserRecords.Add(answerRecordNew);
             _arDbContext.SaveChanges();
 
+            foreach(var movement in model.MovementCollection)
+            {
+                movement.AnswerID = answerRecordNew.ID;
+            }
             _arDbContext.Movements.AddRange(model.MovementCollection);
             _arDbContext.SaveChanges();
 
+            foreach (var deviceAcceleration in model.DeviceAccelerationCollection)
+            {
+                deviceAcceleration.AnswerID = answerRecordNew.ID;
+            }
             _arDbContext.DeviceAccelerations.AddRange(model.DeviceAccelerationCollection);
             _arDbContext.SaveChanges();
 
