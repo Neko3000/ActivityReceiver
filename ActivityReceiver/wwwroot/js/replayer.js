@@ -116,41 +116,41 @@ class PresentorProxy{
 
         // Calculation
 
-        var getMaxDD = function(){
+        var getMaxDD = function () {
             var maxDD = 0;
             var lastMovementEnd;
 
-            $.each(movementCollection,function(index,movement){
-                if(movement.state == 1){
-                    if(lastMovementEnd != null){
-                        var diffence =  movement.time - lastMovementEnd.time
-                        maxDD = maxDD < diffence ? diffence:maxDD;
+            $.each(movementCollection, function (index, movement) {
+                if (movement.state == 1) {
+                    if (lastMovementEnd != null) {
+                        var diffence = movement.time - lastMovementEnd.time
+                        maxDD = maxDD < diffence ? diffence : maxDD;
                     }
                 }
-                else if(movement.state == 2){
+                else if (movement.state == 2) {
                     lastMovementEnd = movement
                 }
             });
             return maxDD;
-        }
+        };
 
-        var getTotalDistance = function(){
+        var getTotalDistance = function () {
             var totalDistance = 0;
-            var currentPoint,lastPoint;
+            var currentPoint, lastPoint;
 
-            $.each(movementCollection,function(index,movement){
-                if(movement.state == 0){
-                    lastPoint = new Point(movement.xPosition,movement.yPosition);
+            $.each(movementCollection, function (index, movement) {
+                if (movement.state == 0) {
+                    lastPoint = new Point(movement.xPosition, movement.yPosition);
                 }
-                else if(movement.state == 1){
-                    currentPoint = new Point(movement.xPosition,movement.yPosition);
-                    totalDistance += calculateDistance(lastPoint,currentPoint);
+                else if (movement.state == 1) {
+                    currentPoint = new Point(movement.xPosition, movement.yPosition);
+                    totalDistance += calculateDistance(lastPoint, currentPoint);
 
                     lastPoint = currentPoint;
                 }
-                else if(movement.state == 2){
-                    currentPoint = new Point(movement.xPosition,movement.yPosition);
-                    totalDistance += calculateDistance(lastPoint,currentPoint);
+                else if (movement.state == 2) {
+                    currentPoint = new Point(movement.xPosition, movement.yPosition);
+                    totalDistance += calculateDistance(lastPoint, currentPoint);
 
                     lastPoint = null;
                 }
@@ -158,82 +158,79 @@ class PresentorProxy{
             });
 
             return totalDistance;
-        }
+        };
 
-        var getTimeDifference = function(time1,time2){
+        var getTimeDifference = function (time1, time2) {
 
             var millionSecondTime1 = new Date(time1).getTime();
-            var millionSecondTime2 = new Date(time2).getTime();          
+            var millionSecondTime2 = new Date(time2).getTime();
 
             return millionSecondTime2 - millionSecondTime1;
-        }
+        };
 
         // Common
-        var sortByLeft = function(a,b){
-            return parseInt(a.obj.css('left'))> parseInt(b.obj.css('left'));
-        }
+        var sortByLeft = function (a, b) {
+            return parseInt(a.obj.css('left')) > parseInt(b.obj.css('left'));
+        };
 
-        var sortByTime = function(a,b){
-            return parseInt(a.time) > parseInt(b.time) ;
-        }
+        var sortByTime = function (a, b) {
+            return parseInt(a.time) > parseInt(b.time);
+        };
     
-        var calculateDistance = function(pointA,pointB){
+        var calculateDistance = function (pointA, pointB) {
 
-            if(pointA == null || pointB == null)
-            {
+            if (pointA == null || pointB == null) {
                 return;
             }
 
-            return Math.sqrt(Math.pow(pointA.x-pointB.x,2)+Math.pow(pointA.y-pointB.y,2));
-        }
+            return Math.sqrt(Math.pow(pointA.x - pointB.x, 2) + Math.pow(pointA.y - pointB.y, 2));
+        };
 
-        var fitToContainer = function(obj){
+        var fitToContainer = function (obj) {
             var width = obj.parent().width();
             var height = obj.parent().height();
 
-            obj.attr('width',width);
-            obj.attr('height',height);
-        }
+            obj.attr('width', width);
+            obj.attr('height', height);
+        };
 
-        var adjustCanvasToTime = function(time){
+        var adjustCanvasToTime = function (time) {
 
             var currrnetDrawPointTemp;
             var lastDrawPointTemp;
 
-            $.each(movementCollection,function(index,currentMovement){
-                if(currentMovement.time > time){
+            $.each(movementCollection, function (index, currentMovement) {
+                if (currentMovement.time > time) {
                     return;
                 }
 
-                currrnetDrawPointTemp = new Point(currentMovement.xPosition,currentMovement.yPosition);
+                currrnetDrawPointTemp = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                if(currentMovement.state == 0)
-                {
+                if (currentMovement.state == 0) {
                     lastDrawPointTemp = currrnetDrawPointTemp;
                     currentColorIndex = (currentColorIndex + 1) % colorList.length;
                 }
 
-                presentorProxy.drawRect(currrnetDrawPointTemp,colorList[currentColorIndex]);
-                presentorProxy.drawLineBetweenTwoPoints(lastDrawPointTemp,currrnetDrawPointTemp,colorList[currentColorIndex]);
+                presentorProxy.drawRect(currrnetDrawPointTemp, colorList[currentColorIndex]);
+                presentorProxy.drawLineBetweenTwoPoints(lastDrawPointTemp, currrnetDrawPointTemp, colorList[currentColorIndex]);
 
                 lastDrawPointTemp = currrnetDrawPointTemp;
             });
-        }
+        };
 
-        var adjustWordItemsToTime = function(time){
-            
-            $.each(wordItems,function(index,wordItem){
-                var elementPosition = getClosestElementPosition(wordItem,time);
+        var adjustWordItemsToTime = function (time) {
 
-                if(elementPosition != null)
-                {                    
+            $.each(wordItems, function (index, wordItem) {
+                var elementPosition = getClosestElementPosition(wordItem, time);
+
+                if (elementPosition != null) {
                     wordItem.obj.css({
                         left: elementPosition.left,
                         top: elementPosition.top
                     });
                 }
             });
-        }
+        };
 
         // Layout
         var setLayout = function () {
@@ -284,23 +281,23 @@ class PresentorProxy{
 
         };
 
-        var generateAnswer = function(){
+        var generateAnswer = function () {
 
             wordItemsClone = wordItems.slice().sort(sortByLeft);
 
             var answerString = "";
             $.each(wordItemsClone, function (index, wordItem) {
-                if(index == 0){
+                if (index == 0) {
                     answerString = answerString + wordItem.obj.text();
                 }
-                else{
+                else {
                     answerString = answerString + " " + wordItem.obj.text();
                 }
             });
             answerString = answerString + ".";
 
             answerLabel.text(answerString);
-        }
+        };
 
         var getAnswer = function () {
 
@@ -340,75 +337,75 @@ class PresentorProxy{
             );
         };
 
-        var getWordItemByTargetElementIndex = function(targetElementIndex){
+        var getWordItemByTargetElementIndex = function (targetElementIndex) {
 
             var selectedWordItem;
-            $.each(wordItems,function(index,wordItem){
-                if(wordItem.index == targetElementIndex){
+            $.each(wordItems, function (index, wordItem) {
+                if (wordItem.index == targetElementIndex) {
                     selectedWordItem = wordItem;
                     return;
                 }
             });
             return selectedWordItem;
-        }
+        };
 
-        var calculateWordItemPositions = function(){       
+        var calculateWordItemPositions = function () {
 
             var currentActiveWordItemSIM;
-          
+
             var movementCurrentIndexSIM = 0;
-            var tapBeganRelativePositionSIM;  
+            var tapBeganRelativePositionSIM;
 
             var currentMillisecondTimeSIM = 0;
-            while(movementCurrentIndexSIM <= movementCollection.length - 1){
+            while (movementCurrentIndexSIM <= movementCollection.length - 1) {
 
-                while (movementCollection[movementCurrentIndexSIM].time <= currentMillisecondTimeSIM){
+                while (movementCollection[movementCurrentIndexSIM].time <= currentMillisecondTimeSIM) {
 
                     var currentMovement = movementCollection[movementCurrentIndexSIM];
-    
+
                     if (currentMovement.state == 0) {
                         // tap
                         currentActiveWordItemSIM = getWordItemByTargetElementIndex(currentMovement.targetElement);
 
-                        if(currentActiveWordItemSIM.elementPositionCollection == null){
+                        if (currentActiveWordItemSIM.elementPositionCollection == null) {
 
-                            currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time,currentActiveWordItemSIM.orgElementPosition.left,currentActiveWordItemSIM.orgElementPosition.top));
+                            currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time, currentActiveWordItemSIM.orgElementPosition.left, currentActiveWordItemSIM.orgElementPosition.top));
                         }
 
-                        currentElementPositionSIM = getClosestElementPosition(currentActiveWordItemSIM,currentMovement.time);
+                        currentElementPositionSIM = getClosestElementPosition(currentActiveWordItemSIM, currentMovement.time);
 
-                        tapBeganRelativePositionSIM = new Point(currentMovement.xPosition - currentElementPositionSIM.left,currentMovement.yPosition - currentElementPositionSIM.top); 
+                        tapBeganRelativePositionSIM = new Point(currentMovement.xPosition - currentElementPositionSIM.left, currentMovement.yPosition - currentElementPositionSIM.top);
 
                     }
                     else if (currentMovement.state == 1) {
                         // move   
                         var wordItemLeft = currentMovement.xPosition - tapBeganRelativePositionSIM.x;
                         var wordItemTop = currentMovement.yPosition - tapBeganRelativePositionSIM.y;
-                    
-                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time,wordItemLeft,wordItemTop));
-    
+
+                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time, wordItemLeft, wordItemTop));
+
                     }
                     else if (currentMovement.state == 2) {
                         // end
                         var wordItemLeft = currentMovement.xPosition - tapBeganRelativePositionSIM.x;
                         var wordItemTop = currentMovement.yPosition - tapBeganRelativePositionSIM.y;
-                    
-                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time,wordItemLeft,wordItemTop));
 
-                        currentActiveWordItemSIM = null;             
+                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time, wordItemLeft, wordItemTop));
+
+                        currentActiveWordItemSIM = null;
                     }
-    
-                    movementCurrentIndexSIM ++;
 
-                    if(movementCurrentIndexSIM > movementCollection.length - 1){
+                    movementCurrentIndexSIM++;
+
+                    if (movementCurrentIndexSIM > movementCollection.length - 1) {
                         break;
-                    }            
+                    }
                 }
 
-                currentMillisecondTimeSIM += 1000/animationFrequency;
+                currentMillisecondTimeSIM += 1000 / animationFrequency;
             }
 
-        }
+        };
 
         var generateWordItems = function () {
             var wordItemTemplate = $('<div class="word-item"><div class="word-item-background">here we are</div></div>');
@@ -481,20 +478,20 @@ class PresentorProxy{
             });
         };
 
-        var getMaxMillisecondTime = function(){
+        var getMaxMillisecondTime = function () {
             var sortedmovementCollection = movementCollection.slice().sort(sortByTime);
             sortedmovementCollection.reverse();
             var sorteddeviceAccelerationCollection = deviceAccelerationCollection.slice().sort(sortByTime);
             sorteddeviceAccelerationCollection.reverse();
 
-            maxTime = sorteddeviceAccelerationCollection[0].time > sortedmovementCollection[0].time ? sorteddeviceAccelerationCollection[0].time:sortedmovementCollection[0].time;
+            maxTime = sorteddeviceAccelerationCollection[0].time > sortedmovementCollection[0].time ? sorteddeviceAccelerationCollection[0].time : sortedmovementCollection[0].time;
 
             return maxTime;
-        }
+        };
 
-        var playMovementAnimation = function(){
+        var playMovementAnimation = function () {
 
-            if(movementCurrentIndex > movementCollection.length - 1){
+            if (movementCurrentIndex > movementCollection.length - 1) {
 
                 return;
             }
@@ -502,11 +499,10 @@ class PresentorProxy{
             while (movementCollection[movementCurrentIndex].time <= currentMillisecondTime) {
                 var currentMovement = movementCollection[movementCurrentIndex];
 
-                $.each(wordItems,function(index,wordItem){
-                    var elementPosition = getClosestElementPosition(wordItem,currentMillisecondTime);
+                $.each(wordItems, function (index, wordItem) {
+                    var elementPosition = getClosestElementPosition(wordItem, currentMillisecondTime);
 
-                    if(elementPosition != null)
-                    {
+                    if (elementPosition != null) {
                         wordItem.obj.css({
                             left: elementPosition.left,
                             top: elementPosition.top
@@ -514,34 +510,33 @@ class PresentorProxy{
                     }
                 });
 
-                currentDrawPoint = new Point(currentMovement.xPosition,currentMovement.yPosition);
+                currentDrawPoint = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                if(currentMovement.state == 0)
-                {
+                if (currentMovement.state == 0) {
                     lastDrawPoint = currentDrawPoint;
                     currentColorIndex = (currentColorIndex + 1) % colorList.length;
                 }
 
-                currentDistance += calculateDistance(currentDrawPoint,lastDrawPoint);
+                currentDistance += calculateDistance(currentDrawPoint, lastDrawPoint);
 
                 movementDistance.text(currentDistance.toFixed(2));
-                presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndex]);
-                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
+                presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
+                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, colorList[currentColorIndex]);
 
                 // When finish drawing
                 lastDrawPoint = currentDrawPoint;
 
                 movementCurrentIndex++;
 
-                if(movementCurrentIndex>=movementCollection.length){
+                if (movementCurrentIndex >= movementCollection.length) {
                     break;
                 }
             }
-        }
+        };
 
-        var playAcceralationAnimation = function(){
+        var playAcceralationAnimation = function () {
 
-            if(deviceAccelerationCurrentIndex > deviceAccelerationCollection.length - 1){
+            if (deviceAccelerationCurrentIndex > deviceAccelerationCollection.length - 1) {
                 return;
             }
 
@@ -561,11 +556,11 @@ class PresentorProxy{
 
                 deviceAccelerationCurrentIndex++;
 
-                if(deviceAccelerationCurrentIndex>=deviceAccelerationCollection.length){
+                if (deviceAccelerationCurrentIndex >= deviceAccelerationCollection.length) {
                     break;
                 }
             }
-        }
+        };
 
         var playAnimation = function () {
 
@@ -584,19 +579,19 @@ class PresentorProxy{
             triggerPrograssSlider();
         };
 
-        var stopAnimation = function(){
+        var stopAnimation = function () {
 
             clearInterval(TimerID);
-        }
+        };
 
-        var getClosestElementPosition = function(wordItem,time){
+        var getClosestElementPosition = function (wordItem, time) {
 
             var selectedElementPosition;
 
             selectedElementPosition = wordItem.orgElementPosition;
-            $.each(wordItem.elementPositionCollection,function(index,elementPosition){
+            $.each(wordItem.elementPositionCollection, function (index, elementPosition) {
 
-                if(time < elementPosition.time){
+                if (time < elementPosition.time) {
                     return;
                 }
 
@@ -604,15 +599,15 @@ class PresentorProxy{
             });
 
             return selectedElementPosition;
-        }
+        };
 
-        var triggerPrograssSlider = function(){
+        var triggerPrograssSlider = function () {
             //movePrograssSlider = progressSlider.noUiSlider.set(100 * currentMillisecondTime/totalMillisecondTime);
 
             progressSlider.data("ionRangeSlider").update({
-                from: 100 * currentMillisecondTime/totalMillisecondTime,
+                from: 100 * currentMillisecondTime / totalMillisecondTime,
             });
-        }
+        };
 
         var play = function () {
 
