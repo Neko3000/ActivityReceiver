@@ -19,32 +19,31 @@ using ActivityReceiver.DataBuilders;
 namespace ActivityReceiver.Controllers
 {
     [Authorize]
-    public class AnswerManageController : Controller
+    public class AnswerRecordManageController : Controller
     {
         private readonly ActivityReceiverDbContext _arDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        private readonly AnswerManageDataBuilder _dataBuilder;
+        private readonly AnswerRecordManageDataBuilder _dataBuilder;
 
-        public AnswerManageController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
+        public AnswerRecordManageController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
         {
             _arDbContext = arDbContext;
             _userManager = userManager;
             _roleManager = roleManager;
 
-            _dataBuilder = new AnswerManageDataBuilder(_arDbContext,_userManager,_roleManager);
+            _dataBuilder = new AnswerRecordManageDataBuilder(_arDbContext,_userManager,_roleManager);
         }
 
         // GET: QuestionManage
         [HttpGet]
         public async Task<IActionResult> Index()
         {    
-            var answers = await  _arDbContext.Answsers.ToListAsync();
 
-            var vm = new AnswerManageIndexViewModel
+            var vm = new AnswerRecordManageIndexViewModel
             {
-                AnswerPresenterCollection = await _dataBuilder.BuildAnswerPresenterList()
+                AnswerRecordPresenterCollection = await _dataBuilder.BuildAnswerRecordPresenterList()
             };
 
             return View(vm);
@@ -72,17 +71,17 @@ namespace ActivityReceiver.Controllers
                 return NotFound();
             }
 
-            var answer = await _arDbContext.Answsers.SingleOrDefaultAsync(q => q.ID == id);
+            var answerRecord = await _arDbContext.AnswserRecords.SingleOrDefaultAsync(q => q.ID == id);
 
-            if (answer == null)
+            if (answerRecord == null)
             {
                 return NotFound();
             }
 
-            var vm = Mapper.Map<Answer, AnswerManageDetailsViewModel>(answer);
+            var vm = Mapper.Map<AnswerRecord, AnswerRecordManageDetailsViewModel>(answerRecord);
 
-            var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerID == answer.ID).ToListAsync();
-            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerID == answer.ID).ToListAsync();
+            var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerID == answerRecord.ID).ToListAsync();
+            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerID == answerRecord.ID).ToListAsync();
 
             vm.MovementCollection = movementCollection;
             vm.DeviceAccelerationCollection = deviceAccelerationCollection;

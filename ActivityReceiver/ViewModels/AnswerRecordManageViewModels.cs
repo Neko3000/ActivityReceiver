@@ -7,7 +7,7 @@ using ActivityReceiver.Models;
 
 namespace ActivityReceiver.ViewModels.AnswerManage
 {
-    public class AnswerPresenter
+    public class AnswerRecordPresenter
     {
         [Display(Name = "ID")]
         public int ID { get; set; }
@@ -25,10 +25,10 @@ namespace ActivityReceiver.ViewModels.AnswerManage
         public string Division { get; set; }
 
         [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         [Display(Name = "解答")]
-        public string Content { get; set; }
+        public string AnswerDivision { get; set; }
 
         [Display(Name = "評定")]
         public bool IsCorrect { get; set; }
@@ -46,14 +46,14 @@ namespace ActivityReceiver.ViewModels.AnswerManage
     }
 
     #region Index
-    public class AnswerManageIndexViewModel
+    public class AnswerRecordManageIndexViewModel
     {
-        public IList<AnswerPresenter> AnswerPresenterCollection { get;set; }
+        public IList<AnswerRecordPresenter> AnswerRecordPresenterCollection { get;set; }
     }
     #endregion
 
     #region Details
-    public class AnswerManageDetailsViewModel
+    public class AnswerRecordManageDetailsViewModel
     {
         [Display(Name = "ID")]
         public int ID { get; set; }
@@ -71,10 +71,10 @@ namespace ActivityReceiver.ViewModels.AnswerManage
         public string Division { get; set; }
 
         [Display(Name = "正解の区切り")]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         [Display(Name = "解答")]
-        public string Content { get; set; }
+        public string AnswerDivision { get; set; }
 
         [Display(Name = "評定")]
         public bool IsCorrect { get; set; }

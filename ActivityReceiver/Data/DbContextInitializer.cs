@@ -55,7 +55,7 @@ namespace ActivityReceiver.Data
 
                 var applicationUser2 = new ApplicationUser
                 {
-                    UserName = "alex",
+                    UserName = "Alex",
                 };
                 var applicationUserPWD2 = "a123456";
                 await _userManager.CreateAsync(applicationUser2, applicationUserPWD2);
@@ -63,7 +63,7 @@ namespace ActivityReceiver.Data
 
                 var applicationUser3 = new ApplicationUser
                 {
-                    UserName = "jackson",
+                    UserName = "Jackson",
                 };
                 var applicationUserPWD3 = "j123456";
                 await _userManager.CreateAsync(applicationUser3, applicationUserPWD3);
@@ -71,7 +71,7 @@ namespace ActivityReceiver.Data
 
                 var applicationUser4 = new ApplicationUser
                 {
-                    UserName = "yonetsu",
+                    UserName = "Yonetsu",
                 };
                 var applicationUserPWD4 = "y123456";
                 await _userManager.CreateAsync(applicationUser4, applicationUserPWD4);
@@ -79,7 +79,7 @@ namespace ActivityReceiver.Data
 
                 var applicationUser5 = new ApplicationUser
                 {
-                    UserName = "banno",
+                    UserName = "Banno",
                 };
                 var applicationUserPWD5 = "b123456";
                 await _userManager.CreateAsync(applicationUser5, applicationUserPWD5);
@@ -97,8 +97,8 @@ namespace ActivityReceiver.Data
             }
 
             var applicationUser1 = await _userManager.FindByNameAsync("Dolores");
-            var applicationUser2 = await _userManager.FindByNameAsync("alex");
-            var applicationUser3 = await _userManager.FindByNameAsync("jackson");
+            var applicationUser2 = await _userManager.FindByNameAsync("Alex");
+            var applicationUser3 = await _userManager.FindByNameAsync("Jackson");
 
             var grammars = new List<Grammar>()
             {

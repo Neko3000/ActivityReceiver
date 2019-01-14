@@ -258,11 +258,11 @@
 
                             <div class="form-group m-form__group row">
                                 <label class="col-lg-2 col-form-label">
-                                    @Html.DisplayNameFor(model => model.AnswerDivision)
+                                    @Html.DisplayNameFor(model => model.StandardAnswerDivision)
                                 </label>
                                 <div class="col-lg-6">
                                     <div class="input-group">
-                                        @Html.EditorFor(model => model.AnswerDivision, new { htmlAttributes = new { @id = "answer-divsion-input", @class = "form-control m-input", @placeholder = "example: we|can't|change|the|direction|of|the wind|,|but|we|can|adjust|the|sails|" } })
+                                        @Html.EditorFor(model => model.StandardAnswerDivision, new { htmlAttributes = new { @id = "answer-divsion-input", @class = "form-control m-input", @placeholder = "example: we|can't|change|the|direction|of|the wind|,|but|we|can|adjust|the|sails|" } })
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 生成
@@ -273,7 +273,7 @@
                                         </div>
                                     </div>
                                     <div class="form-control-feedback">
-                                        @Html.ValidationMessageFor(model => model.AnswerDivision, "", new { @class = "m--font-danger" })
+                                        @Html.ValidationMessageFor(model => model.StandardAnswerDivision, "", new { @class = "m--font-danger" })
                                     </div>
                                     <span class="m-form__help">
                                         正解の区切りを入力してください<br />

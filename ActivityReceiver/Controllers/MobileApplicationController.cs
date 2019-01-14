@@ -16,12 +16,12 @@ using ActivityReceiver.Functions;
 namespace ActivityReceiver.Controllers
 {
     [Produces("application/json")]
-    public class QuestionController : Controller
+    public class MobileApplicationController : Controller
     {
         private readonly ActivityReceiverDbContext _arDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public QuestionController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager)
+        public MobileApplicationController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager)
         {
             _arDbContext = arDbContext;
             _userManager = userManager;
@@ -135,7 +135,7 @@ namespace ActivityReceiver.Controllers
                         SentenceEN = question.SentenceEN,
                         SentenceJP = question.SentenceJP,
                         Division = question.Division,
-                        AnswerDivision = question.StandardAnswerDivision,
+                        StandardAnswerDivision = question.StandardAnswerDivision,
 
                         CurrentNumber = specificAssignment.CurrentQuestionIndex + 1
                     };
@@ -180,7 +180,7 @@ namespace ActivityReceiver.Controllers
                     SentenceEN = question.SentenceEN,
                     SentenceJP = question.SentenceJP,
                     Division = question.Division,
-                    AnswerDivision = question.StandardAnswerDivision,
+                    StandardAnswerDivision = question.StandardAnswerDivision,
 
                     CurrentNumber = assignmentRecordNew.CurrentQuestionIndex + 1
                 };
@@ -211,63 +211,70 @@ namespace ActivityReceiver.Controllers
                 });
             }
 
-            var answerNew = new Answer
+            var answerRecordNew = new AnswerRecord
             {
                 AssignmentRecordID = model.AssignmentRecordID,
 
                 SentenceEN = model.SentenceEN,
                 SentenceJP = model.SentenceJP,
                 Division = model.Division,
-                AnswerDivision = model.AnswerDivision,
+                StandardAnswerDivision = model.StandardAnswerDivision,
                 Resolution = model.Resolution,
 
-                Content = model.Answer,
-                IsCorrect = model.AnswerDivision == model.Answer ? true:false,
+                AnswerDivision = model.AnswerDivision,
+                IsCorrect = model.StandardAnswerDivision == model.AnswerDivision ? true:false,
 
                 HesitationDegree = 0,
 
                 StartDate = model.StartDate,
                 EndDate = model.EndDate
             };
-            _arDbContext.Answsers.Add(answerNew);
+            _arDbContext.AnswserRecords.Add(answerRecordNew);
             _arDbContext.SaveChanges();
 
-            foreach (var movementDTO in model.MovementDTOs)
-            {
-                var movementNew = new Movement
-                {
-                    AnswerID = answerNew.ID,
-                    Time = movementDTO.Time,
+            _arDbContext.Movements.AddRange(model.MovementCollection);
+            _arDbContext.SaveChanges();
 
-                    State = movementDTO.State,
-                    TargetElement = movementDTO.TargetElement,
-                    Index = movementDTO.Index,
+            _arDbContext.DeviceAccelerations.AddRange(model.DeviceAccelerationCollection);
+            _arDbContext.SaveChanges();
 
-                    XPosition = movementDTO.XPosition,
-                    YPosition = movementDTO.YPosition
-                };
+            //
+            //foreach (var movementDTO in model.MovementCollection)
+            //{
+            //    var movementNew = new Movement
+            //    {
+            //        AnswerID = answerRecordNew.ID,
+            //        Time = movementDTO.Time,
 
-                _arDbContext.Movements.Add(movementNew);
-                _arDbContext.SaveChanges();
-            }
+            //        State = movementDTO.State,
+            //        TargetElement = movementDTO.TargetElement,
+            //        Index = movementDTO.Index,
 
-            foreach (var deviceAccelerationDTO in model.DeviceAccelerationDTOs)
-            {
-                var deviceAccelerationNew = new DeviceAcceleration
-                {
-                    AnswerID = answerNew.ID,
+            //        XPosition = movementDTO.XPosition,
+            //        YPosition = movementDTO.YPosition
+            //    };
 
-                    Index = deviceAccelerationDTO.Index,
-                    Time = deviceAccelerationDTO.Time,
+            //    _arDbContext.Movements.Add(movementNew);
+            //    _arDbContext.SaveChanges();
+            //}
 
-                    X = deviceAccelerationDTO.X,
-                    Y = deviceAccelerationDTO.Y,
-                    Z = deviceAccelerationDTO.Z,
-                };
+            //foreach (var deviceAccelerationDTO in model.DeviceAccelerationCollection)
+            //{
+            //    var deviceAccelerationNew = new DeviceAcceleration
+            //    {
+            //        AnswerID = answerRecordNew.ID,
 
-                _arDbContext.DeviceAccelerations.Add(deviceAccelerationNew);
-                _arDbContext.SaveChanges();
-            }
+            //        Index = deviceAccelerationDTO.Index,
+            //        Time = deviceAccelerationDTO.Time,
+
+            //        X = deviceAccelerationDTO.X,
+            //        Y = deviceAccelerationDTO.Y,
+            //        Z = deviceAccelerationDTO.Z,
+            //    };
+
+            //    _arDbContext.DeviceAccelerations.Add(deviceAccelerationNew);
+            //    _arDbContext.SaveChanges();
+            // }
 
             var specificAssignmentRecord = _arDbContext.AssignmentRecords.Where(ar => ar.ID == model.AssignmentRecordID).ToList().FirstOrDefault();
             specificAssignmentRecord.CurrentQuestionIndex = specificAssignmentRecord.CurrentQuestionIndex + 1;
@@ -332,21 +339,21 @@ namespace ActivityReceiver.Controllers
                 });
             }
 
-            var answers = _arDbContext.Answsers.Where(q => q.AssignmentRecordID == specificAssignment.ID).ToList();
-            float accuracyRate = answers.Where(a => a.IsCorrect == true).Count() / (float)answers.Count;
+            var answerRecords = _arDbContext.AnswserRecords.Where(q => q.AssignmentRecordID == specificAssignment.ID).ToList();
+            float accuracyRate = answerRecords.Where(a => a.IsCorrect == true).Count() / (float)answerRecords.Count;
 
             var allQuestion = _arDbContext.Questions.ToList();
-            var answerDetails = new List<AnswerDetail>();
 
-            foreach (var answer in answers)
+            var answerDetails = new List<AnswerDetail>();
+            foreach (var answerRecord in answerRecords)
             {
                 var answerDetail = new AnswerDetail
                 {
-                    SentenceJP = answer.SentenceJP,
-                    SentenceEN = answer.SentenceEN,
+                    SentenceJP = answerRecord.SentenceJP,
+                    SentenceEN = answerRecord.SentenceEN,
 
-                    AnswerSentence = QuestionHandler.ConvertDivisionToSentence(answer.Content),
-                    IsCorrect = answer.IsCorrect
+                    AnswerSentence = QuestionHandler.ConvertDivisionToSentence(answerRecord.AnswerDivision),
+                    IsCorrect = answerRecord.IsCorrect
                 };
                 answerDetails.Add(answerDetail);
             }

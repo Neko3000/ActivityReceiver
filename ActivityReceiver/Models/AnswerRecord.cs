@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ActivityReceiver.Models
 {
-    public class Answer
+    public class AnswerRecord
     {
         [Key]
         public int ID { get; set; }
@@ -15,11 +15,11 @@ namespace ActivityReceiver.Models
         public string SentenceEN { get; set; }
         public string SentenceJP { get; set; }
         public string Division { get; set; }
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         public string Resolution { get; set; }
 
-        public string Content { get; set; }
+        public string AnswerDivision { get; set; }
         public bool IsCorrect { get; set; }
 
         public int? HesitationDegree { get; set; }

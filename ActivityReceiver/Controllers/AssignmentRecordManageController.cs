@@ -78,8 +78,8 @@ namespace ActivityReceiver.Controllers
                                    select q).ToList();
             vm.CurrentProgress = String.Format("{0}/{1}", assignmentRecord.CurrentQuestionIndex, sortedQuestions.Count);
 
-            var answers = await _arDbContext.Answsers.Where(a => a.AssignmentRecordID == assignmentRecord.ID).ToListAsync();
-            var answerPresenterCollection = AutoMapperHandler.ListMapper<Answer, AnswerPresenter>(answers);
+            var answserRecords = await _arDbContext.AnswserRecords.Where(a => a.AssignmentRecordID == assignmentRecord.ID).ToListAsync();
+            var answerPresenterCollection = AutoMapperHandler.ListMapper<AnswerRecord, AnswerPresenter>(answserRecords);
             vm.AnswerPresenterCollection = answerPresenterCollection;
 
             return View(vm);

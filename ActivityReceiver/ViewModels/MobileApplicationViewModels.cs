@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using ActivityReceiver.Models;
 
 namespace ActivityReceiver.ViewModels
 {
@@ -40,42 +41,12 @@ namespace ActivityReceiver.ViewModels
         public string SentenceEN { get; set; }
         public string SentenceJP { get; set; }
         public string Division { get; set; }
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
         public int CurrentNumber { get; set; }
     }
 
     // SubmitQuestionAnswer
-    public class MovementDTO
-    {
-        [Required]
-        public int Index { get; set; }
-        [Required]
-        public int State { get; set; }
-        [Required]
-        public int TargetElement { get; set; }
-        [Required]
-        public int Time { get; set; }
-        [Required]
-        public int XPosition { get; set; }
-        [Required]
-        public int YPosition { get; set; }
-    }
-
-    public class DeviceAccelerationDTO
-    {
-        [Required]
-        public int Index { get; set; }
-        [Required]
-        public int Time { get; set; }
-        [Required]
-        public float X { get; set; }
-        [Required]
-        public float Y { get; set; }
-        [Required]
-        public float Z { get; set; }
-    }
-
     public class SubmitQuestionAnswerPostViewModel
     {
         [Required]
@@ -88,20 +59,20 @@ namespace ActivityReceiver.ViewModels
         [Required]
         public string Division { get; set; }
         [Required]
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
         [Required]
         public string Resolution { get; set; }
 
         [Required]
-        public string Answer { get; set; }
+        public string AnswerDivision { get; set; }
 
         [Required]
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime EndDate { get; set; }
 
-        public IList<MovementDTO> MovementDTOs { get; set; }
-        public IList<DeviceAccelerationDTO> DeviceAccelerationDTOs { get; set; }
+        public IList<Movement> MovementCollection{ get; set; }
+        public IList<DeviceAcceleration> DeviceAccelerationCollection { get; set; }
     }
 
     // GetAssignmentResult

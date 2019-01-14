@@ -132,13 +132,13 @@ namespace ActivityReceiver
 
 
                 /* QuestionAnswerManage*/
-                cfg.CreateMap<Answer, ActivityReceiver.ViewModels.AnswerManage.AnswerPresenter>();
+                cfg.CreateMap<AnswerRecord, ActivityReceiver.ViewModels.AnswerManage.AnswerRecordPresenter>();
                 // Details
-                cfg.CreateMap<Answer, ActivityReceiver.ViewModels.AnswerManage.AnswerManageDetailsViewModel>();
+                cfg.CreateMap<AnswerRecord, ActivityReceiver.ViewModels.AnswerManage.AnswerRecordManageDetailsViewModel>();
 
 
                 /* AssignmentMange */
-                cfg.CreateMap<Answer, ActivityReceiver.ViewModels.AssignmentRecordManage.AnswerPresenter>();
+                cfg.CreateMap<AnswerRecord, ActivityReceiver.ViewModels.AssignmentRecordManage.AnswerPresenter>();
                 // Index
                 cfg.CreateMap<AssignmentRecord, ActivityReceiver.ViewModels.AssignmentRecordManage.AssignmentRecordPresenter>();
                 // Details

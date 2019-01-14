@@ -29,9 +29,9 @@ namespace ActivityReceiver.Controllers
         [HttpGet]
         public IActionResult GetAnswer(int id)
         {
-            var answer = _arDbContext.Answsers.Where(a => a.ID == id).SingleOrDefault();
+            var answerRecord = _arDbContext.AnswserRecords.Where(a => a.ID == id).SingleOrDefault();
 
-            if(answer == null)
+            if(answerRecord == null)
             {
                 return NotFound();
             }
@@ -41,21 +41,21 @@ namespace ActivityReceiver.Controllers
 
             var vm = new AnswerReplayGetAnswerViewModel
             {
-                ID = answer.ID,
-                AssignmentRecordID = answer.AssignmentRecordID,
+                ID = answerRecord.ID,
+                AssignmentRecordID = answerRecord.AssignmentRecordID,
 
-                SentenceEN = answer.SentenceEN,
-                SentenceJP = answer.SentenceJP,
-                Division = answer.Division,
-                AnswerDivision = answer.AnswerDivision,
+                SentenceEN = answerRecord.SentenceEN,
+                SentenceJP = answerRecord.SentenceJP,
+                Division = answerRecord.Division,
+                AnswerDivision = answerRecord.StandardAnswerDivision,
 
-                Content = answer.Content,
-                IsCorrect = answer.IsCorrect,
+                Content = answerRecord.AnswerDivision,
+                IsCorrect = answerRecord.IsCorrect,
 
-                HesitationDegree = answer.HesitationDegree,
+                HesitationDegree = answerRecord.HesitationDegree,
 
-                StartDate = answer.StartDate,
-                EndDate = answer.EndDate,
+                StartDate = answerRecord.StartDate,
+                EndDate = answerRecord.EndDate,
 
                 MovementCollection = movements,
                 DeviceAccelerationCollection = deviceAccelerations,
