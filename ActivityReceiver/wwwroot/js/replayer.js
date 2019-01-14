@@ -174,7 +174,7 @@ class PresentorProxy{
         }
 
         var sortByTime = function(a,b){
-            return parseInt(a.time > b.time);
+            return parseInt(a.time) > parseInt(b.time) ;
         }
     
         var calculateDistance = function(pointA,pointB){
@@ -321,8 +321,8 @@ class PresentorProxy{
                         startDate = answer.startDate;
                         endDate = answer.endDate;
 
-                        movementCollection = answer.movementCollection;
-                        deviceAccelerationCollection = answer.deviceAccelerationCollection;
+                        movementCollection = answer.movementCollection.slice().sort(sortByTime);
+                        deviceAccelerationCollection = answer.deviceAccelerationCollection.slice().sort(sortByTime);
 
                         showQuestion();
 
