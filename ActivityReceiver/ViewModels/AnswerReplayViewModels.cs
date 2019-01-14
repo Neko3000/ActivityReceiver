@@ -10,7 +10,7 @@ namespace ActivityReceiver.ViewModels.AnswerReplay
     #region Replayer
     public class AnswerReplayReplayerViewModel
     {
-        public int AnswerID { get; set; }
+        public int AnswerRecordID { get; set; }
     }
     #endregion
 

@@ -57,7 +57,7 @@ namespace ActivityReceiver.Controllers
                 return NotFound();
             }
 
-            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerID == id).ToListAsync();
+            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == id).ToListAsync();
 
             return Ok(deviceAccelerationCollection);
         }
@@ -80,8 +80,8 @@ namespace ActivityReceiver.Controllers
 
             var vm = Mapper.Map<AnswerRecord, AnswerRecordManageDetailsViewModel>(answerRecord);
 
-            var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerID == answerRecord.ID).ToListAsync();
-            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerID == answerRecord.ID).ToListAsync();
+            var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerRecordID == answerRecord.ID).ToListAsync();
+            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == answerRecord.ID).ToListAsync();
 
             vm.MovementCollection = movementCollection;
             vm.DeviceAccelerationCollection = deviceAccelerationCollection;

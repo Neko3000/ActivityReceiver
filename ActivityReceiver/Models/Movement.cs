@@ -10,7 +10,7 @@ namespace ActivityReceiver.Models
     {
         [Key]
         public int ID { get; set; }
-        public int AnswerID { get; set; }
+        public int AnswerRecordID { get; set; }
 
         public int Time { get; set; }
 

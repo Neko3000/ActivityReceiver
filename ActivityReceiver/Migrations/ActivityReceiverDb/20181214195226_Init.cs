@@ -58,7 +58,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AnswerID = table.Column<int>(nullable: false),
+                    AnswerRecordID = table.Column<int>(nullable: false),
                     Index = table.Column<int>(nullable: false),
                     Time = table.Column<int>(nullable: false),
                     X = table.Column<float>(nullable: false),
@@ -122,7 +122,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AnswerID = table.Column<int>(nullable: false),
+                    AnswerRecordID = table.Column<int>(nullable: false),
                     Index = table.Column<int>(nullable: false),
                     State = table.Column<int>(nullable: false),
                     TargetElement = table.Column<int>(nullable: false),

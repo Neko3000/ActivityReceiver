@@ -36,8 +36,8 @@ namespace ActivityReceiver.Controllers
                 return NotFound();
             }
 
-            var movements = _arDbContext.Movements.Where(m => m.AnswerID == id).ToList();
-            var deviceAccelerations = _arDbContext.DeviceAccelerations.Where(d => d.AnswerID == id).ToList();
+            var movements = _arDbContext.Movements.Where(m => m.AnswerRecordID == id).ToList();
+            var deviceAccelerations = _arDbContext.DeviceAccelerations.Where(d => d.AnswerRecordID == id).ToList();
 
             var vm = new AnswerReplayGetAnswerViewModel
             {
@@ -71,7 +71,7 @@ namespace ActivityReceiver.Controllers
         public IActionResult Replayer(int id)
         {
             var vm = new AnswerReplayReplayerViewModel {
-                AnswerID = id
+                AnswerRecordID = id
             };
             return View(vm);
         }

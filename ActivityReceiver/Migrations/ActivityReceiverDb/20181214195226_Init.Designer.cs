@@ -84,7 +84,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AnswerID");
+                    b.Property<int>("AnswerRecordID");
 
                     b.Property<int>("Index");
 
@@ -156,7 +156,7 @@ namespace ActivityReceiver.Migrations.ActivityReceiverDb
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AnswerID");
+                    b.Property<int>("AnswerRecordID");
 
                     b.Property<int>("Index");
 

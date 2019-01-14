@@ -234,14 +234,14 @@ namespace ActivityReceiver.Controllers
 
             foreach(var movement in model.MovementCollection)
             {
-                movement.AnswerID = answerRecordNew.ID;
+                movement.AnswerRecordID = answerRecordNew.ID;
             }
             _arDbContext.Movements.AddRange(model.MovementCollection);
             _arDbContext.SaveChanges();
 
             foreach (var deviceAcceleration in model.DeviceAccelerationCollection)
             {
-                deviceAcceleration.AnswerID = answerRecordNew.ID;
+                deviceAcceleration.AnswerRecordID = answerRecordNew.ID;
             }
             _arDbContext.DeviceAccelerations.AddRange(model.DeviceAccelerationCollection);
             _arDbContext.SaveChanges();
@@ -251,7 +251,7 @@ namespace ActivityReceiver.Controllers
             //{
             //    var movementNew = new Movement
             //    {
-            //        AnswerID = answerRecordNew.ID,
+            //        AnswerRecordID = answerRecordNew.ID,
             //        Time = movementDTO.Time,
 
             //        State = movementDTO.State,
@@ -270,7 +270,7 @@ namespace ActivityReceiver.Controllers
             //{
             //    var deviceAccelerationNew = new DeviceAcceleration
             //    {
-            //        AnswerID = answerRecordNew.ID,
+            //        AnswerRecordID = answerRecordNew.ID,
 
             //        Index = deviceAccelerationDTO.Index,
             //        Time = deviceAccelerationDTO.Time,
