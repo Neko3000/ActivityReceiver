@@ -27,7 +27,7 @@ namespace ActivityReceiver.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAnswer(int id)
+        public IActionResult GetAnswerRecord(int id)
         {
             var answerRecord = _arDbContext.AnswserRecords.Where(a => a.ID == id).SingleOrDefault();
 
@@ -47,9 +47,9 @@ namespace ActivityReceiver.Controllers
                 SentenceEN = answerRecord.SentenceEN,
                 SentenceJP = answerRecord.SentenceJP,
                 Division = answerRecord.Division,
-                AnswerDivision = answerRecord.StandardAnswerDivision,
+                StandardAnswerDivision = answerRecord.StandardAnswerDivision,
 
-                Content = answerRecord.AnswerDivision,
+                AnswerDivision = answerRecord.AnswerDivision,
                 IsCorrect = answerRecord.IsCorrect,
 
                 HesitationDegree = answerRecord.HesitationDegree,

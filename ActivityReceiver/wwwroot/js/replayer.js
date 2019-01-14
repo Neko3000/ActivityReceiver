@@ -89,8 +89,8 @@ class PresentorProxy{
         var sentenceJP;
         var sentenceEN;
         var division;
+        var standardAnswerDivision;
         var answerDivision;
-        var content;
 
         var startDate;
         var endDate;
@@ -278,7 +278,7 @@ class PresentorProxy{
 
             sentenceJPLabel.text(sentenceJP);
 
-            textAnswer.text(content);
+            textAnswer.text(answerDivision);
             textJP.text(sentenceJP);
             textEN.text(sentenceEN);
 
@@ -306,7 +306,7 @@ class PresentorProxy{
 
             $.ajax(
                 {
-                    url: "/AnswerReplay/GetAnswer?id=" + id.toString(),
+                    url: "/AnswerReplay/GetAnswerRecord?id=" + id.toString(),
                     type: "get",
                     dataType: "json", deviceAccelerationCollection,
                     async: false,
@@ -315,8 +315,8 @@ class PresentorProxy{
                         sentenceJP = answer.sentenceJP;
                         sentenceEN = answer.sentenceEN;
                         division = answer.division;
+                        standardAnswerDivision = answer.standardAnswerDivision;
                         answerDivision = answer.answerDivision;
-                        content = answer.content;
 
                         startDate = answer.startDate;
                         endDate = answer.endDate;

@@ -25,9 +25,9 @@ namespace ActivityReceiver.ViewModels.AnswerReplay
         public string SentenceEN { get; set; }
         public string SentenceJP { get; set; }
         public string Division { get; set; }
-        public string AnswerDivision { get; set; }
+        public string StandardAnswerDivision { get; set; }
 
-        public string Content { get; set; }
+        public string AnswerDivision { get; set; }
         public bool IsCorrect { get; set; }
 
         public int? HesitationDegree { get; set; }
