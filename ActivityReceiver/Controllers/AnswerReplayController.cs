@@ -57,8 +57,8 @@ namespace ActivityReceiver.Controllers
                 StartDate = answerRecord.StartDate,
                 EndDate = answerRecord.EndDate,
 
-                MovementCollection = movements,
-                DeviceAccelerationCollection = deviceAccelerations,
+                MovementCollection = movements.OrderBy(m=>m.Time).ToList(),
+                DeviceAccelerationCollection = deviceAccelerations.OrderBy(da=>da.Time).ToList(),
             };
 
             //Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
