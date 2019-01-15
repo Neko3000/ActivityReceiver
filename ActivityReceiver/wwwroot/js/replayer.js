@@ -116,6 +116,10 @@ class PresentorProxy{
         var sortByTime = function (a, b) {
             return parseInt(a.time) > parseInt(b.time);
         };
+
+        var sortByIndex = function (a, b) {
+            return parseInt(a.index) > parseInt(b.index);
+        };
     
         var calculateDistance = function (pointA, pointB) {
 
@@ -258,8 +262,8 @@ class PresentorProxy{
                         startDate = answer.startDate;
                         endDate = answer.endDate;
 
-                        movementCollection = answer.movementCollection.slice().sort(sortByTime);
-                        deviceAccelerationCollection = answer.deviceAccelerationCollection.slice().sort(sortByTime);
+                        movementCollection = answer.movementCollection.slice().sort(sortByIndex);
+                        deviceAccelerationCollection = answer.deviceAccelerationCollection.slice().sort(sortByIndex);
 
                         showQuestion();
 

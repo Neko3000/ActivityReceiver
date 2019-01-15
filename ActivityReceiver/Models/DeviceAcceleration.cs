@@ -12,6 +12,7 @@ namespace ActivityReceiver.Models
         public int ID { get; set; }
         public int AnswerRecordID { get; set; }
 
+        public int Index { get; set; }
         public int Time { get; set; }
         
         public float X { get; set; }
