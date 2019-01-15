@@ -3,6 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="listswap.css" />
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <title>jQuery List Swap</title>
 <style>
 .container {
@@ -76,38 +79,47 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="jquery.listswap.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-$('#source, #destination').listswap({
+$(function(){
+    $('#source, #destination').listswap({
 	truncate:true, 
 	height:135, 
 	is_scroll:true, 
-});
+    });
 
-$('#source_2, #destination_2').listswap({
-	truncate:true, 
-	height:162,
-	label_add:'', 
-	label_remove:'', 
-});
+    $('#source_2, #destination_2').listswap({
+        truncate:true, 
+        height:162,
+        label_add:'', 
+        label_remove:'', 
+    });
 
-$('#source_3, #destination_3').listswap({
-	truncate:true, 
-	height:162,
-});
+    $('#source_3, #destination_3').listswap({
+        truncate:true, 
+        height:162,
+    });
 
-$('#source_4, #destination_4').listswap({
-	truncate:true, 
-	height:162,
-});
+    $('#source_4, #destination_4').listswap({
+        truncate:true, 
+        height:162,
+    });
 
-$('#source_ar, #destination_ar').listswap({
-	truncate:true, 
-	height:162, 
-	label_add:'زيادة', 
-	label_remove:'تنقيص', 
-	add_class:'list_ar', 
-	rtl:true,
+    $('#source_ar, #destination_ar').listswap({
+        truncate:true, 
+        height:162, 
+        label_add:'زيادة', 
+        label_remove:'تنقيص', 
+        add_class:'list_ar', 
+        rtl:true,
+    });
+
+    $("#listbox_selected-question-list_wrapper ul").sortable();
+    $("#listbox_selected-question-list_wrapper ul").disableSelection();
+
 });
+    
+
 </script>
 </body>
 </html>

@@ -61,7 +61,6 @@ class PresentorProxy{
         var $this = $(this);
 
         // Get the dom object instead of warpped jQuery object
-
         var presentor = $this.find('.presentor');
         var presentorProxy = new PresentorProxy(presentor[0]);
         var colorList = ['#34bfa3','#ffb822','#f4516c','#36a3f7','#5867dd'];
@@ -76,11 +75,6 @@ class PresentorProxy{
         var textAnswer = $this.find('.text-answer .info-value');
         var textJP = $this.find('.text-jp .info-value');
         var textEN = $this.find('.text-en .info-value');
-
-        var movementDistance = $this.find('.movement-distance .info-value');
-        var movementTotalDistance = $this.find('.movement-total-distance .info-value');
-        var movementTime = $this.find('.movement-time .info-value');
-        var movementDD = $this.find('.movement-dd .info-value');
 
         var accelerationX = $this.find('.acceleration-x');
         var accelerationY = $this.find('.acceleration-y');
@@ -113,60 +107,6 @@ class PresentorProxy{
 
         var TimerID;
         var animationFrequency = 20;
-
-        // Calculation
-
-        var getMaxDD = function () {
-            var maxDD = 0;
-            var lastMovementEnd;
-
-            $.each(movementCollection, function (index, movement) {
-                if (movement.state == 1) {
-                    if (lastMovementEnd != null) {
-                        var diffence = movement.time - lastMovementEnd.time;
-                        maxDD = maxDD < diffence ? diffence : maxDD;
-                    }
-                }
-                else if (movement.state == 2) {
-                    lastMovementEnd = movement;
-                }
-            });
-            return maxDD;
-        };
-
-        var getTotalDistance = function () {
-            var totalDistance = 0;
-            var currentPoint, lastPoint;
-
-            $.each(movementCollection, function (index, movement) {
-                if (movement.state == 0) {
-                    lastPoint = new Point(movement.xPosition, movement.yPosition);
-                }
-                else if (movement.state == 1) {
-                    currentPoint = new Point(movement.xPosition, movement.yPosition);
-                    totalDistance += calculateDistance(lastPoint, currentPoint);
-
-                    lastPoint = currentPoint;
-                }
-                else if (movement.state == 2) {
-                    currentPoint = new Point(movement.xPosition, movement.yPosition);
-                    totalDistance += calculateDistance(lastPoint, currentPoint);
-
-                    lastPoint = null;
-                }
-
-            });
-
-            return totalDistance;
-        };
-
-        var getTimeDifference = function (time1, time2) {
-
-            var millionSecondTime1 = new Date(time1).getTime();
-            var millionSecondTime2 = new Date(time2).getTime();
-
-            return millionSecondTime2 - millionSecondTime1;
-        };
 
         // Common
         var sortByLeft = function (a, b) {
@@ -329,9 +269,6 @@ class PresentorProxy{
                         totalMillisecondTime = getMaxMillisecondTime();
                         calculateWordItemPositions();
 
-                        movementTotalDistance.text(getTotalDistance().toFixed(2));
-                        movementTime.text(getTimeDifference(startDate,endDate));
-                        movementDD.text(getMaxDD());
                     }
                 }
             );
@@ -517,9 +454,6 @@ class PresentorProxy{
                     currentColorIndex = (currentColorIndex + 1) % colorList.length;
                 }
 
-                currentDistance += calculateDistance(currentDrawPoint, lastDrawPoint);
-
-                movementDistance.text(currentDistance.toFixed(2));
                 presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
                 presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, colorList[currentColorIndex]);
 
@@ -602,7 +536,6 @@ class PresentorProxy{
         };
 
         var triggerPrograssSlider = function () {
-            //movePrograssSlider = progressSlider.noUiSlider.set(100 * currentMillisecondTime/totalMillisecondTime);
 
             progressSlider.data("ionRangeSlider").update({
                 from: 100 * currentMillisecondTime / totalMillisecondTime,
