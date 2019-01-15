@@ -86,13 +86,13 @@ namespace ActivityReceiver.Controllers
                         return NotFound();
                     }
 
-                    var exerciseQuestionRelation = new ExerciseQuestion
+                    var exerciseQuestionRelation = new ExerciseQuestionRelation
                     {
                         ExerciseID = exercise.ID,
                         QuestionID = question.ID
                     };
 
-                    _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestionRelation);
+                    _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestionRelation);
                     await _arDbContext.SaveChangesAsync();
                 }
 
@@ -125,7 +125,7 @@ namespace ActivityReceiver.Controllers
             var vm = Mapper.Map<Exercise,ExerciseManageEditGetViewModel>(exercise);
 
             var allQuestionsInExercise = (from q in _arDbContext.Questions
-                                          join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                          join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
                                           where eqc.ExerciseID == exercise.ID
                                           orderby eqc.SerialNumber ascending
                                           select q).ToList();
@@ -169,7 +169,7 @@ namespace ActivityReceiver.Controllers
                     await _arDbContext.SaveChangesAsync();
 
                     // Delete current relations
-                    var currentExerciseQuestionRelationCollection = await _arDbContext.ExerciseQuestionCollection.Where(eqc => eqc.ExerciseID == exercise.ID).ToListAsync();
+                    var currentExerciseQuestionRelationCollection = await _arDbContext.ExerciseQuestionRelationMap.Where(eqc => eqc.ExerciseID == exercise.ID).ToListAsync();
                     _arDbContext.RemoveRange(currentExerciseQuestionRelationCollection);
                     await _arDbContext.SaveChangesAsync();
 
@@ -183,13 +183,13 @@ namespace ActivityReceiver.Controllers
                             return NotFound();
                         }
 
-                        var exerciseQuestionRelation = new ExerciseQuestion
+                        var exerciseQuestionRelation = new ExerciseQuestionRelation
                         {
                             ExerciseID = exercise.ID,
                             QuestionID = question.ID
                         };
 
-                        _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestionRelation);
+                        _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestionRelation);
                         await _arDbContext.SaveChangesAsync();
                     }
                 }
@@ -237,7 +237,7 @@ namespace ActivityReceiver.Controllers
             vm.EditorName = (await _userManager.FindByIdAsync(exercise.EditorID)).UserName;
 
             var allQuestionsInExercise = (from q in _arDbContext.Questions
-                                          join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                          join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
                                           where eqc.ExerciseID == exercise.ID
                                           orderby eqc.SerialNumber ascending
                                           select q).ToList();
@@ -264,7 +264,7 @@ namespace ActivityReceiver.Controllers
             var vm = Mapper.Map<Exercise, ExerciseManageDeleteGetViewModel>(exercise);
 
             var allQuestionsInExercise = (from q in _arDbContext.Questions
-                                          join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                          join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
                                           where eqc.ExerciseID == exercise.ID
                                           orderby eqc.SerialNumber ascending
                                           select q).ToList();
@@ -294,8 +294,8 @@ namespace ActivityReceiver.Controllers
 
             _arDbContext.Exercises.Remove(exercise);
 
-            var deletedExerciseQuestionRelations=_arDbContext.ExerciseQuestionCollection.Where(eqc => eqc.ExerciseID == exercise.ID).ToList();
-            _arDbContext.ExerciseQuestionCollection.RemoveRange(deletedExerciseQuestionRelations);
+            var deletedExerciseQuestionRelations=_arDbContext.ExerciseQuestionRelationMap.Where(eqc => eqc.ExerciseID == exercise.ID).ToList();
+            _arDbContext.ExerciseQuestionRelationMap.RemoveRange(deletedExerciseQuestionRelations);
 
             await _arDbContext.SaveChangesAsync();
 

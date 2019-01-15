@@ -38,7 +38,7 @@ namespace ActivityReceiver.DataBuilders
                 exerecisePresenter.EditorName = (await _userManager.FindByIdAsync(exercise.EditorID)).UserName;
 
                 var allQuestionsInExercise = (from q in _arDbContext.Questions
-                                              join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                              join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
                                               where eqc.ExerciseID == exercise.ID
                                               orderby eqc.SerialNumber ascending
                                               select q).ToList();

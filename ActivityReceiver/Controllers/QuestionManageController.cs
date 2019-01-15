@@ -225,6 +225,10 @@ namespace ActivityReceiver.Controllers
                 return NotFound();
             }
 
+            var exerciseQuestionRelations = await _arDbContext.ExerciseQuestionRelationMap.Where(eqr => eqr.QuestionID == question.ID).ToListAsync();
+            _arDbContext.ExerciseQuestionRelationMap.RemoveRange(exerciseQuestionRelations);
+            await _arDbContext.SaveChangesAsync();
+
             _arDbContext.Questions.Remove(question);
             await _arDbContext.SaveChangesAsync();
 

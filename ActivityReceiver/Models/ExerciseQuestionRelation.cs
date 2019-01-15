@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ActivityReceiver.Models
 {
-    public class ExerciseQuestion
+    public class ExerciseQuestionRelation
     {
         [Key]
         public int ID { get; set; }

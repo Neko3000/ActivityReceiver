@@ -23,7 +23,7 @@ namespace ActivityReceiver.Data
         public DbSet<DeviceAcceleration> DeviceAccelerations { get; set; }
 
         public DbSet<Exercise> Exercises { get; set; }
-        public DbSet<ExerciseQuestion> ExerciseQuestionCollection { get; set; }
+        public DbSet<ExerciseQuestionRelation> ExerciseQuestionRelationMap { get; set; }
 
         public DbSet<Grammar> Grammars { get; set; }
     }

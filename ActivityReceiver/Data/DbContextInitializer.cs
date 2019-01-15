@@ -486,14 +486,14 @@ namespace ActivityReceiver.Data
                     {
                         if(questions[j].Level == 1)
                         {
-                            var exerciseQuestion = new ExerciseQuestion()
+                            var exerciseQuestionRelation = new ExerciseQuestionRelation()
                             {
                                 ExerciseID = exercises[i].ID,
                                 QuestionID = questions[j].ID,
                                 SerialNumber = j
                             };
 
-                            _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
+                            _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestionRelation);
                             _arDbContext.SaveChanges();
                         }
                     }
@@ -506,14 +506,14 @@ namespace ActivityReceiver.Data
                     {
                         if (questions[j].Level == 1 || questions[j].Level == 2)
                         {
-                            var exerciseQuestion = new ExerciseQuestion()
+                            var exerciseQuestion = new ExerciseQuestionRelation()
                             {
                                 ExerciseID = exercises[i].ID,
                                 QuestionID = questions[j].ID,
                                 SerialNumber = j
                             };
 
-                            _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
+                            _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestion);
                             _arDbContext.SaveChanges();
                         }
                     }
@@ -526,14 +526,14 @@ namespace ActivityReceiver.Data
                     {
                         if (questions[j].Level == 1 || questions[j].Level == 2 || questions[j].Level == 3)
                         {
-                            var exerciseQuestion = new ExerciseQuestion()
+                            var exerciseQuestion = new ExerciseQuestionRelation()
                             {
                                 ExerciseID = exercises[i].ID,
                                 QuestionID = questions[j].ID,
                                 SerialNumber = j
                             };
 
-                            _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
+                            _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestion);
                             _arDbContext.SaveChanges();
                         }
                     }
@@ -546,14 +546,14 @@ namespace ActivityReceiver.Data
                     {
                         if (questions[j].Level == 4)
                         {
-                            var exerciseQuestion = new ExerciseQuestion()
+                            var exerciseQuestion = new ExerciseQuestionRelation()
                             {
                                 ExerciseID = exercises[i].ID,
                                 QuestionID = questions[j].ID,
                                 SerialNumber = j
                             };
 
-                            _arDbContext.ExerciseQuestionCollection.Add(exerciseQuestion);
+                            _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestion);
                             _arDbContext.SaveChanges();
                         }
                     }

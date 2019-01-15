@@ -61,7 +61,7 @@ namespace ActivityReceiver.Controllers
                 exerciseDetail.IsFinished = specificAssignmentRecord == null ? false : specificAssignmentRecord.IsFinished;
 
                 var sortedQuestions = (from q in _arDbContext.Questions
-                                       join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                       join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
                                        where eqc.ExerciseID == exercise.ID
                                        orderby eqc.SerialNumber ascending
                                        select q).ToList();
@@ -112,7 +112,7 @@ namespace ActivityReceiver.Controllers
                 if(!specificAssignment.IsFinished)
                 {
                     var allQuestionsInExercise = (from q in _arDbContext.Questions
-                                     join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                     join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
                                      where eqc.ExerciseID == model.ExerciseID
                                      orderby eqc.SerialNumber ascending
                                      select q).ToList();
@@ -165,7 +165,7 @@ namespace ActivityReceiver.Controllers
                 _arDbContext.SaveChanges();
 
                 var allQuestionsInExercise = (from q in _arDbContext.Questions
-                                 join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                 join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
                                  where eqc.ExerciseID == model.ExerciseID
                                  orderby eqc.SerialNumber ascending
                                  select q).ToList();
@@ -288,7 +288,7 @@ namespace ActivityReceiver.Controllers
             specificAssignmentRecord.CurrentQuestionIndex = specificAssignmentRecord.CurrentQuestionIndex + 1;
 
             var allQuestionsInExercise = (from q in _arDbContext.Questions
-                                          join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                          join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
                                           where eqc.ExerciseID == specificAssignmentRecord.ExerciseID
                                           orderby eqc.SerialNumber ascending
                                           select q).ToList();

@@ -39,7 +39,7 @@ namespace ActivityReceiver.DataBuilders
                 assignmentRecordPresenter.ExerciseName =(await  _arDbContext.Exercises.FindAsync(assignmentRecord.ExerciseID)).Name;
 
                 var sortedQuestions = (from q in _arDbContext.Questions
-                                       join eqc in _arDbContext.ExerciseQuestionCollection on q.ID equals eqc.QuestionID
+                                       join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
                                        where eqc.ExerciseID == assignmentRecord.ExerciseID
                                        orderby eqc.SerialNumber ascending
                                        select q).ToList();
