@@ -232,57 +232,24 @@ namespace ActivityReceiver.Controllers
             _arDbContext.AnswserRecords.Add(answerRecordNew);
             _arDbContext.SaveChanges();
 
-            foreach(var movement in model.MovementCollection)
+            // Save movements
+            var movementCollection = model.MovementCollection.OrderBy(m => m.Index).ToList();
+            for(int i = 0;i < movementCollection.Count; i++)
             {
-                movement.AnswerRecordID = answerRecordNew.ID;
+                movementCollection[i].AnswerRecordID = answerRecordNew.ID;
             }
-            _arDbContext.Movements.AddRange(model.MovementCollection);
+            _arDbContext.Movements.AddRange(movementCollection);
             _arDbContext.SaveChanges();
 
-            foreach (var deviceAcceleration in model.DeviceAccelerationCollection)
+            // Save deviceAccelerations
+            var deviceAccelerationCollection = model.DeviceAccelerationCollection.OrderBy(da => da.Index).ToList();
+            for (int i = 0; i < deviceAccelerationCollection.Count; i++)
             {
-                deviceAcceleration.AnswerRecordID = answerRecordNew.ID;
+                deviceAccelerationCollection[i].AnswerRecordID = answerRecordNew.ID;
             }
-            _arDbContext.DeviceAccelerations.AddRange(model.DeviceAccelerationCollection);
+            _arDbContext.DeviceAccelerations.AddRange(deviceAccelerationCollection);
             _arDbContext.SaveChanges();
 
-            //
-            //foreach (var movementDTO in model.MovementCollection)
-            //{
-            //    var movementNew = new Movement
-            //    {
-            //        AnswerRecordID = answerRecordNew.ID,
-            //        Time = movementDTO.Time,
-
-            //        State = movementDTO.State,
-            //        TargetElement = movementDTO.TargetElement,
-            //        Index = movementDTO.Index,
-
-            //        XPosition = movementDTO.XPosition,
-            //        YPosition = movementDTO.YPosition
-            //    };
-
-            //    _arDbContext.Movements.Add(movementNew);
-            //    _arDbContext.SaveChanges();
-            //}
-
-            //foreach (var deviceAccelerationDTO in model.DeviceAccelerationCollection)
-            //{
-            //    var deviceAccelerationNew = new DeviceAcceleration
-            //    {
-            //        AnswerRecordID = answerRecordNew.ID,
-
-            //        Index = deviceAccelerationDTO.Index,
-            //        Time = deviceAccelerationDTO.Time,
-
-            //        X = deviceAccelerationDTO.X,
-            //        Y = deviceAccelerationDTO.Y,
-            //        Z = deviceAccelerationDTO.Z,
-            //    };
-
-            //    _arDbContext.DeviceAccelerations.Add(deviceAccelerationNew);
-            //    _arDbContext.SaveChanges();
-            // }
 
             var specificAssignmentRecord = _arDbContext.AssignmentRecords.Where(ar => ar.ID == model.AssignmentRecordID).ToList().FirstOrDefault();
             specificAssignmentRecord.CurrentQuestionIndex = specificAssignmentRecord.CurrentQuestionIndex + 1;

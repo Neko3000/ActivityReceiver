@@ -290,6 +290,7 @@ class PresentorProxy{
             return selectedWordItem;
         };
 
+        // SUMULATION SHOULD USE WHILE SWITCH AND INDEX (DO NOT SIM TIME)
         var calculateWordItemPositions = function () {
 
             var currentActiveWordItemSIM;
@@ -457,6 +458,8 @@ class PresentorProxy{
                     lastDrawPoint = currentDrawPoint;
                     currentColorIndex = (currentColorIndex + 1) % colorList.length;
                 }
+
+                console.log("index:" + currentMovement.index + ",targetElement:" + currentMovement.targetElement + ",state:" + currentMovement.state + ",time:" + currentMovement.time);
 
                 presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
                 presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, colorList[currentColorIndex]);

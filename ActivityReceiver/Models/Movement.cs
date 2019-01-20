@@ -16,7 +16,7 @@ namespace ActivityReceiver.Models
         public int Time { get; set; }
 
         public int State { get; set; }
-        public int TargetElement { get; set; }
+        public string TargetElement { get; set; }
 
         public int XPosition { get; set; }
         public int YPosition { get; set; }
