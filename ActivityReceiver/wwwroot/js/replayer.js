@@ -1,3 +1,5 @@
+/* Classes*/
+// Basic
 class Point{
     constructor(x, y) {
       this.x = x;
@@ -5,22 +7,48 @@ class Point{
     }
 }
 
-class ElementPosition{
-    constructor(time,left,top) {
+// WordItem
+class ElementState{
+    constructor(time,isActive,x,y) {
         this.time = time;
-        this.left = left;
-        this.top = top;
+        this.isActive = isActive;
+
+        this.x = x;
+        this.y = y;
       }
 }
+
 class WordItem{
-    constructor(index,obj,orgElementPosition,elementPositionCollection) {
+    
+    constructor(index,obj,orgPosition,elementStateCollection) {
         this.index = index;
         this.obj = obj;
 
-        this.orgElementPosition = orgElementPosition;
-        this.elementPositionCollection = elementPositionCollection;
+        this.orgPosition = orgPosition;
+        this.elementStateCollection = elementStateCollection;
+      }
+
+      toActive(){
+
+      }
+      cancelActive(){
+          
       }
 }
+
+// For canvas
+class PresentorPoint{
+    constructor(time, state,x, y) {
+
+        this.time = time;
+        // As the state in ios
+        this.state = state;
+
+        this.x = x;
+        this.y = y;
+      }
+}
+
 class PresentorProxy{
     constructor(canvas){
         this.canvas = canvas;
@@ -31,8 +59,8 @@ class PresentorProxy{
 
     drawRect(point,color) {
 
-        // Calculate the center position
         this.context.fillStyle = color;
+        // Calculate the center position
         this.context.fillRect(point.x - 2,point.y - 2,4,4);
     }
 
@@ -72,33 +100,29 @@ class PresentorProxy{
 
         var progressSlider = $this.find('.progress-slider');
 
-        var textAnswer = $this.find('.text-answer .info-value');
-        var textJP = $this.find('.text-jp .info-value');
-        var textEN = $this.find('.text-en .info-value');
-
         var accelerationX = $this.find('.acceleration-x');
         var accelerationY = $this.find('.acceleration-y');
         var accelerationZ = $this.find('.acceleration-z');
 
+        // Show in replayer
         var sentenceJP;
-        var sentenceEN;
         var division;
-        var standardAnswerDivision;
-        var answerDivision;
 
         var startDate;
         var endDate;
 
-        var wordItems = new Array();
-    
-        var movementCollection;
-        var movementCurrentIndex = 0;
-
-        var deviceAccelerationCollection;
-        var deviceAccelerationCurrentIndex = 0;
+        var wordItemCollection = [];
+        var presentorPointCollection = [];
+        var presentorPointCollectionCurrentIndex = 0;
 
         var currentDrawPoint;
         var lastDrawPoint;
+    
+        var movementCollection;
+        var movementAnimationCurrentIndex = 0;
+
+        var deviceAccelerationCollection;
+        var deviceAccelerationAnimationCurrentIndex = 0;
 
         var currentMillisecondTime = 0;
         var totalMillisecondTime = 0;
@@ -140,40 +164,10 @@ class PresentorProxy{
 
         var adjustCanvasToTime = function (time) {
 
-            var currrnetDrawPointTemp;
-            var lastDrawPointTemp;
-
-            $.each(movementCollection, function (index, currentMovement) {
-                if (currentMovement.time > time) {
-                    return;
-                }
-
-                currrnetDrawPointTemp = new Point(currentMovement.xPosition, currentMovement.yPosition);
-
-                if (currentMovement.state == 0) {
-                    lastDrawPointTemp = currrnetDrawPointTemp;
-                    currentColorIndex = (currentColorIndex + 1) % colorList.length;
-                }
-
-                presentorProxy.drawRect(currrnetDrawPointTemp, colorList[currentColorIndex]);
-                presentorProxy.drawLineBetweenTwoPoints(lastDrawPointTemp, currrnetDrawPointTemp, colorList[currentColorIndex]);
-
-                lastDrawPointTemp = currrnetDrawPointTemp;
-            });
         };
 
         var adjustWordItemsToTime = function (time) {
 
-            $.each(wordItems, function (index, wordItem) {
-                var elementPosition = getClosestElementPosition(wordItem, time);
-
-                if (elementPosition != null) {
-                    wordItem.obj.css({
-                        left: elementPosition.left,
-                        top: elementPosition.top
-                    });
-                }
-            });
         };
 
         // Layout
@@ -219,15 +213,11 @@ class PresentorProxy{
 
             sentenceJPLabel.text(sentenceJP);
 
-            textAnswer.text(answerDivision);
-            textJP.text(sentenceJP);
-            textEN.text(sentenceEN);
-
         };
 
         var generateAnswer = function () {
 
-            wordItemsClone = wordItems.slice().sort(sortByLeft);
+            wordItemsClone = wordItemCollection.slice().sort(sortByLeft);
 
             var answerString = "";
             $.each(wordItemsClone, function (index, wordItem) {
@@ -243,7 +233,7 @@ class PresentorProxy{
             answerLabel.text(answerString);
         };
 
-        var getAnswer = function () {
+        var getAnswerRecord = function () {
 
             $.ajax(
                 {
@@ -254,10 +244,7 @@ class PresentorProxy{
                     success: function (answer) {
 
                         sentenceJP = answer.sentenceJP;
-                        sentenceEN = answer.sentenceEN;
                         division = answer.division;
-                        standardAnswerDivision = answer.standardAnswerDivision;
-                        answerDivision = answer.answerDivision;
 
                         startDate = answer.startDate;
                         endDate = answer.endDate;
@@ -271,83 +258,221 @@ class PresentorProxy{
                         arrangeWordItems();
 
                         totalMillisecondTime = getMaxMillisecondTime();
-                        calculateWordItemPositions();
+                        simulateWordItemState();
 
                     }
                 }
             );
         };
 
-        var getWordItemByTargetElementIndex = function (targetElementIndex) {
+        var getWordItemByTargetElement = function(targetElement){
 
-            var selectedWordItem;
-            $.each(wordItems, function (index, wordItem) {
-                if (wordItem.index == targetElementIndex) {
-                    selectedWordItem = wordItem;
-                    return;
-                }
-            });
-            return selectedWordItem;
-        };
+            var splittedTargetElement = targetElement.split('#');
 
-        // SUMULATION SHOULD USE WHILE SWITCH AND INDEX (DO NOT SIM TIME)
-        var calculateWordItemPositions = function () {
-
-            var currentActiveWordItemSIM;
-
-            var movementCurrentIndexSIM = 0;
-            var tapBeganRelativePositionSIM;
-
-            var currentMillisecondTimeSIM = 0;
-            while (movementCurrentIndexSIM <= movementCollection.length - 1) {
-
-                while (movementCollection[movementCurrentIndexSIM].time <= currentMillisecondTimeSIM) {
-
-                    var currentMovement = movementCollection[movementCurrentIndexSIM];
-
-                    if (currentMovement.state == 0) {
-                        // tap
-                        currentActiveWordItemSIM = getWordItemByTargetElementIndex(currentMovement.targetElement);
-
-                        if (currentActiveWordItemSIM.elementPositionCollection == null) {
-
-                            currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time, currentActiveWordItemSIM.orgElementPosition.left, currentActiveWordItemSIM.orgElementPosition.top));
-                        }
-
-                        currentElementPositionSIM = getClosestElementPosition(currentActiveWordItemSIM, currentMovement.time);
-
-                        tapBeganRelativePositionSIM = new Point(currentMovement.xPosition - currentElementPositionSIM.left, currentMovement.yPosition - currentElementPositionSIM.top);
-
-                    }
-                    else if (currentMovement.state == 1) {
-                        // move   
-                        var wordItemLeft = currentMovement.xPosition - tapBeganRelativePositionSIM.x;
-                        var wordItemTop = currentMovement.yPosition - tapBeganRelativePositionSIM.y;
-
-                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time, wordItemLeft, wordItemTop));
-
-                    }
-                    else if (currentMovement.state == 2) {
-                        // end
-                        var wordItemLeft = currentMovement.xPosition - tapBeganRelativePositionSIM.x;
-                        var wordItemTop = currentMovement.yPosition - tapBeganRelativePositionSIM.y;
-
-                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time, wordItemLeft, wordItemTop));
-
-                        currentActiveWordItemSIM = null;
-                    }
-
-                    movementCurrentIndexSIM++;
-
-                    if (movementCurrentIndexSIM > movementCollection.length - 1) {
+            var selectedWordItem = [];
+            for(var i = 0; i <= splittedTargetElement.length - 1 ; i++)
+            {
+                for(var j = 0; j<= wordItemCollection.length - 1 ; j++)
+                {
+                    if(wordItemCollection[j].index == parseInt(splittedTargetElement[i]))
+                    {
+                        selectedWordItem.push(wordItemCollection[j]);
                         break;
                     }
                 }
-
-                currentMillisecondTimeSIM += 1000 / animationFrequency;
             }
 
-        };
+            return selectedWordItem;
+        } 
+
+        var simulateWordItemState =function(){
+
+            // Variables
+            var currentMovement;
+            var targetElementCollection;
+            var pointerLastPosition,pointerCurrentPosition;
+            var offsetX,offsetY;
+  
+            var index = 0;
+            while(index < movementCollection.length){
+
+                currentMovement  = movementCollection[index];
+
+                switch(currentMovement.state){
+
+                    // Drag Single/Group Begain
+                    case 0,6:
+
+                    targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
+
+                    pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
+
+                    presentorPointCollection.push(new PresentorPoint(currentMovement.time,0,pointerCurrentPosition.x,pointerCurrentPosition.y));
+
+                    targetElementCollection.each(function(index,wordItem){
+
+                        if(wordItem.elementStateCollection.length == 0){
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x,orgPosition.y));
+                        }
+                        else{
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                        }
+                    });
+                    
+                    pointerLastPosition = pointerCurrentPosition;
+
+                    index ++;
+
+                    while(movementCollection[index].state == 1)
+                    {
+                        currentMovement = movementCollection[i];
+                        targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
+                        
+                        pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
+
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time,1,pointerCurrentPosition.x,pointerCurrentPosition.y));
+
+                        offsetX = pointerCurrentPosition.x - pointerLastPosition.x;
+                        offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
+
+                        targetElementCollection.each(function(index,wordItem){
+
+                            if(wordItem.elementStateCollection.length == 0){
+                                
+                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x + offsetX,orgPosition.y + offsetY));
+                            }
+                            else{
+                                
+                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x + offsetX,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y + offsetY));
+                            }
+                        });
+
+                        pointerLastPosition = pointerCurrentPosition;
+
+                        index ++;
+                    }
+
+                    currentMovement = movementCollection[i];
+
+                    pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
+
+                    presentorPointCollection.push(new PresentorPoint(currentMovement.time,2,pointerCurrentPosition.x,pointerCurrentPosition.y));
+
+                    offsetX = pointerCurrentPosition.x - pointerLastPosition.x;
+                    offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
+
+                    targetElementCollection.each(function(index,wordItem){
+
+                        if(wordItem.elementStateCollection.length == 0){
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.orgPosition.x + offsetX,orgPosition.y + offsetY));
+                        }
+                        else{
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x + offsetX,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y + offsetY));
+                        }
+                    });
+
+                    index ++;
+
+                    break;
+
+                    // Make Group Begin
+                    case 3:
+
+                    targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
+
+                    pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
+
+                    presentorPointCollection.push(new PresentorPoint(currentMovement.time,0,pointerCurrentPosition.x,pointerCurrentPosition.y));
+
+                    targetElementCollection.each(function(index,wordItem){
+
+                        if(wordItem.elementStateCollection.length == 0){
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x,orgPosition.y));
+                        }
+                        else{
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                        }
+                    });
+                    
+                    index ++;
+
+                    while(movementCollection[index].state == 1)
+                    {
+                        currentMovement = movementCollection[i];
+                        targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
+                        
+                        pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
+
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time,1,pointerCurrentPosition.x,pointerCurrentPosition.y));
+
+                        targetElementCollection.each(function(index,wordItem){
+
+                            if(wordItem.elementStateCollection.length == 0){
+                                
+                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x,orgPosition.y));
+                            }
+                            else{
+                                
+                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                            }
+                        });
+
+                        index ++;
+                    }
+
+                    currentMovement = movementCollection[i];
+
+                    pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
+
+                    presentorPointCollection.push(new PresentorPoint(currentMovement.time,2,pointerCurrentPosition.x,pointerCurrentPosition.y));
+
+                    targetElementCollection.each(function(index,wordItem){
+
+                        if(wordItem.elementStateCollection.length == 0){
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x,orgPosition.y));
+                        }
+                        else{
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                        }
+                    });
+
+                    index ++;
+
+                    break;
+
+                    // Cancel Group
+                    case 9:
+
+                    wordItemCollection.each(function(index,wordItem){
+
+                        if(wordItem.elementStateCollection.length == 0){
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.orgPosition.x,orgPosition.y));
+                        }
+                        else{
+                            
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                        }
+                    });
+
+                    index ++;
+
+                    break;
+
+                    default:
+
+                    break;
+                }
+            }
+        }
 
         var generateWordItems = function () {
             var wordItemTemplate = $('<div class="word-item"><div class="word-item-background">here we are</div></div>');
@@ -359,7 +484,7 @@ class PresentorProxy{
                 wordItemObj.find('.word-item-background').first().text(word);
                 wordItemObj.appendTo(mainView);
 
-                wordItems.push(new WordItem(index,wordItemObj,null,new Array()));
+                wordItemCollection.push(new WordItem(index,wordItemObj,null,new Array()));
             });
 
         };
@@ -369,7 +494,7 @@ class PresentorProxy{
             var verticalPadding = 10.0;
 
             // 26
-            var wordItemHeight = wordItems[0].obj.innerHeight();
+            var wordItemHeight = wordItemCollection[0].obj.innerHeight();
 
             var containerLength = mainView.width();
             var containerHeight = mainView.height();
@@ -377,7 +502,7 @@ class PresentorProxy{
             var currentLine = new Array();
             var currentLineLength = 0.0;
 
-            $.each(wordItems, function (index, wordItem) {
+            $.each(wordItemCollection, function (index, wordItem) {
 
                 var wordItemWidth = wordItem.obj.innerWidth();
 
@@ -392,7 +517,7 @@ class PresentorProxy{
                 currentLineLength = currentLineLength + horizontalPadding + wordItemWidth;
 
                 // when over
-                if (index >= wordItems.length - 1) {
+                if (index >= wordItemCollection.length - 1) {
                     lines.push(currentLine);
                     currentLine = new Array();
                     currentLineLength = 0.0;
@@ -415,89 +540,108 @@ class PresentorProxy{
             }
 
 
-            $.each(wordItems,function(index,wordItem){
-                wordItem.orgElementPosition = new ElementPosition(0,parseInt(wordItem.obj.css('left')),parseInt(wordItem.obj.css('top')));
+            $.each(wordItemCollection,function(index,wordItem){
+                wordItem.orgPosition = new Point(parseInt(wordItem.obj.css('left')),parseInt(wordItem.obj.css('top')));
             });
         };
 
         var getMaxMillisecondTime = function () {
-            var sortedmovementCollection = movementCollection.slice().sort(sortByTime);
+            var sortedMovementCollection = movementCollection.slice().sort(sortByTime);
             sortedmovementCollection.reverse();
-            var sorteddeviceAccelerationCollection = deviceAccelerationCollection.slice().sort(sortByTime);
+            var sortedDeviceAccelerationCollection = deviceAccelerationCollection.slice().sort(sortByTime);
             sorteddeviceAccelerationCollection.reverse();
 
-            maxTime = sorteddeviceAccelerationCollection[0].time > sortedmovementCollection[0].time ? sorteddeviceAccelerationCollection[0].time : sortedmovementCollection[0].time;
+            maxTime = sortedDeviceAccelerationCollection[0].time > sortedMovementCollection[0].time ? sorteddeviceAccelerationCollection[0].time : sortedmovementCollection[0].time;
 
             return maxTime;
         };
 
         var playMovementAnimation = function () {
 
-            if (movementCurrentIndex > movementCollection.length - 1) {
+            if (currentMillisecondTime > totalMillisecondTime) {
 
                 return;
             }
 
-            while (movementCollection[movementCurrentIndex].time <= currentMillisecondTime) {
-                var currentMovement = movementCollection[movementCurrentIndex];
+            // Draw point
+            while(presentorPointCollection[presentorPointCollectionCurrentIndex].time <= currentMillisecondTime){
 
-                $.each(wordItems, function (index, wordItem) {
-                    var elementPosition = getClosestElementPosition(wordItem, currentMillisecondTime);
+                currentDrawPoint = new Point(presentorPointCollection[presentorPointCollectionCurrentIndex].x,presentorPointCollection[presentorPointCollectionCurrentIndex].y);
 
-                    if (elementPosition != null) {
-                        wordItem.obj.css({
-                            left: elementPosition.left,
-                            top: elementPosition.top
-                        });
-                    }
-                });
+                switch(presentorPointCollection[presentorPointCollectionCurrentIndex].state){
 
-                currentDrawPoint = new Point(currentMovement.xPosition, currentMovement.yPosition);
+                    case 0:
+                    drawRect(currentDrawPoint,colorList[currentColorIndex]);
 
-                if (currentMovement.state == 0) {
                     lastDrawPoint = currentDrawPoint;
+
+                    break;
+              
+                    case 1:
+                    drawRect(currentDrawPoint,colorList[currentColorIndex]);
+                    drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
+
+                    lastDrawPoint = currentDrawPoint;
+
+                    break;
+
+                    case 2:
+                    drawRect(currentDrawPoint,colorList[currentColorIndex]);
+                    drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
+
+                    lastDrawPoint = currentDrawPoint;
+
                     currentColorIndex = (currentColorIndex + 1) % colorList.length;
-                }
 
-                console.log("index:" + currentMovement.index + ",targetElement:" + currentMovement.targetElement + ",state:" + currentMovement.state + ",time:" + currentMovement.time);
+                    break;
 
-                presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
-                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, colorList[currentColorIndex]);
-
-                // When finish drawing
-                lastDrawPoint = currentDrawPoint;
-
-                movementCurrentIndex++;
-
-                if (movementCurrentIndex >= movementCollection.length) {
+                    default:
                     break;
                 }
+   
+                presentorPointCollectionCurrentIndex ++;
             }
+
+            // Adjust position
+            wordItemCollection.each(function(index,wordItem){
+
+                var elementState = getClosestElementState(wordItem,currentMillisecondTime);
+
+                wordItem.obj.css({
+                    left: elementState.x,
+                    top: elementState.y
+                });
+
+                // if isActive
+            });
+
+
+            
         };
 
         var playAcceralationAnimation = function () {
 
-            if (deviceAccelerationCurrentIndex > deviceAccelerationCollection.length - 1) {
+            if (deviceAccelerationAnimationCurrentIndex > deviceAccelerationCollection.length - 1) {
                 return;
             }
 
-            while (deviceAccelerationCollection[deviceAccelerationCurrentIndex].time <= currentMillisecondTime) {
+            while (deviceAccelerationCollection[deviceAccelerationAnimationCurrentIndex].time <= currentMillisecondTime) {
 
                 accelerationX.css({
-                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationCurrentIndex].x / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationAnimationCurrentIndex].x / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationY.css({
-                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationCurrentIndex].y / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationAnimationCurrentIndex].y / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationZ.css({
-                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationCurrentIndex].z / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationAnimationCurrentIndex].z / 3.0 * 100)).toString() + "%"
                 });
 
-                deviceAccelerationCurrentIndex++;
+                deviceAccelerationAnimationCurrentIndex++;
 
-                if (deviceAccelerationCurrentIndex >= deviceAccelerationCollection.length) {
+                if (deviceAccelerationAnimationCurrentIndex >= deviceAccelerationCollection.length) {
                     break;
                 }
             }
@@ -525,19 +669,26 @@ class PresentorProxy{
             clearInterval(TimerID);
         };
 
-        var getClosestElementPosition = function (wordItem, time) {
+        var getClosestElementState = function (wordItem, time) {
 
-            var selectedElementPosition;
+            var selectedElementState ;
 
-            selectedElementPosition = wordItem.orgElementPosition;
-            $.each(wordItem.elementPositionCollection, function (index, elementPosition) {
+            selectedElementState  = new ElementState(0,false,wordItem.orgPosition.x,wordItem.orgPosition.y);
 
-                if (time < elementPosition.time) {
-                    return;
+            var index = 0;
+            while(index < wordItem.elementStateCollection.length)
+            {
+                if(wordItem.elementStateCollection[i].time > time){
+                    break;
                 }
 
-                selectedElementPosition = elementPosition;
-            });
+                if(selectedElementState.time < wordItem.elementStateCollection[index].time)
+                {
+                    selectedElementState = wordItem.elementStateCollection[index];
+                }
+                
+                index ++;
+            }
 
             return selectedElementPosition;
         };
@@ -557,7 +708,7 @@ class PresentorProxy{
         $(function () {
 
             setLayout();
-            getAnswer();
+            getAnswerRecord();
         });
 
     };

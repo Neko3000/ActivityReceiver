@@ -14,11 +14,11 @@ class ElementPosition{
 }
 class WordItem{
     constructor(index,obj,orgElementPosition,elementPositionCollection) {
-        this.index = index;
-        this.obj = obj;
+        this.index = index
+        this.obj = obj
 
         this.orgElementPosition = orgElementPosition;
-        this.elementPositionCollection = elementPositionCollection;
+        this.elementPositionCollection = elementPositionCollection
       }
 }
 class PresentorProxy{
@@ -61,6 +61,7 @@ class PresentorProxy{
         var $this = $(this);
 
         // Get the dom object instead of warpped jQuery object
+
         var presentor = $this.find('.presentor');
         var presentorProxy = new PresentorProxy(presentor[0]);
         var colorList = ['#34bfa3','#ffb822','#f4516c','#36a3f7','#5867dd'];
@@ -76,6 +77,11 @@ class PresentorProxy{
         var textJP = $this.find('.text-jp .info-value');
         var textEN = $this.find('.text-en .info-value');
 
+        var movementDistance = $this.find('.movement-distance .info-value');
+        var movementTotalDistance = $this.find('.movement-total-distance .info-value');
+        var movementTime = $this.find('.movement-time .info-value');
+        var movementDD = $this.find('.movement-dd .info-value');
+
         var accelerationX = $this.find('.acceleration-x');
         var accelerationY = $this.find('.acceleration-y');
         var accelerationZ = $this.find('.acceleration-z');
@@ -83,8 +89,8 @@ class PresentorProxy{
         var sentenceJP;
         var sentenceEN;
         var division;
-        var standardAnswerDivision;
         var answerDivision;
+        var content;
 
         var startDate;
         var endDate;
@@ -92,10 +98,10 @@ class PresentorProxy{
         var wordItems = new Array();
     
         var movementCollection;
-        var movementCurrentIndex = 0;
+        var movementDTOCurrentIndex = 0;
 
         var deviceAccelerationCollection;
-        var deviceAccelerationCurrentIndex = 0;
+        var deviceAccelerationDTOCurrentIndex = 0;
 
         var currentDrawPoint;
         var lastDrawPoint;
@@ -108,73 +114,126 @@ class PresentorProxy{
         var TimerID;
         var animationFrequency = 20;
 
+        // Calculation
+
+        var getMaxDD = function(){
+            var maxDD = 0;
+            var lastMovementDTOEnd;
+
+            $.each(movementCollection,function(index,movementDTO){
+                if(movementDTO.state == 1){
+                    if(lastMovementDTOEnd != null){
+                        var diffence =  movementDTO.time - lastMovementDTOEnd.time
+                        maxDD = maxDD < diffence ? diffence:maxDD;
+                    }
+                }
+                else if(movementDTO.state == 2){
+                    lastMovementDTOEnd = movementDTO
+                }
+            });
+            return maxDD;
+        }
+
+        var getTotalDistance = function(){
+            var totalDistance = 0;
+            var currentPoint,lastPoint;
+
+            $.each(movementCollection,function(index,movementDTO){
+                if(movementDTO.state == 0){
+                    lastPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
+                }
+                else if(movementDTO.state == 1){
+                    currentPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
+                    totalDistance += calculateDistance(lastPoint,currentPoint);
+
+                    lastPoint = currentPoint;
+                }
+                else if(movementDTO.state == 2){
+                    currentPoint = new Point(movementDTO.xPosition,movementDTO.yPosition);
+                    totalDistance += calculateDistance(lastPoint,currentPoint);
+
+                    lastPoint = null;
+                }
+
+            });
+
+            return totalDistance;
+        }
+
+        var getTimeDifference = function(time1,time2){
+
+            var millionSecondTime1 = new Date(time1).getTime();
+            var millionSecondTime2 = new Date(time2).getTime();          
+
+            return millionSecondTime2 - millionSecondTime1;
+        }
+
         // Common
-        var sortByLeft = function (a, b) {
-            return parseInt(a.obj.css('left')) > parseInt(b.obj.css('left'));
-        };
+        var sortByLeft = function(a,b){
+            return parseInt(a.obj.css('left'))> parseInt(b.obj.css('left'));
+        }
 
-        var sortByTime = function (a, b) {
-            return parseInt(a.time) > parseInt(b.time);
-        };
-
-        var sortByIndex = function (a, b) {
-            return parseInt(a.index) > parseInt(b.index);
-        };
+        var sortByTime = function(a,b){
+            return parseInt(a.time > b.time);
+        }
     
-        var calculateDistance = function (pointA, pointB) {
+        var calculateDistance = function(pointA,pointB){
 
-            if (pointA == null || pointB == null) {
+            if(pointA == null || pointB == null)
+            {
                 return;
             }
 
-            return Math.sqrt(Math.pow(pointA.x - pointB.x, 2) + Math.pow(pointA.y - pointB.y, 2));
-        };
+            return Math.sqrt(Math.pow(pointA.x-pointB.x,2)+Math.pow(pointA.y-pointB.y,2));
+        }
 
-        var fitToContainer = function (obj) {
+        var fitToContainer = function(obj){
             var width = obj.parent().width();
             var height = obj.parent().height();
 
-            obj.attr('width', width);
-            obj.attr('height', height);
-        };
+            obj.attr('width',width);
+            obj.attr('height',height);
+        }
 
-        var adjustCanvasToTime = function (time) {
+        var adjustCanvasToTime = function(time){
 
             var currrnetDrawPointTemp;
             var lastDrawPointTemp;
 
-            $.each(movementCollection, function (index, currentMovement) {
-                if (currentMovement.time > time) {
+            $.each(movementCollection,function(index,currentMovementDTO){
+                if(currentMovementDTO.time > time){
                     return;
                 }
 
-                currrnetDrawPointTemp = new Point(currentMovement.xPosition, currentMovement.yPosition);
+                currrnetDrawPointTemp = new Point(currentMovementDTO.xPosition,currentMovementDTO.yPosition);
 
-                if (currentMovement.state == 0) {
+                if(currentMovementDTO.state == 0)
+                {
                     lastDrawPointTemp = currrnetDrawPointTemp;
                     currentColorIndex = (currentColorIndex + 1) % colorList.length;
                 }
 
-                presentorProxy.drawRect(currrnetDrawPointTemp, colorList[currentColorIndex]);
-                presentorProxy.drawLineBetweenTwoPoints(lastDrawPointTemp, currrnetDrawPointTemp, colorList[currentColorIndex]);
+                presentorProxy.drawRect(currrnetDrawPointTemp,colorList[currentColorIndex]);
+                presentorProxy.drawLineBetweenTwoPoints(lastDrawPointTemp,currrnetDrawPointTemp,colorList[currentColorIndex]);
 
                 lastDrawPointTemp = currrnetDrawPointTemp;
             });
-        };
+        }
 
-        var adjustWordItemsToTime = function (time) {
+        var adjustWordItemsToTime = function(time){
+            
+            $.each(wordItems,function(index,wordItem){
+                var elementPosition = getClosestElementPosition(wordItem,time);
 
-            $.each(wordItems, function (index, wordItem) {
-                var elementPosition = getClosestElementPosition(wordItem, time);
-
-                if (elementPosition != null) {
+                if(elementPosition != null)
+                {                    
                     wordItem.obj.css({
                         left: elementPosition.left,
                         top: elementPosition.top
                     });
                 }
             });
-        };
+        }
 
         // Layout
         var setLayout = function () {
@@ -219,35 +278,35 @@ class PresentorProxy{
 
             sentenceJPLabel.text(sentenceJP);
 
-            textAnswer.text(answerDivision);
+            textAnswer.text(content);
             textJP.text(sentenceJP);
             textEN.text(sentenceEN);
 
         };
 
-        var generateAnswer = function () {
+        var generateAnswer = function(){
 
             wordItemsClone = wordItems.slice().sort(sortByLeft);
 
             var answerString = "";
             $.each(wordItemsClone, function (index, wordItem) {
-                if (index == 0) {
+                if(index == 0){
                     answerString = answerString + wordItem.obj.text();
                 }
-                else {
+                else{
                     answerString = answerString + " " + wordItem.obj.text();
                 }
             });
             answerString = answerString + ".";
 
             answerLabel.text(answerString);
-        };
+        }
 
         var getAnswer = function () {
 
             $.ajax(
                 {
-                    url: "/AnswerReplay/GetAnswerRecord?id=" + id.toString(),
+                    url: "/AnswerReplay/GetAnswer?id=" + id.toString(),
                     type: "get",
                     dataType: "json", deviceAccelerationCollection,
                     async: false,
@@ -256,14 +315,14 @@ class PresentorProxy{
                         sentenceJP = answer.sentenceJP;
                         sentenceEN = answer.sentenceEN;
                         division = answer.division;
-                        standardAnswerDivision = answer.standardAnswerDivision;
                         answerDivision = answer.answerDivision;
+                        content = answer.content;
 
                         startDate = answer.startDate;
                         endDate = answer.endDate;
 
-                        movementCollection = answer.movementCollection.slice().sort(sortByIndex);
-                        deviceAccelerationCollection = answer.deviceAccelerationCollection.slice().sort(sortByIndex);
+                        movementCollection = answer.movementCollection;
+                        deviceAccelerationCollection = answer.deviceAccelerationCollection;
 
                         showQuestion();
 
@@ -273,81 +332,83 @@ class PresentorProxy{
                         totalMillisecondTime = getMaxMillisecondTime();
                         calculateWordItemPositions();
 
+                        movementTotalDistance.text(getTotalDistance().toFixed(2));
+                        movementTime.text(getTimeDifference(startDate,endDate));
+                        movementDD.text(getMaxDD());
                     }
                 }
             );
         };
 
-        var getWordItemByTargetElementIndex = function (targetElementIndex) {
+        var getWordItemByTargetElementIndex = function(targetElementIndex){
 
             var selectedWordItem;
-            $.each(wordItems, function (index, wordItem) {
-                if (wordItem.index == targetElementIndex) {
+            $.each(wordItems,function(index,wordItem){
+                if(wordItem.index == targetElementIndex){
                     selectedWordItem = wordItem;
                     return;
                 }
             });
             return selectedWordItem;
-        };
+        }
 
-        // SUMULATION SHOULD USE WHILE SWITCH AND INDEX (DO NOT SIM TIME)
-        var calculateWordItemPositions = function () {
+        var calculateWordItemPositions = function(){       
 
             var currentActiveWordItemSIM;
-
-            var movementCurrentIndexSIM = 0;
-            var tapBeganRelativePositionSIM;
+          
+            var movementDTOCurrentIndexSIM = 0;
+            var tapBeganRelativePositionSIM;  
 
             var currentMillisecondTimeSIM = 0;
-            while (movementCurrentIndexSIM <= movementCollection.length - 1) {
+            while(movementDTOCurrentIndexSIM <= movementCollection.length - 1){
 
-                while (movementCollection[movementCurrentIndexSIM].time <= currentMillisecondTimeSIM) {
+                while (movementCollection[movementDTOCurrentIndexSIM].time <= currentMillisecondTimeSIM){
 
-                    var currentMovement = movementCollection[movementCurrentIndexSIM];
-
-                    if (currentMovement.state == 0) {
+                    var currentMovementDTO = movementCollection[movementDTOCurrentIndexSIM];
+    
+                    if (currentMovementDTO.state == 0) {
                         // tap
-                        currentActiveWordItemSIM = getWordItemByTargetElementIndex(currentMovement.targetElement);
+                        currentActiveWordItemSIM = getWordItemByTargetElementIndex(currentMovementDTO.targetElement);
 
-                        if (currentActiveWordItemSIM.elementPositionCollection == null) {
+                        if(currentActiveWordItemSIM.elementPositionCollection == null){
 
-                            currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time, currentActiveWordItemSIM.orgElementPosition.left, currentActiveWordItemSIM.orgElementPosition.top));
+                            currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovementDTO.time,currentActiveWordItemSIM.orgElementPosition.left,currentActiveWordItemSIM.orgElementPosition.top));
                         }
 
-                        currentElementPositionSIM = getClosestElementPosition(currentActiveWordItemSIM, currentMovement.time);
+                        currentElementPositionSIM = getClosestElementPosition(currentActiveWordItemSIM,currentMovementDTO.time);
 
-                        tapBeganRelativePositionSIM = new Point(currentMovement.xPosition - currentElementPositionSIM.left, currentMovement.yPosition - currentElementPositionSIM.top);
+                        tapBeganRelativePositionSIM = new Point(currentMovementDTO.xPosition - currentElementPositionSIM.left,currentMovementDTO.yPosition - currentElementPositionSIM.top); 
 
                     }
-                    else if (currentMovement.state == 1) {
+                    else if (currentMovementDTO.state == 1) {
                         // move   
-                        var wordItemLeft = currentMovement.xPosition - tapBeganRelativePositionSIM.x;
-                        var wordItemTop = currentMovement.yPosition - tapBeganRelativePositionSIM.y;
-
-                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time, wordItemLeft, wordItemTop));
-
+                        var wordItemLeft = currentMovementDTO.xPosition - tapBeganRelativePositionSIM.x;
+                        var wordItemTop = currentMovementDTO.yPosition - tapBeganRelativePositionSIM.y;
+                    
+                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovementDTO.time,wordItemLeft,wordItemTop));
+    
                     }
-                    else if (currentMovement.state == 2) {
+                    else if (currentMovementDTO.state == 2) {
                         // end
-                        var wordItemLeft = currentMovement.xPosition - tapBeganRelativePositionSIM.x;
-                        var wordItemTop = currentMovement.yPosition - tapBeganRelativePositionSIM.y;
+                        var wordItemLeft = currentMovementDTO.xPosition - tapBeganRelativePositionSIM.x;
+                        var wordItemTop = currentMovementDTO.yPosition - tapBeganRelativePositionSIM.y;
+                    
+                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovementDTO.time,wordItemLeft,wordItemTop));
 
-                        currentActiveWordItemSIM.elementPositionCollection.push(new ElementPosition(currentMovement.time, wordItemLeft, wordItemTop));
-
-                        currentActiveWordItemSIM = null;
+                        currentActiveWordItemSIM = null;             
                     }
+    
+                    movementDTOCurrentIndexSIM ++;
 
-                    movementCurrentIndexSIM++;
-
-                    if (movementCurrentIndexSIM > movementCollection.length - 1) {
+                    if(movementDTOCurrentIndexSIM > movementCollection.length - 1){
                         break;
-                    }
+                    }            
                 }
 
-                currentMillisecondTimeSIM += 1000 / animationFrequency;
+                currentMillisecondTimeSIM += 1000/animationFrequency;
             }
 
-        };
+        }
 
         var generateWordItems = function () {
             var wordItemTemplate = $('<div class="word-item"><div class="word-item-background">here we are</div></div>');
@@ -420,31 +481,32 @@ class PresentorProxy{
             });
         };
 
-        var getMaxMillisecondTime = function () {
+        var getMaxMillisecondTime = function(){
             var sortedmovementCollection = movementCollection.slice().sort(sortByTime);
             sortedmovementCollection.reverse();
             var sorteddeviceAccelerationCollection = deviceAccelerationCollection.slice().sort(sortByTime);
             sorteddeviceAccelerationCollection.reverse();
 
-            maxTime = sorteddeviceAccelerationCollection[0].time > sortedmovementCollection[0].time ? sorteddeviceAccelerationCollection[0].time : sortedmovementCollection[0].time;
+            maxTime = sorteddeviceAccelerationCollection[0].time > sortedmovementCollection[0].time ? sorteddeviceAccelerationCollection[0].time:sortedmovementCollection[0].time;
 
             return maxTime;
-        };
+        }
 
-        var playMovementAnimation = function () {
+        var playMovementAnimation = function(){
 
-            if (movementCurrentIndex > movementCollection.length - 1) {
+            if(movementDTOCurrentIndex > movementCollection.length - 1){
 
                 return;
             }
 
-            while (movementCollection[movementCurrentIndex].time <= currentMillisecondTime) {
-                var currentMovement = movementCollection[movementCurrentIndex];
+            while (movementCollection[movementDTOCurrentIndex].time <= currentMillisecondTime) {
+                var currentMovementDTO = movementCollection[movementDTOCurrentIndex];
 
-                $.each(wordItems, function (index, wordItem) {
-                    var elementPosition = getClosestElementPosition(wordItem, currentMillisecondTime);
+                $.each(wordItems,function(index,wordItem){
+                    var elementPosition = getClosestElementPosition(wordItem,currentMillisecondTime);
 
-                    if (elementPosition != null) {
+                    if(elementPosition != null)
+                    {
                         wordItem.obj.css({
                             left: elementPosition.left,
                             top: elementPosition.top
@@ -452,56 +514,58 @@ class PresentorProxy{
                     }
                 });
 
-                currentDrawPoint = new Point(currentMovement.xPosition, currentMovement.yPosition);
+                currentDrawPoint = new Point(currentMovementDTO.xPosition,currentMovementDTO.yPosition);
 
-                if (currentMovement.state == 0) {
+                if(currentMovementDTO.state == 0)
+                {
                     lastDrawPoint = currentDrawPoint;
                     currentColorIndex = (currentColorIndex + 1) % colorList.length;
                 }
 
-                console.log("index:" + currentMovement.index + ",targetElement:" + currentMovement.targetElement + ",state:" + currentMovement.state + ",time:" + currentMovement.time);
+                currentDistance += calculateDistance(currentDrawPoint,lastDrawPoint);
 
-                presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
-                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, colorList[currentColorIndex]);
+                movementDistance.text(currentDistance.toFixed(2));
+                presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndex]);
+                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
 
                 // When finish drawing
                 lastDrawPoint = currentDrawPoint;
 
-                movementCurrentIndex++;
+                movementDTOCurrentIndex++;
 
-                if (movementCurrentIndex >= movementCollection.length) {
+                if(movementDTOCurrentIndex>=movementCollection.length){
                     break;
                 }
             }
-        };
+        }
 
-        var playAcceralationAnimation = function () {
+        var playAcceralationAnimation = function(){
 
-            if (deviceAccelerationCurrentIndex > deviceAccelerationCollection.length - 1) {
+            if(deviceAccelerationDTOCurrentIndex > deviceAccelerationCollection.length - 1){
                 return;
             }
 
-            while (deviceAccelerationCollection[deviceAccelerationCurrentIndex].time <= currentMillisecondTime) {
+            while (deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].time <= currentMillisecondTime) {
 
                 accelerationX.css({
-                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationCurrentIndex].x / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].x / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationY.css({
-                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationCurrentIndex].y / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].y / 3.0 * 100)).toString() + "%"
                 });
 
                 accelerationZ.css({
-                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationCurrentIndex].z / 3.0 * 100)).toString() + "%"
+                    width: (Math.abs(deviceAccelerationCollection[deviceAccelerationDTOCurrentIndex].z / 3.0 * 100)).toString() + "%"
                 });
 
-                deviceAccelerationCurrentIndex++;
+                deviceAccelerationDTOCurrentIndex++;
 
-                if (deviceAccelerationCurrentIndex >= deviceAccelerationCollection.length) {
+                if(deviceAccelerationDTOCurrentIndex>=deviceAccelerationCollection.length){
                     break;
                 }
             }
-        };
+        }
 
         var playAnimation = function () {
 
@@ -520,19 +584,19 @@ class PresentorProxy{
             triggerPrograssSlider();
         };
 
-        var stopAnimation = function () {
+        var stopAnimation = function(){
 
             clearInterval(TimerID);
-        };
+        }
 
-        var getClosestElementPosition = function (wordItem, time) {
+        var getClosestElementPosition = function(wordItem,time){
 
             var selectedElementPosition;
 
             selectedElementPosition = wordItem.orgElementPosition;
-            $.each(wordItem.elementPositionCollection, function (index, elementPosition) {
+            $.each(wordItem.elementPositionCollection,function(index,elementPosition){
 
-                if (time < elementPosition.time) {
+                if(time < elementPosition.time){
                     return;
                 }
 
@@ -540,14 +604,15 @@ class PresentorProxy{
             });
 
             return selectedElementPosition;
-        };
+        }
 
-        var triggerPrograssSlider = function () {
+        var triggerPrograssSlider = function(){
+            //movePrograssSlider = progressSlider.noUiSlider.set(100 * currentMillisecondTime/totalMillisecondTime);
 
             progressSlider.data("ionRangeSlider").update({
-                from: 100 * currentMillisecondTime / totalMillisecondTime,
+                from: 100 * currentMillisecondTime/totalMillisecondTime,
             });
-        };
+        }
 
         var play = function () {
 
