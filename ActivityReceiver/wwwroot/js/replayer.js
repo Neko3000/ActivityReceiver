@@ -20,19 +20,32 @@ class ElementState{
 
 class WordItem{
     
-    constructor(index,obj,orgPosition,elementStateCollection) {
+    constructor(index,obj,elementStateCollection) {
         this.index = index;
         this.obj = obj;
 
-        this.orgPosition = orgPosition;
         this.elementStateCollection = elementStateCollection;
+      }
+
+      setPosition(x,y){
+
+        this.obj.css({
+            left: x,
+            top: y
+        });
       }
 
       toActive(){
 
+        this.obj.css({
+            "background-color":"#68C7B9"
+        });
       }
+
       cancelActive(){
-          
+        this.obj.css({
+            "background-color":"#222a41"
+        });
       }
 }
 
@@ -311,14 +324,8 @@ class PresentorProxy{
 
                     targetElementCollection.each(function(index,wordItem){
 
-                        if(wordItem.elementStateCollection.length == 0){
-                            
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x,orgPosition.y));
-                        }
-                        else{
-                            
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                        }
+                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                        
                     });
                     
                     pointerLastPosition = pointerCurrentPosition;
@@ -338,15 +345,9 @@ class PresentorProxy{
                         offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
 
                         targetElementCollection.each(function(index,wordItem){
-
-                            if(wordItem.elementStateCollection.length == 0){
                                 
-                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x + offsetX,orgPosition.y + offsetY));
-                            }
-                            else{
-                                
-                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x + offsetX,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y + offsetY));
-                            }
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x + offsetX,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y + offsetY));
+                            
                         });
 
                         pointerLastPosition = pointerCurrentPosition;
@@ -364,15 +365,9 @@ class PresentorProxy{
                     offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
 
                     targetElementCollection.each(function(index,wordItem){
-
-                        if(wordItem.elementStateCollection.length == 0){
                             
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.orgPosition.x + offsetX,orgPosition.y + offsetY));
-                        }
-                        else{
-                            
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x + offsetX,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y + offsetY));
-                        }
+                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x + offsetX,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y + offsetY));
+                        
                     });
 
                     index ++;
@@ -389,15 +384,9 @@ class PresentorProxy{
                     presentorPointCollection.push(new PresentorPoint(currentMovement.time,0,pointerCurrentPosition.x,pointerCurrentPosition.y));
 
                     targetElementCollection.each(function(index,wordItem){
-
-                        if(wordItem.elementStateCollection.length == 0){
                             
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x,orgPosition.y));
-                        }
-                        else{
-                            
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                        }
+                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                        
                     });
                     
                     index ++;
@@ -412,15 +401,9 @@ class PresentorProxy{
                         presentorPointCollection.push(new PresentorPoint(currentMovement.time,1,pointerCurrentPosition.x,pointerCurrentPosition.y));
 
                         targetElementCollection.each(function(index,wordItem){
-
-                            if(wordItem.elementStateCollection.length == 0){
                                 
-                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x,orgPosition.y));
-                            }
-                            else{
-                                
-                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                            }
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                            
                         });
 
                         index ++;
@@ -434,14 +417,8 @@ class PresentorProxy{
 
                     targetElementCollection.each(function(index,wordItem){
 
-                        if(wordItem.elementStateCollection.length == 0){
-                            
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.orgPosition.x,orgPosition.y));
-                        }
-                        else{
-                            
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                        }
+                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                        
                     });
 
                     index ++;
@@ -452,15 +429,9 @@ class PresentorProxy{
                     case 9:
 
                     wordItemCollection.each(function(index,wordItem){
-
-                        if(wordItem.elementStateCollection.length == 0){
                             
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.orgPosition.x,orgPosition.y));
-                        }
-                        else{
-                            
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                        }
+                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
+                        
                     });
 
                     index ++;
@@ -541,7 +512,7 @@ class PresentorProxy{
 
 
             $.each(wordItemCollection,function(index,wordItem){
-                wordItem.orgPosition = new Point(parseInt(wordItem.obj.css('left')),parseInt(wordItem.obj.css('top')));
+                wordItem.elementStateCollection.push(new ElementState(0,false,parseInt(wordItem.obj.css('left')),parseInt(wordItem.obj.css('top'))));
             });
         };
 
@@ -607,16 +578,41 @@ class PresentorProxy{
 
                 var elementState = getClosestElementState(wordItem,currentMillisecondTime);
 
-                wordItem.obj.css({
-                    left: elementState.x,
-                    top: elementState.y
-                });
+                wordItem.setPosition(elementState.x,elementState.y);
 
-                // if isActive
+                if(elementState.isActive){
+                    wordItem.toActive();
+                }
+                else{
+                    wordItem.cancelActive();
+                }
+
             });
 
 
             
+        };
+
+        var getClosestElementState = function (wordItem, time) {
+
+            var selectedElementState  = wordItem.elementStateCollection[0];
+
+            var index = 0;
+            while(index < wordItem.elementStateCollection.length)
+            {
+                if(wordItem.elementStateCollection[index].time > time){
+                    break;
+                }
+
+                if(selectedElementState.time < wordItem.elementStateCollection[index].time)
+                {
+                    selectedElementState = wordItem.elementStateCollection[index];
+                }
+                
+                index ++;
+            }
+
+            return selectedElementPosition;
         };
 
         var playAcceralationAnimation = function () {
@@ -667,30 +663,6 @@ class PresentorProxy{
         var stopAnimation = function () {
 
             clearInterval(TimerID);
-        };
-
-        var getClosestElementState = function (wordItem, time) {
-
-            var selectedElementState ;
-
-            selectedElementState  = new ElementState(0,false,wordItem.orgPosition.x,wordItem.orgPosition.y);
-
-            var index = 0;
-            while(index < wordItem.elementStateCollection.length)
-            {
-                if(wordItem.elementStateCollection[i].time > time){
-                    break;
-                }
-
-                if(selectedElementState.time < wordItem.elementStateCollection[index].time)
-                {
-                    selectedElementState = wordItem.elementStateCollection[index];
-                }
-                
-                index ++;
-            }
-
-            return selectedElementPosition;
         };
 
         var triggerPrograssSlider = function () {
