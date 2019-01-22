@@ -65,9 +65,7 @@ class PresentorPoint{
 class PresentorProxy{
     constructor(canvas){
         this.canvas = canvas;
-        this.context = this.canvas.getContext("2d");
-
-        
+        this.context = this.canvas.getContext("2d");  
     }
 
     drawRect(point,color) {
@@ -145,7 +143,7 @@ class PresentorProxy{
         var TimerID;
         var animationFrequency = 20;
 
-        // Common
+        // Sorts
         var sortByLeft = function (a, b) {
             return parseInt(a.obj.css('left')) > parseInt(b.obj.css('left'));
         };
@@ -175,14 +173,6 @@ class PresentorProxy{
             obj.attr('height', height);
         };
 
-        var adjustCanvasToTime = function (time) {
-
-        };
-
-        var adjustWordItemsToTime = function (time) {
-
-        };
-
         // Layout
         var setLayout = function () {
 
@@ -206,7 +196,6 @@ class PresentorProxy{
                     currentMillisecondTime = data.from / 100 * totalMillisecondTime;
 
                     adjustCanvasToTime(currentMillisecondTime);
-                    adjustWordItemsToTime(currentMillisecondTime);
                 },
             });
 
@@ -455,7 +444,7 @@ class PresentorProxy{
                 wordItemObj.find('.word-item-background').first().text(word);
                 wordItemObj.appendTo(mainView);
 
-                wordItemCollection.push(new WordItem(index,wordItemObj,null,new Array()));
+                wordItemCollection.push(new WordItem(index,wordItemObj,new Array()));
             });
 
         };
@@ -588,8 +577,6 @@ class PresentorProxy{
                 }
 
             });
-
-
             
         };
 
@@ -613,6 +600,99 @@ class PresentorProxy{
             }
 
             return selectedElementPosition;
+        };
+
+        var adjustCanvasToTime = function (time) {
+
+            var presentorPointCollectionCurrentIndexSIM = 0;
+            var currentColorIndexSIM = 0;
+            
+            var currentMillisecondTimeSIM= 0;
+            while(currentMillisecondTimeSIM < time)
+            {
+                // Draw point
+                while(presentorPointCollection[presentorPointCollectionCurrentIndexSIM].time <= currentMillisecondTimeSIM){
+
+                    currentDrawPoint = new Point(presentorPointCollection[presentorPointCollectionCurrentIndexSIM].x,presentorPointCollection[presentorPointCollectionCurrentIndexSIM].y);
+
+                    switch(presentorPointCollection[presentorPointCollectionCurrentIndexSIM].state){
+
+                        case 0:
+                        drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
+
+                        lastDrawPoint = currentDrawPoint;
+
+                        break;
+                
+                        case 1:
+                        drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
+                        drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndexSIM]);
+
+                        lastDrawPoint = currentDrawPoint;
+
+                        break;
+
+                        case 2:
+                        drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
+                        drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndexSIM]);
+
+                        lastDrawPoint = currentDrawPoint;
+
+                        currentColorIndexSIM = (currentColorIndexSIM + 1) % colorList.length;
+
+                        break;
+
+                        default:
+                        break;
+                    }
+    
+                    presentorPointCollectionCurrentIndexSIM ++;
+                }
+
+                
+                currentMillisecondTimeSIM = currentMillisecondTimeSIM + 1000.0/animationFrequency;         
+            }
+
+            // Adjust position
+            wordItemCollection.each(function(index,wordItem){
+
+                var elementState = getClosestElementState(wordItem,time);
+
+                wordItem.setPosition(elementState.x,elementState.y);
+
+                if(elementState.isActive){
+                    wordItem.toActive();
+                }
+                else{
+                    wordItem.cancelActive();
+                }
+
+            });
+
+
+        };
+
+        // Generic
+        var getClosestObjectByTime = function (objectArray, time) {
+
+            var selectedObject  = objectArray[0];
+
+            var index = 0;
+            while(index < objectArray.length)
+            {
+                if(objectArray[index].time > time){
+                    break;
+                }
+
+                if(selectedObject.time < objectArray[index].time)
+                {
+                    selectedObject = objectArray[index];
+                }
+                
+                index ++;
+            }
+
+            return selectedObject;
         };
 
         var playAcceralationAnimation = function () {
