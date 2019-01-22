@@ -22,7 +22,8 @@ namespace ActivityReceiver.Models
         public string AnswerDivision { get; set; }
         public bool IsCorrect { get; set; }
 
-        public int? HesitationDegree { get; set; }
+        public int ConfusionDegree { get; set; }
+        public string ConfusionElement { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

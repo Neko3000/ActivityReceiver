@@ -224,7 +224,8 @@ namespace ActivityReceiver.Controllers
                 AnswerDivision = model.AnswerDivision,
                 IsCorrect = model.StandardAnswerDivision == model.AnswerDivision ? true:false,
 
-                HesitationDegree = 0,
+                ConfusionDegree = model.ConfusionDegree,
+                ConfusionElement = model.ConfusionElement,
 
                 StartDate = model.StartDate,
                 EndDate = model.EndDate

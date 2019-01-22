@@ -45,7 +45,7 @@ namespace ActivityReceiver.DataBuilders
                                        select q).ToList();
                 assignmentRecordPresenter.CurrentProgress = String.Format("{0}/{1}", assignmentRecord.CurrentQuestionIndex, sortedQuestions.Count);
 
-                // Do not need it anymore in Index
+                // Do not need it anymore in Index page
                 // var answers = await _arDbContext.Answsers.Where(a => a.AssignmentRecordID == assignmentRecord.ID).ToListAsync();
                 // var answerPresenterCollection = AutoMapperHandler.ListMapper<Answer, AnswerPresenter>(answers);
 

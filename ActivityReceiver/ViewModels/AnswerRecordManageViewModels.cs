@@ -34,7 +34,10 @@ namespace ActivityReceiver.ViewModels.AnswerManage
         public bool IsCorrect { get; set; }
 
         [Display(Name = "迷い度")]
-        public int? HesitationDegree { get; set; }
+        public int ConfusionDegree { get; set; }
+
+        [Display(Name = "迷った単語")]
+        public string ConfusionElement { get; set; }
 
         [DataType(DataType.DateTime)]
         [Display(Name = "開始時間")]
@@ -80,7 +83,10 @@ namespace ActivityReceiver.ViewModels.AnswerManage
         public bool IsCorrect { get; set; }
 
         [Display(Name = "迷い度")]
-        public int? HesitationDegree { get; set; }
+        public int ConfusionDegree { get; set; }
+
+        [Display(Name = "迷った単語")]
+        public string ConfusionWordString { get; set; }
 
         [DataType(DataType.DateTime)]
         [Display(Name = "開始時間")]

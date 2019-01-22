@@ -15,6 +15,7 @@ using ActivityReceiver.Functions;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using ActivityReceiver.DataBuilders;
+using ActivityReceiver.Converters;
 
 namespace ActivityReceiver.Controllers
 {
@@ -79,6 +80,15 @@ namespace ActivityReceiver.Controllers
             }
 
             var vm = Mapper.Map<AnswerRecord, AnswerRecordManageDetailsViewModel>(answerRecord);
+
+            var splitConfusionElement = answerRecord.ConfusionElement.Split('#');
+            var splitDivision = answerRecord.Division.Split('|');
+            var sortedWordCollection = new List<string>();
+            foreach(var confusionElement in splitConfusionElement)
+            {
+                sortedWordCollection.Add(splitDivision[Convert.ToInt32(confusionElement)]);
+            }
+            vm.ConfusionWordString = StringConverter.ConvertToSingleString(sortedWordCollection,",");
 
             var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerRecordID == answerRecord.ID).ToListAsync();
             var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == answerRecord.ID).ToListAsync();

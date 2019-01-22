@@ -67,6 +67,10 @@ namespace ActivityReceiver.ViewModels
         public string AnswerDivision { get; set; }
 
         [Required]
+        public int ConfusionDegree { get; set; }
+        public string ConfusionElement { get; set; }
+
+        [Required]
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime EndDate { get; set; }
