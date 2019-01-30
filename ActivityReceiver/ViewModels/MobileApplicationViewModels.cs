@@ -46,8 +46,8 @@ namespace ActivityReceiver.ViewModels
         public int CurrentNumber { get; set; }
     }
 
-    // SubmitQuestionAnswer
-    public class SubmitQuestionAnswerPostViewModel
+    // SubmitAnswerRecord
+    public class SubmitAnswerRecordPostViewModel
     {
         [Required]
         public int AssignmentRecordID { get; set; }
@@ -85,6 +85,7 @@ namespace ActivityReceiver.ViewModels
         [Required]
         public int ExerciseID { get; set; }
     }
+
     public class AnswerDetail
     {
         public string SentenceJP { get; set; }

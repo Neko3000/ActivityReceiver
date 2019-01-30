@@ -71,7 +71,7 @@ namespace ActivityReceiver.Controllers
                 exerciseDetails.Add(exerciseDetail);
             }
 
-            var vm = new GetExerciseListGetViewModel{
+            var vm = new GetExerciseListViewModel{
                 ExerciseDetails = exerciseDetails
             };
 

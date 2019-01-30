@@ -20,5 +20,7 @@ namespace ActivityReceiver.Models
 
         public int XPosition { get; set; }
         public int YPosition { get; set; }
+
+        public float Force { get; set; }
     }
 }

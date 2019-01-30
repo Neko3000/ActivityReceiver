@@ -52,7 +52,8 @@ namespace ActivityReceiver.Controllers
                 AnswerDivision = answerRecord.AnswerDivision,
                 IsCorrect = answerRecord.IsCorrect,
 
-                HesitationDegree = answerRecord.HesitationDegree,
+                ConfusionDegree = answerRecord.ConfusionDegree,
+                ConfusionElement = answerRecord.ConfusionElement.
 
                 StartDate = answerRecord.StartDate,
                 EndDate = answerRecord.EndDate,
