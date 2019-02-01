@@ -71,7 +71,7 @@ namespace ActivityReceiver.Controllers
                 exerciseDetails.Add(exerciseDetail);
             }
 
-            var vm = new GetExerciseListViewModel{
+            var vm = new GetExerciseListGetViewModel{
                 ExerciseDetails = exerciseDetails
             };
 
@@ -190,7 +190,7 @@ namespace ActivityReceiver.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> SubmitQuestionAnswer([FromBody]SubmitQuestionAnswerPostViewModel model)
+        public async Task<IActionResult> SubmitAnswerRecord([FromBody]SubmitAnswerRecordPostViewModel model)
         {
             if(!ModelState.IsValid)
             {

@@ -53,7 +53,7 @@ namespace ActivityReceiver.Controllers
                 IsCorrect = answerRecord.IsCorrect,
 
                 ConfusionDegree = answerRecord.ConfusionDegree,
-                ConfusionElement = answerRecord.ConfusionElement.
+                ConfusionElement = answerRecord.ConfusionElement,
 
                 StartDate = answerRecord.StartDate,
                 EndDate = answerRecord.EndDate,
