@@ -321,7 +321,7 @@ class PresentorProxy{
 
                     index ++;
 
-                    while(movementCollection[index].state == 1)
+                    while (movementCollection[index].state == 1 || movementCollection[index].state == 7)
                     {
                         currentMovement = movementCollection[i];
                         targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
@@ -380,7 +380,7 @@ class PresentorProxy{
                     
                     index ++;
 
-                    while(movementCollection[index].state == 1)
+                    while(movementCollection[index].state == 4)
                     {
                         currentMovement = movementCollection[i];
                         targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
