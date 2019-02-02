@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /*
 $table-inverse-bg:              $gray-900 !default;
 $table-inverse-accent-bg:       rgba($white, .05) !default;
@@ -32524,7 +32524,8 @@ select.m-select2 {
           font-weight: 400; }
 
 .m-login.m-login--2.m-login--signin .m-login__signup {
-  display: none; }
+      /* Change display from none to block */
+  display: block; }
 
 .m-login.m-login--2.m-login--signin .m-login__signin {
   display: block; }

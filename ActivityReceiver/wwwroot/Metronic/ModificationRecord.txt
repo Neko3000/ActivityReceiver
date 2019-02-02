@@ -21,3 +21,9 @@ to .m-form .m-form__group {
 
 4./Metronic/assets/demo/demo3/base/style.bundle.css
 change "browse" to "浏览"
+
+
+
+----- New Metronic 5.5.5 -----
+1. /Metronic/demos/default/assets/demo/base/style.bundle.css
+line-32526: change display from "none" to "block" 

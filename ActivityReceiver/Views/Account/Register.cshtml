@@ -1,36 +1,53 @@
-﻿@model RegisterViewModel
+﻿@model LoginViewModel
+
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="m-grid m-grid--hor m-grid--root m-page">
+    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2" id="m_login" style="background-image: url('@Url.Content("~/Metronic/demos/default/assets/app/media/img//bg/bg-3.jpg")');">
+        <div class="m-grid__item m-grid__item--fluid	m-login__wrapper">
+            <div class="m-login__container">
+                <div class="m-login__logo">
+                    <a href="#">
+                        <img src="~/Metronic/demos/default/assets/app/media/img/logos/logo-1.png">
+                    </a>
+                </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <div class="m-login__signup">
+                    <div class="m-login__head">
+                        <h3 class="m-login__title">登録</h3>
+                        <div class="m-login__desc">新しいアカウントを作成する</div>
+                    </div>
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, htmlAttributes: new { @class = "m-login__form m-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input" type="text" placeholder="Username" name="Username">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input" type="password" placeholder="Password" name="Password">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input" type="password" placeholder="Confirm Password" name="ConfirmPassword">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <input class="form-control m-input m-login__form-input--last" type="text" placeholder="Invitation Code" name="InvitationCode">
+                        </div>
+                        <div class="m-login__form-action">
+                            <button id="m_login_signup_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air  m-login__btn">登録</button>&nbsp;&nbsp;
+                            <a id="m_login_signup_cancel" href="@Url.Action("Login","Account")" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom  m-login__btn">戻る</a>
+                        </div>
+                    }
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-default">Register</button>
-        </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
+
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

@@ -67,98 +67,98 @@ var SnippetLogin = function() {
         });
     };
 
-    //var handleSignInFormSubmit = function () {
-    //    $('#m_login_signin_submit').click(function (e) {
-    //        e.preventDefault();
-    //        var btn = $(this);
-    //        var form = $(this).closest('form');
+    var handleSignInFormSubmit = function () {
+        $('#m_login_signin_submit').click(function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            var form = $(this).closest('form');
 
-    //        form.validate({
-    //            rules: {
-    //                email: {
-    //                    required: true,
-    //                    email: true
-    //                },
-    //                password: {
-    //                    required: true
-    //                }
-    //            }
-    //        });
+            form.validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true
+                    }
+                }
+            });
 
-    //        if (!form.valid()) {
-    //            return;
-    //        }
+            if (!form.valid()) {
+                return;
+            }
 
-    //        btn.addClass('m-loader m-loader--right m-loader--light').attr('disabled', true);
+            btn.addClass('m-loader m-loader--right m-loader--light').attr('disabled', true);
 
-    //        form.ajaxSubmit({
-    //            url: '',
-    //            success: function (response, status, xhr, $form) {
-    //                // similate 2s delay
-    //                setTimeout(function () {
-    //                    btn.removeClass('m-loader m-loader--right m-loader--light').attr('disabled', false);
-    //                    showErrorMsg(form, 'danger', 'Incorrect username or password. Please try again.');
-    //                }, 2000);
-    //            }
-    //        });
-    //    });
-    //};
+            form.ajaxSubmit({
+                url: '',
+                success: function (response, status, xhr, $form) {
+                    // similate 2s delay
+                    setTimeout(function () {
+                        btn.removeClass('m-loader m-loader--right m-loader--light').attr('disabled', false);
+                        showErrorMsg(form, 'danger', 'Incorrect username or password. Please try again.');
+                    }, 2000);
+                }
+            });
+        });
+    };
 
-    //var handleSignUpFormSubmit = function () {
-    //    $('#m_login_signup_submit').click(function (e) {
-    //        e.preventDefault();
+    var handleSignUpFormSubmit = function () {
+        $('#m_login_signup_submit').click(function (e) {
+            e.preventDefault();
 
-    //        var btn = $(this);
-    //        var form = $(this).closest('form');
+            var btn = $(this);
+            var form = $(this).closest('form');
 
-    //        form.validate({
-    //            rules: {
-    //                fullname: {
-    //                    required: true
-    //                },
-    //                email: {
-    //                    required: true,
-    //                    email: true
-    //                },
-    //                password: {
-    //                    required: true
-    //                },
-    //                rpassword: {
-    //                    required: true
-    //                },
-    //                agree: {
-    //                    required: true
-    //                }
-    //            }
-    //        });
+            form.validate({
+                rules: {
+                    fullname: {
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true
+                    },
+                    rpassword: {
+                        required: true
+                    },
+                    agree: {
+                        required: true
+                    }
+                }
+            });
 
-    //        if (!form.valid()) {
-    //            return;
-    //        }
+            if (!form.valid()) {
+                return;
+            }
 
-    //        btn.addClass('m-loader m-loader--right m-loader--light').attr('disabled', true);
+            btn.addClass('m-loader m-loader--right m-loader--light').attr('disabled', true);
 
-    //        form.ajaxSubmit({
-    //            url: '',
-    //            success: function (response, status, xhr, $form) {
-    //                // similate 2s delay
-    //                setTimeout(function () {
-    //                    btn.removeClass('m-loader m-loader--right m-loader--light').attr('disabled', false);
-    //                    form.clearForm();
-    //                    form.validate().resetForm();
+            form.ajaxSubmit({
+                url: '',
+                success: function (response, status, xhr, $form) {
+                    // similate 2s delay
+                    setTimeout(function () {
+                        btn.removeClass('m-loader m-loader--right m-loader--light').attr('disabled', false);
+                        form.clearForm();
+                        form.validate().resetForm();
 
-    //                    // display signup form
-    //                    displaySignInForm();
-    //                    var signInForm = login.find('.m-login__signin form');
-    //                    signInForm.clearForm();
-    //                    signInForm.validate().resetForm();
+                        // display signup form
+                        displaySignInForm();
+                        var signInForm = login.find('.m-login__signin form');
+                        signInForm.clearForm();
+                        signInForm.validate().resetForm();
 
-    //                    showErrorMsg(signInForm, 'success', 'Thank you. To complete your registration please check your email.');
-    //                }, 2000);
-    //            }
-    //        });
-    //    });
-    //};
+                        showErrorMsg(signInForm, 'success', 'Thank you. To complete your registration please check your email.');
+                    }, 2000);
+                }
+            });
+        });
+    };
 
     var handleForgetPasswordFormSubmit = function () {
         $('#m_login_forget_password_submit').click(function (e) {

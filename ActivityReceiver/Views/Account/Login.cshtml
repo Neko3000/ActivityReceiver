@@ -5,109 +5,53 @@
     Layout = "~/Views/Shared/_LayoutAccount.cshtml";
 }
 
-
-<div class="m-login m-login--signin  m-login--5" id="m_login" style="background-image: url('@Url.Content("~/Metronic/demos/default/assets/app/media/img//bg/bg-3.jpg")');">
-    <div class="m-login__wrapper-1 m-portlet-full-height">
-        <div class="m-login__wrapper-1-1">
-            <div class="m-login__contanier">
-                <div class="m-login__content">
-                    <div class="m-login__logo">
-                        <a href="#">
-                            <img src="~/Metronic/demos/default/assets/app/media/img/logos/logo-2.png">
-                        </a>
-                    </div>
-                    <div class="m-login__title">
-                        <h3>
-                            ActivityReceiver
-                        </h3>
-                    </div>
-                    <div class="m-login__desc">
-                        モバイル端末アプリ「ActivityReceiver.iOS」の管理用システムです。
-                    </div>
-                    <div class="m-login__form-action">
-                        <button type="button" id="m_login_signup" class="btn btn-outline-focus m-btn--pill">
-                            新しいアカウントを作成する
-                        </button>
-                    </div>
+<div class="m-grid m-grid--hor m-grid--root m-page">
+    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2" id="m_login" style="background-image: url('@Url.Content("~/Metronic/demos/default/assets/app/media/img//bg/bg-3.jpg")');">
+        <div class="m-grid__item m-grid__item--fluid	m-login__wrapper">
+            <div class="m-login__container">
+                <div class="m-login__logo">
+                    <a href="#">
+                        <img src="~/Metronic/demos/default/assets/app/media/img/logos/logo-1.png">
+                    </a>
                 </div>
-            </div>
-            <div class="m-login__border">
-                <div></div>
-            </div>
-        </div>
-    </div>
-    <div class="m-login__wrapper-2 m-portlet-full-height">
-        <div class="m-login__contanier">
-            <div class="m-login__signin">
-                <div class="m-login__head">
-                    <h3 class="m-login__title">
-                        アカウントにログインする
-                    </h3>
-                </div>
-  
+                <div class="m-login__signin">
+                    <div class="m-login__head">
+                        <h3 class="m-login__title">ActivityReceiver</h3>
+                        <div class="m-login__desc">モバイル端末アプリ「ActivityReceiver.iOS」の管理用システムです。</div>
+                    </div>
                     @using (Html.BeginForm("Login", "Account", FormMethod.Post, htmlAttributes: new { @class = "m-login__form m-form" }))
-                    { 
+                    {
                         @Html.AntiForgeryToken()
                         <div class="form-group m-form__group">
-                            <input class="form-control m-input m-login__form-input" type="text" placeholder="Username" name="Username">
+                            <input class="form-control m-input" type="text" placeholder="Username" name="Username" autocomplete="off">
                         </div>
                         <div class="form-group m-form__group">
-                            <input class="form-control m-input m-login__form-input--last" type="Password" placeholder="Password" name="Password">
+                            <input class="form-control m-input m-login__form-input--last" type="password" placeholder="Password" name="Password">
                         </div>
                         <div class="row m-login__form-sub">
-                            <div class="col m--align-left">
-                                <label class="m-checkbox m-checkbox--focus">
-                                    <input type="checkbox" value="false" name="RememberMe">
-                                    ログインしたままにする
+                            <div class="col m--align-left m-login__form-left">
+                                <label class="m-checkbox  m-checkbox--focus">
+                                    <input type="checkbox" value="false" name="RemebmerMe"> ログインしたままにする
                                     <span></span>
                                 </label>
                             </div>
                         </div>
                         <div class="m-login__form-action">
-                            <button id="m_login_signin_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
-                                ログイン
-                            </button>
+                            <button id="m_login_signin_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">ログイン</button>
                         </div>
                     }
-
-            </div>
-            <div class="m-login__signup">
-                <div class="m-login__head">
-                    <h3 class="m-login__title">
-                        登録
-                    </h3>
-                    <div class="m-login__desc">
-                        新しいアカウントを作成する
-                    </div>
                 </div>
-                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, htmlAttributes: new { @class = "m-login__form m-form" }))
-                    {
-                        <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="text" placeholder="Username" name="Username">
-                        </div>
-                        <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="password" placeholder="Password" name="Password">
-                        </div>
-                        <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="password" placeholder="Confirm Password" name="ConfirmPassword">
-                        </div>
-                        <div class="form-group m-form__group">
-                            <input class="form-control m-input m-login__form-input--last" type="text" placeholder="Invitation Code" name="InvitationCode">
-                        </div>
-                        <div class="m-login__form-action">
-                            <button id="m_login_signup_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
-                                登録
-                            </button>
-                            <button id="m_login_signup_cancel" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom">
-                                戻る
-                            </button>
-                        </div>
-                    }
+
+                <div class="m-login__account">
+                    <span class="m-login__account-msg">
+                        管理者アカウントを持っていない方 ?
+                    </span>&nbsp;&nbsp;
+                    <a href="@Url.Action("Register","Account")" id="m_login_signup" class="m-link m-link--light m-login__account-link">登録</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 
 @section Scripts {
 

@@ -69,7 +69,7 @@ namespace ActivityReceiver.Controllers
         {
             if (ModelState.IsValid)
             {
-                var exercise = Mapper.Map<ExerciseManageCreatePostViewModel,Exercise>(model);
+                var exercise = Mapper.Map<ExerciseManageCreatePostViewModel, Exercise>(model);
 
                 exercise.CreateDate = DateTime.Now;
                 exercise.EditorID = (await _userManager.GetUserAsync(HttpContext.User)).Id;
@@ -77,23 +77,26 @@ namespace ActivityReceiver.Controllers
                 _arDbContext.Exercises.Add(exercise);
                 await _arDbContext.SaveChangesAsync();
 
-                foreach (var questionID in model.SelectedQuestionIDCollection)
+                if (model.SelectedQuestionIDCollection != null)
                 {
-                    var question = _arDbContext.Questions.SingleOrDefault(q=>q.ID == questionID);
-
-                    if(question == null)
+                    foreach (var questionID in model.SelectedQuestionIDCollection)
                     {
-                        return NotFound();
+                        var question = _arDbContext.Questions.SingleOrDefault(q => q.ID == questionID);
+
+                        if (question == null)
+                        {
+                            return NotFound();
+                        }
+
+                        var exerciseQuestionRelation = new ExerciseQuestionRelation
+                        {
+                            ExerciseID = exercise.ID,
+                            QuestionID = question.ID
+                        };
+
+                        _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestionRelation);
+                        await _arDbContext.SaveChangesAsync();
                     }
-
-                    var exerciseQuestionRelation = new ExerciseQuestionRelation
-                    {
-                        ExerciseID = exercise.ID,
-                        QuestionID = question.ID
-                    };
-
-                    _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestionRelation);
-                    await _arDbContext.SaveChangesAsync();
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -174,23 +177,26 @@ namespace ActivityReceiver.Controllers
                     await _arDbContext.SaveChangesAsync();
 
                     // Add new relations
-                    foreach (var questionID in model.SelectedQuestionIDCollection)
+                    if (model.SelectedQuestionIDCollection != null)
                     {
-                        var question = _arDbContext.Questions.SingleOrDefault(q => q.ID == questionID);
-
-                        if (question == null)
+                        foreach (var questionID in model.SelectedQuestionIDCollection)
                         {
-                            return NotFound();
+                            var question = _arDbContext.Questions.SingleOrDefault(q => q.ID == questionID);
+
+                            if (question == null)
+                            {
+                                return NotFound();
+                            }
+
+                            var exerciseQuestionRelation = new ExerciseQuestionRelation
+                            {
+                                ExerciseID = exercise.ID,
+                                QuestionID = question.ID
+                            };
+
+                            _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestionRelation);
+                            await _arDbContext.SaveChangesAsync();
                         }
-
-                        var exerciseQuestionRelation = new ExerciseQuestionRelation
-                        {
-                            ExerciseID = exercise.ID,
-                            QuestionID = question.ID
-                        };
-
-                        _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestionRelation);
-                        await _arDbContext.SaveChangesAsync();
                     }
                 }
                 catch (DbUpdateConcurrencyException)

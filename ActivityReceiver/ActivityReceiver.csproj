@@ -3180,6 +3180,9 @@
     <Content Update="Views\Account\Login - Copy.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Account\Register - Copy.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\AssignmentRecordManage\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
