@@ -1,4 +1,4 @@
-﻿@model LoginViewModel
+﻿@model RegisterViewModel
 
 @{
     ViewData["Title"] = "Log in";
@@ -24,16 +24,21 @@
                     {
                         @Html.AntiForgeryToken()
                         <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="text" placeholder="Username" name="Username">
+                            <label class="col-form-label">
+                                @Html.ValidationSummary("", new { @class = "m--font-danger" })
+                            </label>
                         </div>
                         <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="password" placeholder="Password" name="Password">
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control m-input", @autocomplete = "off", @placeholder = "Username" } })
                         </div>
                         <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="password" placeholder="Confirm Password" name="ConfirmPassword">
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control m-input m-login__form-input--last", @placeholder = "Password" })
                         </div>
                         <div class="form-group m-form__group">
-                            <input class="form-control m-input m-login__form-input--last" type="text" placeholder="Invitation Code" name="InvitationCode">
+                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control m-input m-login__form-input--last", @placeholder = "Confirm Password" })
+                        </div>
+                        <div class="form-group m-form__group">
+                            @Html.EditorFor(model => model.InvitationCode, new { htmlAttributes = new { @class = "form-control m-input m-login__form-input--last", @placeholder = "Invitation Code" } })
                         </div>
                         <div class="m-login__form-action">
                             <button id="m_login_signup_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air  m-login__btn">登録</button>&nbsp;&nbsp;
