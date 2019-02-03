@@ -15,6 +15,12 @@ namespace ActivityReceiver.ViewModels.StudentManage
 
         [Display(Name = "用户名")]
         public string UserName { get; set; }
+
+        [Display(Name = "正解率")]
+        public float AccuracyRate { get; set; }
+
+        [Display(Name = "エクササイズの完成数")]
+        public int FinishedExerciseCount { get; set; }
     }
 
     #region Index
@@ -32,6 +38,12 @@ namespace ActivityReceiver.ViewModels.StudentManage
 
         [Display(Name = "用户名")]
         public string UserName { get; set; }
+
+        [Display(Name = "正解率")]
+        public float AccuracyRate { get; set; }
+
+        [Display(Name = "エクササイズの完成数")]
+        public int FinishedExerciseCount { get; set; }
     }
     #endregion
 }

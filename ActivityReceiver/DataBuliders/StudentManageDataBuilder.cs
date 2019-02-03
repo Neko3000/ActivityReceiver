@@ -36,6 +36,20 @@ namespace ActivityReceiver.DataBuilders
             {
                 var studentPresenter = Mapper.Map<ApplicationUser, StudentPresenter>(student);
 
+                var assignmentRecords = await _arDbContext.AssignmentRecords.Where(ar => ar.UserID == student.Id).ToListAsync();
+
+                float totalAccuracyRate = 0;
+                for (int i =0;i<assignmentRecords.Count;i++)
+                {
+                    var answerRecords = await  _arDbContext.AnswserRecords.Where(q => q.AssignmentRecordID == assignmentRecords[i].ID).ToListAsync();
+                    float accuracyRate = answerRecords.Where(a => a.IsCorrect == true).Count() / (float)answerRecords.Count;
+
+                    totalAccuracyRate += accuracyRate/assignmentRecords.Count;
+                }
+                studentPresenter.AccuracyRate = totalAccuracyRate;
+
+                studentPresenter.FinishedExerciseCount = (await _arDbContext.AssignmentRecords.Where(ar => ar.UserID == student.Id).ToListAsync()).Count;
+
                 studentPresenterCollection.Add(studentPresenter);
             }
 
