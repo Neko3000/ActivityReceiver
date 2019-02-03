@@ -533,6 +533,7 @@
                 </div>
                 <div class="m-portlet__body">
                     <div id="chart-device-acceleration" style="height: 500px;"></div>
+                    <div id="chart-movement-force" style="height: 500px;"></div>
                 </div>
             </div>
         </div>
@@ -569,6 +570,10 @@
 
         var sortByTime = function (a, b) {
             return parseInt(a.time) > parseInt(b.time);
+        };
+
+        var sortByIndex = function (a, b) {
+            return parseInt(a.index) > parseInt(b.index);
         };
 
         $(function () {
@@ -673,6 +678,71 @@
                 }
             });
 
+            chartMovementForce = AmCharts.makeChart("chart-movement-force", {
+                "type": "serial",
+                "theme": "light",
+                //"autoMarginOffset": 30,
+                "autoMargins": false,
+                "marginLeft": 80,
+                "marginRight": 50,
+                "marginTop": 20,
+                "marginBottom": 60,
+
+                "legend": {
+                    "equalWidths": false,
+                    "useGraphSettings": true,
+                    "valueAlign": "left",
+                    "valueWidth": 120
+                },
+
+                //"dataProvider": chartData,
+                "valueAxes": [{
+                    "axisAlpha": 0.5,
+                    //"dashLength": 1,
+                    "position": "left",
+                    "inside": false,
+                    "title": "圧力"
+                }],
+                "mouseWheelZoomEnabled": true,
+                "graphs": [{
+                    "id": "g1",
+                    "balloonText": "x: [[value]] g",
+                    "bullet": "round",
+                    "bulletBorderAlpha": 1,
+                    "bulletColor": "#FFFFFF",
+                    "hideBulletsCount": 50,
+
+                    "title": "Force",
+                    "legendValueText": "[[value]] g",
+
+                    "valueField": "force",
+                    "useLineColorForBulletBorder": true,
+                    "balloon": {
+
+                    }
+                },
+                ],
+                "chartScrollbar": {
+                    "autoGridCount": false,
+                    //"graph": "g1",
+                    "scrollbarHeight": 40
+                },
+                "chartCursor": {
+                    //"limitToGraph": "g1"
+                },
+                "categoryField": "time",
+                "categoryAxis": {
+                    "autoGridCount": false,
+                    //"axisColor": "#DADADA",
+                    "dashLength": 1,
+                    "minorGridEnabled": true,
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+
+
             $.ajax({
                 type: 'GET',
                 url: "/AnswerRecordManage/GetDeviceAccelerationCollection/" + "@Model.ID",
@@ -683,6 +753,19 @@
 
                     chartDeviceAcceleration.dataProvider = data.sort(sortByTime);
                     chartDeviceAcceleration.validateNow();
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: "/AnswerRecordManage/GetMovementCollection/" + "@Model.ID",
+                dataType: 'json',
+                context: document.body,
+                async: true,
+                success: function (data) {
+
+                    chartMovementForce.dataProvider = data.sort(sortByIndex);
+                    chartMovementForce.validateNow();
                 }
             });
         });

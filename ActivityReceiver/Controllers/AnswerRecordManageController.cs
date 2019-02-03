@@ -63,6 +63,19 @@ namespace ActivityReceiver.Controllers
             return Ok(deviceAccelerationCollection);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetMovementCollection(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movementCollection = await _arDbContext.Movements.Where(da => da.AnswerRecordID == id).ToListAsync();
+
+            return Ok(movementCollection);
+        }
+
         // GET: ItemManage/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
