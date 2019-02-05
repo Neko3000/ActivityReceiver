@@ -507,11 +507,11 @@ class PresentorProxy{
 
         var getMaxMillisecondTime = function () {
             var sortedMovementCollection = movementCollection.slice().sort(sortByTime);
-            sortedmovementCollection.reverse();
+            sortedMovementCollection.reverse();
             var sortedDeviceAccelerationCollection = deviceAccelerationCollection.slice().sort(sortByTime);
-            sorteddeviceAccelerationCollection.reverse();
+            sortedDeviceAccelerationCollection.reverse();
 
-            maxTime = sortedDeviceAccelerationCollection[0].time > sortedMovementCollection[0].time ? sorteddeviceAccelerationCollection[0].time : sortedmovementCollection[0].time;
+            maxTime = sortedDeviceAccelerationCollection[0].time > sortedMovementCollection[0].time ? sortedDeviceAccelerationCollection[0].time : sortedMovementCollection[0].time;
 
             return maxTime;
         };

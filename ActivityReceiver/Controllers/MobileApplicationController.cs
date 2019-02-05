@@ -233,23 +233,29 @@ namespace ActivityReceiver.Controllers
             _arDbContext.AnswserRecords.Add(answerRecordNew);
             _arDbContext.SaveChanges();
 
+            // For debug
+
             // Save movements
             var movementCollection = model.MovementCollection.OrderBy(m => m.Index).ToList();
             for(int i = 0;i < movementCollection.Count; i++)
             {
                 movementCollection[i].AnswerRecordID = answerRecordNew.ID;
+                _arDbContext.Movements.Add(movementCollection[i]);
+                _arDbContext.SaveChanges();
             }
-            _arDbContext.Movements.AddRange(movementCollection);
-            _arDbContext.SaveChanges();
+            //_arDbContext.Movements.AddRange(movementCollection);
+            //_arDbContext.SaveChanges();
 
             // Save deviceAccelerations
             var deviceAccelerationCollection = model.DeviceAccelerationCollection.OrderBy(da => da.Index).ToList();
             for (int i = 0; i < deviceAccelerationCollection.Count; i++)
             {
                 deviceAccelerationCollection[i].AnswerRecordID = answerRecordNew.ID;
+                _arDbContext.DeviceAccelerations.Add(deviceAccelerationCollection[i]);
+                _arDbContext.SaveChanges();
             }
-            _arDbContext.DeviceAccelerations.AddRange(deviceAccelerationCollection);
-            _arDbContext.SaveChanges();
+            //_arDbContext.DeviceAccelerations.AddRange(deviceAccelerationCollection);
+            //_arDbContext.SaveChanges();
 
 
             var specificAssignmentRecord = _arDbContext.AssignmentRecords.Where(ar => ar.ID == model.AssignmentRecordID).ToList().FirstOrDefault();
