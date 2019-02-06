@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2011
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityReceiver", "ActivityReceiver\ActivityReceiver.csproj", "{86209024-9A40-426B-9CD1-A168F3E4475C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityReceiver", "ActivityReceiver\ActivityReceiver.csproj", "{86209024-9A40-426B-9CD1-A168F3E4475C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		LessCompiler = 86209024-9a40-426b-9cd1-a168f3e4475c
 		SolutionGuid = {E4977D52-3336-47E2-AD9D-6D01823F4EB6}
 	EndGlobalSection
 EndGlobal

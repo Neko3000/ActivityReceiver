@@ -37,13 +37,13 @@ class WordItem{
 
       toActive(){
 
-        this.obj.css({
+          this.obj.find('.word-item-background').css({
             "background-color":"#68C7B9"
         });
       }
 
       cancelActive(){
-        this.obj.css({
+          this.obj.find('.word-item-background').css({
             "background-color":"#222a41"
         });
       }
@@ -54,7 +54,7 @@ class PresentorPoint{
     constructor(time, state,x, y) {
 
         this.time = time;
-        // As the state in ios
+        // As the state in ios begain/move/end
         this.state = state;
 
         this.x = x;
@@ -62,6 +62,61 @@ class PresentorPoint{
       }
 }
 
+// For RectSelectionView
+class Rectangle {
+    constructor(x, y, width, height) {
+        this.x = x;
+        this.y = y;
+
+        this.width = width;
+        this.height = height;
+    }
+
+    static getRectFromTwoPoints(point1, point2) {
+        var orgX = point1.x < point2.x ? point1.x : point2.x;
+        var orgY = point1.y < point2.y ? point1.y : point2.y;
+
+        var width = Math.abs(point1.x - point2.x);
+        var height = Math.abs(point1.y - point2.y);
+
+        return new Rectangle(orgX, orgY, width, height);
+    }
+}
+class RectSelectionViewState {
+    constructor(time, state, rect) {
+
+        this.time = time;
+        // As the state in ios begain/move/end
+        this.state = state;
+
+        this.rect = rect;
+    }
+}
+class RectSelectionView {
+    constructor(obj) {
+        this.obj = obj;
+    }
+
+    setFrame(rect) {
+        this.obj.css({
+            "left": rect.x,
+            "top": rect.y,
+            "width": rect.width,
+            "height": rect.height
+        });
+    }
+    show() {
+        this.obj.css({
+            "display": "block"
+        });
+    }
+    hide() {
+        this.obj.css({
+            "display": "none"
+        });
+    }
+}
+// Presentor
 class PresentorProxy{
     constructor(canvas){
         this.canvas = canvas;
@@ -109,6 +164,8 @@ class PresentorProxy{
         var sentenceJPLabel = $this.find('.sentence-jp');
         var answerLabel = $this.find('.answer');
 
+        var rectSelectionView = new RectSelectionView($this.find('.rect-selection-view')); 
+
         var progressSlider = $this.find('.progress-slider');
 
         var accelerationX = $this.find('.acceleration-x');
@@ -125,6 +182,9 @@ class PresentorProxy{
         var wordItemCollection = [];
         var presentorPointCollection = [];
         var presentorPointCollectionCurrentIndex = 0;
+
+        var rectSelectionViewStateCollection = [];
+        var rectSelectionViewStateCollectionCurrentIndex = 0;
 
         var currentDrawPoint;
         var lastDrawPoint;
@@ -287,152 +347,162 @@ class PresentorProxy{
             return selectedWordItem;
         } 
 
-        var simulateWordItemState =function(){
+        var simulateWordItemState = function () {
 
             // Variables
             var currentMovement;
             var targetElementCollection;
-            var pointerLastPosition,pointerCurrentPosition;
-            var offsetX,offsetY;
-  
+            var pointerLastPosition, pointerCurrentPosition;
+            var potinerRectSelectionViewBeginPosition;
+            var offsetX, offsetY;
+
+            console.log(movementCollection.length);
             var index = 0;
-            while(index < movementCollection.length){
+            while (index < movementCollection.length) {
 
-                currentMovement  = movementCollection[index];
+                currentMovement = movementCollection[index];
 
-                switch(currentMovement.state){
+                console.log(index + ":" + movementCollection[index].state);
+                switch (currentMovement.state) {
 
                     // Drag Single/Group Begain
-                    case 0,6:
+                    case 0:
+                    case 6:
 
-                    targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
-
-                    pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
-
-                    presentorPointCollection.push(new PresentorPoint(currentMovement.time,0,pointerCurrentPosition.x,pointerCurrentPosition.y));
-
-                    targetElementCollection.each(function(index,wordItem){
-
-                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                        
-                    });
-                    
-                    pointerLastPosition = pointerCurrentPosition;
-
-                    index ++;
-
-                    while (movementCollection[index].state == 1 || movementCollection[index].state == 7)
-                    {
-                        currentMovement = movementCollection[i];
                         targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
-                        
-                        pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
 
-                        presentorPointCollection.push(new PresentorPoint(currentMovement.time,1,pointerCurrentPosition.x,pointerCurrentPosition.y));
+                        pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                        offsetX = pointerCurrentPosition.x - pointerLastPosition.x;
-                        offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 0, pointerCurrentPosition.x, pointerCurrentPosition.y));
 
-                        targetElementCollection.each(function(index,wordItem){
-                                
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x + offsetX,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y + offsetY));
-                            
+                        targetElementCollection.forEach(function (wordItem, index) {
+
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time, true, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].x, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].y));
+
                         });
 
                         pointerLastPosition = pointerCurrentPosition;
 
-                        index ++;
-                    }
+                        index++;
 
-                    currentMovement = movementCollection[i];
+                        while (movementCollection[index].state == 1 || movementCollection[index].state == 7) {
+                            currentMovement = movementCollection[index];
+                            targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
 
-                    pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
+                            pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                    presentorPointCollection.push(new PresentorPoint(currentMovement.time,2,pointerCurrentPosition.x,pointerCurrentPosition.y));
+                            presentorPointCollection.push(new PresentorPoint(currentMovement.time, 1, pointerCurrentPosition.x, pointerCurrentPosition.y));
 
-                    offsetX = pointerCurrentPosition.x - pointerLastPosition.x;
-                    offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
+                            offsetX = pointerCurrentPosition.x - pointerLastPosition.x;
+                            offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
 
-                    targetElementCollection.each(function(index,wordItem){
-                            
-                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x + offsetX,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y + offsetY));
-                        
-                    });
+                            targetElementCollection.forEach(function (wordItem, index) {
 
-                    index ++;
+                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time, true, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].x + offsetX, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].y + offsetY));
 
-                    break;
+                            });
+
+                            pointerLastPosition = pointerCurrentPosition;
+
+                            index++;
+                        }
+
+                        currentMovement = movementCollection[index];
+
+                        pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
+
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 2, pointerCurrentPosition.x, pointerCurrentPosition.y));
+
+                        offsetX = pointerCurrentPosition.x - pointerLastPosition.x;
+                        offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
+
+                        targetElementCollection.forEach(function (wordItem, index) {
+
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time, false, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].x + offsetX, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].y + offsetY));
+
+                        });
+
+                        index++;
+
+                        break;
 
                     // Make Group Begin
                     case 3:
 
-                    targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
-
-                    pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
-
-                    presentorPointCollection.push(new PresentorPoint(currentMovement.time,0,pointerCurrentPosition.x,pointerCurrentPosition.y));
-
-                    targetElementCollection.each(function(index,wordItem){
-                            
-                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                        
-                    });
-                    
-                    index ++;
-
-                    while(movementCollection[index].state == 4)
-                    {
-                        currentMovement = movementCollection[i];
                         targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
-                        
-                        pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
 
-                        presentorPointCollection.push(new PresentorPoint(currentMovement.time,1,pointerCurrentPosition.x,pointerCurrentPosition.y));
+                        pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                        targetElementCollection.each(function(index,wordItem){
-                                
-                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                            
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 0, pointerCurrentPosition.x, pointerCurrentPosition.y));
+
+                        potinerRectSelectionViewBeginPosition = pointerCurrentPosition;
+
+                        rectSelectionViewStateCollection.push(new RectSelectionViewState(currentMovement.time, 0, new Rectangle(currentMovement.xPosition, currentMovement.xPosition,0,0)));
+
+                        targetElementCollection.forEach(function (wordItem, index) {
+
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time, true, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].x, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].y));
+
                         });
 
-                        index ++;
-                    }
+                        index++;
 
-                    currentMovement = movementCollection[i];
+                        while (movementCollection[index].state == 4) {
+                            currentMovement = movementCollection[index];
+                            targetElementCollection = getWordItemByTargetElement(currentMovement.targetElement);
 
-                    pointerCurrentPosition = new Point(currentMovement.xPosition,currentMovement.yPosition);
+                            pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                    presentorPointCollection.push(new PresentorPoint(currentMovement.time,2,pointerCurrentPosition.x,pointerCurrentPosition.y));
+                            presentorPointCollection.push(new PresentorPoint(currentMovement.time, 1, pointerCurrentPosition.x, pointerCurrentPosition.y));
 
-                    targetElementCollection.each(function(index,wordItem){
+                            rectSelectionViewStateCollection.push(new RectSelectionViewState(currentMovement.time, 1, Rectangle.getRectFromTwoPoints(pointerCurrentPosition, potinerRectSelectionViewBeginPosition)));
 
-                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,true,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                        
-                    });
+                            targetElementCollection.forEach(function (wordItem, index) {
 
-                    index ++;
+                                wordItem.elementStateCollection.push(new ElementState(currentMovement.time, true, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].x, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].y));
 
-                    break;
+                            });
+
+                            index++;
+                        }
+
+                        currentMovement = movementCollection[index];
+
+                        pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
+
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 2, pointerCurrentPosition.x, pointerCurrentPosition.y));
+
+                        rectSelectionViewStateCollection.push(new RectSelectionViewState(currentMovement.time, 2, Rectangle.getRectFromTwoPoints(pointerCurrentPosition, potinerRectSelectionViewBeginPosition)));
+
+                        targetElementCollection.forEach(function (wordItem, index) {
+
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time, true, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].x, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].y));
+
+                        });
+
+                        index++;
+
+                        break;
 
                     // Cancel Group
                     case 9:
 
-                    wordItemCollection.each(function(index,wordItem){
-                            
-                        wordItem.elementStateCollection.push(new ElementState(currentMovement.time,false,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].x,wordItem.elementStateCollection[wordItem.elementStateCollection.length-1].y));
-                        
-                    });
+                        wordItemCollection.forEach(function (wordItem, index) {
 
-                    index ++;
+                            wordItem.elementStateCollection.push(new ElementState(currentMovement.time, false, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].x, wordItem.elementStateCollection[wordItem.elementStateCollection.length - 1].y));
 
-                    break;
+                        });
+
+                        index++;
+
+                        break;
 
                     default:
 
-                    break;
+                        break;
                 }
             }
-        }
+        };
 
         var generateWordItems = function () {
             var wordItemTemplate = $('<div class="word-item"><div class="word-item-background">here we are</div></div>');
@@ -499,9 +569,12 @@ class PresentorProxy{
                 }
             }
 
+            console.log(wordItemCollection.length);
 
-            $.each(wordItemCollection,function(index,wordItem){
-                wordItem.elementStateCollection.push(new ElementState(0,false,parseInt(wordItem.obj.css('left')),parseInt(wordItem.obj.css('top'))));
+            wordItemCollection.forEach(function (wordItem, index) {
+                
+                wordItem.elementStateCollection.push(new ElementState(0, false, parseInt(wordItem.obj.css('left')), parseInt(wordItem.obj.css('top'))));              
+                console.log(wordItem.elementStateCollection.length);
             });
         };
 
@@ -531,23 +604,23 @@ class PresentorProxy{
                 switch(presentorPointCollection[presentorPointCollectionCurrentIndex].state){
 
                     case 0:
-                    drawRect(currentDrawPoint,colorList[currentColorIndex]);
+                    presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndex]);
 
                     lastDrawPoint = currentDrawPoint;
 
                     break;
               
                     case 1:
-                    drawRect(currentDrawPoint,colorList[currentColorIndex]);
-                    drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
+                    presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndex]);
+                    presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
 
                     lastDrawPoint = currentDrawPoint;
 
                     break;
 
                     case 2:
-                    drawRect(currentDrawPoint,colorList[currentColorIndex]);
-                    drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
+                    presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndex]);
+                    presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
 
                     lastDrawPoint = currentDrawPoint;
 
@@ -562,8 +635,36 @@ class PresentorProxy{
                 presentorPointCollectionCurrentIndex ++;
             }
 
+            while (rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].time <= currentMillisecondTime) {
+
+                switch (rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].state) {
+
+                    case 0:
+                        rectSelectionView.show();
+                        rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].rect);
+
+                        break;
+
+                    case 1:
+                        rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].rect);
+
+                        break;
+
+                    case 2:
+                        rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].rect);
+                        rectSelectionView.hide();
+
+                        break;
+
+                    default:
+                        break;
+                }
+
+                rectSelectionViewStateCollectionCurrentIndex++;
+            }
+
             // Adjust position
-            wordItemCollection.each(function(index,wordItem){
+            wordItemCollection.forEach(function(wordItem,index){
 
                 var elementState = getClosestElementState(wordItem,currentMillisecondTime);
 
@@ -591,7 +692,7 @@ class PresentorProxy{
                     break;
                 }
 
-                if(selectedElementState.time < wordItem.elementStateCollection[index].time)
+                if(selectedElementState.time <= wordItem.elementStateCollection[index].time)
                 {
                     selectedElementState = wordItem.elementStateCollection[index];
                 }
@@ -599,15 +700,19 @@ class PresentorProxy{
                 index ++;
             }
 
-            return selectedElementPosition;
+            return selectedElementState;
         };
 
         var adjustCanvasToTime = function (time) {
 
             var presentorPointCollectionCurrentIndexSIM = 0;
             var currentColorIndexSIM = 0;
+
+            var rectSelectionViewStateCollectionCurrentIndexSIM = 0;
             
-            var currentMillisecondTimeSIM= 0;
+            var currentMillisecondTimeSIM = 0;
+
+            presentorProxy.clearAll();
             while(currentMillisecondTimeSIM < time)
             {
                 // Draw point
@@ -618,23 +723,23 @@ class PresentorProxy{
                     switch(presentorPointCollection[presentorPointCollectionCurrentIndexSIM].state){
 
                         case 0:
-                        drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
+                        presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
 
                         lastDrawPoint = currentDrawPoint;
 
                         break;
                 
                         case 1:
-                        drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
-                        drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndexSIM]);
+                        presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndexSIM]);
+                        presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndexSIM]);
 
                         lastDrawPoint = currentDrawPoint;
 
                         break;
 
                         case 2:
-                        drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
-                        drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndexSIM]);
+                        presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
+                        presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndexSIM]);
 
                         lastDrawPoint = currentDrawPoint;
 
@@ -652,9 +757,41 @@ class PresentorProxy{
                 
                 currentMillisecondTimeSIM = currentMillisecondTimeSIM + 1000.0/animationFrequency;         
             }
+            presentorPointCollectionCurrentIndex = presentorPointCollectionCurrentIndexSIM;
+
+            // Adjust rectSelectionView
+            rectSelectionView.hide();
+            while (rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndexSIM].time <= currentMillisecondTimeSIM) {
+
+                switch (rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndexSIM].state) {
+
+                    case 0:
+                        rectSelectionView.show();
+                        rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndexSIM].rect);
+
+                        break;
+
+                    case 1:
+                        rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndexSIM].rect);
+
+                        break;
+
+                    case 2:
+                        rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndexSIM].rect);
+                        rectSelectionView.hide();
+
+                        break;
+
+                    default:
+                        break;
+                }
+
+                rectSelectionViewStateCollectionCurrentIndexSIM++;
+            }
+            rectSelectionViewStateCollectionCurrentIndex = rectSelectionViewStateCollectionCurrentIndexSIM;
 
             // Adjust position
-            wordItemCollection.each(function(index,wordItem){
+            wordItemCollection.forEach(function(wordItem,index){
 
                 var elementState = getClosestElementState(wordItem,time);
 
@@ -669,6 +806,10 @@ class PresentorProxy{
 
             });
 
+
+        };
+
+        var adjustRectSelectionViewToTime = function () {
 
         };
 

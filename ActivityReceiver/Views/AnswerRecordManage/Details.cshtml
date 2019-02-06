@@ -172,6 +172,10 @@
                                                 A wise man will make more opportunities than he finds.
                                             </div>
 
+                                            <div class="rect-selection-view">
+
+                                            </div>
+
                                         </div>
 
                                     </div>
@@ -188,7 +192,7 @@
                                         </div>
 
                                         <div class="col-md-1 offset-md-5 center-container">
-                                            <div class="pause-btn btn btn-brand m-btn--pill center-object">
+                                            <div class="pause-btn btn btn-sm btn-primary m-btn m-btn--icon center-object ">
                                                 <span>
                                                     <i class="la la-pause"></i>
                                                     <span>PAUSE</span>
@@ -197,7 +201,7 @@
                                         </div>
 
                                         <div class="col-md-1 center-container">
-                                            <div class="start-play-btn btn btn-accent m-btn--pill center-object">
+                                            <div class="start-play-btn  btn btn-sm btn-accent m-btn m-btn--icon center-object">
                                                 <span>
                                                     <i class="la la-play"></i>
                                                     <span>PLAY</span>
@@ -603,7 +607,8 @@
                     //"dashLength": 1,
                     "position": "left",
                     "inside": false,
-                    "title":"三次元空間加速度"
+                    "title": "三次元空間加速度",
+
                 }],
                 "mouseWheelZoomEnabled": true,
                 "graphs": [{
@@ -701,22 +706,27 @@
                     //"dashLength": 1,
                     "position": "left",
                     "inside": false,
-                    "title": "圧力"
+                    "title": "圧力",
+                    "minimum": 0
                 }],
                 "mouseWheelZoomEnabled": true,
                 "graphs": [{
                     "id": "g1",
-                    "balloonText": "x: [[value]] g",
+                    "balloonText": "x: [[value]]/1.0",
                     "bullet": "round",
                     "bulletBorderAlpha": 1,
                     "bulletColor": "#FFFFFF",
                     "hideBulletsCount": 50,
 
                     "title": "Force",
-                    "legendValueText": "[[value]] g",
+                    "legendValueText": "[[value]]/1.0",
 
                     "valueField": "force",
                     "useLineColorForBulletBorder": true,
+
+                    //"negativeBase": 0.1,
+                    //"lineColor": "#fdd400",
+                    //"negativeLineColor": "#67b7dc",
                     "balloon": {
 
                     }
@@ -763,8 +773,21 @@
                 context: document.body,
                 async: true,
                 success: function (data) {
+                    var forceCollection = [];
+                    forceCollection.push({
+                        time: 0,
+                        force:0
+                    });
 
-                    chartMovementForce.dataProvider = data.sort(sortByIndex);
+                    data.sort(sortByIndex);
+                    data.forEach(function (item, index) {
+                        forceCollection.push({
+                            time: item.time,
+                            force: item.force
+                        });
+                    });
+
+                    chartMovementForce.dataProvider = forceCollection;
                     chartMovementForce.validateNow();
                 }
             });

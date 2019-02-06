@@ -41,6 +41,11 @@
   color: #565656;
   font-size: 16px;
 }
+.replayer .main-view .rect-selection-view {
+  position: absolute;
+  border: black solid 1px;
+  display: none;
+}
 .replayer .main-view .word-item {
   display: inline-block;
   position: absolute;
