@@ -445,27 +445,28 @@ namespace ActivityReceiver.Functions
                 }
                 else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupMove || movement.State == (int)MovementState.DragGroupEnd)
                 {
-                    if(lastMovement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
+                    if(lastMovement.State == (int)MovementState.DragSingleBegin || lastMovement.State == (int)MovementState.DragGroupBegin)
                     {
-                        isToPositiveDirection = movement.XPosition - lastMovement.XPosition > 0 ? true : false;
-                        lastMovement = movement;
-                        continue;
-                    }
+                        if(movement.XPosition - lastMovement.XPosition != 0)
+                        {
+                            isToPositiveDirection = movement.XPosition - lastMovement.XPosition > 0 ? true : false;
 
-                    if(movement.XPosition - lastMovement.XPosition > 0  && !isToPositiveDirection)
-                    {
-                        count++;
-                        isToPositiveDirection = false;
-                        lastMovement = movement;
+                            lastMovement = movement;
+                        }
                     }
-                    else if(movement.XPosition - lastMovement.XPosition < 0 && isToPositiveDirection)
+                    else
                     {
-                        count++;
-                        isToPositiveDirection = true;
-                        lastMovement = movement;
-                    }
-                    else if(movement.XPosition - lastMovement.XPosition == 0)
-                    {
+                        if (movement.XPosition - lastMovement.XPosition > 0 && !isToPositiveDirection)
+                        {
+                            count++;
+                            isToPositiveDirection = true;
+                        }
+                        else if (movement.XPosition - lastMovement.XPosition < 0 && isToPositiveDirection)
+                        {
+                            count++;
+                            isToPositiveDirection = false;                       
+                        }
+
                         lastMovement = movement;
                     }
                 }
@@ -492,27 +493,28 @@ namespace ActivityReceiver.Functions
                 }
                 else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupMove || movement.State == (int)MovementState.DragGroupEnd)
                 {
-                    if (lastMovement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
+                    if (lastMovement.State == (int)MovementState.DragSingleBegin || lastMovement.State == (int)MovementState.DragGroupBegin)
                     {
-                        isToPositiveDirection = movement.YPosition - lastMovement.YPosition > 0 ? true : false;
-                        lastMovement = movement;
-                        continue;
-                    }
+                        if (movement.YPosition - lastMovement.YPosition != 0)
+                        {
+                            isToPositiveDirection = movement.YPosition - lastMovement.YPosition > 0 ? true : false;
 
-                    if (movement.YPosition - lastMovement.YPosition > 0 && !isToPositiveDirection)
-                    {
-                        count++;
-                        isToPositiveDirection = false;
-                        lastMovement = movement;
+                            lastMovement = movement;
+                        }
                     }
-                    else if (movement.YPosition - lastMovement.YPosition < 0 && isToPositiveDirection)
+                    else
                     {
-                        count++;
-                        isToPositiveDirection = true;
-                        lastMovement = movement;
-                    }
-                    else if (movement.YPosition - lastMovement.YPosition == 0)
-                    {
+                        if (movement.YPosition - lastMovement.YPosition > 0 && !isToPositiveDirection)
+                        {
+                            count++;
+                            isToPositiveDirection = true;
+                        }
+                        else if (movement.YPosition - lastMovement.YPosition < 0 && isToPositiveDirection)
+                        {
+                            count++;
+                            isToPositiveDirection = false;
+                        }
+
                         lastMovement = movement;
                     }
                 }
