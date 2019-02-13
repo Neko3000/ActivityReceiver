@@ -45,7 +45,7 @@ namespace ActivityReceiver.Functions
             return (float)totalTime / count;
         }
 
-        // D&D Interval Max
+        // D&D Interval MAX
         public static float CalculateDDIntervalMAX(IList<Movement> movementCollection)
         {
             movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
@@ -82,7 +82,7 @@ namespace ActivityReceiver.Functions
             return (float)differTimeMAX;
         }
 
-        // D&D Interval Min
+        // D&D Interval MIN
         public static float CalculateDDIntervalMIN(IList<Movement> movementCollection)
         {
             movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
@@ -159,7 +159,7 @@ namespace ActivityReceiver.Functions
             return (float)totalTime / count;
         }
 
-        // D&D Process Max
+        // D&D Process MAX
         public static float CalculateDDProcessMAX(IList<Movement> movementCollection)
         {
             movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
@@ -191,7 +191,7 @@ namespace ActivityReceiver.Functions
             return (float)differTimeMAX;
         }
 
-        // D&D Process Min
+        // D&D Process MIN
         public static float CalculateDDProcessMIN(IList<Movement> movementCollection)
         {
             movementCollection = movementCollection.OrderBy(m => m.Time).ToList();

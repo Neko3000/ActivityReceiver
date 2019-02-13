@@ -103,7 +103,7 @@ namespace ActivityReceiver.ViewModels.AssignmentRecordManage
         public DateTime? EndDate { get; set; }
 
         public bool IsFinished { get; set; }
-        public float Grade { get; set; }
+        public float AccuracyRate { get; set; }
 
         public string Remark { get; set; }
 
@@ -137,8 +137,8 @@ namespace ActivityReceiver.ViewModels.AssignmentRecordManage
 
         [Display(Name = "完成度")]
         public bool IsFinished { get; set; }
-        [Display(Name = "得点")]
-        public float Grade { get; set; }
+        [Display(Name = "正解率")]
+        public float AccuracyRate { get; set; }
 
         [Display(Name = "備考")]
         public string Remark { get; set; }

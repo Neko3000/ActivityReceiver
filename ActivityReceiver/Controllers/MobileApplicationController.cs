@@ -159,7 +159,7 @@ namespace ActivityReceiver.Controllers
                     StartDate = DateTime.Now,
 
                     IsFinished = false,
-                    Grade = (float)0.0,
+                    AccuracyRate = (float)0.0,
                 };
                 _arDbContext.Add(assignmentRecordNew);
                 _arDbContext.SaveChanges();
@@ -219,6 +219,7 @@ namespace ActivityReceiver.Controllers
                 SentenceJP = model.SentenceJP,
                 Division = model.Division,
                 StandardAnswerDivision = model.StandardAnswerDivision,
+
                 Resolution = model.Resolution,
 
                 AnswerDivision = model.AnswerDivision,
@@ -257,9 +258,12 @@ namespace ActivityReceiver.Controllers
             //_arDbContext.DeviceAccelerations.AddRange(deviceAccelerationCollection);
             //_arDbContext.SaveChanges();
 
-
+            
             var specificAssignmentRecord = _arDbContext.AssignmentRecords.Where(ar => ar.ID == model.AssignmentRecordID).ToList().FirstOrDefault();
             specificAssignmentRecord.CurrentQuestionIndex = specificAssignmentRecord.CurrentQuestionIndex + 1;
+
+            var answerRecords = _arDbContext.AnswserRecords.Where(q => q.AssignmentRecordID == specificAssignmentRecord.ID).ToList();
+            specificAssignmentRecord.AccuracyRate = float.Parse((answerRecords.Where(a => a.IsCorrect == true).Count() / (float)answerRecords.Count).ToString("#0.00"));
 
             var allQuestionsInExercise = (from q in _arDbContext.Questions
                                           join eqc in _arDbContext.ExerciseQuestionRelationMap on q.ID equals eqc.QuestionID
@@ -272,6 +276,7 @@ namespace ActivityReceiver.Controllers
                 specificAssignmentRecord.IsFinished = true;
                 specificAssignmentRecord.EndDate = DateTime.Now;
             }
+
             _arDbContext.SaveChanges();
 
             return Ok(new
@@ -303,9 +308,9 @@ namespace ActivityReceiver.Controllers
                 });
             }
 
-            var specificAssignment = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ExerciseID == model.ExerciseID).ToList().FirstOrDefault();
+            var specificAssignmentRecord = _arDbContext.AssignmentRecords.Where(ar => ar.UserID == user.Id && ar.ExerciseID == model.ExerciseID).ToList().FirstOrDefault();
 
-            if (specificAssignment == null)
+            if (specificAssignmentRecord == null)
             {
                 return NotFound(new
                 {
@@ -313,7 +318,7 @@ namespace ActivityReceiver.Controllers
                 });
             }
 
-            if(specificAssignment.IsFinished == false)
+            if(specificAssignmentRecord.IsFinished == false)
             {
                 return NotFound(new
                 {
@@ -321,10 +326,7 @@ namespace ActivityReceiver.Controllers
                 });
             }
 
-            var answerRecords = _arDbContext.AnswserRecords.Where(q => q.AssignmentRecordID == specificAssignment.ID).ToList();
-            float accuracyRate = float.Parse((answerRecords.Where(a => a.IsCorrect == true).Count() / (float)answerRecords.Count).ToString("#0.00"));
-
-            var allQuestion = _arDbContext.Questions.ToList();
+            var answerRecords = _arDbContext.AnswserRecords.Where(q => q.AssignmentRecordID == specificAssignmentRecord.ID).ToList();
 
             var answerDetails = new List<AnswerDetail>();
             foreach (var answerRecord in answerRecords)
@@ -342,7 +344,7 @@ namespace ActivityReceiver.Controllers
 
             var vm = new GetAssignmentResultGetViewModel
             {
-                AccuracyRate = accuracyRate,
+                AccuracyRate = specificAssignmentRecord.AccuracyRate,
                 AnswerDetails = answerDetails
             };
 

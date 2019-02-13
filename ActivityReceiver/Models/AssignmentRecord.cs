@@ -19,7 +19,7 @@ namespace ActivityReceiver.Models
         public DateTime? EndDate { get; set; }
 
         public bool IsFinished { get; set; }
-        public float Grade { get; set; }
+        public float AccuracyRate { get; set; }
 
         public string Remark { get; set; }
     }

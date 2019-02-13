@@ -219,16 +219,6 @@
                             <a href="@Url.Action("Details","AnswerRecordManage",new { id=answerRecordPresenter.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
                                 <i class="la la-search"></i>
                             </a>
-                            <span class="dropdown">
-                                <a href="#" class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown" aria-expanded="true">
-                                    <i class="la la-ellipsis-h"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>
-                                    <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>
-                                    <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>
-                                </div>
-                            </span>
                         </td>
                     </tr>
                     }
@@ -312,16 +302,9 @@
 
         }();
 
-        jQuery(document).ready(function () {
+        $(function () {
             dataTables.init();
         });
-
-        function openSmallWindow(link) {
-            var w = window.open(link.href,
-                link.target || "_blank",
-                'menubar=no,toolbar=no,location=no,directories=no,status=no,scrollbars=no,resizable=no,dependent,width=800,height=620,left=0,top=0');
-            return w ? false : true; // allow the link to work if popup is blocked
-        }
 
     </script>
 }
