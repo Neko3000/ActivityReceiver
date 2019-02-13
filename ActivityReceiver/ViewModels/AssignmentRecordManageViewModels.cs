@@ -8,7 +8,7 @@ using ActivityReceiver.Models;
 namespace ActivityReceiver.ViewModels.AssignmentRecordManage
 {
 
-    public class AnswerPresenter
+    public class AnswerRecordPresenter
     {
         public int ID { get; set; }
 
@@ -44,7 +44,7 @@ namespace ActivityReceiver.ViewModels.AssignmentRecordManage
 
         public string Remark { get; set; }
 
-        public IList<AnswerPresenter> AnswerPresenterCollection { get; set; }
+        public IList<AssignmentRecordPresenter> AnswerRecordPresenterCollection { get; set; }
     }
 
     #region Index
@@ -80,7 +80,7 @@ namespace ActivityReceiver.ViewModels.AssignmentRecordManage
         [Display(Name = "備考")]
         public string Remark { get; set; }
 
-        public IList<AnswerPresenter> AnswerPresenterCollection { get; set; }
+        public IList<AnswerRecordPresenter> AnswerRecordPresenterCollection { get; set; }
     }
     #endregion
 

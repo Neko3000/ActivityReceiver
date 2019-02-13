@@ -322,7 +322,7 @@ namespace ActivityReceiver.Controllers
             }
 
             var answerRecords = _arDbContext.AnswserRecords.Where(q => q.AssignmentRecordID == specificAssignment.ID).ToList();
-            float accuracyRate = answerRecords.Where(a => a.IsCorrect == true).Count() / (float)answerRecords.Count;
+            float accuracyRate = float.Parse((answerRecords.Where(a => a.IsCorrect == true).Count() / (float)answerRecords.Count).ToString("#0.00"));
 
             var allQuestion = _arDbContext.Questions.ToList();
 

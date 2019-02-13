@@ -7,9 +7,22 @@ namespace ActivityReceiver.Enums
 {
     public enum MovementState
     {
-        // Cases here are for single WordItem tapped behaviors
-        TapSingleBegin = 0,
-        TapSingleMove = 1,
-        TapSingleEnd = 2,
+        // Cases for the behavior dragging single WordItem
+        DragSingleBegin = 0,
+        DragSingleMove = 1,
+        DragSingleEnd = 2,
+
+        // Cases for the behavior making group for multiple WordItem
+        MakeGroupBegin = 3,
+        MakeGroupMove = 4,
+        MakeGroupEnd = 5,
+
+        // Cases for the behavior dragging multiple WordItem when they are selected
+        DragGroupBegin = 6,
+        DragGroupMove = 7,
+        DragGroupEnd = 8,
+
+        // Cancel group
+        CancelGroup = 9,
     }
 }

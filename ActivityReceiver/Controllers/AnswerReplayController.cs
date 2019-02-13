@@ -49,6 +49,8 @@ namespace ActivityReceiver.Controllers
                 Division = answerRecord.Division,
                 StandardAnswerDivision = answerRecord.StandardAnswerDivision,
 
+                Resolution = answerRecord.Resolution,
+
                 AnswerDivision = answerRecord.AnswerDivision,
                 IsCorrect = answerRecord.IsCorrect,
 

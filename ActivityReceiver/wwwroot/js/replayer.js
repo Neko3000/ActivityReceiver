@@ -226,8 +226,8 @@ class PresentorProxy{
         };
 
         var fitToContainer = function (obj) {
-            var width = obj.parent().width();
-            var height = obj.parent().height();
+            var width = obj.parent().css('width');
+            var height = obj.parent().css('height');
 
             obj.attr('width', width);
             obj.attr('height', height);
@@ -314,6 +314,8 @@ class PresentorProxy{
                         movementCollection = answer.movementCollection.slice().sort(sortByIndex);
                         deviceAccelerationCollection = answer.deviceAccelerationCollection.slice().sort(sortByIndex);
 
+                        adjustMainViewSizeToResolution(answer.resolution);
+
                         showQuestion();
 
                         generateWordItems();
@@ -356,13 +358,11 @@ class PresentorProxy{
             var potinerRectSelectionViewBeginPosition;
             var offsetX, offsetY;
 
-            console.log(movementCollection.length);
             var index = 0;
             while (index < movementCollection.length) {
 
                 currentMovement = movementCollection[index];
-
-                console.log(index + ":" + movementCollection[index].state);
+                console.log(currentMovement.index + "/" + currentMovement.time);
                 switch (currentMovement.state) {
 
                     // Drag Single/Group Begain
@@ -569,12 +569,9 @@ class PresentorProxy{
                 }
             }
 
-            console.log(wordItemCollection.length);
-
             wordItemCollection.forEach(function (wordItem, index) {
                 
                 wordItem.elementStateCollection.push(new ElementState(0, false, parseInt(wordItem.obj.css('left')), parseInt(wordItem.obj.css('top'))));              
-                console.log(wordItem.elementStateCollection.length);
             });
         };
 
@@ -597,70 +594,84 @@ class PresentorProxy{
             }
 
             // Draw point
-            while(presentorPointCollection[presentorPointCollectionCurrentIndex].time <= currentMillisecondTime){
+            if (presentorPointCollectionCurrentIndex < presentorPointCollection.length) {
 
-                currentDrawPoint = new Point(presentorPointCollection[presentorPointCollectionCurrentIndex].x,presentorPointCollection[presentorPointCollectionCurrentIndex].y);
+                while (presentorPointCollection[presentorPointCollectionCurrentIndex].time <= currentMillisecondTime) {
 
-                switch(presentorPointCollection[presentorPointCollectionCurrentIndex].state){
+                    currentDrawPoint = new Point(presentorPointCollection[presentorPointCollectionCurrentIndex].x, presentorPointCollection[presentorPointCollectionCurrentIndex].y);
 
-                    case 0:
-                    presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndex]);
+                    switch (presentorPointCollection[presentorPointCollectionCurrentIndex].state) {
 
-                    lastDrawPoint = currentDrawPoint;
+                        case 0:
+                            presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
 
-                    break;
-              
-                    case 1:
-                    presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndex]);
-                    presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
+                            lastDrawPoint = currentDrawPoint;
 
-                    lastDrawPoint = currentDrawPoint;
+                            break;
 
-                    break;
+                        case 1:
+                            presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
+                            presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, colorList[currentColorIndex]);
 
-                    case 2:
-                    presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndex]);
-                    presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndex]);
+                            lastDrawPoint = currentDrawPoint;
 
-                    lastDrawPoint = currentDrawPoint;
+                            break;
 
-                    currentColorIndex = (currentColorIndex + 1) % colorList.length;
+                        case 2:
+                            presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
+                            presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, colorList[currentColorIndex]);
 
-                    break;
+                            lastDrawPoint = currentDrawPoint;
 
-                    default:
-                    break;
+                            currentColorIndex = (currentColorIndex + 1) % colorList.length;
+
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    presentorPointCollectionCurrentIndex++;
+
+                    if (presentorPointCollectionCurrentIndex >= presentorPointCollection.length) {
+                        break;
+                    }
                 }
-   
-                presentorPointCollectionCurrentIndex ++;
+
             }
 
-            while (rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].time <= currentMillisecondTime) {
+            if (rectSelectionViewStateCollectionCurrentIndex < rectSelectionViewStateCollection.length) {
+                while (rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].time <= currentMillisecondTime) {
 
-                switch (rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].state) {
+                    switch (rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].state) {
 
-                    case 0:
-                        rectSelectionView.show();
-                        rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].rect);
+                        case 0:
+                            rectSelectionView.show();
+                            rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].rect);
 
+                            break;
+
+                        case 1:
+                            rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].rect);
+
+                            break;
+
+                        case 2:
+                            rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].rect);
+                            rectSelectionView.hide();
+
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    rectSelectionViewStateCollectionCurrentIndex++;
+
+                    if (rectSelectionViewStateCollectionCurrentIndex >= rectSelectionViewStateCollection.length) {
                         break;
-
-                    case 1:
-                        rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].rect);
-
-                        break;
-
-                    case 2:
-                        rectSelectionView.setFrame(rectSelectionViewStateCollection[rectSelectionViewStateCollectionCurrentIndex].rect);
-                        rectSelectionView.hide();
-
-                        break;
-
-                    default:
-                        break;
+                    }
                 }
-
-                rectSelectionViewStateCollectionCurrentIndex++;
             }
 
             // Adjust position
@@ -896,6 +907,18 @@ class PresentorProxy{
         var play = function () {
 
             TimerID = setInterval(playAnimation, 1000/animationFrequency);
+        };
+
+        var adjustMainViewSizeToResolution = function (resolution) {
+            var splittedResoultion = resolution.split('x');
+
+            var width = splittedResoultion[0];
+            var height = splittedResoultion[1];
+
+            mainView.css({
+                width: width,
+                height: height
+            });
         };
 
         $(function () {

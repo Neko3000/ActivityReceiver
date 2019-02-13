@@ -132,14 +132,14 @@ namespace ActivityReceiver
                 //cfg.CreateMap<DeviceAcceleration, DeviceAccelerationDTO>();
 
 
-                /* QuestionAnswerManage*/
-                cfg.CreateMap<AnswerRecord, ActivityReceiver.ViewModels.AnswerManage.AnswerRecordPresenter>();
+                /* AnswerRecordManage*/
+                cfg.CreateMap<AnswerRecord, ActivityReceiver.ViewModels.AnswerRecordManage.AnswerRecordPresenter>();
                 // Details
-                cfg.CreateMap<AnswerRecord, ActivityReceiver.ViewModels.AnswerManage.AnswerRecordManageDetailsViewModel>();
+                cfg.CreateMap<AnswerRecord, ActivityReceiver.ViewModels.AnswerRecordManage.AnswerRecordManageDetailsViewModel>();
 
 
-                /* AssignmentMange */
-                cfg.CreateMap<AnswerRecord, ActivityReceiver.ViewModels.AssignmentRecordManage.AnswerPresenter>();
+                /* AssignmentManage */
+                cfg.CreateMap<AnswerRecord, ActivityReceiver.ViewModels.AssignmentRecordManage.AnswerRecordPresenter>();
                 // Index
                 cfg.CreateMap<AssignmentRecord, ActivityReceiver.ViewModels.AssignmentRecordManage.AssignmentRecordPresenter>();
                 // Details

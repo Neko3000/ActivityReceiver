@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ActivityReceiver.Data;
 using ActivityReceiver.Models;
-using ActivityReceiver.ViewModels.AnswerManage;
+using ActivityReceiver.ViewModels.AnswerRecordManage;
 using AutoMapper.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +30,32 @@ namespace ActivityReceiver.DataBuilders
         public async Task<IList<AnswerRecordPresenter>> BuildAnswerRecordPresenterList()
         {
             var answerRecordList = await _arDbContext.AnswserRecords.ToListAsync();
-            var answerRecordPresenterCollection = AutoMapperHandler.ListMapper<AnswerRecord, AnswerRecordPresenter>(answerRecordList);
+
+            var answerRecordPresenterCollection = new List<AnswerRecordPresenter>();
+            foreach (var answerRecord in answerRecordList)
+            {
+                var answerRecordPresenter = Mapper.Map<AnswerRecord, AnswerRecordPresenter>(answerRecord);
+
+                var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerRecordID == answerRecord.ID).ToListAsync();
+
+                // Parameter Analyze
+                answerRecordPresenter.DDIntervalAVG = ParameterAnalyzer.CalculateDDIntervalAVG(movementCollection);
+                answerRecordPresenter.DDIntervalMAX = ParameterAnalyzer.CalculateDDIntervalMAX(movementCollection);
+                answerRecordPresenter.DDIntervalMIN = ParameterAnalyzer.CalculateDDIntervalMIN(movementCollection);
+                answerRecordPresenter.DDProcessAVG = ParameterAnalyzer.CalculateDDProcessAVG(movementCollection);
+                answerRecordPresenter.DDProcessMAX = ParameterAnalyzer.CalculateDDProcessMAX(movementCollection);
+                answerRecordPresenter.DDProcessMIN = ParameterAnalyzer.CalculateDDProcessMIN(movementCollection);
+                answerRecordPresenter.TotalDistance = ParameterAnalyzer.CalculateTotalDistance(movementCollection);
+                answerRecordPresenter.DDSpeedAVG = ParameterAnalyzer.CalculateDDSpeedAVG(movementCollection);
+                answerRecordPresenter.DDSpeedMAX = ParameterAnalyzer.CalculateDDSpeedMAX(movementCollection);
+                answerRecordPresenter.DDSpeedMIN = ParameterAnalyzer.CalculateDDSpeedMIN(movementCollection);
+                answerRecordPresenter.DDFirstTime = ParameterAnalyzer.CalculateDDFirstTime(movementCollection);
+                answerRecordPresenter.DDCount = ParameterAnalyzer.CalculateDDCount(movementCollection);
+                answerRecordPresenter.UTurnHorizontalCount = ParameterAnalyzer.CalculateUTurnHorizontalCount(movementCollection);
+                answerRecordPresenter.UTurnVerticalCount = ParameterAnalyzer.CalculateUTurnVerticalCount(movementCollection);
+
+                answerRecordPresenterCollection.Add(answerRecordPresenter);
+            }
 
             return answerRecordPresenterCollection;
         }
