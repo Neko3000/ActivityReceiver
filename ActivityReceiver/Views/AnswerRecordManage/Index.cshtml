@@ -130,6 +130,7 @@
                 </ul>
             </div>
         </div>
+
         <div class="m-portlet__body">
             <!--begin: Datatable -->
             <table class="table table-striped- table-bordered table-hover table-checkable" id="answer-record-list-table">
@@ -172,74 +173,65 @@
                 </thead>
                 <tbody>
                     @{
-                        for (int i = 0; i < Model.AnswerRecordPresenterCollection.Count; i++)
-                        {
-                            var answerRecordPresenter = Model.AnswerRecordPresenterCollection[i];
-                            <tr>
-                                <td>
-                                    @answerRecordPresenter.ID
-                                </td>
-                                <td>
-                                    @answerRecordPresenter.StartDate
-                                </td>
-                                <td>
-                                    @answerRecordPresenter.EndDate
-                                </td>
-                                <td>
-                                    @if (answerRecordPresenter.IsCorrect)
-                                    {
-                                        <i class="fa fa-check-circle m--font-success"></i>
-                                    }
-                                    else
-                                    {
-                                        <i class="fa fa-times-circle m--font-danger"></i>
-                                    }
-                                </td>
-                                <td>
-                                    @answerRecordPresenter.DDCount
-                                </td>
-                                <td>
-                                    @answerRecordPresenter.DDIntervalAVG
-                                </td>
-                                <td>
-                                    @answerRecordPresenter.DDProcessAVG
-                                </td>
-                                <td>
-                                    @answerRecordPresenter.DDSpeedAVG
-                                </td>
-                                <td>
-                                    @answerRecordPresenter.UTurnHorizontalCount
-                                </td>
-                                <td>
-                                    @answerRecordPresenter.UTurnVerticalCount
-                                </td>
-                                @*<td>
-                                    @if (assignmentRecordPresenter.IsFinished)
-                                    {
-                                        <span class="m-badge  m-badge--success m-badge--wide">DONE</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="m-badge  m-badge--metal m-badge--wide">DOING</span>
-                                    }
-                                </td>*@
-                                <td>
-                                    <a href="@Url.Action("Details","AnswerRecordManage",new { id = answerRecordPresenter.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
-                                        <i class="la la-search"></i>
-                                    </a>
-                                    <span class="dropdown">
-                                        <a href="#" class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown" aria-expanded="true">
-                                            <i class="la la-ellipsis-h"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>
-                                            <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>
-                                            <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>
-                                        </div>
-                                    </span>
-                                </td>
-                            </tr>
-                        }
+                    for (int i = 0; i < Model.AnswerRecordPresenterCollection.Count; i++)
+                    {
+                    var answerRecordPresenter = Model.AnswerRecordPresenterCollection[i];
+                    <tr>
+                        <td>
+                            @answerRecordPresenter.ID
+                        </td>
+                        <td>
+                            @answerRecordPresenter.StartDate
+                        </td>
+                        <td>
+                            @answerRecordPresenter.EndDate
+                        </td>
+                        <td>
+                            @if (answerRecordPresenter.IsCorrect)
+                            {
+                            <i class="fa fa-check-circle m--font-success"></i>
+                            }
+                            else
+                            {
+                            <i class="fa fa-times-circle m--font-danger"></i>
+                            }
+                        </td>
+                        <td>
+                            @answerRecordPresenter.DDCount
+                        </td>
+                        <td>
+                            @answerRecordPresenter.DDIntervalAVG
+                        </td>
+                        <td>
+                            @answerRecordPresenter.DDProcessAVG
+                        </td>
+                        <td>
+                            @answerRecordPresenter.DDSpeedAVG
+                        </td>
+                        <td>
+                            @answerRecordPresenter.UTurnHorizontalCount
+                        </td>
+                        <td>
+                            @answerRecordPresenter.UTurnVerticalCount
+                        </td>
+
+                        <td>
+                            <a href="@Url.Action("Details","AnswerRecordManage",new { id=answerRecordPresenter.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
+                                <i class="la la-search"></i>
+                            </a>
+                            <span class="dropdown">
+                                <a href="#" class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="la la-ellipsis-h"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>
+                                    <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>
+                                    <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>
+                                </div>
+                            </span>
+                        </td>
+                    </tr>
+                    }
                     }
                 </tbody>
             </table>
