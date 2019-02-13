@@ -14,7 +14,7 @@ namespace ActivityReceiver.Functions
         // D&D Interval Average
         public static float CalculateDDIntervalAVG(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             int previousTapEndTime = 0;
             int totalTime = 0;
@@ -27,16 +27,16 @@ namespace ActivityReceiver.Functions
                 }
 
                 var movement = movementCollection[i];
-                if(movement.State == (int)MovementState.DragSingleBegin)
+                if(movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     totalTime += (movement.Time - previousTapEndTime);
                     count++;
                 }
-                else if(movement.State == (int)MovementState.DragSingleMove)
+                else if(movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragGroupMove)
                 {
                     continue;
                 }
-                else if(movement.State == (int)MovementState.DragSingleEnd)
+                else if(movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupEnd)
                 {
                     previousTapEndTime = movement.Time;
                 }
@@ -48,7 +48,7 @@ namespace ActivityReceiver.Functions
         // D&D Interval Max
         public static float CalculateDDIntervalMAX(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             int differTime;
             int differTimeMAX = 0;
@@ -61,7 +61,7 @@ namespace ActivityReceiver.Functions
                 }
 
                 var movement = movementCollection[i];
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     differTime = movement.Time - previousTapEndTime;
                     if (differTime > differTimeMAX)
@@ -69,11 +69,11 @@ namespace ActivityReceiver.Functions
                         differTimeMAX = differTime;
                     }
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragGroupMove)
                 {
                     continue;
                 }
-                else if (movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupEnd)
                 {
                     previousTapEndTime = movement.Time;
                 }
@@ -85,7 +85,7 @@ namespace ActivityReceiver.Functions
         // D&D Interval Min
         public static float CalculateDDIntervalMIN(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             int differTime;
             int differTimeMIN = 0;
@@ -99,7 +99,7 @@ namespace ActivityReceiver.Functions
                 }
 
                 var movement = movementCollection[i];
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     differTime = movement.Time - previousTapEndTime;
                     if(isFirstCalculatedDDInterval)
@@ -116,11 +116,11 @@ namespace ActivityReceiver.Functions
                     }
 
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragGroupMove)
                 {
                     continue;
                 }
-                else if (movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupEnd)
                 {
                     previousTapEndTime = movement.Time;
                 }
@@ -132,7 +132,7 @@ namespace ActivityReceiver.Functions
         // D&D Process Average
         public static float CalculateDDProcessAVG(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             int previousTapBeginTime = 0;
             int totalTime = 0;
@@ -140,16 +140,16 @@ namespace ActivityReceiver.Functions
             for (int i = 0; i < movementCollection.Count; i++)
             {
                 var movement = movementCollection[i];
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     previousTapBeginTime = movement.Time;
                     
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragGroupMove)
                 {
                     continue;
                 }
-                else if (movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupEnd)
                 {
                     totalTime += (movement.Time - previousTapBeginTime);
                     count++;
@@ -162,7 +162,7 @@ namespace ActivityReceiver.Functions
         // D&D Process Max
         public static float CalculateDDProcessMAX(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             int differTime;
             int differTimeMAX = 0;
@@ -170,15 +170,15 @@ namespace ActivityReceiver.Functions
             for (int i = 0; i < movementCollection.Count; i++)
             {
                 var movement = movementCollection[i];
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     previousTapBeginTime = movement.Time;
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragGroupMove)
                 {
                     continue;
                 }
-                else if (movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupEnd)
                 {
                     differTime = movement.Time - previousTapBeginTime;
                     if (differTime > differTimeMAX)
@@ -194,7 +194,7 @@ namespace ActivityReceiver.Functions
         // D&D Process Min
         public static float CalculateDDProcessMIN(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             int differTime;
             int differTimeMIN = 0;
@@ -203,15 +203,15 @@ namespace ActivityReceiver.Functions
             for (int i = 0; i < movementCollection.Count; i++)
             {
                 var movement = movementCollection[i];
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     previousTapBeginTime = movement.Time;
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragGroupMove)
                 {
                     continue;
                 }
-                else if (movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupEnd)
                 {
                     differTime = movement.Time - previousTapBeginTime;
                     if (isFirstCalculatedDDInterval)
@@ -235,7 +235,7 @@ namespace ActivityReceiver.Functions
         // Total Distance
         public static float CalculateTotalDistance(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             Movement lastMovement = movementCollection.FirstOrDefault();
             float distance;
@@ -244,11 +244,11 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.MakeGroupBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
-                    lastMovement = movementCollection[i];
+                    lastMovement = movement;
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.MakeGroupMove || movement.State == (int)MovementState.MakeGroupEnd || movement.State == (int)MovementState.DragGroupMove || movement.State == (int)MovementState.DragSingleEnd)
                 {
                     distance = (float)(Math.Sqrt(Math.Pow(lastMovement.XPosition - movement.XPosition, 2) + Math.Pow(lastMovement.YPosition - movement.YPosition, 2)));
                     totalDistance += distance;
@@ -263,7 +263,7 @@ namespace ActivityReceiver.Functions
         // DD Speed Average
         public static float CalculateDDSpeedAVG(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             Movement lastMovement = movementCollection.FirstOrDefault();
             float distance;
@@ -273,13 +273,13 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.MakeGroupBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.MakeGroupMove || movement.State == (int)MovementState.MakeGroupEnd || movement.State == (int)MovementState.DragGroupMove || movement.State == (int)MovementState.DragSingleEnd)
                 {
-                    if(movement.Time == lastMovement.Time)
+                    if (movement.Time == lastMovement.Time)
                     {
                         lastMovement = movement;
                         continue;
@@ -299,7 +299,7 @@ namespace ActivityReceiver.Functions
         // DD Speed MAX
         public static float CalculateDDSpeedMAX(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             Movement lastMovement = movementCollection.FirstOrDefault();
             float distance;
@@ -309,11 +309,11 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.MakeGroupBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.MakeGroupMove || movement.State == (int)MovementState.MakeGroupEnd || movement.State == (int)MovementState.DragGroupMove || movement.State == (int)MovementState.DragSingleEnd)
                 {
                     if (movement.Time == lastMovement.Time)
                     {
@@ -338,7 +338,7 @@ namespace ActivityReceiver.Functions
         // DD Speed MIN
         public static float CalculateDDSpeedMIN(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             Movement lastMovement = movementCollection.FirstOrDefault();
             float distance;
@@ -349,11 +349,11 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.MakeGroupBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.MakeGroupMove || movement.State == (int)MovementState.MakeGroupEnd || movement.State == (int)MovementState.DragGroupMove || movement.State == (int)MovementState.DragSingleEnd)
                 {
                     if (movement.Time == lastMovement.Time)
                     {
@@ -387,17 +387,17 @@ namespace ActivityReceiver.Functions
         // DD First Time
         public static float CalculateDDFirstTime(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
 
             Movement movement = movementCollection.FirstOrDefault();
 
             return movement == null ? 0 : movement.Time;
         }
 
-        // DD First Time
+        // DD Count
         public static int CalculateDDCount(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
             Movement movement = movementCollection.FirstOrDefault();
 
             int count = 0;
@@ -406,15 +406,15 @@ namespace ActivityReceiver.Functions
             {
                 movement = movementCollection[i];
 
-                if (movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin ||  movement.State == (int)MovementState.DragGroupBegin)
                 {
                     isOperating = true;
                 }
-                else if(movement.State == (int)MovementState.DragSingleMove)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragGroupMove)
                 {
                     continue;
                 }
-                else if(movement.State == (int)MovementState.DragSingleEnd)
+                else if(movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragSingleEnd)
                 {
                     if(isOperating)
                     {
@@ -430,7 +430,7 @@ namespace ActivityReceiver.Functions
         // U Turn Horizontal Count
         public static int CalculateUTurnHorizontalCount(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
             Movement lastMovement = movementCollection.FirstOrDefault();
 
             int count = 0;
@@ -439,13 +439,13 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if(movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupMove || movement.State == (int)MovementState.DragGroupEnd)
                 {
-                    if(lastMovement.State == (int)MovementState.DragSingleBegin)
+                    if(lastMovement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                     {
                         isToPositiveDirection = movement.XPosition - lastMovement.XPosition > 0 ? true : false;
                         lastMovement = movement;
@@ -464,6 +464,10 @@ namespace ActivityReceiver.Functions
                         isToPositiveDirection = true;
                         lastMovement = movement;
                     }
+                    else if(movement.XPosition - lastMovement.XPosition == 0)
+                    {
+                        lastMovement = movement;
+                    }
                 }
             }
 
@@ -473,7 +477,7 @@ namespace ActivityReceiver.Functions
         // U Turn Vertical Count
         public static int CalculateUTurnVerticalCount(IList<Movement> movementCollection)
         {
-            movementCollection = movementCollection.OrderBy(mc => mc.Time).ToList();
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
             Movement lastMovement = movementCollection.FirstOrDefault();
 
             int count = 0;
@@ -482,13 +486,13 @@ namespace ActivityReceiver.Functions
             {
                 var movement = movementCollection[i];
 
-                if(movement.State == (int)MovementState.DragSingleBegin)
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                 {
                     lastMovement = movement;
                 }
-                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd)
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupMove || movement.State == (int)MovementState.DragGroupEnd)
                 {
-                    if (lastMovement.State == (int)MovementState.DragSingleBegin)
+                    if (lastMovement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
                     {
                         isToPositiveDirection = movement.YPosition - lastMovement.YPosition > 0 ? true : false;
                         lastMovement = movement;
@@ -505,6 +509,10 @@ namespace ActivityReceiver.Functions
                     {
                         count++;
                         isToPositiveDirection = true;
+                        lastMovement = movement;
+                    }
+                    else if (movement.YPosition - lastMovement.YPosition == 0)
+                    {
                         lastMovement = movement;
                     }
                 }

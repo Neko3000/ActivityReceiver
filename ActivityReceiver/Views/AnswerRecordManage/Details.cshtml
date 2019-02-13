@@ -755,7 +755,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: "/AnswerRecordManage/GetDeviceAccelerationCollection/" + "@Model.ID",
+                url: "/AnswerRecordReplay/GetDeviceAccelerationCollection/" + "@Model.ID",
                 dataType: 'json',
                 context: document.body,
                 async: true,
@@ -768,26 +768,13 @@
 
             $.ajax({
                 type: 'GET',
-                url: "/AnswerRecordManage/GetMovementCollection/" + "@Model.ID",
+                url: "/AnswerRecordReplay/GetMovementCollection/" + "@Model.ID",
                 dataType: 'json',
                 context: document.body,
                 async: true,
                 success: function (data) {
-                    var forceCollection = [];
-                    forceCollection.push({
-                        time: 0,
-                        force:0
-                    });
 
-                    data.sort(sortByIndex);
-                    data.forEach(function (item, index) {
-                        forceCollection.push({
-                            time: item.time,
-                            force: item.force
-                        });
-                    });
-
-                    chartMovementForce.dataProvider = forceCollection;
+                    chartMovementForce.dataProvider = data.sort(sortByTime);
                     chartMovementForce.validateNow();
                 }
             });

@@ -37,46 +37,19 @@ namespace ActivityReceiver.Controllers
             _dataBuilder = new AnswerRecordManageDataBuilder(_arDbContext,_userManager,_roleManager);
         }
 
-        // GET: QuestionManage
+        // GET: AnswerRecordManage
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? assignmentRecordID)
         {    
-
             var vm = new AnswerRecordManageIndexViewModel
             {
-                AnswerRecordPresenterCollection = await _dataBuilder.BuildAnswerRecordPresenterList()
+                AnswerRecordPresenterCollection = await _dataBuilder.BuildAnswerRecordPresenterList(assignmentRecordID)
             };
 
             return View(vm);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetDeviceAccelerationCollection(int? id)
-        {
-            if(id == null)
-            {
-                return NotFound();
-            }
-
-            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == id).ToListAsync();
-
-            return Ok(deviceAccelerationCollection);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetMovementCollection(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var movementCollection = await _arDbContext.Movements.Where(da => da.AnswerRecordID == id).ToListAsync();
-
-            return Ok(movementCollection);
-        }
-
-        // GET: ItemManage/Details/5
+        // GET: AnswerRecordManage/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {

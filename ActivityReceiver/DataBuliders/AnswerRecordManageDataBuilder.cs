@@ -27,10 +27,15 @@ namespace ActivityReceiver.DataBuilders
         }
 
 
-        public async Task<IList<AnswerRecordPresenter>> BuildAnswerRecordPresenterList()
+        public async Task<IList<AnswerRecordPresenter>> BuildAnswerRecordPresenterList(int? assignmentRecordID)
         {
             var answerRecordList = await _arDbContext.AnswserRecords.ToListAsync();
 
+            if (assignmentRecordID != null)
+            {
+                answerRecordList = answerRecordList.Where(ar => ar.AssignmentRecordID == assignmentRecordID).ToList();
+            }
+            
             var answerRecordPresenterCollection = new List<AnswerRecordPresenter>();
             foreach (var answerRecord in answerRecordList)
             {

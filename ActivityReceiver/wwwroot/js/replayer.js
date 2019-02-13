@@ -233,6 +233,18 @@ class PresentorProxy{
             obj.attr('height', height);
         };
 
+        var adjustMainViewSizeToResolution = function (resolution) {
+            var splittedResoultion = resolution.split('x');
+
+            var width = splittedResoultion[0];
+            var height = splittedResoultion[1];
+
+            mainView.css({
+                width: width,
+                height: height
+            });
+        };
+
         // Layout
         var setLayout = function () {
 
@@ -299,7 +311,7 @@ class PresentorProxy{
 
             $.ajax(
                 {
-                    url: "/AnswerReplay/GetAnswerRecord?id=" + id.toString(),
+                    url: "/AnswerRecordReplay/GetAnswerRecord?id=" + id.toString(),
                     type: "get",
                     dataType: "json", deviceAccelerationCollection,
                     async: false,
@@ -820,10 +832,6 @@ class PresentorProxy{
 
         };
 
-        var adjustRectSelectionViewToTime = function () {
-
-        };
-
         // Generic
         var getClosestObjectByTime = function (objectArray, time) {
 
@@ -907,18 +915,6 @@ class PresentorProxy{
         var play = function () {
 
             TimerID = setInterval(playAnimation, 1000/animationFrequency);
-        };
-
-        var adjustMainViewSizeToResolution = function (resolution) {
-            var splittedResoultion = resolution.split('x');
-
-            var width = splittedResoultion[0];
-            var height = splittedResoultion[1];
-
-            mainView.css({
-                width: width,
-                height: height
-            });
         };
 
         $(function () {

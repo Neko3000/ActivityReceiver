@@ -12,15 +12,16 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using ActivityReceiver.ViewModels.AnswerReplay;
 using ActivityReceiver.Functions;
+using Microsoft.EntityFrameworkCore;
 
 namespace ActivityReceiver.Controllers
 {
-    public class AnswerReplayController : Controller
+    public class AnswerRecordReplayController : Controller
     {
         private readonly ActivityReceiverDbContext _arDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AnswerReplayController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager)
+        public AnswerRecordReplayController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager)
         {
             _arDbContext = arDbContext;
             _userManager = userManager;
@@ -68,6 +69,32 @@ namespace ActivityReceiver.Controllers
             //Request.HttpContext.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
             return Ok(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDeviceAccelerationCollection(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == id).ToListAsync();
+
+            return Ok(deviceAccelerationCollection);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMovementCollection(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movementCollection = await _arDbContext.Movements.Where(da => da.AnswerRecordID == id).ToListAsync();
+
+            return Ok(movementCollection);
         }
 
         [HttpGet]
