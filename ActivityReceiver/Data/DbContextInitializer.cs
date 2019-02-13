@@ -375,6 +375,30 @@ namespace ActivityReceiver.Data
                     CreateDate = new DateTime(2015,7,1,12,50,0),
                     Remark = "",
                 },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "The police came as quickly as possible.",
+                    SentenceJP = "警察はできるだけ急いでやってきた。",
+                    Level = 4,
+                    Division = "as|as|came|police|possible|quickly|the",
+                    StandardAnswerDivision = "the|police|came|as|quickly|as|possible",
+                    GrammarIDString = "#14#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "My young sister does not sing as well as I.",
+                    SentenceJP = "私の妹は私ほど歌がうまくない。",
+                    Level = 4,
+                    Division = "as|as|does|I|my|not|sing|sister|well|young",
+                    StandardAnswerDivision = "my|young|sister|does|not|sing|as|well|as|I",
+                    GrammarIDString = "#14#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
             };
             _arDbContext.Questions.AddRange(questions);
             _arDbContext.SaveChanges();
@@ -404,6 +428,14 @@ namespace ActivityReceiver.Data
                     Level = 3,
                     CreateDate = DateTime.Now,
                     EditorID = applicationUser3.Id
+                },
+                new Exercise
+                {
+                    Name = "テスト用問題集",
+                    Description = "簡単な二問で",
+                    Level = 4,
+                    CreateDate = DateTime.Now,
+                    EditorID = applicationUser1.Id
                 },
             };
             _arDbContext.Exercises.AddRange(exercises);
@@ -457,6 +489,26 @@ namespace ActivityReceiver.Data
                     for (int j = 0; j < questions.Count; j++)
                     {
                         if (questions[j].Level == 1 || questions[j].Level == 2 || questions[j].Level == 3)
+                        {
+                            var exerciseQuestion = new ExerciseQuestionRelation()
+                            {
+                                ExerciseID = exercises[i].ID,
+                                QuestionID = questions[j].ID,
+                                SerialNumber = j
+                            };
+
+                            _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestion);
+                            _arDbContext.SaveChanges();
+                        }
+                    }
+                }
+
+                // Exercise 4
+                if (exercises[i].Level == 4)
+                {
+                    for (int j = 0; j < questions.Count; j++)
+                    {
+                        if (questions[j].Level == 4)
                         {
                             var exerciseQuestion = new ExerciseQuestionRelation()
                             {
