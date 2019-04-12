@@ -166,6 +166,10 @@ namespace ActivityReceiver
                 /* StudentManage */
                 // Index
                 cfg.CreateMap<ApplicationUser, ActivityReceiver.ViewModels.StudentManage.StudentPresenter>();
+
+                /* DataTransferObject */
+                // MovementSupervised
+                cfg.CreateMap<Movement, ActivityReceiver.DataTransferObjects.MovementSupervised>();
             });
 
 

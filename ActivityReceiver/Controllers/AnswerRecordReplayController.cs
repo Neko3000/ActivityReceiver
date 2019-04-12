@@ -13,6 +13,8 @@ using System.Security.Claims;
 using ActivityReceiver.ViewModels.AnswerReplay;
 using ActivityReceiver.Functions;
 using Microsoft.EntityFrameworkCore;
+using ActivityReceiver.Functions;
+using ActivityReceiver.DataTransferObjects;
 
 namespace ActivityReceiver.Controllers
 {
@@ -71,6 +73,24 @@ namespace ActivityReceiver.Controllers
             return Ok(vm);
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetMovementSupervisedCollection(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movementCollection = await _arDbContext.Movements.Where(da => da.AnswerRecordID == id).ToListAsync();
+            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == id).ToListAsync();
+
+            // supervise process
+            var movementSupervisedCollection = MovementSupervisor.Supervise(movementCollection, deviceAccelerationCollection);
+
+            return Ok(movementSupervisedCollection);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetDeviceAccelerationCollection(int? id)
         {
@@ -96,6 +116,7 @@ namespace ActivityReceiver.Controllers
 
             return Ok(movementCollection);
         }
+
 
         [HttpGet]
         public IActionResult Replayer(int id)
