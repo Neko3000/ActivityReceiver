@@ -8,7 +8,6 @@ namespace ActivityReceiver.DataTransferObjects
 {
     public class MovementSupervised
     {
-        [Key]
         public int ID { get; set; }
         public int AnswerRecordID { get; set; }
 

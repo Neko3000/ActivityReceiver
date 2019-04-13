@@ -530,13 +530,31 @@
                                 <i class="la la-tasks"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                チャート
+                                チャート - 加速度
                             </h3>
                         </div>
                     </div>
                 </div>
                 <div class="m-portlet__body">
                     <div id="chart-device-acceleration" style="height: 500px;"></div>
+                    <div id="chart-device-acceleration-combined" style="height: 500px;"></div>
+                    <div id="chart-device-acceleration-combined-filtered" style="height: 500px;"></div>
+                </div>
+            </div>
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon">
+                                <i class="la la-tasks"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                チャート - 圧力
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
                     <div id="chart-movement-force" style="height: 500px;"></div>
                 </div>
             </div>
@@ -571,6 +589,10 @@
     <script>
 
         var chartDeviceAcceleration;
+        var chartDeviceAccelerationCombined;
+        var chartDeviceAccelerationCombinedFiltered;
+
+        var chartMovementForce;
 
         var sortByTime = function (a, b) {
             return parseInt(a.time) > parseInt(b.time);
@@ -752,6 +774,144 @@
                 }
             });
 
+            chartDeviceAccelerationCombined = AmCharts.makeChart("chart-device-acceleration-combined", {
+                "type": "serial",
+                "theme": "light",
+                //"autoMarginOffset": 30,
+                "autoMargins": false,
+                "marginLeft": 80,
+                "marginRight": 50,
+                "marginTop": 20,
+                "marginBottom": 60,
+
+                "legend": {
+                    "equalWidths": false,
+                    "useGraphSettings": true,
+                    "valueAlign": "left",
+                    "valueWidth": 120
+                },
+
+                //"dataProvider": chartData,
+                "valueAxes": [{
+                    "axisAlpha": 0.5,
+                    //"dashLength": 1,
+                    "position": "left",
+                    "inside": false,
+                    "title": "三次元空間加速度（整合）",
+                    "minimum": 0
+                }],
+                "mouseWheelZoomEnabled": true,
+                "graphs": [{
+                    "id": "g1",
+                    "balloonText": "x: [[value]]/1.0",
+                    "bullet": "round",
+                    "bulletBorderAlpha": 1,
+                    "bulletColor": "#FFFFFF",
+                    "hideBulletsCount": 50,
+
+                    "title": "Force",
+                    "legendValueText": "[[value]]/1.0",
+
+                    "valueField": "acceleration",
+                    "useLineColorForBulletBorder": true,
+
+                    //"negativeBase": 0.1,
+                    //"lineColor": "#fdd400",
+                    //"negativeLineColor": "#67b7dc",
+                    "balloon": {
+
+                    }
+                },
+                ],
+                "chartScrollbar": {
+                    "autoGridCount": false,
+                    //"graph": "g1",
+                    "scrollbarHeight": 40
+                },
+                "chartCursor": {
+                    //"limitToGraph": "g1"
+                },
+                "categoryField": "time",
+                "categoryAxis": {
+                    "autoGridCount": false,
+                    //"axisColor": "#DADADA",
+                    "dashLength": 1,
+                    "minorGridEnabled": true,
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+
+            chartDeviceAccelerationCombinedFiltered = AmCharts.makeChart("chart-device-acceleration-combined-filtered", {
+                "type": "serial",
+                "theme": "light",
+                //"autoMarginOffset": 30,
+                "autoMargins": false,
+                "marginLeft": 80,
+                "marginRight": 50,
+                "marginTop": 20,
+                "marginBottom": 60,
+
+                "legend": {
+                    "equalWidths": false,
+                    "useGraphSettings": true,
+                    "valueAlign": "left",
+                    "valueWidth": 120
+                },
+
+                //"dataProvider": chartData,
+                "valueAxes": [{
+                    "axisAlpha": 0.5,
+                    //"dashLength": 1,
+                    "position": "left",
+                    "inside": false,
+                    "title": "三次元空間加速度（整合、平滑）",
+                    "minimum": 0
+                }],
+                "mouseWheelZoomEnabled": true,
+                "graphs": [{
+                    "id": "g1",
+                    "balloonText": "x: [[value]]/1.0",
+                    "bullet": "round",
+                    "bulletBorderAlpha": 1,
+                    "bulletColor": "#FFFFFF",
+                    "hideBulletsCount": 50,
+
+                    "title": "Force",
+                    "legendValueText": "[[value]]/1.0",
+
+                    "valueField": "acceleration",
+                    "useLineColorForBulletBorder": true,
+
+                    //"negativeBase": 0.1,
+                    //"lineColor": "#fdd400",
+                    //"negativeLineColor": "#67b7dc",
+                    "balloon": {
+
+                    }
+                },
+                ],
+                "chartScrollbar": {
+                    "autoGridCount": false,
+                    //"graph": "g1",
+                    "scrollbarHeight": 40
+                },
+                "chartCursor": {
+                    //"limitToGraph": "g1"
+                },
+                "categoryField": "time",
+                "categoryAxis": {
+                    "autoGridCount": false,
+                    //"axisColor": "#DADADA",
+                    "dashLength": 1,
+                    "minorGridEnabled": true,
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+
 
             $.ajax({
                 type: 'GET',
@@ -776,6 +936,32 @@
 
                     chartMovementForce.dataProvider = data.sort(sortByTime);
                     chartMovementForce.validateNow();
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: "/AnswerRecordReplay/GetDeviceAccelerationCombinedCollection/" + "@Model.ID",
+                dataType: 'json',
+                context: document.body,
+                async: true,
+                success: function (data) {
+
+                    chartDeviceAccelerationCombined.dataProvider = data.sort(sortByTime);
+                    chartDeviceAccelerationCombined.validateNow();
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: "/AnswerRecordReplay/GetDeviceAccelerationCombinedFilteredCollection/" + "@Model.ID",
+                dataType: 'json',
+                context: document.body,
+                async: true,
+                success: function (data) {
+
+                    chartDeviceAccelerationCombinedFiltered.dataProvider = data.sort(sortByTime);
+                    chartDeviceAccelerationCombinedFiltered.validateNow();
                 }
             });
         });

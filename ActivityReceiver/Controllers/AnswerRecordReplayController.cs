@@ -86,7 +86,8 @@ namespace ActivityReceiver.Controllers
             var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == id).ToListAsync();
 
             // supervise process
-            var movementSupervisedCollection = MovementSupervisor.Supervise(movementCollection, deviceAccelerationCollection);
+            var movementSupervisor = new MovementSupervisor(movementCollection, deviceAccelerationCollection);
+            var movementSupervisedCollection =  (movementCollection, deviceAccelerationCollection);
 
             return Ok(movementSupervisedCollection);
         }
@@ -102,6 +103,35 @@ namespace ActivityReceiver.Controllers
             var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == id).ToListAsync();
 
             return Ok(deviceAccelerationCollection);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDeviceAccelerationCombinedCollection(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == id).ToListAsync();
+            var deviceAccelerationCombinedCollection = MovementSupervisor.CombineDeviceAcceleration(deviceAccelerationCollection);
+
+            return Ok(deviceAccelerationCombinedCollection);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDeviceAccelerationCombinedFilteredCollection(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == id).ToListAsync();
+            var deviceAccelerationCombinedCollection = MovementSupervisor.CombineDeviceAcceleration(deviceAccelerationCollection);
+            var deviceAccelerationCombinedFilteredCollection = MovementSupervisor.FilterDeviceAccelerationCombinedCollection(deviceAccelerationCombinedCollection);
+
+            return Ok(deviceAccelerationCombinedFilteredCollection);
         }
 
         [HttpGet]
