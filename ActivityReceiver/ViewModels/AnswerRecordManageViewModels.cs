@@ -182,6 +182,35 @@ namespace ActivityReceiver.ViewModels.AnswerRecordManage
 
         [Display(Name = "U-ターン縦方向")]
         public int UTurnVerticalCount { get; set; }
+
+
+        // Parameters fixed
+        [Display(Name = "Drag->Drop平均時間")]
+        public float DDProcessAVGFixed { get; set; }
+
+        [Display(Name = "Drag->Drop最大時間")]
+        public float DDProcessMAXFixed { get; set; }
+
+        [Display(Name = "Drag->Drop最小時間")]
+        public float DDProcessMINFixed { get; set; }
+
+        [Display(Name = "総移動距離")]
+        public float TotalDistanceFixed { get; set; }
+
+        [Display(Name = "Drag->Drop平均速度")]
+        public float DDSpeedAVGFixed { get; set; }
+
+        [Display(Name = "Drag->Drop最大速度")]
+        public float DDSpeedMAXFixed { get; set; }
+
+        [Display(Name = "Drag->Drop最小速度")]
+        public float DDSpeedMINFixed { get; set; }
+
+        [Display(Name = "U-ターン横方向")]
+        public int UTurnHorizontalCountFixed { get; set; }
+
+        [Display(Name = "U-ターン縦方向")]
+        public int UTurnVerticalCountFixed { get; set; }
     }
     #endregion
 }
