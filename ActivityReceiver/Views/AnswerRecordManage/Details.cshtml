@@ -370,7 +370,7 @@
                                             @Model.TotalDistance px (@Model.TotalDistanceFixed px)
                                         </div>
                                         <div class="offset-lg-6 col-lg-6">
-                                            @(Math.Round(100 * (Model.TotalDistance - Model.TotalDistanceFixed) / Model.TotalDistance, 2))%  @(Model.TotalDistance == Model.TotalDistanceFixed ? "-" : (Model.TotalDistance > Model.TotalDistanceFixed ? "↓" : "↑"))
+                                            @(Math.Round(Model.TotalDistance == 0 ? 0 : 100 * (Model.TotalDistance - Model.TotalDistanceFixed) / Model.TotalDistance, 2))%  @(Model.TotalDistance == Model.TotalDistanceFixed ? "-" : (Model.TotalDistance > Model.TotalDistanceFixed ? "↓" : "↑"))
                                         </div>
                                     </div>
                                 </div>
@@ -411,7 +411,7 @@
                                             @Model.DDSpeedAVG px/s (@Model.DDSpeedAVGFixed px/s)
                                         </div>
                                         <div class="offset-lg-6 col-lg-6">
-                                            @(Math.Round(100 * (Model.DDSpeedAVG - Model.DDSpeedAVGFixed) / Model.DDSpeedAVG, 2))%  @(Model.DDSpeedAVG == Model.DDSpeedAVGFixed ? "-" : (Model.DDSpeedAVG > Model.DDSpeedAVGFixed ? "↓" : "↑"))
+                                            @(Math.Round(Model.DDSpeedAVG == 0 ? 0 : 100 * (Model.DDSpeedAVG - Model.DDSpeedAVGFixed) / Model.DDSpeedAVG, 2))%  @(Model.DDSpeedAVG == Model.DDSpeedAVGFixed ? "-" : (Model.DDSpeedAVG > Model.DDSpeedAVGFixed ? "↓" : "↑"))
                                         </div>
                                     </div>
                                     <div class="row m--margin-top-15">
@@ -422,7 +422,7 @@
                                             @Model.DDSpeedMAX px/s (@Model.DDSpeedMAXFixed px/s)
                                         </div>
                                         <div class="offset-lg-6 col-lg-6">
-                                            @(Math.Round(100 * (Model.DDSpeedMAX - Model.DDSpeedMAXFixed) / Model.DDSpeedMAXFixed, 2))%  @(Model.DDSpeedMAX == Model.DDSpeedMAXFixed ? "-" : (Model.DDSpeedMAX > Model.DDSpeedMAXFixed ? "↓" : "↑"))
+                                            @(Math.Round(Model.DDSpeedMAX == 0 ? 0 : 100 * (Model.DDSpeedMAX - Model.DDSpeedMAXFixed) / Model.DDSpeedMAX, 2))%  @(Model.DDSpeedMAX == Model.DDSpeedMAXFixed ? "-" : (Model.DDSpeedMAX > Model.DDSpeedMAXFixed ? "↓" : "↑"))
                                         </div>
                                     </div>
                                     <div class="row m--margin-top-15">
@@ -433,7 +433,7 @@
                                             @Model.DDSpeedMIN px/s (@Model.DDSpeedMINFixed px/s)
                                         </div>
                                         <div class="offset-lg-6 col-lg-6">
-                                            @(Math.Round(100 * (Model.DDSpeedMIN - Model.DDSpeedMINFixed) / Model.DDSpeedMIN, 2))%  @(Model.DDSpeedMIN == Model.DDSpeedMIN ? "-" : (Model.DDSpeedMIN > Model.DDSpeedMIN ? "↓" : "↑"))
+                                            @(Math.Round(Model.DDSpeedMIN == 0 ? 0 : 100 * (Model.DDSpeedMIN - Model.DDSpeedMINFixed) / Model.DDSpeedMIN, 2))%  @(Model.DDSpeedMIN == Model.DDSpeedMIN ? "-" : (Model.DDSpeedMIN > Model.DDSpeedMIN ? "↓" : "↑"))
                                         </div>
                                     </div>
                                 </div>
@@ -451,7 +451,7 @@
                                             @Model.DDProcessAVG ms (@Model.DDProcessAVGFixed ms)
                                         </div>
                                         <div class="offset-lg-6 col-lg-6">
-                                            @(Math.Round(100 * (Model.DDProcessAVG - Model.DDProcessAVGFixed) / Model.DDProcessAVG, 2))%  @(Model.DDProcessAVG == Model.DDProcessAVGFixed ? "-" : (Model.DDProcessAVG > Model.DDProcessAVGFixed ? "↓" : "↑"))
+                                            @(Math.Round(Model.DDProcessAVG == 0 ? 0 : 100 * (Model.DDProcessAVG - Model.DDProcessAVGFixed) / Model.DDProcessAVG, 2))%  @(Model.DDProcessAVG == Model.DDProcessAVGFixed ? "-" : (Model.DDProcessAVG > Model.DDProcessAVGFixed ? "↓" : "↑"))
                                         </div>
                                     </div>
                                     <div class="row m--margin-top-15">
@@ -462,7 +462,7 @@
                                             @Model.DDProcessMAX ms (@Model.DDProcessMAXFixed ms)
                                         </div>
                                         <div class="offset-lg-6 col-lg-6">
-                                            @(Math.Round(100 * (Model.DDProcessMAX - Model.DDProcessMAXFixed) / Model.DDProcessMAX, 2))%  @(Model.DDProcessMAX == Model.DDProcessMAXFixed ? "-" : (Model.DDProcessMAX > Model.DDProcessMAXFixed ? "↓" : "↑"))
+                                            @(Math.Round(Model.DDProcessMAX == 0 ? 0 : 100 * (Model.DDProcessMAX - Model.DDProcessMAXFixed) / Model.DDProcessMAX, 2))%  @(Model.DDProcessMAX == Model.DDProcessMAXFixed ? "-" : (Model.DDProcessMAX > Model.DDProcessMAXFixed ? "↓" : "↑"))
                                         </div>
                                     </div>
                                     <div class="row m--margin-top-15">
@@ -473,7 +473,7 @@
                                             @Model.DDProcessMIN ms (@Model.DDProcessMINFixed ms)
                                         </div>
                                         <div class="offset-lg-6 col-lg-6">
-                                            @(Math.Round(100 * (Model.DDProcessMIN - Model.DDProcessMINFixed) / Model.DDProcessMIN, 2))%  @(Model.DDProcessMIN == Model.DDProcessMINFixed ? "-" : (Model.DDProcessMIN > Model.DDProcessMINFixed ? "↓" : "↑"))
+                                            @(Math.Round(Model.DDProcessMIN == 0 ? 0 : 100 * (Model.DDProcessMIN - Model.DDProcessMINFixed) / Model.DDProcessMIN, 2))%  @(Model.DDProcessMIN == Model.DDProcessMINFixed ? "-" : (Model.DDProcessMIN > Model.DDProcessMINFixed ? "↓" : "↑"))
                                         </div>
                                     </div>
                                 </div>
@@ -528,7 +528,7 @@
                                             @Model.UTurnHorizontalCount 回 (@Model.UTurnHorizontalCountFixed 回)
                                         </div>
                                         <div class="offset-lg-6 col-lg-6">
-                                            @(Math.Round(100 * (float)(Model.UTurnHorizontalCount - Model.UTurnHorizontalCountFixed) / Model.UTurnHorizontalCount, 2))%  @(Model.UTurnHorizontalCount == Model.UTurnHorizontalCountFixed ? "-" : (Model.UTurnHorizontalCount > Model.UTurnHorizontalCountFixed ? "↓" : "↑"))
+                                            @(Math.Round(Model.UTurnHorizontalCount == 0 ? 0 : 100 * (float)(Model.UTurnHorizontalCount - Model.UTurnHorizontalCountFixed) / Model.UTurnHorizontalCount, 2))%  @(Model.UTurnHorizontalCount == Model.UTurnHorizontalCountFixed ? "-" : (Model.UTurnHorizontalCount > Model.UTurnHorizontalCountFixed ? "↓" : "↑"))
                                         </div>
                                     </div>
                                     <div class="row m--margin-top-15">
@@ -539,7 +539,7 @@
                                             @Model.UTurnVerticalCount 回 (@Model.UTurnVerticalCountFixed 回)
                                         </div>
                                         <div class="offset-lg-6 col-lg-6">
-                                            @(Math.Round(100 * (float)(Model.UTurnVerticalCount - Model.UTurnVerticalCountFixed) / Model.UTurnVerticalCount, 2))%  @(Model.UTurnVerticalCount == Model.UTurnVerticalCountFixed ? "-" : (Model.UTurnVerticalCount > Model.UTurnVerticalCountFixed ? "↓" : "↑"))
+                                            @(Math.Round(Model.UTurnVerticalCount == 0 ? 0 : 100 * (float)(Model.UTurnVerticalCount - Model.UTurnVerticalCountFixed) / Model.UTurnVerticalCount, 2))%  @(Model.UTurnVerticalCount == Model.UTurnVerticalCountFixed ? "-" : (Model.UTurnVerticalCount > Model.UTurnVerticalCountFixed ? "↓" : "↑"))
                                         </div>
                                     </div>
                                 </div>
