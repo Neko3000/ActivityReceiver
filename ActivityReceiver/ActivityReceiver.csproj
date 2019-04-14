@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\DataTransferObject\**" />
+    <Content Remove="Models\DataTransferObject\**" />
+    <EmbeddedResource Remove="Models\DataTransferObject\**" />
+    <None Remove="Models\DataTransferObject\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
@@ -46,7 +53,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Models\DataTransferObject\" />
     <Folder Include="wwwroot\Metronic\demos\default\assets\demo\default\custom\crud\metronic-datatable\" />
   </ItemGroup>
 

@@ -157,7 +157,7 @@
                             状況
                         </th>
                         <th>
-                            得点
+                            正解率
                         </th>
                         <th>
                             操作
@@ -198,7 +198,7 @@
                                     }    
                                 </td>
                                 <td>
-                                    @assignmentRecordPresenter.AccuracyRate
+                                    @(assignmentRecordPresenter.AccuracyRate*100)%
                                 </td>
                                 <td>
                                     <a href="@Url.Action("Details","AssignmentRecordManage",new { id = assignmentRecordPresenter.ID })" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">

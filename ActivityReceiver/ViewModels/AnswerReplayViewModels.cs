@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ActivityReceiver.Models;
+using ActivityReceiver.DataTransferObjects;
 
 namespace ActivityReceiver.ViewModels.AnswerReplay
 {
@@ -39,6 +40,7 @@ namespace ActivityReceiver.ViewModels.AnswerReplay
         public DateTime EndDate { get; set; }
 
         public IList<Movement> MovementCollection { get; set; }
+        public IList<MovementSupervised> MovementSupervisedCollection { get; set; }
         public IList<DeviceAcceleration> DeviceAccelerationCollection { get; set; }
     }
     #endregion

@@ -13,7 +13,6 @@ using System.Security.Claims;
 using ActivityReceiver.ViewModels.AnswerReplay;
 using ActivityReceiver.Functions;
 using Microsoft.EntityFrameworkCore;
-using ActivityReceiver.Functions;
 using ActivityReceiver.DataTransferObjects;
 
 namespace ActivityReceiver.Controllers
@@ -42,6 +41,10 @@ namespace ActivityReceiver.Controllers
             var movements = _arDbContext.Movements.Where(m => m.AnswerRecordID == id).ToList();
             var deviceAccelerations = _arDbContext.DeviceAccelerations.Where(d => d.AnswerRecordID == id).ToList();
 
+            // supervise process
+            var movementSupervisor = new MovementSupervisor(movements, deviceAccelerations);
+            var movementSupervisedCollection = movementSupervisor.Supervise();
+
             var vm = new AnswerReplayGetAnswerViewModel
             {
                 ID = answerRecord.ID,
@@ -64,6 +67,7 @@ namespace ActivityReceiver.Controllers
                 EndDate = answerRecord.EndDate,
 
                 MovementCollection = movements.OrderBy(m=>m.Index).ToList(),
+                MovementSupervisedCollection = movementSupervisedCollection.OrderBy(m => m.Index).ToList(),
                 DeviceAccelerationCollection = deviceAccelerations.OrderBy(da=>da.Index).ToList(),
             };
 
@@ -73,6 +77,18 @@ namespace ActivityReceiver.Controllers
             return Ok(vm);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetMovementCollection(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movementCollection = await _arDbContext.Movements.Where(da => da.AnswerRecordID == id).ToListAsync();
+
+            return Ok(movementCollection);
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetMovementSupervisedCollection(int? id)
@@ -87,7 +103,7 @@ namespace ActivityReceiver.Controllers
 
             // supervise process
             var movementSupervisor = new MovementSupervisor(movementCollection, deviceAccelerationCollection);
-            var movementSupervisedCollection =  (movementCollection, deviceAccelerationCollection);
+            var movementSupervisedCollection = movementSupervisor.Supervise();
 
             return Ok(movementSupervisedCollection);
         }
@@ -133,20 +149,6 @@ namespace ActivityReceiver.Controllers
 
             return Ok(deviceAccelerationCombinedFilteredCollection);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetMovementCollection(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var movementCollection = await _arDbContext.Movements.Where(da => da.AnswerRecordID == id).ToListAsync();
-
-            return Ok(movementCollection);
-        }
-
 
         [HttpGet]
         public IActionResult Replayer(int id)

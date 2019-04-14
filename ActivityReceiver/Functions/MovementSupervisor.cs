@@ -11,10 +11,10 @@ namespace ActivityReceiver.Functions
 {
     public class MovementSupervisor
     {
-        private float Threshold = 0.5f;
+        private readonly float ThACC = 0.1f;
 
-        private IList<Movement> movementCollection;
-        private IList<DeviceAcceleration> deviceAccelerationCollection;
+        private readonly IList<Movement> movementCollection;
+        private readonly IList<DeviceAcceleration> deviceAccelerationCollection;
 
         public MovementSupervisor(IList<Movement> movementCollection, IList<DeviceAcceleration> deviceAccelerationCollection)
         {
@@ -22,12 +22,61 @@ namespace ActivityReceiver.Functions
             this.deviceAccelerationCollection = deviceAccelerationCollection;
         }
 
+        private void SetMovementSupervisedToAbnormalByTime(ref List<MovementSupervised> movementSupervisedCollection, int time)
+        {
+            var movementSupervisedLocated = movementSupervisedCollection.FirstOrDefault();
+            for (int i = 0; i < movementSupervisedCollection.Count; i++)
+            {
+                var movementSupervised = movementSupervisedCollection[i];
+                if (time < movementSupervisedCollection[i].Time)
+                {
+                    break;
+                }
+                movementSupervisedLocated = movementSupervised;
+            }
+            movementSupervisedLocated.IsAbnormal = true;
+        }
+
         public IList<MovementSupervised> Supervise()
         {
             var deviceAccelerationCombinedCollection = CombineDeviceAcceleration(deviceAccelerationCollection);
             var deviceAccelerationCombinedFilteredCollection = FilterDeviceAccelerationCombinedCollection(deviceAccelerationCombinedCollection);
 
-            return null;
+            // Build movementSupervised list
+            var movementSupervisedCollection = new List<MovementSupervised>();
+            for (int i = 0; i < movementCollection.Count; i++)
+            {
+                var movement = movementCollection[i];
+
+                var movementSupervised= new MovementSupervised
+                {
+                    ID = movement.ID,
+                    AnswerRecordID = movement.AnswerRecordID,
+                    Index = movement.Index,
+                    Time = movement.Time,
+                    State = movement.State,
+                    TargetElement = movement.TargetElement,
+                    XPosition = movement.XPosition,
+                    YPosition = movement.YPosition,
+                    Force = movement.Force,
+
+                    IsAbnormal = false,
+                   };
+
+                movementSupervisedCollection.Add(movementSupervised);
+            }
+
+            for (int i = 0; i < deviceAccelerationCombinedFilteredCollection.Count; i++)
+            {
+                var deviceAccelerationCombinedFiltered = deviceAccelerationCombinedFilteredCollection[i];
+                if (deviceAccelerationCombinedFiltered.Acceleration >= ThACC)
+                {
+                    SetMovementSupervisedToAbnormalByTime(ref movementSupervisedCollection, deviceAccelerationCombinedFiltered.Time);
+                }
+            }
+
+
+            return movementSupervisedCollection;
         }
 
         public static IList<DeviceAccelerationCombined> CombineDeviceAcceleration(IList<DeviceAcceleration> deviceAccelerationCollection)

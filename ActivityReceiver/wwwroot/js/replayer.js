@@ -51,7 +51,7 @@ class WordItem{
 
 // For canvas
 class PresentorPoint{
-    constructor(time, state,x, y) {
+    constructor(time, state, x, y, isAbnormal) {
 
         this.time = time;
         // As the state in ios begain/move/end
@@ -59,6 +59,8 @@ class PresentorPoint{
 
         this.x = x;
         this.y = y;
+
+        this.isAbnormal = isAbnormal;
       }
 }
 
@@ -157,8 +159,12 @@ class PresentorProxy{
         // Get the dom object instead of warpped jQuery object
         var presentor = $this.find('.presentor');
         var presentorProxy = new PresentorProxy(presentor[0]);
-        var colorList = ['#34bfa3','#ffb822','#f4516c','#36a3f7','#5867dd'];
+
+        var colorList = ['#34bfa3', '#ffb822', '#f4516c', '#36a3f7', '#5867dd'];
         var currentColorIndex = 0;
+
+        var lightGrey = '#b2b2b2';
+        var standardRed = '#da3f5e';
 
         var mainView = $this.find('.main-view');
         var sentenceJPLabel = $this.find('.sentence-jp');
@@ -191,6 +197,9 @@ class PresentorProxy{
     
         var movementCollection;
         var movementAnimationCurrentIndex = 0;
+
+        var movementSupervisedCollection;
+        var movementSupervisedAnimationCurrentIndex = 0;
 
         var deviceAccelerationCollection;
         var deviceAccelerationAnimationCurrentIndex = 0;
@@ -323,7 +332,8 @@ class PresentorProxy{
                         startDate = answer.startDate;
                         endDate = answer.endDate;
 
-                        movementCollection = answer.movementCollection.slice().sort(sortByIndex);
+                        movementCollection = answer.movementSupervisedCollection.slice().sort(sortByIndex);
+                        //movementSupervisedCollection = answer.movementSupervisedCollection.slice().sort(sortByIndex);
                         deviceAccelerationCollection = answer.deviceAccelerationCollection.slice().sort(sortByIndex);
 
                         adjustMainViewSizeToResolution(answer.resolution);
@@ -385,7 +395,7 @@ class PresentorProxy{
 
                         pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 0, pointerCurrentPosition.x, pointerCurrentPosition.y));
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 0, pointerCurrentPosition.x, pointerCurrentPosition.y, currentMovement.isAbnormal));
 
                         targetElementCollection.forEach(function (wordItem, index) {
 
@@ -403,7 +413,7 @@ class PresentorProxy{
 
                             pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                            presentorPointCollection.push(new PresentorPoint(currentMovement.time, 1, pointerCurrentPosition.x, pointerCurrentPosition.y));
+                            presentorPointCollection.push(new PresentorPoint(currentMovement.time, 1, pointerCurrentPosition.x, pointerCurrentPosition.y, currentMovement.isAbnormal));
 
                             offsetX = pointerCurrentPosition.x - pointerLastPosition.x;
                             offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
@@ -423,7 +433,7 @@ class PresentorProxy{
 
                         pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 2, pointerCurrentPosition.x, pointerCurrentPosition.y));
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 2, pointerCurrentPosition.x, pointerCurrentPosition.y, currentMovement.isAbnormal));
 
                         offsetX = pointerCurrentPosition.x - pointerLastPosition.x;
                         offsetY = pointerCurrentPosition.y - pointerLastPosition.y;
@@ -445,7 +455,7 @@ class PresentorProxy{
 
                         pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 0, pointerCurrentPosition.x, pointerCurrentPosition.y));
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 0, pointerCurrentPosition.x, pointerCurrentPosition.y, currentMovement.isAbnormal));
 
                         potinerRectSelectionViewBeginPosition = pointerCurrentPosition;
 
@@ -465,7 +475,7 @@ class PresentorProxy{
 
                             pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                            presentorPointCollection.push(new PresentorPoint(currentMovement.time, 1, pointerCurrentPosition.x, pointerCurrentPosition.y));
+                            presentorPointCollection.push(new PresentorPoint(currentMovement.time, 1, pointerCurrentPosition.x, pointerCurrentPosition.y, currentMovement.isAbnormal));
 
                             rectSelectionViewStateCollection.push(new RectSelectionViewState(currentMovement.time, 1, Rectangle.getRectFromTwoPoints(pointerCurrentPosition, potinerRectSelectionViewBeginPosition)));
 
@@ -482,7 +492,7 @@ class PresentorProxy{
 
                         pointerCurrentPosition = new Point(currentMovement.xPosition, currentMovement.yPosition);
 
-                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 2, pointerCurrentPosition.x, pointerCurrentPosition.y));
+                        presentorPointCollection.push(new PresentorPoint(currentMovement.time, 2, pointerCurrentPosition.x, pointerCurrentPosition.y, currentMovement.isAbnormal));
 
                         rectSelectionViewStateCollection.push(new RectSelectionViewState(currentMovement.time, 2, Rectangle.getRectFromTwoPoints(pointerCurrentPosition, potinerRectSelectionViewBeginPosition)));
 
@@ -615,27 +625,42 @@ class PresentorProxy{
                     switch (presentorPointCollection[presentorPointCollectionCurrentIndex].state) {
 
                         case 0:
-                            presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
+                            if (presentorPointCollection[presentorPointCollectionCurrentIndex].isAbnormal) {
+                                presentorProxy.drawRect(currentDrawPoint, standardRed);
+                            }
+                            else {
+                                presentorProxy.drawRect(currentDrawPoint, lightGrey);
+                            }
 
                             lastDrawPoint = currentDrawPoint;
 
                             break;
 
                         case 1:
-                            presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
-                            presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, colorList[currentColorIndex]);
+                            if (presentorPointCollection[presentorPointCollectionCurrentIndex].isAbnormal) {
+                                presentorProxy.drawRect(currentDrawPoint, standardRed);
+                                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, standardRed);
+                            }
+                            else {
+                                presentorProxy.drawRect(currentDrawPoint, lightGrey);
+                                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, lightGrey);
+                            }
 
                             lastDrawPoint = currentDrawPoint;
 
                             break;
 
                         case 2:
-                            presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndex]);
-                            presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, colorList[currentColorIndex]);
+                            if (presentorPointCollection[presentorPointCollectionCurrentIndex].isAbnormal) {
+                                presentorProxy.drawRect(currentDrawPoint, standardRed);
+                                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, standardRed);
+                            }
+                            else {
+                                presentorProxy.drawRect(currentDrawPoint, lightGrey);
+                                presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, lightGrey);
+                            }
 
                             lastDrawPoint = currentDrawPoint;
-
-                            currentColorIndex = (currentColorIndex + 1) % colorList.length;
 
                             break;
 
@@ -746,27 +771,26 @@ class PresentorProxy{
                     switch(presentorPointCollection[presentorPointCollectionCurrentIndexSIM].state){
 
                         case 0:
-                        presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
+                        presentorProxy.drawRect(currentDrawPoint,lightGrey);
 
                         lastDrawPoint = currentDrawPoint;
 
                         break;
                 
                         case 1:
-                        presentorProxy.drawRect(currentDrawPoint, colorList[currentColorIndexSIM]);
-                        presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndexSIM]);
+                        presentorProxy.drawRect(currentDrawPoint, lightGrey);
+                        presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,lightGrey);
 
                         lastDrawPoint = currentDrawPoint;
 
                         break;
 
                         case 2:
-                        presentorProxy.drawRect(currentDrawPoint,colorList[currentColorIndexSIM]);
-                        presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,colorList[currentColorIndexSIM]);
+                        presentorProxy.drawRect(currentDrawPoint,lightGrey);
+                        presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint,currentDrawPoint,lightGrey);
 
                         lastDrawPoint = currentDrawPoint;
 
-                        currentColorIndexSIM = (currentColorIndexSIM + 1) % colorList.length;
 
                         break;
 
