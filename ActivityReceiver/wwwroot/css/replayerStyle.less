@@ -95,6 +95,50 @@
             height: 5px;
             border-radius: 3px;
         }
+
+        .presentor-point-hint {
+            position: absolute;
+            width: 50px;
+            height: 20px;
+
+            font-size: 12px;
+            text-align: center;
+            line-height: 20px;
+
+            background-color: black;
+
+            color: white;
+            border-radius: 2px;
+
+            opacity: 0.7;
+        } 
+        .presentor-point-hint:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 6px solid;
+
+            border-top-color: black;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+        }
+        .arrow-bottom{
+            position: absolute;
+            width: 0;
+            height: 0;
+
+            border: 6px solid;
+
+            border-top-color: #da3f5e;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+        }
     }
 
     .info-block {

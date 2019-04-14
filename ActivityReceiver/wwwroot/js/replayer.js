@@ -212,6 +212,13 @@ class PresentorProxy{
         var TimerID;
         var animationFrequency = 20;
 
+        var presentorPointHintAbnormalBegin = $('<div class="presentor-point-hint">begin</div>');
+        var presentorPointHintAbnormalEnd = $('<div class="presentor-point-hint">end</div>');
+
+        var arrowBottom = $('<div class="arrow-bottom"></div>');
+
+        var isDrawingAbnormalNow = false;
+
         // Sorts
         var sortByLeft = function (a, b) {
             return parseInt(a.obj.css('left')) > parseInt(b.obj.css('left'));
@@ -608,12 +615,41 @@ class PresentorProxy{
             return maxTime;
         };
 
+        var insertPointHintAbnormal = function (isBegin, x, y) {
+
+            var presentorPointHintAbnormalClone;
+
+            if (isBegin) {
+                presentorPointHintAbnormalClone = presentorPointHintAbnormalBegin.clone();
+            }
+            else {
+                presentorPointHintAbnormalClone = presentorPointHintAbnormalEnd.clone();
+            }
+
+            presentorPointHintAbnormalClone.css({
+                left: x - 25,
+                top: y - 30
+            });
+            mainView.append(presentorPointHintAbnormalClone);
+        };
+
+        var insertArrowBottom = function (x, y) {
+
+            var arrowBottomClone = arrowBottom.clone();
+
+            arrowBottomClone.css({
+                left: x - 6,
+                top: y - 8
+            });
+            mainView.append(arrowBottomClone);
+        };
+
         var playMovementAnimation = function () {
 
             if (currentMillisecondTime > totalMillisecondTime) {
 
                 return;
-            }
+            }    
 
             // Draw point
             if (presentorPointCollectionCurrentIndex < presentorPointCollection.length) {
@@ -627,9 +663,21 @@ class PresentorProxy{
                         case 0:
                             if (presentorPointCollection[presentorPointCollectionCurrentIndex].isAbnormal) {
                                 presentorProxy.drawRect(currentDrawPoint, standardRed);
+
+                                if (!isDrawingAbnormalNow) {
+                                    isDrawingAbnormalNow = true;
+
+                                    insertArrowBottom(presentorPointCollection[presentorPointCollectionCurrentIndex].x, presentorPointCollection[presentorPointCollectionCurrentIndex].y);
+                                }
                             }
                             else {
                                 presentorProxy.drawRect(currentDrawPoint, lightGrey);
+
+                                if (isDrawingAbnormalNow) {
+                                    isDrawingAbnormalNow = false;
+
+                                    insertArrowBottom(lastDrawPoint.x, lastDrawPoint.y);
+                                }
                             }
 
                             lastDrawPoint = currentDrawPoint;
@@ -640,10 +688,22 @@ class PresentorProxy{
                             if (presentorPointCollection[presentorPointCollectionCurrentIndex].isAbnormal) {
                                 presentorProxy.drawRect(currentDrawPoint, standardRed);
                                 presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, standardRed);
+
+                                if (!isDrawingAbnormalNow) {
+                                    isDrawingAbnormalNow = true;
+
+                                    insertArrowBottom(presentorPointCollection[presentorPointCollectionCurrentIndex].x, presentorPointCollection[presentorPointCollectionCurrentIndex].y);
+                                }
                             }
                             else {
                                 presentorProxy.drawRect(currentDrawPoint, lightGrey);
                                 presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, lightGrey);
+
+                                if (isDrawingAbnormalNow) {
+                                    isDrawingAbnormalNow = false;
+
+                                    insertArrowBottom(lastDrawPoint.x, lastDrawPoint.y);
+                                }
                             }
 
                             lastDrawPoint = currentDrawPoint;
@@ -654,10 +714,22 @@ class PresentorProxy{
                             if (presentorPointCollection[presentorPointCollectionCurrentIndex].isAbnormal) {
                                 presentorProxy.drawRect(currentDrawPoint, standardRed);
                                 presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, standardRed);
+
+                                if (!isDrawingAbnormalNow) {
+                                    isDrawingAbnormalNow = true;
+
+                                    insertArrowBottom(presentorPointCollection[presentorPointCollectionCurrentIndex].x, presentorPointCollection[presentorPointCollectionCurrentIndex].y);
+                                }
                             }
                             else {
                                 presentorProxy.drawRect(currentDrawPoint, lightGrey);
                                 presentorProxy.drawLineBetweenTwoPoints(lastDrawPoint, currentDrawPoint, lightGrey);
+
+                                if (isDrawingAbnormalNow) {
+                                    isDrawingAbnormalNow = false;
+
+                                    insertArrowBottom(lastDrawPoint.x, lastDrawPoint.y);
+                                }
                             }
 
                             lastDrawPoint = currentDrawPoint;

@@ -22,7 +22,7 @@ namespace ActivityReceiver.Functions
             this.deviceAccelerationCollection = deviceAccelerationCollection;
         }
 
-        private void SetMovementSupervisedToAbnormalByTime(ref List<MovementSupervised> movementSupervisedCollection, int time)
+        private void SetMovementSupervisedToAbnormal(ref List<MovementSupervised> movementSupervisedCollection, int time)
         {
             var movementSupervisedLocated = movementSupervisedCollection.FirstOrDefault();
             for (int i = 0; i < movementSupervisedCollection.Count; i++)
@@ -71,7 +71,7 @@ namespace ActivityReceiver.Functions
                 var deviceAccelerationCombinedFiltered = deviceAccelerationCombinedFilteredCollection[i];
                 if (deviceAccelerationCombinedFiltered.Acceleration >= ThACC)
                 {
-                    SetMovementSupervisedToAbnormalByTime(ref movementSupervisedCollection, deviceAccelerationCombinedFiltered.Time);
+                    SetMovementSupervisedToAbnormal(ref movementSupervisedCollection, deviceAccelerationCombinedFiltered.Time);
                 }
             }
 
