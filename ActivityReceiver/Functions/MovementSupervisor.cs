@@ -126,5 +126,35 @@ namespace ActivityReceiver.Functions
             }
             return deviceAccelerationCombinedFilteredCollection;
         }
+
+        public static IList<Movement> FilterMovementForceCollection(IList<Movement> movementCollection)
+        {
+            var movementFilteredCollection = new List<Movement>();
+
+            // The windows size is 20
+            var movingFilter = new MovingAverage(20);
+
+            for (int i = 0; i < movementCollection.Count; i++)
+            {
+                var movement = movementCollection[i];
+
+                var movementFiltered = new Movement
+                {
+                    ID = movement.ID,
+                    AnswerRecordID = movement.AnswerRecordID,
+                    Index = movement.Index,
+                    Time = movement.Time,
+                    State = movement.State,
+                    TargetElement = movement.TargetElement,
+                    XPosition = movement.XPosition,
+                    YPosition = movement.YPosition,
+
+                    Force = movingFilter.ComputeAverage(movement.Force)
+                };
+
+                movementFilteredCollection.Add(movementFiltered);
+            }
+            return movementFilteredCollection;
+        }
     }
 }

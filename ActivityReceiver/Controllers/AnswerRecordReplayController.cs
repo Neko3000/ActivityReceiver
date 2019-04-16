@@ -151,6 +151,20 @@ namespace ActivityReceiver.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetMovementFilteredCollection(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movementCollection = await _arDbContext.Movements.Where(da => da.AnswerRecordID == id).ToListAsync();
+            var movementFilterCollection = MovementSupervisor.FilterMovementForceCollection(movementCollection);
+
+            return Ok(movementFilterCollection);
+        }
+
+        [HttpGet]
         public IActionResult Replayer(int id)
         {
             var vm = new AnswerReplayReplayerViewModel {
@@ -158,7 +172,6 @@ namespace ActivityReceiver.Controllers
             };
             return View(vm);
         }
-
 
         [HttpGet]
         public IActionResult Index()

@@ -583,6 +583,7 @@
                 </div>
                 <div class="m-portlet__body">
                     <div id="chart-movement-force" style="height: 500px;"></div>
+                    <div id="chart-movement-force-filtered" style="height: 500px;"></div>
                 </div>
             </div>
         </div>
@@ -711,75 +712,6 @@
 
                         }
                     }
-                ],
-                "chartScrollbar": {
-                    "autoGridCount": false,
-                    //"graph": "g1",
-                    "scrollbarHeight": 40
-                },
-                "chartCursor": {
-                    //"limitToGraph": "g1"
-                },
-                "categoryField": "time",
-                "categoryAxis": {
-                    "autoGridCount": false,
-                    //"axisColor": "#DADADA",
-                    "dashLength": 1,
-                    "minorGridEnabled": true,
-                },
-                "export": {
-                    "enabled": true
-                }
-            });
-
-            chartMovementForce = AmCharts.makeChart("chart-movement-force", {
-                "type": "serial",
-                "theme": "light",
-                //"autoMarginOffset": 30,
-                "autoMargins": false,
-                "marginLeft": 80,
-                "marginRight": 50,
-                "marginTop": 20,
-                "marginBottom": 60,
-
-                "legend": {
-                    "equalWidths": false,
-                    "useGraphSettings": true,
-                    "valueAlign": "left",
-                    "valueWidth": 120
-                },
-
-                //"dataProvider": chartData,
-                "valueAxes": [{
-                    "axisAlpha": 0.5,
-                    //"dashLength": 1,
-                    "position": "left",
-                    "inside": false,
-                    "title": "圧力",
-                    "minimum": 0
-                }],
-                "mouseWheelZoomEnabled": true,
-                "graphs": [{
-                    "id": "g1",
-                    "balloonText": "x: [[value]]/1.0",
-                    "bullet": "round",
-                    "bulletBorderAlpha": 1,
-                    "bulletColor": "#FFFFFF",
-                    "hideBulletsCount": 50,
-
-                    "title": "Force",
-                    "legendValueText": "[[value]]/1.0",
-
-                    "valueField": "force",
-                    "useLineColorForBulletBorder": true,
-
-                    //"negativeBase": 0.1,
-                    //"lineColor": "#fdd400",
-                    //"negativeLineColor": "#67b7dc",
-                    "balloon": {
-
-                    }
-                },
                 ],
                 "chartScrollbar": {
                     "autoGridCount": false,
@@ -939,6 +871,143 @@
                 }
             });
 
+            chartMovementForce = AmCharts.makeChart("chart-movement-force", {
+                "type": "serial",
+                "theme": "light",
+                //"autoMarginOffset": 30,
+                "autoMargins": false,
+                "marginLeft": 80,
+                "marginRight": 50,
+                "marginTop": 20,
+                "marginBottom": 60,
+
+                "legend": {
+                    "equalWidths": false,
+                    "useGraphSettings": true,
+                    "valueAlign": "left",
+                    "valueWidth": 120
+                },
+
+                //"dataProvider": chartData,
+                "valueAxes": [{
+                    "axisAlpha": 0.5,
+                    //"dashLength": 1,
+                    "position": "left",
+                    "inside": false,
+                    "title": "圧力",
+                    "minimum": 0
+                }],
+                "mouseWheelZoomEnabled": true,
+                "graphs": [{
+                    "id": "g1",
+                    "balloonText": "x: [[value]]/1.0",
+                    "bullet": "round",
+                    "bulletBorderAlpha": 1,
+                    "bulletColor": "#FFFFFF",
+                    "hideBulletsCount": 50,
+
+                    "title": "Force",
+                    "legendValueText": "[[value]]/1.0",
+
+                    "valueField": "force",
+                    "useLineColorForBulletBorder": true,
+
+                    //"negativeBase": 0.1,
+                    //"lineColor": "#fdd400",
+                    //"negativeLineColor": "#67b7dc",
+                    "balloon": {
+
+                    }
+                },
+                ],
+                "chartScrollbar": {
+                    "autoGridCount": false,
+                    //"graph": "g1",
+                    "scrollbarHeight": 40
+                },
+                "chartCursor": {
+                    //"limitToGraph": "g1"
+                },
+                "categoryField": "time",
+                "categoryAxis": {
+                    "autoGridCount": false,
+                    //"axisColor": "#DADADA",
+                    "dashLength": 1,
+                    "minorGridEnabled": true,
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+
+            chartMovementForceFiltered= AmCharts.makeChart("chart-movement-force-filtered", {
+                "type": "serial",
+                "theme": "light",
+                //"autoMarginOffset": 30,
+                "autoMargins": false,
+                "marginLeft": 80,
+                "marginRight": 50,
+                "marginTop": 20,
+                "marginBottom": 60,
+
+                "legend": {
+                    "equalWidths": false,
+                    "useGraphSettings": true,
+                    "valueAlign": "left",
+                    "valueWidth": 120
+                },
+
+                //"dataProvider": chartData,
+                "valueAxes": [{
+                    "axisAlpha": 0.5,
+                    //"dashLength": 1,
+                    "position": "left",
+                    "inside": false,
+                    "title": "圧力（平滑）",
+                    "minimum": 0
+                }],
+                "mouseWheelZoomEnabled": true,
+                "graphs": [{
+                    "id": "g1",
+                    "balloonText": "x: [[value]]/1.0",
+                    "bullet": "round",
+                    "bulletBorderAlpha": 1,
+                    "bulletColor": "#FFFFFF",
+                    "hideBulletsCount": 50,
+
+                    "title": "ForceFiltered",
+                    "legendValueText": "[[value]]/1.0",
+
+                    "valueField": "force",
+                    "useLineColorForBulletBorder": true,
+
+                    //"negativeBase": 0.1,
+                    //"lineColor": "#fdd400",
+                    //"negativeLineColor": "#67b7dc",
+                    "balloon": {
+
+                    }
+                },
+                ],
+                "chartScrollbar": {
+                    "autoGridCount": false,
+                    //"graph": "g1",
+                    "scrollbarHeight": 40
+                },
+                "chartCursor": {
+                    //"limitToGraph": "g1"
+                },
+                "categoryField": "time",
+                "categoryAxis": {
+                    "autoGridCount": false,
+                    //"axisColor": "#DADADA",
+                    "dashLength": 1,
+                    "minorGridEnabled": true,
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
 
             $.ajax({
                 type: 'GET',
@@ -950,19 +1019,6 @@
 
                     chartDeviceAcceleration.dataProvider = data.sort(sortByTime);
                     chartDeviceAcceleration.validateNow();
-                }
-            });
-
-            $.ajax({
-                type: 'GET',
-                url: "/AnswerRecordReplay/GetMovementCollection/" + "@Model.ID",
-                dataType: 'json',
-                context: document.body,
-                async: true,
-                success: function (data) {
-
-                    chartMovementForce.dataProvider = data.sort(sortByTime);
-                    chartMovementForce.validateNow();
                 }
             });
 
@@ -989,6 +1045,32 @@
 
                     chartDeviceAccelerationCombinedFiltered.dataProvider = data.sort(sortByTime);
                     chartDeviceAccelerationCombinedFiltered.validateNow();
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: "/AnswerRecordReplay/GetMovementCollection/" + "@Model.ID",
+                dataType: 'json',
+                context: document.body,
+                async: true,
+                success: function (data) {
+
+                    chartMovementForce.dataProvider = data.sort(sortByTime);
+                    chartMovementForce.validateNow();
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: "/AnswerRecordReplay/GetMovementFilteredCollection/" + "@Model.ID",
+                dataType: 'json',
+                context: document.body,
+                async: true,
+                success: function (data) {
+
+                    chartMovementForceFiltered.dataProvider = data.sort(sortByTime);
+                    chartMovementForceFiltered.validateNow();
                 }
             });
         });
