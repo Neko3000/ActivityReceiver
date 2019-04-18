@@ -211,6 +211,15 @@ namespace ActivityReceiver.ViewModels.AnswerRecordManage
 
         [Display(Name = "U-ターン縦方向")]
         public int UTurnVerticalCountFixed { get; set; }
+
+        [Display(Name = "適合率")]
+        public float Precision { get; set; }
+
+        [Display(Name = "再現率")]
+        public float Recall { get; set; }
+
+        [Display(Name = "F値")]
+        public float FMeasure { get; set; }
     }
     #endregion
 }

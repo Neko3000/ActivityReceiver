@@ -43,7 +43,7 @@ namespace ActivityReceiver.Controllers
 
             // supervise process
             var movementSupervisor = new MovementSupervisor(movements, deviceAccelerations);
-            var movementSupervisedCollection = movementSupervisor.Supervise();
+            var movementSupervisedCollection = movementSupervisor.SuperviseByAcceleration();
 
             var vm = new AnswerReplayGetAnswerViewModel
             {
@@ -103,7 +103,7 @@ namespace ActivityReceiver.Controllers
 
             // supervise process
             var movementSupervisor = new MovementSupervisor(movementCollection, deviceAccelerationCollection);
-            var movementSupervisedCollection = movementSupervisor.Supervise();
+            var movementSupervisedCollection = movementSupervisor.SuperviseByAcceleration();
 
             return Ok(movementSupervisedCollection);
         }

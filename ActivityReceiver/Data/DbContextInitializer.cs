@@ -84,6 +84,54 @@ namespace ActivityReceiver.Data
                 var applicationUserPWD5 = "i123456";
                 await _userManager.CreateAsync(applicationUser5, applicationUserPWD5);
                 await _userManager.AddToRoleAsync(applicationUser5, "Student");
+
+                var applicationUser6 = new ApplicationUser
+                {
+                    UserName = "Tanaka",
+                };
+                var applicationUserPWD6 = "t123456";
+                await _userManager.CreateAsync(applicationUser6, applicationUserPWD6);
+                await _userManager.AddToRoleAsync(applicationUser6, "Student");
+
+                var applicationUser7 = new ApplicationUser
+                {
+                    UserName = "Ikeda",
+                };
+                var applicationUserPWD7 = "i123456";
+                await _userManager.CreateAsync(applicationUser7, applicationUserPWD7);
+                await _userManager.AddToRoleAsync(applicationUser5, "Student");
+
+                var applicationUser8 = new ApplicationUser
+                {
+                    UserName = "Banno",
+                };
+                var applicationUserPWD8 = "b123456";
+                await _userManager.CreateAsync(applicationUser8, applicationUserPWD8);
+                await _userManager.AddToRoleAsync(applicationUser5, "Student");
+
+                var applicationUser9 = new ApplicationUser
+                {
+                    UserName = "Ando",
+                };
+                var applicationUserPWD9 = "a123456";
+                await _userManager.CreateAsync(applicationUser9, applicationUserPWD9);
+                await _userManager.AddToRoleAsync(applicationUser5, "Student");
+
+                var applicationUser10 = new ApplicationUser
+                {
+                    UserName = "Waki",
+                };
+                var applicationUserPWD10 = "w123456";
+                await _userManager.CreateAsync(applicationUser10, applicationUserPWD10);
+                await _userManager.AddToRoleAsync(applicationUser5, "Student");
+
+                var applicationUser11 = new ApplicationUser
+                {
+                    UserName = "Shirasu",
+                };
+                var applicationUserPWD11 = "s123456";
+                await _userManager.CreateAsync(applicationUser11, applicationUserPWD11);
+                await _userManager.AddToRoleAsync(applicationUser5, "Student");
             }
         }
 
@@ -399,6 +447,246 @@ namespace ActivityReceiver.Data
                     CreateDate = DateTime.Now,
                     Remark = "",
                 },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "I love the Koiwai Coffee.",
+                    SentenceJP = "私は小岩井珈琲が好きです。",
+                    Level = 5,
+                    Division = "coffee|I|Koiwai|love|the",
+                    StandardAnswerDivision = "I|love|the|Koiwai|coffee",
+                    GrammarIDString = "#8#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "His story does not sound true.",
+                    SentenceJP = "彼の話は本当のようには思えない。",
+                    Level = 5,
+                    Division = "does|his|not|sound|story|true",
+                    StandardAnswerDivision = "his|story|does|not|sound|true",
+                    GrammarIDString = "#21#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "He often fails to keep his promises.",
+                    SentenceJP = "彼は約束を守らないことがよくある。",
+                    Level = 5,
+                    Division = "fails|often|he|his|keep|promises|to",
+                    StandardAnswerDivision = "he|often|fails|to|keep|his|promises",
+                    GrammarIDString = "-1",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "You may have heard this joke before.",
+                    SentenceJP = "その冗談は前に聞いたことがあるかもしれませんね。",
+                    Level = 5,
+                    Division = "before|have|heard|joke|may|this|you",
+                    StandardAnswerDivision = "you|may|have|heard|this|joke|before",
+                    GrammarIDString = "#13#17#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "I found the knife covered with dust.",
+                    SentenceJP = "そのナイフがホコリだらけなのに私は気づいた。",
+                    Level = 5,
+                    Division = "covered|dust|found|I|knife|the|with",
+                    StandardAnswerDivision = "I|found|the|knife|covered|with|dust",
+                    GrammarIDString = "#16#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "She is too young to buy alcohol.",
+                    SentenceJP = "彼女は、お酒を買うには若すぎる。",
+                    Level = 5,
+                    Division = "alcohol|buy|is|she|to|too|young",
+                    StandardAnswerDivision = "she|is|too|young|to|buy|alcohol",
+                    GrammarIDString = "#11#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "He is very much interested in Japanese history.",
+                    SentenceJP = "彼は日本の歴史に非常に興味を持っている。",
+                    Level = 5,
+                    Division = "he|history|very much|in|interested|is|Japanese",
+                    StandardAnswerDivision = "he|is|very much|interested|in|Japanese|history",
+                    GrammarIDString = "-1",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "Can I have something cold to drink?",
+                    SentenceJP = "何か冷たい飲み物をくれないか？",
+                    Level = 5,
+                    Division = "can|cold|drink|have|I|something|to",
+                    StandardAnswerDivision = "can|I|have|something|cold|to|drink",
+                    GrammarIDString = "#11#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "You did more work than I had expected.",
+                    SentenceJP = "君は私たちが期待した以上の仕事をした。",
+                    Level = 5,
+                    Division = "did|expected|had|I|more|than|work|you",
+                    StandardAnswerDivision = "you|did|more|work|than|I|had|expected",
+                    GrammarIDString = "#14#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "Neither road will lead you to the destination.",
+                    SentenceJP = "どちらの道を行ってもその目的地には着かないだろう。",
+                    Level = 5,
+                    Division = "destination|lead|neither|road|the|to|will|you",
+                    StandardAnswerDivision = "neither|road|will|lead|you|to|the|destination",
+                    GrammarIDString = "#3#15#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "Remembering the names of flowers is difficult for me.",
+                    SentenceJP = "花の名前を覚えることは、私は苦手だ。",
+                    Level = 5,
+                    Division = "difficult|for|names of flowers|is|me|remembering|the",
+                    StandardAnswerDivision = "difficult|for|names of flowers|is|me|remembering|the",
+                    GrammarIDString = "#10#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "This is how he solved the difficult problem.",
+                    SentenceJP = "このようにして彼はその難問を解いた。",
+                    Level = 5,
+                    Division = "this|difficult|he|how|is|problem|solved|the",
+                    StandardAnswerDivision = "this|is|how|he|solved|the|difficult|problem",
+                    GrammarIDString = "#6#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "He had to give up his trip to France.",
+                    SentenceJP = "彼はフランスへの旅行を断念しなければならなかった。",
+                    Level = 5,
+                    Division = "France|give|had|he|his|to|to|trip|up",
+                    StandardAnswerDivision = "he|had|to|give|up|his|trip|to|France",
+                    GrammarIDString = "-1",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "She was pleased with this score on the test.",
+                    SentenceJP = "彼女はテストの点に喜んだ。",
+                    Level = 5,
+                    Division = "on|pleased|score|she|this|was|with|the test",
+                    StandardAnswerDivision = "she|was|pleased|with|this|score|on|the test",
+                    GrammarIDString = "#12#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "He decided not to side with the stronger party.",
+                    SentenceJP = "彼は強い方には味方しないと決心した。",
+                    Level = 5,
+                    Division = "decided|he|not|party|side|stronger|the|to|with",
+                    StandardAnswerDivision = "he|decided|not|to|side|with|the|stronger|party",
+                    GrammarIDString = "#11#15#22#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "This medicine will make you feel a bit better.",
+                    SentenceJP = "この薬を飲めばすこしは気分が良くなるだろう。",
+                    Level = 5,
+                    Division = "a|better|bit|feel|make|medicine|this|will|you",
+                    StandardAnswerDivision = "this|medicine|will|make|you|feel|a|bit|better",
+                    GrammarIDString = "#3#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "The top of the mountain is covered with snow.",
+                    SentenceJP = "その山の頂上は雪で覆われている。",
+                    Level = 5,
+                    Division = "covered|is|mountain|of|snow|the|the|top|with",
+                    StandardAnswerDivision = "the|top|of|the|mountain|is|covered|with|snow",
+                    GrammarIDString = "#12#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "When does your school break up for the summer?",
+                    SentenceJP = "あなたの学校はいつ夏休みになりますか。",
+                    Level = 5,
+                    Division = "break|does|for|school|summer|the|up|when|your",
+                    StandardAnswerDivision = "when|does|your|school|break|up|for|the|summer",
+                    GrammarIDString = "-1",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "I'm sorry to have kept you waiting so long.",
+                    SentenceJP = "長いことお待たせしてすみませんでした。",
+                    Level = 5,
+                    Division = "have|I'm|kept|long|so|sorry|to|waiting|you",
+                    StandardAnswerDivision = "I'm|sorry|to|have|kept|you|waiting|so|long",
+                    GrammarIDString = "#11#21#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
+                new Question()
+                {
+                    EditorID = applicationUser1.Id,
+                    SentenceEN = "We must find out how to deal with the matter.",
+                    SentenceJP = "私たちはその問題の処理方法を見つけ出さねばならない。",
+                    Level = 5,
+                    Division = "deal|find|how|matter|must|out|the|to|we|with",
+                    StandardAnswerDivision = "we|must|find|out|how|to|deal|with|the|matter",
+                    GrammarIDString = "#11#",
+                    CreateDate = DateTime.Now,
+                    Remark = "",
+                },
             };
             _arDbContext.Questions.AddRange(questions);
             _arDbContext.SaveChanges();
@@ -432,8 +720,16 @@ namespace ActivityReceiver.Data
                 new Exercise
                 {
                     Name = "テスト用問題集",
-                    Description = "簡単な二問で",
+                    Description = "基本の操作を練習する",
                     Level = 4,
+                    CreateDate = DateTime.Now,
+                    EditorID = applicationUser1.Id
+                },
+                new Exercise
+                {
+                    Name = "問題集-実験①",
+                    Description = "比較的に簡単な20問が含まれている",
+                    Level = 5,
                     CreateDate = DateTime.Now,
                     EditorID = applicationUser1.Id
                 },
@@ -509,6 +805,26 @@ namespace ActivityReceiver.Data
                     for (int j = 0; j < questions.Count; j++)
                     {
                         if (questions[j].Level == 4)
+                        {
+                            var exerciseQuestion = new ExerciseQuestionRelation()
+                            {
+                                ExerciseID = exercises[i].ID,
+                                QuestionID = questions[j].ID,
+                                SerialNumber = j
+                            };
+
+                            _arDbContext.ExerciseQuestionRelationMap.Add(exerciseQuestion);
+                            _arDbContext.SaveChanges();
+                        }
+                    }
+                }
+
+                // Exercise 4
+                if (exercises[i].Level == 5)
+                {
+                    for (int j = 0; j < questions.Count; j++)
+                    {
+                        if (questions[j].Level == 5)
                         {
                             var exerciseQuestion = new ExerciseQuestionRelation()
                             {

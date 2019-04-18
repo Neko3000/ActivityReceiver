@@ -517,6 +517,40 @@
                                 <div class="col-lg-4 m--margin-top-20">
                                     <div class="row">
                                         <div class="col-lg-12 offset-lg-1 m--font-bold">
+                                            <h6 class="m--font-boldest">計算値</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            適合率
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.Precision
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            再現率
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.Recall
+                                        </div>
+                                    </div>
+                                    <div class="row m--margin-top-15">
+                                        <div class="col-lg-5 offset-lg-1 m--font-bold">
+                                            F値
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @Model.FMeasure
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-separator m-separator--dashed"></div>
+                            <div class="row  m--padding-top-20 m--padding-bottom-20">
+                                <div class="col-lg-4 m--margin-top-20">
+                                    <div class="row">
+                                        <div class="col-lg-12 offset-lg-1 m--font-bold">
                                             <h6 class="m--font-boldest">U-ターン</h6>
                                         </div>
                                     </div>

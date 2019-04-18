@@ -81,7 +81,7 @@ namespace ActivityReceiver.Controllers
 
             // supervise process
             var movementSupervisor = new MovementSupervisor(movementCollection, deviceAccelerationCollection);
-            var movementSupervisedCollection = movementSupervisor.Supervise();
+            var movementSupervisedCollection = movementSupervisor.SuperviseByAcceleration();
 
             vm.MovementCollection = movementCollection;
             vm.DeviceAccelerationCollection = deviceAccelerationCollection;
@@ -112,6 +112,12 @@ namespace ActivityReceiver.Controllers
             vm.DDSpeedMINFixed = ParameterAnalyzerForMovementSupervised.CalculateDDSpeedMIN(movementSupervisedCollection);
             vm.UTurnHorizontalCountFixed = ParameterAnalyzerForMovementSupervised.CalculateUTurnHorizontalCount(movementSupervisedCollection);
             vm.UTurnVerticalCountFixed = ParameterAnalyzerForMovementSupervised.CalculateUTurnVerticalCount(movementSupervisedCollection);
+
+            //
+            var experimentStatistician = new ExperimentStatistician();
+            vm.Precision = experimentStatistician.CalculatePrecision(movementSupervisedCollection);
+            vm.Recall = experimentStatistician.CalculateRecall(movementSupervisedCollection);
+            vm.FMeasure = experimentStatistician.CalculateFMeasure(movementSupervisedCollection);
 
             return View(vm);
         }
