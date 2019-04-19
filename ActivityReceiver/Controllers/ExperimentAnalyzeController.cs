@@ -61,23 +61,23 @@ namespace ActivityReceiver.Controllers
             }
 
             var assignmentRecordCollection = await _arDbContext.AssignmentRecords.Where(ar => ar.ExerciseID == exercise.ID).ToListAsync();
-
-            float thACC, thFOC;
-            float step = 0.05f;
-            MovementSupervisor movementSupervisor;
-            ExperimentStatistician expermentStatistician = new ExperimentStatistician();
-
+           
             var vm = new AbnormalTrajectoryViewModel
             {
                 AbnormalTrajectoryEvaluationCollection = new List<AbnormalTrajectoryEvaluation>()
             };
 
             // ThACC, ThFOC
-            thACC = 0.05f;
-            thFOC = 0.05f;
-            while (thACC <= 0.5f)
+            
+            
+
+            float thACC = 0.01f;
+            float stepThACC = 0.01f;
+            while (thACC <= 0.205f)
             {
-                while (thFOC <= 0.5f)
+                float thFOC = 0.01f;
+                float stepThFOC = 0.01f;
+                while (thFOC <= 0.205f)
                 {
                     float precisionAverageForAllAssignmentRecord = 0;
                     float recallAverageForAllAssignmentRecord = 0;
@@ -96,9 +96,10 @@ namespace ActivityReceiver.Controllers
                             var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerRecordID == answerRecord.ID).ToListAsync();
                             var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == answerRecord.ID).ToListAsync();
 
-                            movementSupervisor = new MovementSupervisor(movementCollection, deviceAccelerationCollection, thACC, thFOC);
+                            var movementSupervisor = new MovementSupervisor(movementCollection, deviceAccelerationCollection, thACC, thFOC);
                             var movementSupervised = movementSupervisor.Supervise();
 
+                            var expermentStatistician = new ExperimentStatistician();
                             var precision = expermentStatistician.CalculatePrecision(movementSupervised);
                             var recall = expermentStatistician.CalculateRecall(movementSupervised);
                             var fMeasure = expermentStatistician.CalculateFMeasure(movementSupervised);
@@ -107,10 +108,13 @@ namespace ActivityReceiver.Controllers
                             recallAverageForSingleAssignmentRecord += recall;
                             fMeasureAverageForSingleAssignmentRecord += fMeasure;
                         }
+                        precisionAverageForSingleAssignmentRecord = precisionAverageForSingleAssignmentRecord / answerRecordCollection.Count;
+                        recallAverageForSingleAssignmentRecord = recallAverageForSingleAssignmentRecord / answerRecordCollection.Count;
+                        fMeasureAverageForSingleAssignmentRecord = fMeasureAverageForSingleAssignmentRecord / answerRecordCollection.Count;
 
                         precisionAverageForAllAssignmentRecord += precisionAverageForSingleAssignmentRecord;
-                        recallAverageForAllAssignmentRecord += recallAverageForAllAssignmentRecord;
-                        fMeasureAverageForAllAssignmentRecord += fMeasureAverageForAllAssignmentRecord;
+                        recallAverageForAllAssignmentRecord += recallAverageForSingleAssignmentRecord;
+                        fMeasureAverageForAllAssignmentRecord += fMeasureAverageForSingleAssignmentRecord;
                     }
                     precisionAverageForAllAssignmentRecord = precisionAverageForAllAssignmentRecord / assignmentRecordCollection.Count;
                     recallAverageForAllAssignmentRecord = recallAverageForAllAssignmentRecord / assignmentRecordCollection.Count;
@@ -126,51 +130,10 @@ namespace ActivityReceiver.Controllers
                         FMeasure = fMeasureAverageForAllAssignmentRecord,
                     });
 
-                    thFOC += step;
+                    thFOC += stepThFOC;
                 }
 
-                thACC += step;
-            }
-
-            for (int i = 0; i< assignmentRecordCollection.Count; i++)
-            {
-                var assignmentRecord = assignmentRecordCollection[i];
-                var answerRecordCollection = await _arDbContext.AnswserRecords.Where(ar => ar.AssignmentRecordID == assignmentRecord.ID).ToListAsync();
-
-                for(int j = 0; j<answerRecordCollection.Count; j++)
-                {
-                    var answerRecord = answerRecordCollection[j];
-                    var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerRecordID == answerRecord.ID).ToListAsync();
-                    var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == answerRecord.ID).ToListAsync();
-
-                    // ThACC, ThFOC
-                    thACC = 0.05f;
-                    thFOC = 0.05f;
-                    while (thACC <= 0.5f)
-                    {
-                        while(thFOC <= 0.5f)
-                        {
-                            movementSupervisor = new MovementSupervisor(movementCollection, deviceAccelerationCollection, thACC, thFOC);
-                            var movementSupervised = movementSupervisor.Supervise();
-
-                            vm.AbnormalTrajectoryEvaluationCollection.Add(new AbnormalTrajectoryEvaluation
-                            {
-                                ThACC = thACC,
-                                ThFOC = thFOC,
-
-                                Precision = expermentStatistician.CalculatePrecision(movementSupervised),
-                                Recall = expermentStatistician.CalculateRecall(movementSupervised),
-                                FMeasure = expermentStatistician.CalculateFMeasure(movementSupervised),
-                            });
-
-                            thFOC += step;
-                        }
-
-                        thACC += step;
-                    }
-
-
-                }
+                thACC += stepThACC;
             }
 
             return View(vm);

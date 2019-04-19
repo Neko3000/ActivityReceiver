@@ -12,7 +12,7 @@ namespace ActivityReceiver.Functions
     public class ExperimentStatistician
     {
         float[] timingArray = { 8, 15, 22, 29, 36, 60, 70, 80, 90, 100 };
-        float duration = 2.0f;
+        float duration = 5.0f;
 
         public float CalculatePrecision(IList<MovementSupervised> movementSupervisedCollection)
         {
@@ -38,7 +38,7 @@ namespace ActivityReceiver.Functions
                 }
            
             }
-            return (float)abnormalHitCount/ abnormalMarkedCount;
+            return abnormalMarkedCount == 0 ? 0 : (float)abnormalHitCount/ abnormalMarkedCount;
         }
 
         public float CalculateRecall(IList<MovementSupervised> movementSupervisedCollection)
@@ -64,7 +64,7 @@ namespace ActivityReceiver.Functions
                 }
 
             }
-            return (float) abnormalHitCount / abnormalRealCount;
+            return abnormalRealCount == 0 ? 0 : (float) abnormalHitCount / abnormalRealCount;
         }
 
         public float CalculateFMeasure(IList<MovementSupervised> movementSupervisedCollection)
@@ -72,7 +72,7 @@ namespace ActivityReceiver.Functions
             float precision = CalculatePrecision(movementSupervisedCollection);
             float recall = CalculateRecall(movementSupervisedCollection);
 
-            return 2 * precision * recall / (precision + recall);
+            return (precision == 0 && recall == 0) ? 0 : 2 * precision * recall / (precision + recall);
         }
 
     }
