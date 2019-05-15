@@ -21,4 +21,3 @@ E:\VisualStudioProjects\ASP.NET\ActivityReceiver\ActivityReceiver\obj\Debug\netc
 E:\VisualStudioProjects\ASP.NET\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\ActivityReceiver.AssemblyInfo.cs
 E:\VisualStudioProjects\ASP.NET\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\ActivityReceiver.dll
 E:\VisualStudioProjects\ASP.NET\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\ActivityReceiver.pdb
-E:\VisualStudioProjects\ASP.NET\ActivityReceiver\ActivityReceiver\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs

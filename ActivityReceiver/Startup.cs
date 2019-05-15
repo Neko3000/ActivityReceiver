@@ -17,6 +17,8 @@ using System.Text;
 using ActivityReceiver.ViewModels;
 using ActivityReceiver.Functions;
 using ActivityReceiver.DataBuilders;
+using MySql.Data.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace ActivityReceiver
 {
@@ -33,10 +35,10 @@ namespace ActivityReceiver
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContextConnection")));
+                options.UseMySQL(Configuration.GetConnectionString("ApplicationDbContextConnection")));
 
             services.AddDbContext<ActivityReceiverDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ActivityReceiverDbContextConnection")));
+                options.UseMySQL(Configuration.GetConnectionString("ActivityReceiverDbContextConnection")));
 
             // Change the policy of password
             services.AddIdentity<ApplicationUser, IdentityRole>(options => {
@@ -91,8 +93,16 @@ namespace ActivityReceiver
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            //ProxyPass?
+            app.UsePathBase("/activityreceiver");
+
             app.UseStaticFiles();
 
+            //the Authentication needs ForwardedHeaders middle-ware to run
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
             app.UseAuthentication();
 
             app.UseMvc(routes =>
