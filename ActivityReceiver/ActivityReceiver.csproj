@@ -3201,6 +3201,12 @@
     <Content Update="Views\ExerciseManage\Delete.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\ExperimentAnalyze\AverageForceForEachUser.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\ExperimentAnalyze\AbnormalTrajectoryForEachUser.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\ExperimentAnalyze\AbnormalTrajectory.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

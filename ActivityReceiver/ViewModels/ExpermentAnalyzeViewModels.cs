@@ -10,4 +10,9 @@ namespace ActivityReceiver.ViewModels.ExperimentAnalyze
     {
         public IList<AbnormalTrajectoryEvaluation> AbnormalTrajectoryEvaluationCollection { get; set; }
     }
+
+    public class ForceAverageViewModel
+    {
+        public IList<ForceAverageForUser> ForceAverageForUserCollection { get; set; }
+    }
 }
