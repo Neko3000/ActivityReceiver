@@ -134,13 +134,13 @@ namespace ActivityReceiver.Controllers
             
             
 
-            float thACC = 0.013f;
+            float thACC = 0.014f;
             float stepThACC = 0.001f;
-            while (thACC <= 0.013f)
+            while (thACC <= 0.016f)
             {
-                float thFOC = 0.00f;
+                float thFOC = 0.015f;
                 float stepThFOC = 0.001f;
-                while (thFOC <= 0.00f)
+                while (thFOC <= 0.025f)
                 {
                     float precisionAverageForAllAssignmentRecord = 0;
                     float recallAverageForAllAssignmentRecord = 0;
@@ -226,7 +226,7 @@ namespace ActivityReceiver.Controllers
             };
 
             // ThACC, ThFOC  
-
+       
             float thACC = 0.013f;
             float stepThACC = 0.01f;
             while (thACC <= 0.013f)
