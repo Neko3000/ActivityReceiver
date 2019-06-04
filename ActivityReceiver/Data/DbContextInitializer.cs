@@ -636,12 +636,12 @@ namespace ActivityReceiver.Data
                 new Question()
                 {
                     EditorID = applicationUser1.Id,
-                    SentenceEN = "He insisted on my paying the debt.",
-                    SentenceJP = "彼は私が借金を支払うようにと言い張った。",
+                    SentenceEN = "We must find out how to deal with the matter.",
+                    SentenceJP = "私たちはその問題の処理方法を見つけ出さねばならない。",
                     Level = 5,
-                    Division = "debt|he|insisted|my|on|paying|the",
-                    StandardAnswerDivision = "he|insisted|on|my|paying|the|debt",
-                    GrammarIDString = "#10#18#",
+                    Division = "deal|find|how|matter|must|out|the|to|we|with",
+                    StandardAnswerDivision = "we|must|find|out|how|to|deal|with|the|matter",
+                    GrammarIDString = "#11#",
                     CreateDate = DateTime.Now,
                     Remark = "",
                 },
@@ -733,7 +733,7 @@ namespace ActivityReceiver.Data
                 {
                     EditorID = applicationUser1.Id,
                     SentenceEN = "You did more work than I had expected.",
-                    SentenceJP = "君は私たちが期待した以上の仕事をした。。",
+                    SentenceJP = "君は私たちが期待した以上の仕事をした。",
                     Level = 5,
                     Division = "did|expected|had|I|more|than|work|you",
                     StandardAnswerDivision = "you|did|more|work|than|I|had|expected",
@@ -855,38 +855,38 @@ namespace ActivityReceiver.Data
 
             var exercises = new List<Exercise>()
             {
-                new Exercise
-                {
-                    Name = "初心者ための問題集",
-                    Description = "短い5問をやってみよう",
-                    Level = 1,
-                    CreateDate = DateTime.Now,
-                    EditorID = applicationUser1.Id
-                },
-                new Exercise
-                {
-                    Name = "入門！英語学習者！",
-                    Description = "「初心者ための問題集」を含めた計10問で自分の英語能力を検定する",
-                    Level = 2,
-                    CreateDate = DateTime.Now,
-                    EditorID = applicationUser2.Id
-                },
-                new Exercise
-                {
-                    Name = "伝説の道",
-                    Description = "基礎の問題で腕を磨いた君が、伝説なヒーローになれるか",
-                    Level = 3,
-                    CreateDate = DateTime.Now,
-                    EditorID = applicationUser3.Id
-                },
-                new Exercise
-                {
-                    Name = "テスト用問題集",
-                    Description = "基本の操作を練習する",
-                    Level = 4,
-                    CreateDate = DateTime.Now,
-                    EditorID = applicationUser1.Id
-                },
+                //new Exercise
+                //{
+                //    Name = "初心者ための問題集",
+                //    Description = "短い5問をやってみよう",
+                //    Level = 1,
+                //    CreateDate = DateTime.Now,
+                //    EditorID = applicationUser1.Id
+                //},
+                //new Exercise
+                //{
+                //    Name = "入門！英語学習者！",
+                //    Description = "「初心者ための問題集」を含めた計10問で自分の英語能力を検定する",
+                //    Level = 2,
+                //    CreateDate = DateTime.Now,
+                //    EditorID = applicationUser2.Id
+                //},
+                //new Exercise
+                //{
+                //    Name = "伝説の道",
+                //    Description = "基礎の問題で腕を磨いた君が、伝説なヒーローになれるか",
+                //    Level = 3,
+                //    CreateDate = DateTime.Now,
+                //    EditorID = applicationUser3.Id
+                //},
+                //new Exercise
+                //{
+                //    Name = "テスト用問題集",
+                //    Description = "基本の操作を練習する",
+                //    Level = 4,
+                //    CreateDate = DateTime.Now,
+                //    EditorID = applicationUser1.Id
+                //},
                 new Exercise
                 {
                     Name = "問題集-実験①",
