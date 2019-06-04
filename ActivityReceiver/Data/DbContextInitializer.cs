@@ -708,12 +708,12 @@ namespace ActivityReceiver.Data
                 new Question()
                 {
                     EditorID = applicationUser1.Id,
-                    SentenceEN = "She told her children to eat more vegetables.",
-                    SentenceJP = "彼女は子どもたちにもっと野菜を食べるように言った。",
+                    SentenceEN = "She happened to be out when I called her up this morning.",
+                    SentenceJP = "私が今朝電話をしたとき、彼女はたまたま外出していた。",
                     Level = 5,
-                    Division = "children|eat|her|more|she|to|told|vegetables",
-                    StandardAnswerDivision = "she|told|her|children|to|eat|more|vegetables",
-                    GrammarIDString = "#11#",
+                    Division = "be|called|happened|her|I|out|she|to|up|when|this morning",
+                    StandardAnswerDivision = "she|happened|to|be|out|when|I|called|her|up|this morning",
+                    GrammarIDString = "-1",
                     CreateDate = DateTime.Now,
                     Remark = "",
                 },
