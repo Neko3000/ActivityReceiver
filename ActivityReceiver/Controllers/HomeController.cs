@@ -5,11 +5,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ActivityReceiver.Models;
+using ActivityReceiver.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace ActivityReceiver.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ActivityReceiverDbContext _arDbContext;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public HomeController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            _arDbContext = arDbContext;
+            _userManager = userManager;
+            _roleManager = roleManager;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -32,6 +45,13 @@ namespace ActivityReceiver.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> CreateUsers()
+        {
+
+
+            return View(); 
         }
     }
 }

@@ -99,7 +99,7 @@ namespace ActivityReceiver.Data
                 };
                 var applicationUserPWD7 = "i123456";
                 await _userManager.CreateAsync(applicationUser7, applicationUserPWD7);
-                await _userManager.AddToRoleAsync(applicationUser5, "Student");
+                await _userManager.AddToRoleAsync(applicationUser7, "Student");
 
                 var applicationUser8 = new ApplicationUser
                 {
@@ -107,7 +107,7 @@ namespace ActivityReceiver.Data
                 };
                 var applicationUserPWD8 = "b123456";
                 await _userManager.CreateAsync(applicationUser8, applicationUserPWD8);
-                await _userManager.AddToRoleAsync(applicationUser5, "Student");
+                await _userManager.AddToRoleAsync(applicationUser8, "Student");
 
                 var applicationUser9 = new ApplicationUser
                 {
@@ -115,7 +115,7 @@ namespace ActivityReceiver.Data
                 };
                 var applicationUserPWD9 = "a123456";
                 await _userManager.CreateAsync(applicationUser9, applicationUserPWD9);
-                await _userManager.AddToRoleAsync(applicationUser5, "Student");
+                await _userManager.AddToRoleAsync(applicationUser9, "Student");
 
                 var applicationUser10 = new ApplicationUser
                 {
@@ -123,7 +123,7 @@ namespace ActivityReceiver.Data
                 };
                 var applicationUserPWD10 = "w123456";
                 await _userManager.CreateAsync(applicationUser10, applicationUserPWD10);
-                await _userManager.AddToRoleAsync(applicationUser5, "Student");
+                await _userManager.AddToRoleAsync(applicationUser10, "Student");
 
                 var applicationUser11 = new ApplicationUser
                 {
@@ -131,20 +131,21 @@ namespace ActivityReceiver.Data
                 };
                 var applicationUserPWD11 = "s123456";
                 await _userManager.CreateAsync(applicationUser11, applicationUserPWD11);
-                await _userManager.AddToRoleAsync(applicationUser5, "Student");
+                await _userManager.AddToRoleAsync(applicationUser11, "Student");
 
                 string[] studentIDCollection = { "1518350090", "1718310007", "1818310009", "1818310018", "1818310032", "1818310035", "1818310041", "1818310042", "1818320067", "1818320086",
                     "1818380016", "1818380092", "1818380100", "1918310003", "1718310007", "1918310009", "1918310029", "1918310050", "1918310085", "1918310096",
                     "1918310099", "1918380003", "1918380005", "1918380010", "1918380012", "1918380019", "1918380033", "1918380038", "1918380046", "1918380047",
                     "1918380064", "1918380087", "1918380094", "1918320003", "1918320005", "1918320009", "1918320038", "1918320042", "1918320045", "1918320066",
                     "1918320079", "1918320081", "1918320086", "1918360003", "1918360008", "1918360026", "1918360036", "1918360042", "1918360066"};
-                foreach(var studentID in studentIDCollection)
+                studentIDCollection = studentIDCollection.Distinct().ToArray();
+                for (int i = 0; i < studentIDCollection.Count(); i++)
                 {
                     var applicationUserTemp = new ApplicationUser
                     {
-                        UserName = studentID,
+                        UserName = studentIDCollection[i],
                     };
-                    var applicationUserPWDTemp = studentID;
+                    var applicationUserPWDTemp = studentIDCollection[i];
                     await _userManager.CreateAsync(applicationUserTemp, applicationUserPWDTemp);
                     await _userManager.AddToRoleAsync(applicationUserTemp, "Student");
                 }
@@ -153,7 +154,7 @@ namespace ActivityReceiver.Data
                 {
                     UserName = "Test1",
                 };
-                var applicationUserPWD12 = "Test1";
+                var applicationUserPWD12 = "Test1123456";
                 await _userManager.CreateAsync(applicationUser12, applicationUserPWD12);
                 await _userManager.AddToRoleAsync(applicationUser12, "Student");
 
@@ -161,7 +162,7 @@ namespace ActivityReceiver.Data
                 {
                     UserName = "Test2",
                 };
-                var applicationUserPWD13 = "Test2";
+                var applicationUserPWD13 = "Test2123456";
                 await _userManager.CreateAsync(applicationUser13, applicationUserPWD13);
                 await _userManager.AddToRoleAsync(applicationUser13, "Student");
 
@@ -169,9 +170,10 @@ namespace ActivityReceiver.Data
                 {
                     UserName = "Test3",
                 };
-                var applicationUserPWD14 = "Test3";
+                var applicationUserPWD14 = "Test3123456";
                 await _userManager.CreateAsync(applicationUser14, applicationUserPWD14);
                 await _userManager.AddToRoleAsync(applicationUser14, "Student");
+
             }
         }
 

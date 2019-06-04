@@ -3210,6 +3210,9 @@
     <Content Update="Views\ExperimentAnalyze\AbnormalTrajectory.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Home\CreateUsers.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\StudentManage\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
