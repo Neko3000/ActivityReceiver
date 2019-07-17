@@ -10,7 +10,40 @@ namespace ActivityReceiver.Functions
 {
     public static class ParameterAnalyzer
     {
-        
+        // D&D Interval Total
+        public static float CalculateDDIntervalTotal(IList<Movement> movementCollection)
+        {
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
+
+            int previousTapEndTime = 0;
+            int totalTime = 0;
+            int count = 0;
+            for (int i = 0; i < movementCollection.Count; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                var movement = movementCollection[i];
+                if (movement.State == (int)MovementState.DragSingleBegin || movement.State == (int)MovementState.DragGroupBegin)
+                {
+                    totalTime += (movement.Time - previousTapEndTime);
+                    count++;
+                }
+                else if (movement.State == (int)MovementState.DragSingleMove || movement.State == (int)MovementState.DragGroupMove)
+                {
+                    continue;
+                }
+                else if (movement.State == (int)MovementState.DragSingleEnd || movement.State == (int)MovementState.DragGroupEnd)
+                {
+                    previousTapEndTime = movement.Time;
+                }
+            }
+
+            return totalTime;
+        }
+
         // D&D Interval Average
         public static float CalculateDDIntervalAVG(IList<Movement> movementCollection)
         {
@@ -394,6 +427,17 @@ namespace ActivityReceiver.Functions
             return movement == null ? 0 : movement.Time;
         }
 
+        // DD From First Time
+        public static float CalculateDDFromFirstTime(IList<Movement> movementCollection)
+        {
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
+
+            Movement movementFirst = movementCollection.FirstOrDefault();
+            Movement movementLast = movementCollection.LastOrDefault();
+
+            return movementFirst == null || movementLast == null ? 0 : movementLast.Time - movementFirst.Time;
+        }
+
         // DD Count
         public static int CalculateDDCount(IList<Movement> movementCollection)
         {
@@ -522,5 +566,40 @@ namespace ActivityReceiver.Functions
 
             return count;
         }
+
+        // Grouping DD Count
+        public static int CalculateGroupingDDCount(IList<Movement> movementCollection)
+        {
+            movementCollection = movementCollection.OrderBy(m => m.Time).ToList();
+            Movement movement = movementCollection.FirstOrDefault();
+
+            int count = 0;
+            bool isOperating = false;
+            for (int i = 0; i < movementCollection.Count; i++)
+            {
+                movement = movementCollection[i];
+
+                if (movement.State == (int)MovementState.MakeGroupBegin)
+                {
+                    isOperating = true;
+                }
+                else if (movement.State == (int)MovementState.MakeGroupMove)
+                {
+                    continue;
+                }
+                else if (movement.State == (int)MovementState.MakeGroupEnd)
+                {
+                    if (isOperating)
+                    {
+                        count++;
+                        isOperating = false;
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        // 
     }
 }

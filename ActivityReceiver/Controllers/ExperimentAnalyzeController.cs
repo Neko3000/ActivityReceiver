@@ -17,6 +17,8 @@ using AutoMapper;
 using ActivityReceiver.DataBuilders;
 using ActivityReceiver.Converters;
 using ActivityReceiver.DataTransferObjects;
+using System.IO;
+using CsvHelper;
 
 namespace ActivityReceiver.Controllers
 {
@@ -27,7 +29,7 @@ namespace ActivityReceiver.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public ExperimentAnalyzeController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
+        public ExperimentAnalyzeController(ActivityReceiverDbContext arDbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _arDbContext = arDbContext;
             _userManager = userManager;
@@ -38,7 +40,7 @@ namespace ActivityReceiver.Controllers
         // GET: AnswerRecordManage
         [HttpGet]
         public async Task<IActionResult> Index(int? assignmentRecordID)
-        {    
+        {
 
             return View();
         }
@@ -78,7 +80,7 @@ namespace ActivityReceiver.Controllers
                     var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerRecordID == answerRecord.ID).ToListAsync();
                     var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == answerRecord.ID).ToListAsync();
 
-                    for(int k = 0; k< movementCollection.Count; k++)
+                    for (int k = 0; k < movementCollection.Count; k++)
                     {
                         forceTotalForSingleAssignmentRecord += movementCollection[k].Force;
                         forceCountForSingleAssignmentRecord++;
@@ -93,14 +95,14 @@ namespace ActivityReceiver.Controllers
             }
 
             float averageForceForAll = 0;
-            for(int i = 0;i<vm.ForceAverageForUserCollection.Count;i++)
+            for (int i = 0; i < vm.ForceAverageForUserCollection.Count; i++)
             {
                 averageForceForAll += vm.ForceAverageForUserCollection[i].Force;
             }
 
             vm.ForceAverageForUserCollection.Add(new ForceAverageForUser
             {
-                Force = averageForceForAll/vm.ForceAverageForUserCollection.Count,
+                Force = averageForceForAll / vm.ForceAverageForUserCollection.Count,
                 Username = "For ALL"
             });
             return View(vm);
@@ -124,15 +126,15 @@ namespace ActivityReceiver.Controllers
             }
 
             var assignmentRecordCollection = await _arDbContext.AssignmentRecords.Where(ar => ar.ExerciseID == exercise.ID).ToListAsync();
-           
+
             var vm = new AbnormalTrajectoryViewModel
             {
                 AbnormalTrajectoryEvaluationCollection = new List<AbnormalTrajectoryEvaluation>()
             };
 
             // ThACC, ThFOC
-            
-            
+
+
 
             float thACC = 0.014f;
             float stepThACC = 0.001f;
@@ -219,21 +221,21 @@ namespace ActivityReceiver.Controllers
             }
 
             var assignmentRecordCollection = await _arDbContext.AssignmentRecords.Where(ar => ar.ExerciseID == exercise.ID).ToListAsync();
-           
+
             var vm = new AbnormalTrajectoryViewModel
             {
                 AbnormalTrajectoryEvaluationCollection = new List<AbnormalTrajectoryEvaluation>()
             };
 
             // ThACC, ThFOC  
-       
-            float thACC = 0.013f;
-            float stepThACC = 0.01f;
-            while (thACC <= 0.013f)
+
+            float thACC = 0.00f;
+            float stepThACC = 0.001f;
+            while (thACC <= 0.0302f)
             {
                 float thFOC = 0.00f;
-                float stepThFOC = 0.01f;
-                while (thFOC <= 0.00f)
+                float stepThFOC = 0.001f;
+                while (thFOC <= 0.0302f)
                 {
                     for (int i = 0; i < assignmentRecordCollection.Count; i++)
                     {
@@ -265,17 +267,55 @@ namespace ActivityReceiver.Controllers
                         recallAverageForSingleAssignmentRecord = recallAverageForSingleAssignmentRecord / answerRecordCollection.Count;
                         fMeasureAverageForSingleAssignmentRecord = fMeasureAverageForSingleAssignmentRecord / answerRecordCollection.Count;
 
-                        vm.AbnormalTrajectoryEvaluationCollection.Add(new AbnormalTrajectoryEvaluation
+                        bool isExisted = false;
+                        string username = (await _userManager.FindByIdAsync(assignmentRecord.UserID)).UserName;
+                        var abnormalTrajectoryEvaluationForSpecificUser = vm.AbnormalTrajectoryEvaluationCollection.FirstOrDefault(atec => atec.Username == username);
+
+                        if (abnormalTrajectoryEvaluationForSpecificUser != null)
                         {
-                            ThACC = thACC,
-                            ThFOC = thFOC,
+                            if (abnormalTrajectoryEvaluationForSpecificUser.FMeasure < fMeasureAverageForSingleAssignmentRecord)
+                            {
+                                vm.AbnormalTrajectoryEvaluationCollection.Remove(abnormalTrajectoryEvaluationForSpecificUser);
 
-                            Precision = precisionAverageForSingleAssignmentRecord,
-                            Recall = recallAverageForSingleAssignmentRecord,
-                            FMeasure = fMeasureAverageForSingleAssignmentRecord,
+                                vm.AbnormalTrajectoryEvaluationCollection.Add(new AbnormalTrajectoryEvaluation
+                                {
+                                    ThACC = thACC,
+                                    ThFOC = thFOC,
 
-                            Username = (await _userManager.FindByIdAsync(assignmentRecord.UserID)).UserName
-                        });
+                                    Precision = precisionAverageForSingleAssignmentRecord,
+                                    Recall = recallAverageForSingleAssignmentRecord,
+                                    FMeasure = fMeasureAverageForSingleAssignmentRecord,
+
+                                    Username = (await _userManager.FindByIdAsync(assignmentRecord.UserID)).UserName
+                                });
+                            }
+                        }
+                        else
+                        {
+                            vm.AbnormalTrajectoryEvaluationCollection.Add(new AbnormalTrajectoryEvaluation
+                            {
+                                ThACC = thACC,
+                                ThFOC = thFOC,
+
+                                Precision = precisionAverageForSingleAssignmentRecord,
+                                Recall = recallAverageForSingleAssignmentRecord,
+                                FMeasure = fMeasureAverageForSingleAssignmentRecord,
+
+                                Username = (await _userManager.FindByIdAsync(assignmentRecord.UserID)).UserName
+                            });
+                        }
+
+                        //vm.AbnormalTrajectoryEvaluationCollection.Add(new AbnormalTrajectoryEvaluation
+                        //{
+                        //    ThACC = thACC,
+                        //    ThFOC = thFOC,
+
+                        //    Precision = precisionAverageForSingleAssignmentRecord,
+                        //    Recall = recallAverageForSingleAssignmentRecord,
+                        //    FMeasure = fMeasureAverageForSingleAssignmentRecord,
+
+                        //    Username = (await _userManager.FindByIdAsync(assignmentRecord.UserID)).UserName
+                        //});
                     }
 
                     thFOC += stepThFOC;
@@ -284,9 +324,157 @@ namespace ActivityReceiver.Controllers
                 thACC += stepThACC;
             }
 
-            vm.AbnormalTrajectoryEvaluationCollection = vm.AbnormalTrajectoryEvaluationCollection.OrderBy(atec => atec.FMeasure).ToList();
+            vm.AbnormalTrajectoryEvaluationCollection = vm.AbnormalTrajectoryEvaluationCollection.OrderBy(atec => atec.Username).ThenByDescending(atec => atec.FMeasure).ToList();
             return View(vm);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DownloadParameterCSV(int? exerciseID)
+        {
+            if (exerciseID == null)
+            {
+                return NotFound();
+            }
+
+            var exercise = await _arDbContext.Exercises.SingleOrDefaultAsync(q => q.ID == exerciseID);
+
+            if (exercise == null)
+            {
+                return NotFound();
+            }
+
+            var assignmentRecordCollection = await _arDbContext.AssignmentRecords.Where(ar => ar.ExerciseID == exercise.ID && ar.IsFinished == true).ToListAsync();
+
+            List<ParametersForMachineLearning> parametersForMachineLearningCollection = new List<ParametersForMachineLearning>();
+
+            for (int i = 0; i < assignmentRecordCollection.Count; i++)
+            {
+                var assignmentRecord = assignmentRecordCollection[i];
+
+                var answerRecordCollection = _arDbContext.AnswserRecords.Where(ar => ar.AssignmentRecordID == assignmentRecord.ID).ToList();
+
+                for (int j = 0; j < answerRecordCollection.Count; j++)
+                {
+                    var answerRecord = answerRecordCollection[j];
+
+                    var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerRecordID == answerRecord.ID).ToListAsync();
+
+                    var parametersForMachineLearning = new ParametersForMachineLearning();
+                    parametersForMachineLearning.User = assignmentRecord.UserID;
+                    parametersForMachineLearning.Question = j;
+                    parametersForMachineLearning.Understand = answerRecord.ConfusionDegree;
+                    parametersForMachineLearning.Date = answerRecord.EndDate;
+                    parametersForMachineLearning.Check = 0;
+                    parametersForMachineLearning.Time = (int)(answerRecord.EndDate - answerRecord.StartDate).TotalMilliseconds;
+                    parametersForMachineLearning.Distance = ParameterAnalyzer.CalculateTotalDistance(movementCollection);
+                    parametersForMachineLearning.AverageSpeed = ParameterAnalyzer.CalculateDDSpeedAVG(movementCollection);
+                    parametersForMachineLearning.MaxSpeed = ParameterAnalyzer.CalculateDDSpeedMAX(movementCollection);
+                    parametersForMachineLearning.ThinkingTime = ParameterAnalyzer.CalculateDDFirstTime(movementCollection);
+                    parametersForMachineLearning.AnsweringTime = ParameterAnalyzer.CalculateDDFromFirstTime(movementCollection);
+                    parametersForMachineLearning.TotalStopTime = 0;
+                    parametersForMachineLearning.MaxStopTime = 0;
+                    parametersForMachineLearning.TotalDDIntervalTime = ParameterAnalyzer.CalculateDDIntervalTotal(movementCollection);
+                    parametersForMachineLearning.MaxDDIntervalTime = ParameterAnalyzer.CalculateDDIntervalMAX(movementCollection);
+                    parametersForMachineLearning.MaxDDTime = ParameterAnalyzer.CalculateDDProcessMAX(movementCollection);
+                    parametersForMachineLearning.MinDDTime = ParameterAnalyzer.CalculateDDProcessMIN(movementCollection);
+                    parametersForMachineLearning.DDCount = ParameterAnalyzer.CalculateDDCount(movementCollection);
+                    parametersForMachineLearning.GroupingDDCount = ParameterAnalyzer.CalculateGroupingDDCount(movementCollection);
+                    parametersForMachineLearning.XUTurnCount = ParameterAnalyzer.CalculateUTurnHorizontalCount(movementCollection);
+                    parametersForMachineLearning.YUTurnCount = ParameterAnalyzer.CalculateUTurnVerticalCount(movementCollection);
+
+                    parametersForMachineLearningCollection.Add(parametersForMachineLearning);
+                }
+            }
+
+            var memory = new MemoryStream();
+            var writer = new StreamWriter(memory);
+            var csv = new CsvWriter(writer);
+
+            csv.Configuration.ShouldQuote = (field, context) => true;
+            csv.Configuration.HasHeaderRecord = false;
+            csv.WriteRecords(parametersForMachineLearningCollection);
+            writer.Flush();
+
+            byte[] csvByte = memory.ToArray();
+            string fileName = $"parametersForMachineLearningCollection-{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+            return File(csvByte, "text/csv", fileName);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadParametersSupervisedCSV(int? exerciseID)
+        {
+            if (exerciseID == null)
+            {
+                return NotFound();
+            }
+
+            var exercise = await _arDbContext.Exercises.SingleOrDefaultAsync(q => q.ID == exerciseID);
+
+            if (exercise == null)
+            {
+                return NotFound();
+            }
+
+            var assignmentRecordCollection = await _arDbContext.AssignmentRecords.Where(ar => ar.ExerciseID == exercise.ID && ar.IsFinished == true).ToListAsync();
+
+            List<ParametersForMachineLearning> parametersSupervisedForMachineLearningCollection = new List<ParametersForMachineLearning>();
+
+            for (int i = 0; i < assignmentRecordCollection.Count; i++)
+            {
+                var assignmentRecord = assignmentRecordCollection[i];
+
+                var answerRecordCollection = _arDbContext.AnswserRecords.Where(ar => ar.AssignmentRecordID == assignmentRecord.ID).ToList();
+
+                for (int j = 0; j < answerRecordCollection.Count; j++)
+                {
+                    var answerRecord = answerRecordCollection[j];
+
+                    var movementCollection = await _arDbContext.Movements.Where(m => m.AnswerRecordID == answerRecord.ID).ToListAsync();
+                    var deviceAccelerationCollection = await _arDbContext.DeviceAccelerations.Where(da => da.AnswerRecordID == answerRecord.ID).ToListAsync();
+
+                    // supervise process
+                    var movementSupervisor = new MovementSupervisor(movementCollection, deviceAccelerationCollection);
+                    var movementSupervisedCollection = movementSupervisor.SuperviseByAcceleration();
+
+                    var parametersForMachineLearning = new ParametersForMachineLearning();
+                    parametersForMachineLearning.User = assignmentRecord.UserID;
+                    parametersForMachineLearning.Question = j;
+                    parametersForMachineLearning.Understand = answerRecord.ConfusionDegree;
+                    parametersForMachineLearning.Date = answerRecord.EndDate;
+                    parametersForMachineLearning.Check = 0;
+                    parametersForMachineLearning.Time = (int)(answerRecord.EndDate - answerRecord.StartDate).TotalMilliseconds;
+                    parametersForMachineLearning.Distance = ParameterAnalyzerForMovementSupervised.CalculateTotalDistance(movementSupervisedCollection);
+                    parametersForMachineLearning.AverageSpeed = ParameterAnalyzerForMovementSupervised.CalculateDDSpeedAVG(movementSupervisedCollection);
+                    parametersForMachineLearning.MaxSpeed = ParameterAnalyzerForMovementSupervised.CalculateDDSpeedMAX(movementSupervisedCollection);
+                    parametersForMachineLearning.ThinkingTime = ParameterAnalyzerForMovementSupervised.CalculateDDFirstTime(movementSupervisedCollection);
+                    parametersForMachineLearning.AnsweringTime = ParameterAnalyzerForMovementSupervised.CalculateDDFromFirstTime(movementSupervisedCollection);
+                    parametersForMachineLearning.TotalStopTime = 0;
+                    parametersForMachineLearning.MaxStopTime = 0;
+                    parametersForMachineLearning.TotalDDIntervalTime = ParameterAnalyzerForMovementSupervised.CalculateDDIntervalTotal(movementSupervisedCollection);
+                    parametersForMachineLearning.MaxDDIntervalTime = ParameterAnalyzerForMovementSupervised.CalculateDDIntervalMAX(movementSupervisedCollection);
+                    parametersForMachineLearning.MaxDDTime = ParameterAnalyzerForMovementSupervised.CalculateDDProcessMAX(movementSupervisedCollection);
+                    parametersForMachineLearning.MinDDTime = ParameterAnalyzerForMovementSupervised.CalculateDDProcessMIN(movementSupervisedCollection);
+                    parametersForMachineLearning.DDCount = ParameterAnalyzerForMovementSupervised.CalculateDDCount(movementSupervisedCollection);
+                    parametersForMachineLearning.GroupingDDCount = ParameterAnalyzerForMovementSupervised.CalculateGroupingDDCount(movementSupervisedCollection);
+                    parametersForMachineLearning.XUTurnCount = ParameterAnalyzerForMovementSupervised.CalculateUTurnHorizontalCount(movementSupervisedCollection);
+                    parametersForMachineLearning.YUTurnCount = ParameterAnalyzerForMovementSupervised.CalculateUTurnVerticalCount(movementSupervisedCollection);
+
+                    parametersSupervisedForMachineLearningCollection.Add(parametersForMachineLearning);
+                }
+            }
+
+            var memory = new MemoryStream();
+            var writer = new StreamWriter(memory);
+            var csv = new CsvWriter(writer);
+
+            csv.Configuration.ShouldQuote = (field, context) => true;
+            csv.Configuration.HasHeaderRecord = false;
+            csv.WriteRecords(parametersSupervisedForMachineLearningCollection);
+            writer.Flush();
+
+            byte[] csvByte = memory.ToArray();
+            string fileName = $"parametersSupervisedForMachineLearningCollection-{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+            return File(csvByte, "text/csv", fileName);
+        }
     }
 }

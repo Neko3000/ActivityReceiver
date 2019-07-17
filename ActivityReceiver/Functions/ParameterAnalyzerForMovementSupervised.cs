@@ -11,7 +11,40 @@ namespace ActivityReceiver.Functions
 {
     public static class ParameterAnalyzerForMovementSupervised
     {
-        
+        // D&D Interval Total
+        public static float CalculateDDIntervalTotal(IList<MovementSupervised> movementSupervisedCollection)
+        {
+            movementSupervisedCollection = movementSupervisedCollection.OrderBy(m => m.Time).ToList();
+
+            int previousTapEndTime = 0;
+            int totalTime = 0;
+            int count = 0;
+            for (int i = 0; i < movementSupervisedCollection.Count; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                var movementSupervised = movementSupervisedCollection[i];
+                if (movementSupervised.State == (int)MovementState.DragSingleBegin || movementSupervised.State == (int)MovementState.DragGroupBegin)
+                {
+                    totalTime += (movementSupervised.Time - previousTapEndTime);
+                    count++;
+                }
+                else if (movementSupervised.State == (int)MovementState.DragSingleMove || movementSupervised.State == (int)MovementState.DragGroupMove)
+                {
+                    continue;
+                }
+                else if (movementSupervised.State == (int)MovementState.DragSingleEnd || movementSupervised.State == (int)MovementState.DragGroupEnd)
+                {
+                    previousTapEndTime = movementSupervised.Time;
+                }
+            }
+
+            return totalTime;
+        }
+
         // D&D Interval Average
         public static float CalculateDDIntervalAVG(IList<MovementSupervised> movementSupervisedCollection)
         {
@@ -433,6 +466,17 @@ namespace ActivityReceiver.Functions
             return movementSupervised == null ? 0 : movementSupervised.Time;
         }
 
+        // DD From First Time
+        public static float CalculateDDFromFirstTime(IList<MovementSupervised> movementSupervisedCollection)
+        {
+            movementSupervisedCollection = movementSupervisedCollection.OrderBy(m => m.Time).ToList();
+
+            MovementSupervised movementSupervisedFirst = movementSupervisedCollection.FirstOrDefault();
+            MovementSupervised movementSupervisedLast = movementSupervisedCollection.LastOrDefault();
+
+            return movementSupervisedFirst == null || movementSupervisedLast == null ? 0 : movementSupervisedLast.Time - movementSupervisedFirst.Time;
+        }
+
         // DD Count
         public static int CalculateDDCount(IList<MovementSupervised> movementSupervisedCollection)
         {
@@ -563,6 +607,39 @@ namespace ActivityReceiver.Functions
                         }
 
                         lastMovementSupervised = movementSupervised;
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        // Grouping DD Count
+        public static int CalculateGroupingDDCount(IList<MovementSupervised> movementSupervisedCollection)
+        {
+            movementSupervisedCollection = movementSupervisedCollection.OrderBy(m => m.Time).ToList();
+            MovementSupervised movementSupervised = movementSupervisedCollection.FirstOrDefault();
+
+            int count = 0;
+            bool isOperating = false;
+            for (int i = 0; i < movementSupervisedCollection.Count; i++)
+            {
+                movementSupervised = movementSupervisedCollection[i];
+
+                if (movementSupervised.State == (int)MovementState.MakeGroupBegin)
+                {
+                    isOperating = true;
+                }
+                else if (movementSupervised.State == (int)MovementState.MakeGroupMove)
+                {
+                    continue;
+                }
+                else if (movementSupervised.State == (int)MovementState.MakeGroupEnd)
+                {
+                    if (isOperating)
+                    {
+                        count++;
+                        isOperating = false;
                     }
                 }
             }
