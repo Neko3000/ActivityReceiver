@@ -17,8 +17,8 @@ using System.Text;
 using ActivityReceiver.ViewModels;
 using ActivityReceiver.Functions;
 using ActivityReceiver.DataBuilders;
-using MySql.Data.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
+using Pomelo.EntityFrameworkCore.MySql;
 
 namespace ActivityReceiver
 {
@@ -34,11 +34,19 @@ namespace ActivityReceiver
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySQL(Configuration.GetConnectionString("ApplicationDbContextConnection")));
+            services.AddDbContextPool<ApplicationDbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("ApplicationDbContextConnection"),
+                mySqlOptions=>
+                {
+                    mySqlOptions.ServerVersion(new Version(5, 7, 17), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql);
+                }));
 
             services.AddDbContext<ActivityReceiverDbContext>(options =>
-                options.UseMySQL(Configuration.GetConnectionString("ActivityReceiverDbContextConnection")));
+                options.UseMySql(Configuration.GetConnectionString("ActivityReceiverDbContextConnection"),        
+                mySqlOptions =>
+                {
+                    mySqlOptions.ServerVersion(new Version(5, 7, 17), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql);
+                }));
 
             // Change the policy of password
             services.AddIdentity<ApplicationUser, IdentityRole>(options => {
