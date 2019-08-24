@@ -1,5 +1,5 @@
 # ActivityReceiver.iOS
-![License: Mozilla](https://img.shields.io/github/license/Neko3000/ActivityReceiver)
+![License: Mozilla](https://img.shields.io/github/license/Neko3000/activityreceiver)
 ![Platforms: Windows | Linux](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-lightgrey)
 ![Language: C#](https://img.shields.io/badge/language-C%23-blue)
 ![Version: v1.20](https://img.shields.io/badge/version-v1.20-lightgrey)
