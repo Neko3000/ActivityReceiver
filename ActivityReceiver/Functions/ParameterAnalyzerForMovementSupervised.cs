@@ -646,5 +646,6 @@ namespace ActivityReceiver.Functions
 
             return count;
         }
+
     }
 }

@@ -75,5 +75,9 @@ namespace ActivityReceiver.Functions
             return (precision == 0 && recall == 0) ? 0 : 2 * precision * recall / (precision + recall);
         }
 
+        static public float CalculateDifferencePercentage(float x,float y)
+        {
+            return x == 0 ? 0 : (y - x) / x;
+        }
     }
 }

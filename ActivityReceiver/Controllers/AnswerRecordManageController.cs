@@ -72,7 +72,10 @@ namespace ActivityReceiver.Controllers
             var sortedWordCollection = new List<string>();
             foreach(var confusionElement in splitConfusionElement)
             {
-                sortedWordCollection.Add(splitDivision[Convert.ToInt32(confusionElement)]);
+                if(confusionElement!="")
+                {
+                    sortedWordCollection.Add(splitDivision[Convert.ToInt32(confusionElement)]);
+                }
             }
             vm.ConfusionWordString = StringConverter.ConvertToSingleString(sortedWordCollection,",");
 
