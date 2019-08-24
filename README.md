@@ -53,7 +53,7 @@ Lastly, active the service, access to localhost/AssignmentRecordManage to get st
 - [x] More...
 
 ## Dependencies
-[Meronic](https://keenthemes.com/metronic/) is used to build up Front-End interface.</br>
+[Metronic](https://keenthemes.com/metronic/) is used to build up Front-End interface.</br>
 [ListSwap](https://github.com/phedde/listSwap) handles the ordering behavior for managing exercises.</br>
 
 Using Nuget Packages to manage dependencies automatically.
