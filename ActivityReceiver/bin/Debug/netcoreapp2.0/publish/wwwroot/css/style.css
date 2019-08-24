@@ -1,0 +1,43 @@
+body,
+html {
+  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
+  font-weight: normal;
+}
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
+  font-weight: normal;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
+  font-weight: normal;
+}
+:-ms-input-placeholder {
+  /* IE 10+ */
+  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
+  font-weight: normal;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  font-family: 'Microsoft YaHei', Poppins, Montserrat, Helvetica, "Yu Gothic", Arial, serif, sans-serif;
+  font-weight: normal;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.m-datatable__table .m-datatable__body tr td span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.m-form .m-form__section.m-form__section--label-align-right .m-form__group > label,
+.m-form.m-form--label-align-right .m-form__group > label.m--align-left {
+  text-align: left;
+}
+.modal-footer {
+  display: block;
+}
+.flag-completed i {
+  opacity: 0;
+}
