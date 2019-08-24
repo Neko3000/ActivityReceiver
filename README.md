@@ -11,16 +11,14 @@ We retrieved users' Learning Records, and replay their operation for word reorde
 It also allows administrators to manage contents of problems, exercises, grammars... on it.
 
 ## Installation
-Clone it by:
+After clone it by:
 
 ```
 $ git clone https://github.com/Neko3000/ActivityReceiver
 ```
-
-The first thing is setting up a environment for ASP.NET Core 2.0, you may need to know how to build up LAMP on Liux or deloy it on Window with IIS, 
-, please refer to [Microsoft's doc](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-2.2).</br>
-Then, install SQL Server, change the SQL connection strings to yours in the project.</br>
-Lastly, start the service.
+Then checkout branch to master(Windows) or linux(Linux) depends on which Platform the server is.</br>
+The first thing is setting up a environment for ASP.NET Core 2.0, you may need to know how to build up Apache + MySQL environment on Linux or IIS + SQLServer environment on Windows, please refer to [Microsoft's doc](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-2.2), [Install LAMP on Linux by DigitalOcean.com](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04), [Install ASP.NET Core 2.1 by Daniel Opitz](https://odan.github.io/2018/07/17/aspnet-core-2-ubuntu-setup.html) for more details.</br>
+Lastly, active the service, access to localhost/AssignmentRecordManage to get started.
 
 ## How to use
 <p align="center"> 
@@ -64,7 +62,19 @@ Packages have been included:
 
 
 ## Development
-You should use your own client using [ActivityReceiver.iOS]().</br>
+You should use your own client using [ActivityReceiver.iOS](https://github.com/Neko3000/ActivityReceiver.iOS).</br>
+
+Modify the connection strings to yours:
+```
+// appsettings.json
+"ConnectionStrings": {
+  "ApplicationDbContextConnection": "Server=...",
+  "ActivityReceiverDbContextConnection": "Server=..."
+  },
+```
+
+And the DbContextInitializer would seed the database with some test data.
+
 
 ## Contact To Me
 E-mail: sheran_chen@outlook.com </br>
