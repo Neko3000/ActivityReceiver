@@ -21,7 +21,7 @@ Then checkout branch to master(Windows) or linux(Linux) depends on which Platfor
 The first thing is setting up a environment for ASP.NET Core 2.0, you may need to know how to build up Apache + MySQL environment on Linux or IIS + SQLServer environment on Windows, please refer to 
 
 * [Microsoft's doc](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-2.2)
-* [Install LAMP on Linux by DigitalOcean.com](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04),
+* [Install LAMP on Linux by DigitalOcean.com](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04)
 * [Install ASP.NET Core 2.1 by Daniel Opitz](https://odan.github.io/2018/07/17/aspnet-core-2-ubuntu-setup.html) </br>
 
 for more details.</br>
