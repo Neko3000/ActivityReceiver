@@ -5,7 +5,7 @@
 ![Version: v1.20](https://img.shields.io/badge/version-v1.20-lightgrey)
 
 ActivityReceiver is a API&CMS service(server-side) based on Windows/Linux.</br>
-It works with client-side - [ActivityReceiver.iOS]().</br>
+It works with client-side - [ActivityReceiver.iOS](https://github.com/Neko3000/ActivityReceiver.iOS).</br>
 
 We retrieved users' Learning Records, and replay their operation for word reordering problems, calculating parameters for Machine Learning.</br>
 It also allows administrators to manage contents of problems, exercises, grammars... on it.
