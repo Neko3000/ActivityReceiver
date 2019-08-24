@@ -24,15 +24,17 @@ Lastly, start the service.
 
 ## How to use
 <p align="center"> 
-<img width="300" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/starrytarget-sr1.gif" alt="screen-record-1">
-<img width="300" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/starrytarget-sr2.gif" alt="screen-record-2">
+<img width="500" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/activityreceiver-s1.png" alt="screen-shot-1">
+<img width="500" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/activityreceiver-sr1.gif" alt="screen-record-1">
 </p>
 
 <p align="center"> 
-<img src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/starrytarget-s1.png" width="200" alt="">
-<img src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/starrytarget-s2.png" width="200" alt="">
-<img src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/starrytarget-s3.png" width="200" alt="">
-<img src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/starrytarget-s4.png" width="200" alt="">
+<img width="300" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/activityreceiver-s2.png" alt="screen-shot-2">
+<img width="300" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/activityreceiver-s3.png" alt="screen-shot-3">
+<img width="300" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/activityreceiver-s4.png" alt="screen-shot-4">
+<img width="300" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/activityreceiver-s5.png" alt="screen-shot-5">
+<img width="300" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/activityreceiver-s6.png" alt="screen-shot-6">
+<img width="300" src="https://raw.githubusercontent.com/Neko3000/resource-storage/master/img/screenshot/activityreceiver-s7.png" alt="screen-shot-7">
 </p>
 
 ## Features
